@@ -31,7 +31,7 @@ class TestSlot:
         exe_dir = os.path.dirname(self.argv.exe)
 
         test_env = os.environ.copy()
-        test_env["LLVM_PROFILE_FILE"] = f"{exe_dir}/{test_name}.profraw"
+        test_env["LLVM_PROFILE_FILE"] = f"{exe_dir}/{test_name}-%m.profraw"
 
         cmd = "mpiexec "
         cmd += "-np " + str(test.num_procs) + " "
