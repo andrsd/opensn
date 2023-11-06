@@ -23,3 +23,5 @@ target_link_libraries(opensn-test
 target_compile_definitions(opensn-test PRIVATE OPENSN_WITH_LUA)
 
 target_compile_options(opensn-test PRIVATE ${OPENSN_CXX_FLAGS})
+
+target_code_coverage(opensn-test)

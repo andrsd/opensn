@@ -27,6 +27,8 @@ if(NOT MSVC)
     set_target_properties(libopensnlua PROPERTIES OUTPUT_NAME opensnlua)
 endif()
 
+target_code_coverage(libopensnlua)
+
 
 # opensn binary
 add_executable(opensn "main.cc")
@@ -49,3 +51,5 @@ target_link_libraries(opensn
 target_compile_definitions(opensn PRIVATE OPENSN_WITH_LUA)
 
 target_compile_options(opensn PRIVATE ${OPENSN_CXX_FLAGS})
+
+target_code_coverage(opensn)

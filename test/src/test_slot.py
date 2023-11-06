@@ -27,6 +27,12 @@ class TestSlot:
         if test.skip != "":
             return
 
+        test_name = os.path.splitext(os.path.basename(test.filename))[0]
+        exe_dir = os.path.dirname(self.argv.exe)
+
+        test_env = os.environ.copy()
+        test_env["LLVM_PROFILE_FILE"] = f"{exe_dir}/{test_name}-%m.profraw"
+
         cmd =  self.argv.mpi_cmd + " " + str(test.num_procs) + " "
         cmd += self.argv.exe + " "
         cmd += test.filename + " "
@@ -47,7 +53,8 @@ class TestSlot:
                                         shell=True,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        universal_newlines=True)
+                                        universal_newlines=True,
+                                        env=test_env)
         # test_path = os.path.relpath(test.file_dir + test.filename)
         # print("Submitting test " + test_path)
 
