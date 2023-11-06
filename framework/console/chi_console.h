@@ -7,9 +7,9 @@ extern "C"
 #include <lauxlib.h>
 }
 
-#include "opensn/framework/parameters/parameter_block.h"
-#include "opensn/framework/parameters/input_parameters.h"
-#include "opensn/framework/logging/chi_log_exceptions.h"
+#include "framework/parameters/parameter_block.h"
+#include "framework/parameters/input_parameters.h"
+#include "framework/logging/chi_log_exceptions.h"
 
 #include <vector>
 #include <string>
@@ -148,7 +148,7 @@ public:
     return function_wrapper_registry_;
   }
 
-  const std::map<std::string, chi_data_types::Varying> & GetLuaConstantsRegistry() const
+  const std::map<std::string, chi_data_types::Varying>& GetLuaConstantsRegistry() const
   {
     return lua_constants_registry_;
   }

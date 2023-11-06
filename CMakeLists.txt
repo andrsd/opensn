@@ -58,10 +58,10 @@ add_library(libopensn SHARED ${LIBOPENSN_SRCS})
 
 target_include_directories(libopensn
     PRIVATE
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
+    $<INSTALL_INTERFACE:include/opensn>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}
     ${LUA_INCLUDE_DIR}
     ${PETSC_INCLUDE_DIR}
 )
@@ -88,13 +88,4 @@ if(OPENSN_WITH_LUA)
 endif()
 
 #
-configure_file(config.h.in include/opensn/config.h)
-
-# Copy header files into "CMAKE_CURRENT_BINARY_DIR/opensn"
-file(GLOB_RECURSE OPENSN_HEADERS framework/*.h modules/*.h)
-foreach(f ${OPENSN_HEADERS})
-    get_filename_component(destdir ${f} DIRECTORY)
-    string(REGEX REPLACE "^${CMAKE_CURRENT_SOURCE_DIR}/" "" destdir ${destdir})
-    get_filename_component(destfile ${f} NAME)
-    configure_file(${f} include/opensn/${destdir}/${destfile} COPYONLY)
-endforeach()
+configure_file(config.h.in config.h)
