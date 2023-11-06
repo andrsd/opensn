@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(GNUInstallDirs)
 include(CheckTypeSize)
 include(CheckSymbolExists)
+include(CodeCoverage)
 
 option(OPENSN_WITH_LUA "Build with lua support" ON)
 
@@ -103,6 +104,8 @@ target_compile_options(libopensn PRIVATE ${OPENSN_CXX_FLAGS})
 if(NOT MSVC)
     set_target_properties(libopensn PROPERTIES OUTPUT_NAME opensn)
 endif()
+
+target_code_coverage(libopensn)
 
 
 if(OPENSN_WITH_LUA)
