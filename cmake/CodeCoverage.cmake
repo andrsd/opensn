@@ -125,9 +125,6 @@ if(OPENSN_WITH_CODE_COVERAGE)
             target_link_options(${TARGET_NAME} PUBLIC -fprofile-arcs -ftest-coverage)
         endfunction()
 
-        function(add_test_with_coverage)
-        endfunction()
-
     else()
         message(STATUS, "Code coverage for your compiler (${CMAKE_C_COMPILER_ID}) is not supported.")
     endif()
@@ -135,9 +132,6 @@ if(OPENSN_WITH_CODE_COVERAGE)
 else()
 
     function(target_code_coverage TARGET_NAME)
-    endfunction()
-
-    function(add_test_with_coverage)
     endfunction()
 
 endif()
