@@ -121,8 +121,8 @@ if(OPENSN_WITH_CODE_COVERAGE)
         )
 
         function(target_code_coverage TARGET_NAME)
-            target_compile_options(${TARGET_NAME} PUBLIC -fprofile-arcs -ftest-coverage)
-            target_link_options(${TARGET_NAME} PUBLIC -fprofile-arcs -ftest-coverage)
+            target_compile_options(${TARGET_NAME} PUBLIC --coverage)
+            target_link_options(${TARGET_NAME} PUBLIC --coverage)
         endfunction()
 
     else()
