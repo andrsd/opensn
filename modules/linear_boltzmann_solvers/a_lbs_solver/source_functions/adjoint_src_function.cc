@@ -15,7 +15,7 @@ void
 AdjointSourceFunction::AddVolumetricQOISources(LBSGroupset& groupset,
                                                std::vector<double>& destination_q,
                                                const std::vector<double>&,
-                                               int source_flags)
+                                               Source source)
 {
   const std::string fname = "AdjointSourceFunction::AddVolumetricQOISources";
 
@@ -33,7 +33,7 @@ AdjointSourceFunction::AddVolumetricQOISources(LBSGroupset& groupset,
   const auto& grid = adjoint_solver.Grid();
   const auto num_groups = adjoint_solver.NumGroups();
 
-  const bool apply_fixed_src = (source_flags & APPLY_FIXED_SOURCES);
+  const bool apply_fixed_src = (source & APPLY_FIXED_SOURCES);
 
   const auto gs_i = static_cast<size_t>(groupset.groups_.front().id_);
   const auto gs_f = static_cast<size_t>(groupset.groups_.back().id_);

@@ -7,8 +7,8 @@ namespace lbs
 WGSContext::WGSContext(LBSSolver& lbs_solver,
                        LBSGroupset& groupset,
                        const SetSourceFunction& set_source_function,
-                       int lhs_scope,
-                       int rhs_scope,
+                       Source lhs_scope,
+                       Source rhs_scope,
                        bool log_info)
   : chi_math::LinearSolverContext(),
     lbs_solver_(lbs_solver),

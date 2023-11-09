@@ -83,9 +83,8 @@ struct BoundaryPreference
   std::string source_function;
 };
 
-enum SourceFlags : int
+enum SourceFlag
 {
-  NO_FLAGS_SET = 0,
   APPLY_FIXED_SOURCES = (1 << 0),
   APPLY_WGS_SCATTER_SOURCES = (1 << 1),
   APPLY_AGS_SCATTER_SOURCES = (1 << 2),
@@ -95,10 +94,102 @@ enum SourceFlags : int
   ZERO_INCOMING_DELAYED_PSI = (1 << 6)
 };
 
-inline SourceFlags
-operator|(const SourceFlags f1, const SourceFlags f2)
+/**
+ * Source representation (a combination of `SourceFlag`s)
+ */
+struct Source
 {
-  return static_cast<SourceFlags>(static_cast<int>(f1) | static_cast<int>(f2));
+  /**
+   * Create an empty `Source`
+   */
+  Source() : flags_(0) {}
+
+  /**
+   * Create `Source` from a `SourceFlag`
+   *
+   * \param flag Flag to set in the `Source`
+   */
+  Source(SourceFlag flag) : flags_(flag) {}
+
+  /**
+   * Add flags using the `|=` operator
+   *
+   * \param flags Flag to set
+   * \return Combination of our flags and new `flag`
+   */
+  Source& operator|=(SourceFlag flag)
+  {
+    flags_ |= flag;
+    return *this;
+  }
+
+  /**
+   * Add source using the `|=` operator
+   *
+   * \param src Source to add
+   * \return Combination of our flags and new flags from `src`
+   */
+  Source& operator|=(const Source& src)
+  {
+    flags_ |= src.flags_;
+    return *this;
+  }
+
+  /**
+   * Test is there are any flags set
+   * \return `true` if there are no flags set, `false` otherwise
+   */
+  bool Empty() const { return flags_ == 0; }
+
+  /**
+   * Unset a flag
+   *
+   * \param flag Flag to unset
+   */
+  void Unset(SourceFlag flag) { flags_ &= ~flag; }
+
+  /**
+   * Test if flag is set using the `&` operator
+   *
+   * \param flag Flag to test
+   * \return `true` if `flag` is set, `false` otherwise
+   */
+  bool operator&(const SourceFlag& flag) const { return flags_ & flag; }
+
+private:
+  /// Combination of `SourceFlags`
+  int flags_;
+};
+
+/**
+ * Operator to join individual `Source`s using the `|` operator
+ *
+ * \param s1 First source
+ * \param s2 Second source
+ * \return Source with flags from both sources
+ */
+inline Source
+operator|(Source s1, Source s2)
+{
+  Source src = s1;
+  src |= s2;
+  return src;
+}
+
+/**
+ * Two 'SourceFlag's get combined into a `Source`
+ *
+ * \param f1 First source flag
+ * \param f2 Second source flag
+ * \return Source with both flags set
+ */
+inline Source
+operator|(SourceFlag f1, SourceFlag f2)
+{
+  Source src;
+  src |= f1;
+  src |= f2;
+  return src;
 }
 
 enum class PhiSTLOption
@@ -111,7 +202,7 @@ class LBSGroupset;
 typedef std::function<void(LBSGroupset& groupset,
                            std::vector<double>& destination_q,
                            const std::vector<double>& phi,
-                           int source_flags)>
+                           Source source)>
   SetSourceFunction;
 
 class AGSSchemeEntry;

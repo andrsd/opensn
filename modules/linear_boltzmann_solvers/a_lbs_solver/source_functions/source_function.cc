@@ -17,19 +17,19 @@ void
 SourceFunction::operator()(LBSGroupset& groupset,
                            std::vector<double>& destination_q,
                            const std::vector<double>& phi_local,
-                           int source_flags)
+                           Source source)
 {
-  if (source_flags & NO_FLAGS_SET) return;
+  if (source.Empty()) return;
 
   const size_t source_event_tag = lbs_solver_.GetSourceEventTag();
   Chi::log.LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_BEGIN);
 
-  apply_fixed_src_ = (source_flags & APPLY_FIXED_SOURCES);
-  apply_wgs_scatter_src_ = (source_flags & APPLY_WGS_SCATTER_SOURCES);
-  apply_ags_scatter_src_ = (source_flags & APPLY_AGS_SCATTER_SOURCES);
-  apply_wgs_fission_src_ = (source_flags & APPLY_WGS_FISSION_SOURCES);
-  apply_ags_fission_src_ = (source_flags & APPLY_AGS_FISSION_SOURCES);
-  suppress_wg_scatter_src_ = (source_flags & SUPPRESS_WG_SCATTER);
+  apply_fixed_src_ = (source & APPLY_FIXED_SOURCES);
+  apply_wgs_scatter_src_ = (source & APPLY_WGS_SCATTER_SOURCES);
+  apply_ags_scatter_src_ = (source & APPLY_AGS_SCATTER_SOURCES);
+  apply_wgs_fission_src_ = (source & APPLY_WGS_FISSION_SOURCES);
+  apply_ags_fission_src_ = (source & APPLY_AGS_FISSION_SOURCES);
+  suppress_wg_scatter_src_ = (source & SUPPRESS_WG_SCATTER);
 
   // Get group setup
   gs_i_ = static_cast<size_t>(groupset.groups_.front().id_);
@@ -144,7 +144,7 @@ SourceFunction::operator()(LBSGroupset& groupset,
     }     // for dof i
   }       // for cell
 
-  AddAdditionalSources(groupset, destination_q, phi_local, source_flags);
+  AddAdditionalSources(groupset, destination_q, phi_local, source);
 
   Chi::log.LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_END);
 }
@@ -181,9 +181,9 @@ void
 SourceFunction::AddPointSources(LBSGroupset& groupset,
                                 std::vector<double>& destination_q,
                                 const std::vector<double>&,
-                                int source_flags)
+                                Source source)
 {
-  const bool apply_fixed_src = (source_flags & APPLY_FIXED_SOURCES);
+  const bool apply_fixed_src = (source & APPLY_FIXED_SOURCES);
 
   const auto& cell_transport_views = lbs_solver_.GetCellTransportViews();
 
