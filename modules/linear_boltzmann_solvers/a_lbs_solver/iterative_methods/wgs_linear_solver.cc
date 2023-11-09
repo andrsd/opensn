@@ -18,30 +18,43 @@
 #define sc_double static_cast<double>
 #define sc_int64_t static_cast<int64_t>
 
-#define GetGSContextPtr(x) std::dynamic_pointer_cast<WGSContext<Mat, Vec, KSP>>(x)
+#define GetGSContextPtr(x) std::dynamic_pointer_cast<WGSContext>(x)
 
 namespace lbs
 {
 
-template <>
+WGSLinearSolver::WGSLinearSolver(WGSContextPtr gs_context_ptr)
+  : chi_math::LinearSolver(IterativeMethodPETScName(gs_context_ptr->groupset_.iterative_method_),
+                           gs_context_ptr)
+{
+  auto& groupset = gs_context_ptr->groupset_;
+  auto& solver_tol_options = this->ToleranceOptions();
+  solver_tol_options.residual_absolute = groupset.residual_tolerance_;
+  solver_tol_options.maximum_iterations = groupset.max_iterations_;
+  solver_tol_options.gmres_restart_interval = groupset.gmres_restart_intvl_;
+}
+
+WGSLinearSolver::~WGSLinearSolver()
+{
+  MatDestroy(&A_);
+}
+
 void
-WGSLinearSolver<Mat, Vec, KSP>::PreSetupCallback()
+WGSLinearSolver::PreSetupCallback()
 {
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
   gs_context_ptr->PreSetupCallback();
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetConvergenceTest()
+WGSLinearSolver::SetConvergenceTest()
 {
-  KSPSetConvergenceTest(solver_, &GSConvergenceTest, nullptr, nullptr);
+  KSPSetConvergenceTest(ksp_, &GSConvergenceTest, nullptr, nullptr);
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetSystemSize()
+WGSLinearSolver::SetSystemSize()
 {
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
   const auto sizes = gs_context_ptr->SystemSize();
@@ -50,9 +63,8 @@ WGSLinearSolver<Mat, Vec, KSP>::SetSystemSize()
   num_globl_dofs_ = sizes.second;
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetSystem()
+WGSLinearSolver::SetSystem()
 {
   if (IsSystemSet()) return;
 
@@ -71,48 +83,44 @@ WGSLinearSolver<Mat, Vec, KSP>::SetSystem()
                  &A_);
 
   // Set the action-operator
-  MatShellSetOperation(A_, MATOP_MULT, (void (*)())chi_math::LinearSolverMatrixAction<Mat, Vec>);
+  MatShellSetOperation(A_, MATOP_MULT, (void (*)())chi_math::LinearSolverMatrixAction);
 
   // Set solver operators
-  KSPSetOperators(solver_, A_, A_);
-  KSPSetUp(solver_);
+  KSPSetOperators(ksp_, A_, A_);
+  KSPSetUp(ksp_);
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetPreconditioner()
+WGSLinearSolver::SetPreconditioner()
 {
   if (IsSystemSet()) return;
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
-  gs_context_ptr->SetPreconditioner(solver_);
+  gs_context_ptr->SetPreconditioner(ksp_);
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::PostSetupCallback()
+WGSLinearSolver::PostSetupCallback()
 {
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
   gs_context_ptr->PostSetupCallback();
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::PreSolveCallback()
+WGSLinearSolver::PreSolveCallback()
 {
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
   gs_context_ptr->PreSolveCallback();
 }
 
-/**Sets the initial guess for a gs solver. If the initial guess's norm
- * is large enough the initial guess will be used, otherwise it is assumed
- * zero.*/
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetInitialGuess()
+WGSLinearSolver::SetInitialGuess()
 {
+  // If the norm of the initial guess is large enough, the initial guess will be used, otherwise it
+  // is assumed to be zero.
+
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
   auto& groupset = gs_context_ptr->groupset_;
@@ -125,14 +133,13 @@ WGSLinearSolver<Mat, Vec, KSP>::SetInitialGuess()
 
   if (init_guess_norm > 1.0e-10)
   {
-    KSPSetInitialGuessNonzero(solver_, PETSC_TRUE);
+    KSPSetInitialGuessNonzero(ksp_, PETSC_TRUE);
     if (gs_context_ptr->log_info_) Chi::log.Log() << "Using phi_old as initial guess.";
   }
 }
 
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
+WGSLinearSolver::SetRHS()
 {
   auto gs_context_ptr = GetGSContextPtr(context_ptr_);
 
@@ -154,8 +161,7 @@ WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
     gs_context_ptr->set_source_function_(
       groupset, lbs_solver.QMomentsLocal(), lbs_solver.PhiOldLocal(), scope);
 
-    // Apply transport
-    // operator
+    // Apply transport operator
     gs_context_ptr->ApplyInverseTransportOperator(scope);
 
     // Assemble PETSc vector
@@ -164,10 +170,9 @@ WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
     // Compute RHS norm
     VecNorm(b_, NORM_2, &context_ptr_->rhs_norm);
 
-    // Compute precondition RHS
-    // norm
+    // Compute precondition RHS norm
     PC pc;
-    KSPGetPC(solver_, &pc);
+    KSPGetPC(ksp_, &pc);
     Vec temp_vec;
     VecDuplicate(b_, &temp_vec);
     PCApply(pc, b_, temp_vec);
@@ -184,8 +189,7 @@ WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
     gs_context_ptr->set_source_function_(
       groupset, lbs_solver.QMomentsLocal(), lbs_solver.PhiOldLocal(), scope);
 
-    // Apply transport
-    // operator
+    // Apply transport operator
     gs_context_ptr->ApplyInverseTransportOperator(scope);
 
     // Assemble PETSc vector
@@ -194,10 +198,9 @@ WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
     // Compute RHS norm
     VecNorm(x_, NORM_2, &context_ptr_->rhs_norm);
 
-    // Compute precondition RHS
-    // norm
+    // Compute precondition RHS norm
     PC pc;
-    KSPGetPC(solver_, &pc);
+    KSPGetPC(ksp_, &pc);
     Vec temp_vec;
     VecDuplicate(x_, &temp_vec);
     PCApply(pc, x_, temp_vec);
@@ -208,16 +211,16 @@ WGSLinearSolver<Mat, Vec, KSP>::SetRHS()
   }
 }
 
-/**For this callback we simply restore the q_moments_local vector.*/
-template <>
 void
-WGSLinearSolver<Mat, Vec, KSP>::PostSolveCallback()
+WGSLinearSolver::PostSolveCallback()
 {
+  // We simply restore the q_moments_local vector.
+
   // Get convergence reason
   if (not GetKSPSolveSuppressionFlag())
   {
     KSPConvergedReason reason;
-    KSPGetConvergedReason(solver_, &reason);
+    KSPGetConvergedReason(ksp_, &reason);
     if (reason != KSP_CONVERGED_RTOL and reason != KSP_DIVERGED_ITS)
       Chi::log.Log0Warning() << "Krylov solver failed. "
                              << "Reason: " << chi_physics::GetPETScConvergedReasonstring(reason);
@@ -239,9 +242,4 @@ WGSLinearSolver<Mat, Vec, KSP>::PostSolveCallback()
   gs_context_ptr->PostSolveCallback();
 }
 
-template <>
-WGSLinearSolver<Mat, Vec, KSP>::~WGSLinearSolver()
-{
-  MatDestroy(&A_);
-}
 } // namespace lbs
