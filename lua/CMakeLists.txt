@@ -1,5 +1,5 @@
 # libopensnlua
-file(GLOB_RECURSE LIBOPENSN_LUA_SRCS *.cc)
+file(GLOB_RECURSE LIBOPENSN_LUA_SRCS framework/*.cc modules/*.cc)
 add_library(libopensnlua SHARED ${LIBOPENSN_LUA_SRCS})
 
 target_include_directories(libopensnlua
@@ -28,7 +28,7 @@ endif()
 
 
 # opensn binary
-add_executable(opensn "main.cc")
+add_executable(opensn main.cc)
 
 target_include_directories(opensn
     PRIVATE
