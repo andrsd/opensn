@@ -28,6 +28,9 @@ class chi_mesh::sweep_management::AngleAggregation
 public:
   typedef std::shared_ptr<SweepBndry> SweepBndryPtr;
 
+private:
+  opensn::App& app_;
+
 public:
   std::vector<AngleSetGroup> angle_set_groups;
   std::map<uint64_t, SweepBndryPtr> sim_boundaries;

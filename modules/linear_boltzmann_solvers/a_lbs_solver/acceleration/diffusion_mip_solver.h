@@ -1,9 +1,6 @@
 #pragma once
 
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/diffusion.h"
-#ifdef OPENSN_WITH_LUA
-#include "framework/lua.h"
-#endif
 
 namespace chi_mesh
 {
@@ -32,7 +29,8 @@ namespace lbs::acceleration
 class DiffusionMIPSolver : public lbs::acceleration::DiffusionSolver
 {
 public:
-  DiffusionMIPSolver(std::string text_name,
+  DiffusionMIPSolver(opensn::App& app,
+                     std::string text_name,
                      const chi_math::SpatialDiscretization& sdm,
                      const chi_math::UnknownManager& uk_man,
                      std::map<uint64_t, BoundaryCondition> bcs,
@@ -90,20 +88,6 @@ public:
                       size_t acf,
                       size_t ccfi,
                       double epsilon = 1.0e-12);
-
-#ifdef OPENSN_WITH_LUA
-  /**
-   * Calls a lua function with xyz coordinates.
-   * \param L The lua state.
-   * \param lua_func_name The name used to define this lua function in the lua
-   *                      state.
-   * \param xyz The xyz coordinates of the point where the function is called.
-   *
-   * \return The function evaluation.
-   */
-  static double
-  CallLuaXYZFunction(lua_State* L, const std::string& lua_func_name, const chi_mesh::Vector3& xyz);
-#endif
 };
 
 } // namespace lbs::acceleration

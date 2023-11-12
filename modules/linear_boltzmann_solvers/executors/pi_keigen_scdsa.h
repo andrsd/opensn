@@ -41,7 +41,7 @@ protected:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit XXPowerIterationKEigenSCDSA(const chi::InputParameters& params);
+  explicit XXPowerIterationKEigenSCDSA(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

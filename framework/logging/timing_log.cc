@@ -1,15 +1,15 @@
 #include "framework/logging/timing_log.h"
-
 #include "framework/utils/timer.h"
-
-#include "framework/runtime.h"
-
 #include "framework/logging/log_exceptions.h"
 
 #include <sstream>
 
 namespace chi
 {
+
+TimingLog::TimingLog(opensn::App& app) noexcept : app_(app)
+{
+}
 
 TimingBlock&
 TimingLog::CreateTimingBlock(const std::string& name, const std::string& parent_name)
@@ -68,6 +68,12 @@ TimingLog::GetTimingBlock(const std::string& name)
   return *iter->second;
 }
 
+opensn::App&
+TimingLog::App()
+{
+  return app_;
+}
+
 TimingBlock::TimingBlock(const std::string& name) : name_(name)
 {
 }
@@ -75,13 +81,13 @@ TimingBlock::TimingBlock(const std::string& name) : name_(name)
 void
 TimingBlock::TimeSectionBegin()
 {
-  reference_time_ = Chi::program_timer.GetTime();
+  reference_time_ = timer_.GetTime();
 }
 
 void
 TimingBlock::TimeSectionEnd()
 {
-  const double delta_t = Chi::program_timer.GetTime() - reference_time_;
+  const double delta_t = timer_.GetTime() - reference_time_;
   total_time_ += delta_t;
   num_occurences_ += 1;
   last_delta_time_ = delta_t;

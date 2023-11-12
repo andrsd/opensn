@@ -46,7 +46,8 @@ class SweepChunk;
 class SweepScheduler;
 
 /**Communicates location by location dependencies.*/
-void CommunicateLocationDependencies(const std::vector<int>& location_dependencies,
+void CommunicateLocationDependencies(opensn::App& app,
+                                     const std::vector<int>& location_dependencies,
                                      std::vector<std::vector<int>>& global_dependencies);
 
 /**Print a sweep ordering to file.*/

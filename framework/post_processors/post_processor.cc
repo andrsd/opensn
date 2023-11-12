@@ -1,5 +1,5 @@
 #include "framework/post_processors/post_processor.h"
-
+#include "framework/app.h"
 #include "framework/physics/physics_event_publisher.h"
 #include "framework/event_system/event_subscriber.h"
 #include "framework/event_system/event.h"
@@ -61,8 +61,8 @@ PostProcessor::GetInputParameters()
   return params;
 }
 
-PostProcessor::PostProcessor(const InputParameters& params, PPType type)
-  : ChiObject(params),
+PostProcessor::PostProcessor(opensn::App& app, const InputParameters& params, PPType type)
+  : ChiObject(app, params),
     name_(params.GetParamValue<std::string>("name")),
     subscribed_events_for_execution_(params.GetParamVectorValue<std::string>("execute_on")),
     subscribed_events_for_printing_(params.GetParamVectorValue<std::string>("print_on")),
@@ -124,15 +124,15 @@ PostProcessor::PushOntoStack(std::shared_ptr<ChiObject>& new_object)
   auto pp_ptr = std::dynamic_pointer_cast<PostProcessor>(new_object);
   ChiLogicalErrorIf(not pp_ptr, "Failure to cast new object to chi::PostProcessor");
 
-  Chi::postprocessor_stack.push_back(pp_ptr);
-  new_object->SetStackID(Chi::postprocessor_stack.size() - 1);
+  App().PostprocessorStack().push_back(pp_ptr);
+  new_object->SetStackID(App().PostprocessorStack().size() - 1);
 
   auto new_subscriber = std::dynamic_pointer_cast<chi::EventSubscriber>(pp_ptr);
 
   ChiLogicalErrorIf(not new_subscriber,
                     "Failure to cast chi::PostProcessor to chi::EventSubscriber");
 
-  auto& publisher = chi_physics::PhysicsEventPublisher::GetInstance();
+  auto& publisher = App().PhysicsEventPublisher();
   publisher.AddSubscriber(new_subscriber);
 }
 
@@ -151,11 +151,11 @@ PostProcessor::ReceiveEventUpdate(const Event& event)
     }
 
     Execute(event);
-    if (Chi::log.GetVerbosity() >= 1)
-      Chi::log.Log0Verbose1() << "Post processor \"" << Name()
-                              << "\" executed on "
-                                 "event \""
-                              << event.Name() << "\".";
+    if (App().Log().GetVerbosity() >= 1)
+      App().Log().Log0Verbose1() << "Post processor \"" << Name()
+                                 << "\" executed on "
+                                    "event \""
+                                 << event.Name() << "\".";
   }
 }
 

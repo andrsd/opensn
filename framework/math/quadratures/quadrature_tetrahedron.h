@@ -13,7 +13,7 @@ class chi_math::QuadratureTetrahedron : public chi_math::Quadrature
 public:
   /**Initialzes a set of points for a quadrature integration over
    * the volume of a tetrahedron.*/
-  explicit QuadratureTetrahedron(QuadratureOrder order);
+  explicit QuadratureTetrahedron(opensn::App& app, QuadratureOrder order);
 
   /** The Keast rules are for tets. This function takes permutation
   points and weights in a specific format as input and fills the

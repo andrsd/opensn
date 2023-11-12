@@ -1,8 +1,7 @@
-#ifdef OPENSN_WITH_LUA
+// FIXME
+#if 0
 #include "modules/linear_boltzmann_solvers/c_discrete_ordinates_adjoint_solver/response_function/lbs_adj_response_function.h"
-
 #include "framework/lua.h"
-
 #include "framework/runtime.h"
 #include "framework/console/console.h"
 #include "framework/logging/log.h"

@@ -13,7 +13,7 @@ class RCCLogicalVolume : public LogicalVolume
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit RCCLogicalVolume(const chi::InputParameters& params);
+  explicit RCCLogicalVolume(opensn::App& app, const chi::InputParameters& params);
 
   bool Inside(const chi_mesh::Vector3& point) const override;
 

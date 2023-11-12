@@ -1,9 +1,7 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/source_functions/source_function.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace lbs
@@ -21,8 +19,9 @@ SourceFunction::operator()(LBSGroupset& groupset,
 {
   if (source.Empty()) return;
 
+  opensn::App& app = groupset.App();
   const size_t source_event_tag = lbs_solver_.GetSourceEventTag();
-  Chi::log.LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_BEGIN);
+  app.Log().LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_BEGIN);
 
   apply_fixed_src_ = (source & APPLY_FIXED_SOURCES);
   apply_wgs_scatter_src_ = (source & APPLY_WGS_SCATTER_SOURCES);
@@ -146,7 +145,7 @@ SourceFunction::operator()(LBSGroupset& groupset,
 
   AddAdditionalSources(groupset, destination_q, phi_local, source);
 
-  Chi::log.LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_END);
+  app.Log().LogEvent(source_event_tag, chi::ChiLog::EventType::EVENT_END);
 }
 
 double

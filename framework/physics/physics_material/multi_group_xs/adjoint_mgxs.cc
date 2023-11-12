@@ -1,6 +1,7 @@
 #include "framework/physics/physics_material/multi_group_xs/adjoint_mgxs.h"
 
-chi_physics::AdjointMGXS::AdjointMGXS(const MultiGroupXS& xs) : xs_(xs)
+chi_physics::AdjointMGXS::AdjointMGXS(opensn::App& app, const MultiGroupXS& xs)
+  : MultiGroupXS(app), xs_(xs)
 {
   // transpose transfer matrices
   for (unsigned int ell = 0; ell <= xs_.ScatteringOrder(); ++ell)

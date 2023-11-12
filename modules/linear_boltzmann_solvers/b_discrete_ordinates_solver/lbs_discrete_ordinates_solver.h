@@ -30,7 +30,7 @@ public:
   /**
    * Static registration based constructor.
    */
-  explicit DiscreteOrdinatesSolver(const chi::InputParameters& params);
+  explicit DiscreteOrdinatesSolver(opensn::App& app, const chi::InputParameters& params);
   ~DiscreteOrdinatesSolver() override;
 
   const std::string& SweepType() const { return sweep_type_; }
@@ -74,7 +74,7 @@ public:
   std::vector<double> ComputeLeakage(int groupset_id, uint64_t boundary_id) const;
 
 protected:
-  explicit DiscreteOrdinatesSolver(const std::string& text_name);
+  explicit DiscreteOrdinatesSolver(opensn::App& app, const std::string& text_name);
 
   /**
    * Initializes Within-GroupSet solvers.

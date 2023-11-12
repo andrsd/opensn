@@ -1,13 +1,8 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/ags_linear_solver.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_context.h"
-
-#include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/diffusion_mip_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/nl_keigen_acc_solver.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 
@@ -19,6 +14,7 @@ namespace lbs
 void
 PowerIterationKEigen2(LBSSolver& lbs_solver, double tolerance, int max_iterations, double& k_eff)
 {
+  opensn::App& app = lbs_solver.App();
   const std::string fname = "lbs::PowerIterationKEigen";
 
   for (auto& wgs_solver : lbs_solver.GetWGSSolvers())
@@ -62,7 +58,7 @@ PowerIterationKEigen2(LBSSolver& lbs_solver, double tolerance, int max_iteration
   auto nl_diff_context = std::make_shared<acceleration::NLKEigenDiffContext>(
     diff_solver, lbs_solver, pisa_verbose_level);
 
-  acceleration::NLKEigenDiffSolver nl_keigen_diff_solver(nl_diff_context);
+  acceleration::NLKEigenDiffSolver nl_keigen_diff_solver(app, nl_diff_context);
 
   auto& tolerances = nl_keigen_diff_solver.ToleranceOptions();
 
@@ -155,26 +151,26 @@ PowerIterationKEigen2(LBSSolver& lbs_solver, double tolerance, int max_iteration
     if (lbs_solver.Options().verbose_outer_iterations)
     {
       std::stringstream k_iter_info;
-      k_iter_info << Chi::program_timer.GetTimeString() << " "
+      k_iter_info << app.ProgramTimer().GetTimeString() << " "
                   << "  Iteration " << std::setw(5) << nit << "  k_eff " << std::setw(11)
                   << std::setprecision(7) << k_eff << "  k_eff change " << std::setw(12)
                   << k_eff_change << "  reactivity " << std::setw(10) << reactivity * 1e5;
       if (converged) k_iter_info << " CONVERGED\n";
 
-      Chi::log.Log() << k_iter_info.str();
+      app.Log().Log() << k_iter_info.str();
     }
 
     if (converged) break;
   } // for k iterations
 
   // Print summary
-  Chi::log.Log() << "\n";
-  Chi::log.Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff;
-  Chi::log.Log() << "        Final change          :        " << std::setprecision(6)
-                 << k_eff_change
-                 << " (num_TrOps:" << frons_wgs_context->counter_applications_of_inv_op_ << ")"
-                 << "\n";
-  Chi::log.Log() << "\n";
+  app.Log().Log() << "\n";
+  app.Log().Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff;
+  app.Log().Log() << "        Final change          :        " << std::setprecision(6)
+                  << k_eff_change
+                  << " (num_TrOps:" << frons_wgs_context->counter_applications_of_inv_op_ << ")"
+                  << "\n";
+  app.Log().Log() << "\n";
 }
 
 } // namespace lbs

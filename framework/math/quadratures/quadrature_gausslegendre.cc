@@ -1,12 +1,8 @@
 #include "framework/math/quadratures/quadrature_gausslegendre.h"
 #include "framework/math/quadratures/legendre_poly/legendrepoly.h"
-#include <cmath>
-
 #include "framework/object_factory.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
-
+#include <cmath>
 #include <algorithm>
 
 #define uint unsigned int
@@ -37,8 +33,9 @@ QuadratureGaussLegendre::GetInputParameters()
   return params;
 }
 
-QuadratureGaussLegendre::QuadratureGaussLegendre(const chi::InputParameters& params)
-  : chi_math::Quadrature(params)
+QuadratureGaussLegendre::QuadratureGaussLegendre(opensn::App& app,
+                                                 const chi::InputParameters& params)
+  : chi_math::Quadrature(app, params)
 {
   const auto& assigned_params = params.ParametersAtAssignment();
 
@@ -61,21 +58,17 @@ QuadratureGaussLegendre::QuadratureGaussLegendre(const chi::InputParameters& par
   }
 }
 
-QuadratureGaussLegendre::QuadratureGaussLegendre(QuadratureOrder in_order,
-                                                 bool verbose,
-                                                 unsigned int max_iters,
-                                                 double tol)
-  : chi_math::Quadrature(in_order)
+QuadratureGaussLegendre::QuadratureGaussLegendre(
+  opensn::App& app, QuadratureOrder in_order, bool verbose, unsigned int max_iters, double tol)
+  : chi_math::Quadrature(app, in_order)
 {
   const unsigned int N = std::ceil(((int)order_ + 1) / 2.0);
   Initialize(N, verbose, max_iters, tol);
 }
 
-QuadratureGaussLegendre::QuadratureGaussLegendre(unsigned int N,
-                                                 bool verbose,
-                                                 unsigned int max_iters,
-                                                 double tol)
-  : chi_math::Quadrature((QuadratureOrder)(2 * N - 1))
+QuadratureGaussLegendre::QuadratureGaussLegendre(
+  opensn::App& app, unsigned int N, bool verbose, unsigned int max_iters, double tol)
+  : chi_math::Quadrature(app, (QuadratureOrder)(2 * N - 1))
 {
   Initialize(N, verbose, max_iters, tol);
 }
@@ -90,10 +83,9 @@ QuadratureGaussLegendre::Initialize(unsigned int N,
   {
     default:
     {
-      if (verbose)
-        Chi::log.Log() << "Initializing Gauss-Legendre Quadrature "
-                          "with "
-                       << N << " q-points";
+      // FIXME: make this work
+      // if (verbose)
+      //   Chi::log.Log() << "Initializing Gauss-Legendre Quadrature with " << N << " q-points";
 
       // Compute the roots
       auto roots = FindRoots(N, max_iters, tol);
@@ -108,8 +100,9 @@ QuadratureGaussLegendre::Initialize(unsigned int N,
           2.0 * (1.0 - qpoints_[k][0] * qpoints_[k][0]) /
           ((N + 1) * (N + 1) * Legendre(N + 1, qpoints_[k][0]) * Legendre(N + 1, qpoints_[k][0]));
 
-        if (verbose)
-          Chi::log.Log() << "root[" << k << "]=" << qpoints_[k][0] << ", weight=" << weights_[k];
+        // FIXME: make this work
+        // if (verbose)
+        //   Chi::log.Log() << "root[" << k << "]=" << qpoints_[k][0] << ", weight=" << weights_[k];
       } // for abscissae
 
       break;
@@ -134,10 +127,12 @@ QuadratureGaussLegendre::FindRoots(unsigned int N, unsigned int max_iters, doubl
   if (N > 2056)
   {
     num_search_intvls *= 10;
-    Chi::log.Log0Warning() << "chi_math::QuadratureGaussLegendre::FindRoots: "
-                           << "The order of the polynomial for which to find the roots is "
-                           << "greater than 2056. Accuracy of the root finder will be diminished "
-                           << "along with a reduction in stability.";
+    // FIXME: make this work
+    // Chi::log.Log0Warning() << "chi_math::QuadratureGaussLegendre::FindRoots: "
+    //                        << "The order of the polynomial for which to find the roots is "
+    //                        << "greater than 2056. Accuracy of the root finder will be diminished
+    //                        "
+    //                        << "along with a reduction in stability.";
   }
 
   // For this code we simply check to see where the

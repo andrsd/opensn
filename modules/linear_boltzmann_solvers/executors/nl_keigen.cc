@@ -1,8 +1,7 @@
 #include "modules/linear_boltzmann_solvers/executors/nl_keigen.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
 #include "framework/logging/log.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/power_iteration_keigen.h"
 
 namespace lbs
@@ -45,12 +44,11 @@ XXNonLinearKEigen::GetInputParameters()
   return params;
 }
 
-XXNonLinearKEigen::XXNonLinearKEigen(const chi::InputParameters& params)
-  : chi_physics::Solver(params),
-    lbs_solver_(Chi::GetStackItem<LBSSolver>(Chi::object_stack,
-                                             params.GetParamValue<size_t>("lbs_solver_handle"))),
-    nl_context_(std::make_shared<NLKEigenAGSContext>(lbs_solver_)),
-    nl_solver_(nl_context_),
+XXNonLinearKEigen::XXNonLinearKEigen(opensn::App& app, const chi::InputParameters& params)
+  : chi_physics::Solver(app, params),
+    lbs_solver_(App().GetStackObject<LBSSolver>(params.GetParamValue<size_t>("lbs_solver_handle"))),
+    nl_context_(std::make_shared<NLKEigenAGSContext>(*lbs_solver_)),
+    nl_solver_(App(), nl_context_),
     reinit_phi_1_(params.GetParamValue<bool>("reinit_phi_1")),
     num_free_power_its_(params.GetParamValue<int>("num_free_power_iterations"))
 {
@@ -72,34 +70,34 @@ XXNonLinearKEigen::XXNonLinearKEigen(const chi::InputParameters& params)
 void
 XXNonLinearKEigen::Initialize()
 {
-  lbs_solver_.Initialize();
+  lbs_solver_->Initialize();
 }
 
 void
 XXNonLinearKEigen::Execute()
 {
-  if (reinit_phi_1_) lbs_solver_.SetPhiVectorScalarValues(lbs_solver_.PhiOldLocal(), 1.0);
+  if (reinit_phi_1_) lbs_solver_->SetPhiVectorScalarValues(lbs_solver_->PhiOldLocal(), 1.0);
 
   if (num_free_power_its_ > 0)
   {
     double k_eff = 1.0;
     PowerIterationKEigen(
-      lbs_solver_, nl_solver_.ToleranceOptions().nl_abs_tol_, num_free_power_its_, k_eff);
+      *lbs_solver_, nl_solver_.ToleranceOptions().nl_abs_tol_, num_free_power_its_, k_eff);
   }
 
   nl_solver_.Setup();
   nl_solver_.Solve();
 
-  if (lbs_solver_.Options().use_precursors)
+  if (lbs_solver_->Options().use_precursors)
   {
-    lbs_solver_.ComputePrecursors();
-    chi_math::Scale(lbs_solver_.PrecursorsNewLocal(),
+    lbs_solver_->ComputePrecursors();
+    chi_math::Scale(lbs_solver_->PrecursorsNewLocal(),
                     1.0 / nl_context_->kresid_func_context_.k_eff);
   }
 
-  lbs_solver_.UpdateFieldFunctions();
+  lbs_solver_->UpdateFieldFunctions();
 
-  Chi::log.Log() << "LinearBoltzmann::KEigenvalueSolver execution completed\n\n";
+  App().Log().Log() << "LinearBoltzmann::KEigenvalueSolver execution completed\n\n";
 }
 
 } // namespace lbs

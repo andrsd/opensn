@@ -2,12 +2,8 @@
 
 #include "framework/physics/solver_base/solver.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
-
 #include "modules/mg_diffusion/mg_diffusion_bndry.h"
 #include "framework/utils/timer.h"
-
-#include "framework/console/console.h"
-
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
 #include "framework/physics/physics_material/material_property_isotropic_mg_src.h"
 
@@ -89,7 +85,7 @@ public:
   BoundaryPreferences boundary_preferences_;
   std::vector<Boundary> boundaries_;
 
-  explicit Solver(const std::string& in_solver_name);
+  explicit Solver(opensn::App& app, const std::string& in_solver_name);
   ~Solver() override;
 
   void Initialize() override;

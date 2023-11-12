@@ -26,7 +26,8 @@ AdjointSourceFunction::AddVolumetricQOISources(LBSGroupset& groupset,
 
   const auto& adjoint_solver = *adjoint_solver_ptr;
 
-#ifdef OPENSN_WITH_LUA
+  // FIXME
+#if 0
   const auto& response_functions = adjoint_solver.GetResponseFunctions();
   const auto& basic_options = adjoint_solver.GetBasicOptions();
   const auto& cell_transport_views = adjoint_solver.GetCellTransportViews();

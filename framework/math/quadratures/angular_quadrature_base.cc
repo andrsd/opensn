@@ -1,10 +1,7 @@
 #include "framework/math/quadratures/angular_quadrature_base.h"
-
 #include "framework/math/quadratures/legendre_poly/legendrepoly.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include <iomanip>
 #include <numeric>
 
@@ -96,7 +93,8 @@ chi_math::AngularQuadrature::BuildDiscreteToMomentOperator(unsigned int scatteri
     outs << "\n";
   }
 
-  Chi::log.Log0Verbose1() << outs.str();
+  // FIXME: make this work
+  // Chi::log.Log0Verbose1() << outs.str();
 }
 
 void
@@ -145,7 +143,8 @@ chi_math::AngularQuadrature::BuildMomentToDiscreteOperator(unsigned int scatteri
     outs << "\n";
   }
 
-  Chi::log.Log0Verbose1() << outs.str();
+  // FIXME: make this work
+  // Chi::log.Log0Verbose1() << outs.str();
 }
 
 std::vector<std::vector<double>> const&
@@ -181,10 +180,12 @@ chi_math::AngularQuadrature::GetMomentToHarmonicsIndexMap() const
   return m_to_ell_em_map_;
 }
 
-chi_math::AngularQuadratureCustom::AngularQuadratureCustom(std::vector<double>& azimuthal,
+chi_math::AngularQuadratureCustom::AngularQuadratureCustom(opensn::App& app,
+                                                           std::vector<double>& azimuthal,
                                                            std::vector<double>& polar,
                                                            std::vector<double>& in_weights,
                                                            bool verbose)
+  : AngularQuadrature(app)
 {
   size_t Na = azimuthal.size();
   size_t Np = polar.size();
@@ -192,9 +193,10 @@ chi_math::AngularQuadratureCustom::AngularQuadratureCustom(std::vector<double>& 
 
   if ((Na - Np != 0) or (Na - Nw != 0))
   {
-    Chi::log.LogAllError() << "chi_math::AngularQuadrature::InitializeWithCustom: supplied"
-                              " vectors need to be of equal length.";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "chi_math::AngularQuadrature::InitializeWithCustom: supplied"
+    //                          " vectors need to be of equal length.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   // Create angle pairs
@@ -237,7 +239,8 @@ chi_math::AngularQuadratureCustom::AngularQuadratureCustom(std::vector<double>& 
 
   if (verbose)
   {
-    Chi::log.Log() << ostr.str() << "\n"
-                   << "Weight sum=" << weight_sum;
+    // FIXME: make this work
+    // Chi::log.Log() << ostr.str() << "\n"
+    //                << "Weight sum=" << weight_sum;
   }
 }

@@ -1,5 +1,5 @@
 #include "modules/dfem_diffusion/dfem_diffusion_solver.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
@@ -7,9 +7,6 @@
 #include "modules/dfem_diffusion/dfem_diffusion_bndry.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
 #include "framework/math/spatial_discretization/finite_element/piecewise_linear/piecewise_linear_discontinuous.h"
-#ifdef OPENSN_WITH_LUA
-#include "framework/lua.h"
-#endif
 
 #define scdouble static_cast<double>
 
@@ -25,9 +22,9 @@
 namespace dfem_diffusion
 {
 
-Solver::Solver(const std::string& in_solver_name)
-  : chi_physics::Solver(in_solver_name,
-                        {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
+Solver::Solver(opensn::App& app, const std::string& in_solver_name)
+  : chi_physics::Solver(
+      app, in_solver_name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
 {
 }
 
@@ -42,17 +39,17 @@ void
 Solver::Initialize()
 {
   const std::string fname = "Solver::Initialize";
-  Chi::log.Log() << "\n"
-                 << Chi::program_timer.GetTimeString() << " " << TextName()
-                 << ": Initializing DFEM Diffusion solver ";
+  App().Log().Log() << "\n"
+                    << App().ProgramTimer().GetTimeString() << " " << TextName()
+                    << ": Initializing DFEM Diffusion solver ";
 
   // Get grid
-  grid_ptr_ = chi_mesh::GetCurrentHandler().GetGrid();
+  grid_ptr_ = App().GetCurrentMeshHandler()->GetGrid();
   const auto& grid = *grid_ptr_;
   if (grid_ptr_ == nullptr)
     throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 
-  Chi::log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  App().Log().Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
 
   // BIDs
   auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
@@ -75,7 +72,7 @@ Solver::Initialize()
         {
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Reflecting, {0., 0., 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to reflecting.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to reflecting.";
           break;
         }
         case BoundaryType::Dirichlet:
@@ -83,7 +80,7 @@ Solver::Initialize()
           if (bndry_vals.empty()) bndry_vals.resize(1, 0.0);
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Dirichlet, {bndry_vals[0], 0., 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to dirichlet.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to dirichlet.";
           break;
         }
         case BoundaryType::Robin:
@@ -94,15 +91,15 @@ Solver::Initialize()
           boundaries_.insert(std::make_pair(
             bndry_id,
             Boundary{BoundaryType::Robin, {bndry_vals[0], bndry_vals[1], bndry_vals[2]}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to robin." << bndry_vals[0] << ","
-                         << bndry_vals[1] << "," << bndry_vals[2];
+          App().Log().Log() << "Boundary " << bndry_name << " set to robin." << bndry_vals[0] << ","
+                            << bndry_vals[1] << "," << bndry_vals[2];
           break;
         }
         case BoundaryType::Vacuum:
         {
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Robin, {0.25, 0.5, 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to vacuum.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to vacuum.";
           break;
         }
         case BoundaryType::Neumann:
@@ -112,7 +109,7 @@ Solver::Initialize()
                                    " Neumann needs 3 values in bndry vals.");
           boundaries_.insert(std::make_pair(
             bndry_id, Boundary{BoundaryType::Robin, {0., bndry_vals[0], bndry_vals[1]}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to neumann." << bndry_vals[0];
+          App().Log().Log() << "Boundary " << bndry_name << " set to neumann." << bndry_vals[0];
           break;
         }
       } // switch boundary type
@@ -120,8 +117,8 @@ Solver::Initialize()
     else
     {
       boundaries_.insert(std::make_pair(bndry_id, Boundary{BoundaryType::Dirichlet, {0., 0., 0.}}));
-      Chi::log.Log0Verbose1() << "No boundary preference found for boundary index " << bndry_name
-                              << "Dirichlet boundary added with zero boundary value.";
+      App().Log().Log0Verbose1() << "No boundary preference found for boundary index " << bndry_name
+                                 << "Dirichlet boundary added with zero boundary value.";
     }
   } // for bndry
 
@@ -134,8 +131,8 @@ Solver::Initialize()
   num_local_dofs_ = sdm.GetNumLocalDOFs(OneDofPerNode);
   num_globl_dofs_ = sdm.GetNumGlobalDOFs(OneDofPerNode);
 
-  Chi::log.Log() << "Num local DOFs: " << num_local_dofs_;
-  Chi::log.Log() << "Num globl DOFs: " << num_globl_dofs_;
+  App().Log().Log() << "Num local DOFs: " << num_local_dofs_;
+  App().Log().Log() << "Num globl DOFs: " << num_globl_dofs_;
 
   // Initializes Mats and Vecs
   const auto n = static_cast<int64_t>(num_local_dofs_);
@@ -160,22 +157,23 @@ Solver::Initialize()
 
     using namespace chi_math;
     auto initial_field_function = std::make_shared<chi_physics::FieldFunctionGridBased>(
-      text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
+      App(), text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
 
     field_functions_.push_back(initial_field_function);
-    Chi::field_function_stack.push_back(initial_field_function);
+    App().FieldFunctionStack().push_back(initial_field_function);
   } // if not ff set
 }
 
 void
 Solver::Execute()
 {
-  Chi::log.Log() << "\nExecuting DFEM IP Diffusion solver";
+  App().Log().Log() << "\nExecuting DFEM IP Diffusion solver";
 
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-#ifdef OPENSN_WITH_LUA
+// FIXME
+#if 0
   lua_State* L = Chi::console.GetConsoleState();
 #endif
 
@@ -183,7 +181,7 @@ Solver::Execute()
   // is this needed?
   VecSet(b_, 0.0);
 
-  Chi::log.Log() << "Assembling system: ";
+  App().Log().Log() << "Assembling system: ";
 
   for (const auto& cell : grid.local_cells)
   {
@@ -197,7 +195,8 @@ Solver::Execute()
     VecDbl cell_rhs(num_nodes, 0.0);
 
     // Assemble volumetric terms
-#ifdef OPENSN_WITH_LUA
+    // FIXME
+#if 0
     for (size_t i = 0; i < num_nodes; ++i)
     {
       const int64_t imap = sdm.MapDOF(cell, i);
@@ -255,7 +254,8 @@ Solver::Execute()
         if (cell.Type() == chi_mesh::CellType::POLYHEDRON) Ckappa = 4.0;
 
           // Assembly penalty terms
-#ifdef OPENSN_WITH_LUA
+          // FIMXE
+#if 0
         for (size_t fi = 0; fi < num_face_nodes; ++fi)
         {
           const int i = cell_mapping.MapFaceNode(f, fi);
@@ -284,15 +284,16 @@ Solver::Execute()
         }   // for fi
 #endif
 
-        // Assemble gradient terms
-        // For the following comments we use the notation:
-        // Dk = 0.5* n dot nabla bk
+          // Assemble gradient terms
+          // For the following comments we use the notation:
+          // Dk = 0.5* n dot nabla bk
 
-        // {{D d_n b_i}}[[Phi]]
-        // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
+          // {{D d_n b_i}}[[Phi]]
+          // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
 
-        // loop over node of current cell (gradient of b_i)
-#ifdef OPENSN_WITH_LUA
+          // loop over node of current cell (gradient of b_i)
+          // FIXME
+#if 0
         for (int i = 0; i < num_nodes; ++i)
         {
           const int64_t imap = sdm.MapDOF(cell, i);
@@ -356,8 +357,8 @@ Solver::Execute()
           const auto& bval = bndry.values_[1];
           const auto& fval = bndry.values_[2];
 
-          Chi::log.Log0Verbose1() << "Boundary  set as Robin with a,b,f = (" << aval << "," << bval
-                                  << "," << fval << ") ";
+          App().Log().Log0Verbose1() << "Boundary  set as Robin with a,b,f = (" << aval << ","
+                                     << bval << "," << fval << ") ";
           // true Robin when a!=0, otherwise, it is a Neumann:
           // Assert if b=0
           if (std::fabs(bval) < 1e-8)
@@ -405,7 +406,8 @@ Solver::Execute()
           if (cell.Type() == chi_mesh::CellType::POLYHEDRON) Ckappa = 8.0;
 
             // Assembly penalty terms
-#ifdef OPENSN_WITH_LUA
+            // FIXME
+#if 0
           for (size_t fi = 0; fi < num_face_nodes; ++fi)
           {
             const uint i = cell_mapping.MapFaceNode(f, fi);
@@ -429,12 +431,13 @@ Solver::Execute()
           }   // for fi
 #endif
 
-          // Assemble gradient terms
-          // For the following comments we use the notation:
-          // Dk = 0.5* n dot nabla bk
+            // Assemble gradient terms
+            // For the following comments we use the notation:
+            // Dk = 0.5* n dot nabla bk
 
-          // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
-#ifdef OPENSN_WITH_LUA
+            // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
+// FIXME
+#if 0
           for (size_t i = 0; i < num_nodes; i++)
           {
             const int64_t imap = sdm.MapDOF(cell, i);
@@ -464,7 +467,7 @@ Solver::Execute()
     }           // for face f
   }             // for cell
 
-  Chi::log.Log() << "Global assembly";
+  App().Log().Log() << "Global assembly";
 
   MatAssemblyBegin(A_, MAT_FINAL_ASSEMBLY);
   MatAssemblyEnd(A_, MAT_FINAL_ASSEMBLY);
@@ -480,10 +483,10 @@ Solver::Execute()
   //  PetscViewerPopFormat(viewer);
   //  PetscViewerDestroy(&viewer);
 
-  Chi::log.Log() << "Done global assembly";
+  App().Log().Log() << "Done global assembly";
 
   // Create Krylov Solver
-  Chi::log.Log() << "Solving: ";
+  App().Log().Log() << "Solving: ";
   auto petsc_solver = chi_math::PETScUtils::CreateCommonKrylovSolverSetup(
     A_,
     TextName(),
@@ -495,7 +498,7 @@ Solver::Execute()
   // Solve
   KSPSolve(petsc_solver.ksp, b_, x_);
 
-  Chi::log.Log() << "Done solving";
+  App().Log().Log() << "Done solving";
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
   sdm.LocalizePETScVector(x_, field_, OneDofPerNode);
@@ -595,7 +598,7 @@ Solver::MapFaceNodeDisc(const chi_mesh::Cell& cur_cell,
   throw std::logic_error("Solver::MapFaceNodeDisc: Mapping failure.");
 }
 
-#ifdef OPENSN_WITH_LUA
+#if 0
 double
 Solver::CallLua_iXYZFunction(lua_State* L,
                              const std::string& lua_func_name,

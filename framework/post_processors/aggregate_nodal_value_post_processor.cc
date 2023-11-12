@@ -1,7 +1,6 @@
 #include "framework/post_processors/aggregate_nodal_value_post_processor.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
-
 #include "framework/physics/field_function/field_function_grid_based.h"
 #include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
@@ -32,10 +31,11 @@ AggregateNodalValuePostProcessor::GetInputParameters()
   return params;
 }
 
-AggregateNodalValuePostProcessor::AggregateNodalValuePostProcessor(const InputParameters& params)
-  : PostProcessor(params, PPType::SCALAR),
-    chi_physics::GridBasedFieldFunctionInterface(params),
-    chi_mesh::LogicalVolumeInterface(params),
+AggregateNodalValuePostProcessor::AggregateNodalValuePostProcessor(opensn::App& app,
+                                                                   const InputParameters& params)
+  : PostProcessor(app, params, PPType::SCALAR),
+    chi_physics::GridBasedFieldFunctionInterface(app, params),
+    chi_mesh::LogicalVolumeInterface(app, params),
     operation_(params.GetParamValue<std::string>("operation"))
 {
 }
@@ -43,7 +43,7 @@ AggregateNodalValuePostProcessor::AggregateNodalValuePostProcessor(const InputPa
 void
 AggregateNodalValuePostProcessor::Initialize()
 {
-  const auto* grid_field_function = GetGridBasedFieldFunction();
+  auto grid_field_function = GetGridBasedFieldFunction();
 
   ChiLogicalErrorIf(not grid_field_function,
                     "Attempted to access invalid field"
@@ -51,8 +51,8 @@ AggregateNodalValuePostProcessor::Initialize()
 
   const auto& grid = grid_field_function->GetSpatialDiscretization().Grid();
 
-  const auto* logical_volume_ptr_ = GetLogicalVolume();
-  if (logical_volume_ptr_ == nullptr)
+  auto logical_volume_ptr = GetLogicalVolume();
+  if (logical_volume_ptr == nullptr)
   {
     cell_local_ids_.reserve(grid.local_cells.size());
     for (const auto& cell : grid.local_cells)
@@ -61,7 +61,7 @@ AggregateNodalValuePostProcessor::Initialize()
   else
   {
     for (const auto& cell : grid.local_cells)
-      if (logical_volume_ptr_->Inside(cell.centroid_)) cell_local_ids_.push_back(cell.local_id_);
+      if (logical_volume_ptr->Inside(cell.centroid_)) cell_local_ids_.push_back(cell.local_id_);
   }
 
   initialized_ = true;
@@ -72,7 +72,7 @@ AggregateNodalValuePostProcessor::Execute(const Event& event_context)
 {
   if (not initialized_) Initialize();
 
-  const auto* grid_field_function = GetGridBasedFieldFunction();
+  auto grid_field_function = GetGridBasedFieldFunction();
 
   ChiLogicalErrorIf(not grid_field_function,
                     "Attempted to access invalid field"
@@ -123,21 +123,28 @@ AggregateNodalValuePostProcessor::Execute(const Event& event_context)
   if (operation_ == "max")
   {
     double globl_max_value;
-    MPI_Allreduce(&local_max_value, &globl_max_value, 1, MPI_DOUBLE, MPI_MAX, Chi::mpi.comm);
+    MPI_Allreduce(
+      &local_max_value, &globl_max_value, 1, MPI_DOUBLE, MPI_MAX, PostProcessor::App().Comm());
 
     value_ = ParameterBlock("", globl_max_value);
   }
   else if (operation_ == "min")
   {
     double globl_min_value;
-    MPI_Allreduce(&local_min_value, &globl_min_value, 1, MPI_DOUBLE, MPI_MIN, Chi::mpi.comm);
+    MPI_Allreduce(
+      &local_min_value, &globl_min_value, 1, MPI_DOUBLE, MPI_MIN, PostProcessor::App().Comm());
 
     value_ = ParameterBlock("", globl_min_value);
   }
   else if (operation_ == "avg")
   {
     double globl_accumulation;
-    MPI_Allreduce(&local_accumulation, &globl_accumulation, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    MPI_Allreduce(&local_accumulation,
+                  &globl_accumulation,
+                  1,
+                  MPI_DOUBLE,
+                  MPI_SUM,
+                  PostProcessor::App().Comm());
 
     const size_t num_globl_dofs =
       ref_ff.GetSpatialDiscretization().GetNumGlobalDOFs(ref_ff.GetUnknownManager());

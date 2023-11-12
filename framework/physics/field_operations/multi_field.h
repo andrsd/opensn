@@ -29,7 +29,7 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**Constructor.*/
-  explicit MultiFieldOperation(const chi::InputParameters& params);
+  explicit MultiFieldOperation(opensn::App& app, const chi::InputParameters& params);
 
   void Execute() override;
 };

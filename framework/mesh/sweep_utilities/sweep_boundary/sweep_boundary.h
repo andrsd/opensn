@@ -23,6 +23,7 @@ enum class BoundaryType
 class SweepBoundary
 {
 private:
+  opensn::App& app_;
   const chi_mesh::sweep_management::BoundaryType type_;
   const chi_math::CoordinateSystemType coord_type_;
   double evaluation_time_ = 0.0; ///< Time value passed to boundary functions
@@ -31,15 +32,19 @@ protected:
   size_t num_groups_;
 
 public:
-  explicit SweepBoundary(BoundaryType bndry_type,
+  explicit SweepBoundary(opensn::App& app,
+                         BoundaryType bndry_type,
                          size_t in_num_groups,
                          chi_math::CoordinateSystemType coord_type)
-    : type_(bndry_type), coord_type_(coord_type), num_groups_(in_num_groups)
+    : app_(app), type_(bndry_type), coord_type_(coord_type), num_groups_(in_num_groups)
   {
     zero_boundary_flux_.resize(num_groups_, 0.0);
   }
 
   virtual ~SweepBoundary() = default;
+
+  opensn::App& App() const { return app_; }
+
   BoundaryType Type() const { return type_; }
   chi_math::CoordinateSystemType CoordType() const { return coord_type_; }
   bool IsReflecting() const { return type_ == BoundaryType::REFLECTING; }

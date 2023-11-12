@@ -9,7 +9,7 @@ class CrankNicolsonTimeIntegration : public ThetaSchemeTimeIntegration
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit CrankNicolsonTimeIntegration(const chi::InputParameters& params);
+  explicit CrankNicolsonTimeIntegration(opensn::App& app, const chi::InputParameters& params);
 };
 
 } // namespace chi_math

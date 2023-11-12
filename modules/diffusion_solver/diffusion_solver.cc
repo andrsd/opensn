@@ -2,26 +2,27 @@
 #include "framework/logging/log.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-#include "framework/math/spatial_discretization/cell_mappings/piecewise_linear_base_mapping.h"
 #include "framework/physics/physics_material/physics_material.h"
 #include "framework/physics/physics_material/material_property_scalar_value.h"
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/mpi/mpi.h"
 #include "framework/utils/timer.h"
 
 namespace chi_diffusion
 {
 
-Solver::Solver(const std::string& in_solver_name)
-  : chi_physics::Solver(in_solver_name,
+Solver::Solver(opensn::App& app, const std::string& in_solver_name)
+  : chi_physics::Solver(app,
+                        in_solver_name,
                         {{"discretization_method", std::string("None")},
                          {"max_iters", int64_t(500)},
                          {"residual_tolerance", 1.0e-8},
                          {"property_map_D", int64_t(0)},
                          {"property_map_q", int64_t(1)},
-                         {"property_map_sigma", int64_t(2)}})
+                         {"property_map_sigma", int64_t(2)}}),
+    unknown_manager_(app)
 {
 }
 
@@ -43,28 +44,28 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
                               int moment)
 {
   uint64_t cell_glob_index = cell.global_id_;
-  bool cell_is_local = (cell.partition_id_ == Chi::mpi.location_id);
+  bool cell_is_local = (cell.partition_id_ == App().LocationID());
   uint64_t cell_local_id = cell.local_id_;
   int mat_id = cell.material_id_;
 
   if (mat_id < 0)
   {
-    Chi::log.Log0Error() << "Cell encountered with no material id. ";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().Log0Error() << "Cell encountered with no material id. ";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
-  if (mat_id >= Chi::material_stack.size())
+  if (mat_id >= App().MaterialStack().size())
   {
-    Chi::log.Log0Error() << "Cell encountered with material id pointing to "
-                            "non-existing material.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().Log0Error() << "Cell encountered with material id pointing to "
+                               "non-existing material.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   auto property_map_D = basic_options_("property_map_D").IntegerValue();
   auto property_map_q = basic_options_("property_map_q").IntegerValue();
   auto property_map_sigma = basic_options_("property_map_sigma").IntegerValue();
 
-  auto material = Chi::GetStackItemPtr(Chi::material_stack, mat_id, __FUNCTION__);
+  auto material = App().GetMaterial(mat_id, __FUNCTION__);
 
   // Process material properties
   diffCoeff.resize(cell_dofs, 1.0);
@@ -77,10 +78,10 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
     // We absolutely need the diffusion coefficient so process error
     if ((property_map_D < 0) || (property_map_D >= material->properties_.size()))
     {
-      Chi::log.Log0Error() << "Solver diffusion coefficient mapped to property index "
-                           << property_map_D << " is not a valid index for material \""
-                           << material->name_ << "\" id " << mat_id;
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().Log0Error() << "Solver diffusion coefficient mapped to property index "
+                              << property_map_D << " is not a valid index for material \""
+                              << material->name_ << "\" id " << mat_id;
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     // For now, we can only support scalar values so lets check that
@@ -90,12 +91,12 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
     }
     else
     {
-      Chi::log.Log0Error() << "Solver diffusion coefficient mapped to property index "
-                           << property_map_D << " is not a valid property type"
-                           << " for material \"" << material->name_ << "\" id " << mat_id
-                           << ". Currently SCALAR_VALUE and THERMAL_CONDUCTIVITY are the "
-                           << "only supported types.";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().Log0Error() << "Solver diffusion coefficient mapped to property index "
+                              << property_map_D << " is not a valid property type"
+                              << " for material \"" << material->name_ << "\" id " << mat_id
+                              << ". Currently SCALAR_VALUE and THERMAL_CONDUCTIVITY are the "
+                              << "only supported types.";
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     if ((property_map_q < material->properties_.size()) && (property_map_q >= 0))
@@ -107,12 +108,12 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
       }
       else
       {
-        Chi::log.Log0Error() << "Source value mapped to property index " << property_map_q
-                             << " is not a valid property type"
-                             << " for material \"" << material->name_ << "\" id " << mat_id
-                             << ". Currently SCALAR_VALUE is the "
-                             << "only supported type.";
-        Chi::Exit(EXIT_FAILURE);
+        App().Log().Log0Error() << "Source value mapped to property index " << property_map_q
+                                << " is not a valid property type"
+                                << " for material \"" << material->name_ << "\" id " << mat_id
+                                << ". Currently SCALAR_VALUE is the "
+                                << "only supported type.";
+        opensn::App::Exit(EXIT_FAILURE);
       }
     }
 
@@ -143,9 +144,9 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
 
     if (!transportxs_found)
     {
-      Chi::log.LogAllError() << "Diffusion Solver: Material encountered with no tranport xs"
-                                " yet material mode is DIFFUSION_MATERIALS_FROM_TRANSPORTXS.";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << "Diffusion Solver: Material encountered with no tranport xs"
+                                   " yet material mode is DIFFUSION_MATERIALS_FROM_TRANSPORTXS.";
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     // Setting Q
@@ -158,26 +159,26 @@ Solver::GetMaterialProperties(const chi_mesh::Cell& cell,
       }
       else
       {
-        Chi::log.Log0Error() << "Source value mapped to property index " << property_map_q
-                             << " is not a valid property type"
-                             << " for material \"" << material->name_ << "\" id " << mat_id
-                             << ". Currently SCALAR_VALUE is the "
-                             << "only supported type.";
-        Chi::Exit(EXIT_FAILURE);
+        App().Log().Log0Error() << "Source value mapped to property index " << property_map_q
+                                << " is not a valid property type"
+                                << " for material \"" << material->name_ << "\" id " << mat_id
+                                << ". Currently SCALAR_VALUE is the "
+                                << "only supported type.";
+        opensn::App::Exit(EXIT_FAILURE);
       }
     }
   } // transport xs TTR
   else
   {
-    Chi::log.Log0Error() << "Diffusion Solver: Invalid material mode.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().Log0Error() << "Diffusion Solver: Invalid material mode.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 }
 
 void
 Solver::UpdateFieldFunctions()
 {
-  Chi::log.LogAll() << "Updating field functions" << std::endl;
+  App().Log().LogAll() << "Updating field functions" << std::endl;
   auto& ff = *field_functions_.front();
   const auto& OneDofPerNode = discretization_->UNITARY_UNKNOWN_MANAGER;
 
@@ -191,7 +192,7 @@ void
 Solver::InitializeCommonItems()
 {
   const std::string fname = "Solver::InitializeCommonItems";
-  grid_ptr_ = chi_mesh::GetCurrentHandler().GetGrid();
+  grid_ptr_ = App().GetCurrentMeshHandler()->GetGrid();
 
   if (grid_ptr_ == nullptr) throw std::logic_error(fname + " No grid defined.");
 
@@ -214,14 +215,14 @@ Solver::InitializeCommonItems()
         case BoundaryType::Reflecting:
         {
           boundaries_.insert(std::make_pair(bndry_id, new BoundaryReflecting()));
-          Chi::log.Log() << "Boundary \"" << bndry_name << "\" set to reflecting.";
+          App().Log().Log() << "Boundary \"" << bndry_name << "\" set to reflecting.";
           break;
         }
         case BoundaryType::Dirichlet:
         {
           if (bndry_vals.empty()) bndry_vals.resize(1, 0.0);
           boundaries_.insert(std::make_pair(bndry_id, new BoundaryDirichlet(bndry_vals[0])));
-          Chi::log.Log() << "Boundary \"" << bndry_name << "\" set to dirichlet.";
+          App().Log().Log() << "Boundary \"" << bndry_name << "\" set to dirichlet.";
           break;
         }
         case BoundaryType::Robin:
@@ -229,13 +230,13 @@ Solver::InitializeCommonItems()
           if (bndry_vals.size() < 3) bndry_vals.resize(3, 0.0);
           boundaries_.insert(std::make_pair(
             bndry_id, new BoundaryRobin(bndry_vals[0], bndry_vals[1], bndry_vals[2])));
-          Chi::log.Log() << "Boundary \"" << bndry_name << "\" set to robin.";
+          App().Log().Log() << "Boundary \"" << bndry_name << "\" set to robin.";
           break;
         }
         case BoundaryType::Vacuum:
         {
           boundaries_.insert(std::make_pair(bndry_id, new BoundaryRobin(0.25, 0.5, 0.0)));
-          Chi::log.Log() << "Boundary \"" << bndry_name << "\" set to vacuum.";
+          App().Log().Log() << "Boundary \"" << bndry_name << "\" set to vacuum.";
           break;
         }
         case BoundaryType::Neumann:
@@ -243,7 +244,7 @@ Solver::InitializeCommonItems()
           if (bndry_vals.size() < 3) bndry_vals.resize(3, 0.0);
           boundaries_.insert(std::make_pair(
             bndry_id, new BoundaryRobin(bndry_vals[0], bndry_vals[1], bndry_vals[2])));
-          Chi::log.Log() << "Boundary \"" << bndry_name << "\" set to neumann.";
+          App().Log().Log() << "Boundary \"" << bndry_name << "\" set to neumann.";
           break;
         }
       } // switch boundary type
@@ -251,8 +252,8 @@ Solver::InitializeCommonItems()
     else
     {
       boundaries_.insert(std::make_pair(bndry_id, new BoundaryDirichlet()));
-      Chi::log.Log0Verbose1() << "No boundary preference found for boundary \"" << bndry_name
-                              << "\" Dirichlet boundary added with zero boundary value.";
+      App().Log().Log0Verbose1() << "No boundary preference found for boundary \"" << bndry_name
+                                 << "\" Dirichlet boundary added with zero boundary value.";
     }
   } // for neighbor_id_
 
@@ -262,9 +263,9 @@ Solver::InitializeCommonItems()
 int
 Solver::Initialize(bool verbose)
 {
-  Chi::log.Log() << "\n"
-                 << Chi::program_timer.GetTimeString() << " " << TextName()
-                 << ": Initializing Diffusion solver ";
+  App().Log().Log() << "\n"
+                    << App().ProgramTimer().GetTimeString() << " " << TextName()
+                    << ": Initializing Diffusion solver ";
   this->verbose_info_ = verbose;
 
   if (not common_items_initialized_) InitializeCommonItems(); // Mostly boundaries
@@ -307,13 +308,13 @@ Solver::Initialize(bool verbose)
     unit_integrals_.insert(std::make_pair(global_id, UnitIntegralContainer::Make(cell_mapping)));
   }
 
-  MPI_Barrier(Chi::mpi.comm);
+  MPI_Barrier(App().Comm());
   auto& sdm = discretization_;
 
   // Get DOF counts
   local_dof_count_ = sdm->GetNumLocalDOFs(unknown_manager_);
   global_dof_count_ = sdm->GetNumGlobalDOFs(unknown_manager_);
-  Chi::log.Log() << TextName() << ": Global number of DOFs=" << global_dof_count_;
+  App().Log().Log() << TextName() << ": Global number of DOFs=" << global_dof_count_;
 
   // Initialize discretization method
   if (field_functions_.empty())
@@ -326,21 +327,21 @@ Solver::Initialize(bool verbose)
 
     using namespace chi_math;
     auto initial_field_function = std::make_shared<chi_physics::FieldFunctionGridBased>(
-      text_name, sdm_ptr, Unknown(UnknownType::SCALAR));
+      App(), text_name, sdm_ptr, Unknown(UnknownType::SCALAR));
 
     field_functions_.push_back(initial_field_function);
-    Chi::field_function_stack.push_back(initial_field_function);
+    App().FieldFunctionStack().push_back(initial_field_function);
   } // if not ff set
 
   // Determine nodal DOF
-  Chi::log.Log() << "Building sparsity pattern.";
+  App().Log().Log() << "Building sparsity pattern.";
   std::vector<int64_t> nodal_nnz_in_diag;
   std::vector<int64_t> nodal_nnz_off_diag;
   sdm->BuildSparsityPattern(nodal_nnz_in_diag, nodal_nnz_off_diag, unknown_manager_);
 
-  Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                 << ": Diffusion Solver initialization time " << t_init.GetTime() / 1000.0
-                 << std::endl;
+  App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                    << ": Diffusion Solver initialization time " << t_init.GetTime() / 1000.0
+                    << std::endl;
 
   // Initialize x and b
   ierr_ = VecCreate(PETSC_COMM_WORLD, &x_);
@@ -371,7 +372,7 @@ Solver::Initialize(bool verbose)
   CHKERRQ(ierr_);
 
   // Allocate matrix memory
-  Chi::log.Log() << "Setting matrix preallocation.";
+  App().Log().Log() << "Setting matrix preallocation.";
   MatMPIAIJSetPreallocation(A_, 0, nodal_nnz_in_diag.data(), 0, nodal_nnz_off_diag.data());
   MatSetOption(A_, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);
   MatSetOption(A_, MAT_IGNORE_ZERO_ENTRIES, PETSC_TRUE);
@@ -460,9 +461,9 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
 {
   t_assembly_.Reset();
 
-  if (Chi::material_stack.empty())
+  if (App().MaterialStack().empty())
   {
-    Chi::log.Log0Error() << "No materials added to simulation. Add materials.";
+    App().Log().Log0Error() << "No materials added to simulation. Add materials.";
     exit(0);
   }
 
@@ -470,8 +471,8 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
   VecSet(b_, 0.0);
 
   if (!suppress_assembly)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Assembling A locally";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Assembling A locally";
 
   // Loop over locally owned cells
   auto fem_method = basic_options_("discretization_method").StringValue();
@@ -493,25 +494,25 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
   }
   else
   {
-    Chi::log.Log() << "Diffusion Solver: Finite Element Discretization "
-                      "method not specified.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().Log() << "Diffusion Solver: Finite Element Discretization "
+                         "method not specified.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   if (!suppress_assembly)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Done Assembling A locally";
-  MPI_Barrier(Chi::mpi.comm);
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Done Assembling A locally";
+  MPI_Barrier(App().Comm());
 
   // Call matrix assembly
-  if (verbose_info_ || Chi::log.GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Communicating matrix assembly";
+  if (verbose_info_ || App().Log().GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Communicating matrix assembly";
 
   if (!suppress_assembly)
   {
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Assembling A globally";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Assembling A globally";
     MatAssemblyBegin(A_, MAT_FINAL_ASSEMBLY);
     MatAssemblyEnd(A_, MAT_FINAL_ASSEMBLY);
 
@@ -520,31 +521,32 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
     //    ierr = MatIsSymmetric(A,1.0e-4,&is_symmetric);
     //    if (!is_symmetric)
     //    {
-    //      chi::log.Log0Warning()
+    //      App().Log().Log0Warning()
     //        << "Assembled matrix is not symmetric";
     //    }
 
     // Matrix diagonal check
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName() << ": Diagonal check";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Diagonal check";
     PetscBool missing_diagonal;
     PetscInt row;
     MatMissingDiagonal(A_, &missing_diagonal, &row);
     if (missing_diagonal)
-      Chi::log.LogAllError() << Chi::program_timer.GetTimeString() << " " << TextName()
-                             << ": Missing diagonal detected";
+      App().Log().LogAllError() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                                << ": Missing diagonal detected";
 
     // Matrix sparsity info
     MatInfo info;
     ierr_ = MatGetInfo(A_, MAT_GLOBAL_SUM, &info);
 
-    Chi::log.Log() << "Number of mallocs used = " << info.mallocs
-                   << "\nNumber of non-zeros allocated = " << info.nz_allocated
-                   << "\nNumber of non-zeros used = " << info.nz_used
-                   << "\nNumber of unneeded non-zeros = " << info.nz_unneeded;
+    App().Log().Log() << "Number of mallocs used = " << info.mallocs
+                      << "\nNumber of non-zeros allocated = " << info.nz_allocated
+                      << "\nNumber of non-zeros used = " << info.nz_used
+                      << "\nNumber of unneeded non-zeros = " << info.nz_unneeded;
   }
-  if (verbose_info_ || Chi::log.GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Assembling x and b";
+  if (verbose_info_ || App().Log().GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Assembling x and b";
   VecAssemblyBegin(x_);
   VecAssemblyEnd(x_);
   VecAssemblyBegin(b_);
@@ -555,16 +557,16 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
   // Execute solve
   if (suppress_solve)
   {
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                   << ": Setting up solver and preconditioner\n";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                      << ": Setting up solver and preconditioner\n";
     PCSetUp(pc_);
     KSPSetUp(ksp_);
   }
   else
   {
-    if (verbose_info_ || Chi::log.GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
-      Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName()
-                     << ": Solving system\n";
+    if (verbose_info_ || App().Log().GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
+      App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName()
+                        << ": Solving system\n";
     t_solve_.Reset();
     PCSetUp(pc_);
     KSPSetUp(ksp_);
@@ -587,29 +589,29 @@ Solver::ExecuteS(bool suppress_assembly, bool suppress_solve)
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp_, &reason);
     if (verbose_info_ || reason != KSP_CONVERGED_RTOL)
-      Chi::log.Log() << "Convergence reason: "
-                     << chi_physics::GetPETScConvergedReasonstring(reason);
+      App().Log().Log() << "Convergence reason: "
+                        << chi_physics::GetPETScConvergedReasonstring(reason);
 
     // Location wise view
-    if (Chi::mpi.location_id == 0)
+    if (App().LocationID() == 0)
     {
       int64_t its;
       ierr_ = KSPGetIterationNumber(ksp_, &its);
-      Chi::log.Log() << Chi::program_timer.GetTimeString() << " " << TextName() << "[g=" << gi_
-                     << "-" << gi_ + G_ - 1 << "]: Number of iterations =" << its;
+      App().Log().Log() << App().ProgramTimer().GetTimeString() << " " << TextName() << "[g=" << gi_
+                        << "-" << gi_ + G_ - 1 << "]: Number of iterations =" << its;
 
-      if (verbose_info_ || Chi::log.GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
+      if (verbose_info_ || App().Log().GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
       {
-        Chi::log.Log() << "Timing:";
-        Chi::log.Log() << "Assembling the matrix: " << time_assembly_;
-        Chi::log.Log() << "Solving the system   : " << time_solve_;
+        App().Log().Log() << "Timing:";
+        App().Log().Log() << "Assembling the matrix: " << time_assembly_;
+        App().Log().Log() << "Solving the system   : " << time_solve_;
       }
     }
 
     UpdateFieldFunctions();
 
-    if (verbose_info_ || Chi::log.GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
-      Chi::log.Log() << "Diffusion Solver execution completed!\n";
+    if (verbose_info_ || App().Log().GetVerbosity() >= chi::ChiLog::LOG_0VERBOSE_1)
+      App().Log().Log() << "Diffusion Solver execution completed!\n";
   } // if not suppressed solve
 
   return 0;
@@ -1142,8 +1144,8 @@ Solver::HPerpendicular(const chi_mesh::Cell& cell,
   } // Polyhedron
   else
   {
-    Chi::log.LogAllError() << "Unsupported cell type in call to HPerpendicular";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Unsupported cell type in call to HPerpendicular";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   return hp;

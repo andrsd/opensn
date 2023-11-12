@@ -11,9 +11,13 @@ class IsotropicMultiGrpSource : public chi_physics::MaterialProperty
 public:
   std::vector<double> source_value_g_;
 
-  IsotropicMultiGrpSource() : MaterialProperty(PropertyType::ISOTROPIC_MG_SOURCE) {}
+  IsotropicMultiGrpSource(opensn::App& app)
+    : MaterialProperty(app, PropertyType::ISOTROPIC_MG_SOURCE)
+  {
+  }
 
-#ifdef OPENSN_WITH_LUA
+  // FIXME
+#if 0
   void PushLuaTable(lua_State* L) const override
   {
     lua_newtable(L);

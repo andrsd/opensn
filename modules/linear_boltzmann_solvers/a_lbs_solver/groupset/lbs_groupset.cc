@@ -1,14 +1,10 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/groupset/lbs_groupset.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
+#include "framework/object_factory.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
-
 #include <fstream>
-
-#include "framework/object_factory.h"
 
 namespace lbs
 {
@@ -126,10 +122,11 @@ lbs::LBSGroupset::GetInputParameters()
   return params;
 }
 
-lbs::LBSGroupset::LBSGroupset(const chi::InputParameters& params,
+lbs::LBSGroupset::LBSGroupset(opensn::App& app,
+                              const chi::InputParameters& params,
                               const int id,
                               const LBSSolver& lbs_solver)
-  : ChiObject(params), id_(id)
+  : ChiObject(app, params), id_(id), psi_uk_man_(app)
 {
   const std::string fname = __FUNCTION__;
 
@@ -159,8 +156,7 @@ lbs::LBSGroupset::LBSGroupset(const chi::InputParameters& params,
 
   // Add quadrature
   const size_t quad_handle = params.GetParamValue<size_t>("angular_quadrature_handle");
-  quadrature_ = Chi::GetStackItemPtr<chi_math::AngularQuadrature>(
-    Chi::angular_quadrature_stack, quad_handle, fname);
+  quadrature_ = App().GetAngularQuadrature(quad_handle, fname);
 
   // Angle aggregation
   const auto angle_agg_typestr = params.GetParamValue<std::string>("angle_aggregation_type");
@@ -254,8 +250,8 @@ lbs::LBSGroupset::BuildSubsets()
     size_t ss = 0;
     for (const auto& info : grp_subset_infos_)
     {
-      Chi::log.Log() << "Groupset " << id_ << " has group-subset " << ss << " " << info.ss_begin
-                     << "->" << info.ss_end;
+      App().Log().Log() << "Groupset " << id_ << " has group-subset " << ss << " " << info.ss_begin
+                        << "->" << info.ss_end;
       ++ss;
     }
   }
@@ -270,7 +266,7 @@ lbs::LBSGroupset::PrintSweepInfoFile(size_t ev_tag, const std::string& file_name
   ofile.open(file_name, std::ofstream::out);
 
   ofile << "Groupset Sweep information "
-        << "location " << Chi::mpi.location_id << "\n";
+        << "location " << App().LocationID() << "\n";
 
   // Print all anglesets
   for (int q = 0; q < angle_agg_->angle_set_groups.size(); ++q)
@@ -296,7 +292,7 @@ lbs::LBSGroupset::PrintSweepInfoFile(size_t ev_tag, const std::string& file_name
   }
 
   // Print event history
-  ofile << Chi::log.PrintEventHistory(ev_tag);
+  ofile << App().Log().PrintEventHistory(ev_tag);
 
   ofile.close();
 }

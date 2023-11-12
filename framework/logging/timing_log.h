@@ -1,10 +1,16 @@
 #pragma once
 
+#include "framework/utils/timer.h"
 #include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
+
+namespace opensn
+{
+class App;
+}
 
 namespace chi
 {
@@ -15,6 +21,8 @@ class TimingBlock;
 class TimingLog
 {
 public:
+  explicit TimingLog(opensn::App& app) noexcept;
+
   /**Creates a time block and returns a reference to it. If the name
    * is already taken or the parent name is not found then this method
    * throws `std::invalid_argument`. The parent name may be empty, i.e. "",
@@ -31,8 +39,13 @@ public:
    * `std::invalid_argument`.*/
   TimingBlock& GetTimingBlock(const std::string& name);
 
+  opensn::App& App();
+
 protected:
   std::map<std::string, std::unique_ptr<TimingBlock>> timing_blocks_;
+
+private:
+  opensn::App& app_;
 };
 
 /**Hierarchical timing block to efficiently capture timing.*/
@@ -75,6 +88,7 @@ protected:
                         const std::string& indent) const;
 
   const std::string name_;
+  chi::Timer timer_;
   size_t num_occurences_ = 0;
   double total_time_ = 0.0;
   double reference_time_ = 0.0;

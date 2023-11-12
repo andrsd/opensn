@@ -1,7 +1,6 @@
 #include "framework/materials/mat_prop_scalarfuncXYZTV.h"
-
 #include "framework/object_factory.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 
 namespace chi
 {
@@ -26,10 +25,11 @@ MaterialPropertyScalarFuncXYZTV::GetInputParameters()
 
 typedef chi_math::FunctionDimAToDimB SFXYZV;
 
-MaterialPropertyScalarFuncXYZTV::MaterialPropertyScalarFuncXYZTV(const InputParameters& params)
-  : MaterialProperty(params),
-    function_(Chi::GetStackItem<SFXYZV>(
-      Chi::object_stack, params.GetParamValue<size_t>("function_handle"), __FUNCTION__)),
+MaterialPropertyScalarFuncXYZTV::MaterialPropertyScalarFuncXYZTV(opensn::App& app,
+                                                                 const InputParameters& params)
+  : MaterialProperty(app, params),
+    function_(
+      App().GetStackObject<SFXYZV>(params.GetParamValue<size_t>("function_handle"), __FUNCTION__)),
     dependent_variables_(params.GetParamVectorValue<std::string>("dependent_variables"))
 {
   printf("Test eval: %g %g\n", 400.0, Evaluate({400.0}));
@@ -40,7 +40,7 @@ MaterialPropertyScalarFuncXYZTV::MaterialPropertyScalarFuncXYZTV(const InputPara
 double
 MaterialPropertyScalarFuncXYZTV::Evaluate(const std::vector<double>& vars)
 {
-  return function_.Evaluate(vars).front();
+  return function_->Evaluate(vars).front();
 }
 
 } // namespace chi

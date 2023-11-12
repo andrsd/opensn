@@ -1,6 +1,6 @@
 #include "framework/math/spatial_discretization/finite_element/piecewise_linear/piecewise_linear_continuous.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/mpi/mpi.h"
@@ -29,10 +29,11 @@ PieceWiseLinearContinuous::New(const chi_mesh::MeshContinuum& grid,
                                CoordinateSystemType cs_type)
 
 {
+  opensn::App& app = grid.App();
   const auto PWLC = SpatialDiscretizationType::PIECEWISE_LINEAR_CONTINUOUS;
   // First try to find an existing spatial discretization that matches the
   // one requested.
-  for (auto& sdm : Chi::sdm_stack)
+  for (auto& sdm : app.SdmStack())
     if (sdm->Type() == PWLC and std::addressof(sdm->Grid()) == std::addressof(grid) and
         sdm->GetCoordinateSystemType() == cs_type)
     {
@@ -52,7 +53,7 @@ PieceWiseLinearContinuous::New(const chi_mesh::MeshContinuum& grid,
   auto new_sdm = std::shared_ptr<PieceWiseLinearContinuous>(
     new PieceWiseLinearContinuous(grid, q_order, cs_type));
 
-  Chi::sdm_stack.push_back(new_sdm);
+  app.SdmStack().push_back(new_sdm);
 
   return new_sdm;
 }
@@ -77,7 +78,7 @@ PieceWiseLinearContinuous::OrderNodes()
   typedef std::set<uint64_t> PSUBS;
   std::map<uint64_t, PSUBS> ls_node_ids_psubs;
   for (const uint64_t node_id : ls_node_ids_set)
-    ls_node_ids_psubs[node_id] = {static_cast<uint64_t>(Chi::mpi.location_id)};
+    ls_node_ids_psubs[node_id] = {static_cast<uint64_t>(App().LocationID())};
 
   // Now we add the partitions associated with the
   // ghost cells.
@@ -95,31 +96,31 @@ PieceWiseLinearContinuous::OrderNodes()
   std::map<uint64_t, std::vector<uint64_t>> nonlocal_node_ids_map;
   for (const uint64_t node_id : ls_node_ids_set)
   {
-    uint64_t smallest_partition_id = Chi::mpi.location_id;
+    uint64_t smallest_partition_id = App().LocationID();
     for (const uint64_t pid : ls_node_ids_psubs[node_id]) // pid = partition id
       smallest_partition_id = std::min(smallest_partition_id, pid);
 
-    if (smallest_partition_id == Chi::mpi.location_id) local_node_ids.push_back(node_id);
+    if (smallest_partition_id == App().LocationID()) local_node_ids.push_back(node_id);
     else
       nonlocal_node_ids_map[smallest_partition_id].push_back(node_id);
   }
 
   // Communicate node counts
   const uint64_t local_num_nodes = local_node_ids.size();
-  locJ_block_size_.assign(Chi::mpi.process_count, 0);
+  locJ_block_size_.assign(App().ProcessCount(), 0);
   MPI_Allgather(
-    &local_num_nodes, 1, MPI_UINT64_T, locJ_block_size_.data(), 1, MPI_UINT64_T, Chi::mpi.comm);
+    &local_num_nodes, 1, MPI_UINT64_T, locJ_block_size_.data(), 1, MPI_UINT64_T, App().Comm());
 
   // Build block addresses
-  locJ_block_address_.assign(Chi::mpi.process_count, 0);
+  locJ_block_address_.assign(App().ProcessCount(), 0);
   uint64_t global_num_nodes = 0;
-  for (int j = 0; j < Chi::mpi.process_count; ++j)
+  for (int j = 0; j < App().ProcessCount(); ++j)
   {
     locJ_block_address_[j] = global_num_nodes;
     global_num_nodes += locJ_block_size_[j];
   }
 
-  local_block_address_ = locJ_block_address_[Chi::mpi.location_id];
+  local_block_address_ = locJ_block_address_[App().LocationID()];
 
   local_base_block_size_ = local_num_nodes;
   globl_base_block_size_ = global_num_nodes;
@@ -227,17 +228,17 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
                 locJ_block_address_);
 
   // Writes a message on ir error
-  auto IR_MAP_ERROR = []()
+  auto IR_MAP_ERROR = [](opensn::App& app)
   {
-    Chi::log.LogAllError() << "PWL-MapCFEMDOF: ir Mapping error node ";
-    Chi::Exit(EXIT_FAILURE);
+    app.Log().LogAllError() << "PWL-MapCFEMDOF: ir Mapping error node ";
+    opensn::App::Exit(EXIT_FAILURE);
   };
 
   // Writes a message on jr error
-  auto JR_MAP_ERROR = []()
+  auto JR_MAP_ERROR = [](opensn::App& app)
   {
-    Chi::log.LogAllError() << "PWL-MapCFEMDOF: jr Mapping error node ";
-    Chi::Exit(EXIT_FAILURE);
+    app.Log().LogAllError() << "PWL-MapCFEMDOF: jr Mapping error node ";
+    opensn::App::Exit(EXIT_FAILURE);
   };
 
   // Checks whether an integer is already in a vector
@@ -256,7 +257,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   //**************************************** END OF UTILITIES
 
   // Build local sparsity pattern
-  Chi::log.Log0Verbose1() << "Building local sparsity pattern.";
+  App().Log().Log0Verbose1() << "Building local sparsity pattern.";
   std::vector<std::vector<int64_t>> nodal_connections(local_base_block_size_);
 
   nodal_nnz_in_diag.clear();
@@ -271,7 +272,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
     for (unsigned int i = 0; i < cell_mapping.NumNodes(); ++i)
     {
       const int64_t ir = MapDOF(cell, i);
-      if (ir < 0) IR_MAP_ERROR();
+      if (ir < 0) IR_MAP_ERROR(App());
 
       if (dof_handler.IsMapLocal(ir))
       {
@@ -281,7 +282,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
         for (unsigned int j = 0; j < cell_mapping.NumNodes(); ++j)
         {
           const int64_t jr = MapDOF(cell, j);
-          if (jr < 0) JR_MAP_ERROR();
+          if (jr < 0) JR_MAP_ERROR(App());
 
           if (IS_VALUE_IN_VECTOR(node_links, jr)) continue;
 
@@ -295,7 +296,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   }       // for cell
 
   // Build non-local sparsity pattern
-  Chi::log.Log0Verbose1() << "Building non-local sparsity pattern.";
+  App().Log().Log0Verbose1() << "Building non-local sparsity pattern.";
 
   // In this process we build a list
   // of ir-nodes that are not local. Each ir-node needs to
@@ -311,7 +312,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
     for (unsigned int i = 0; i < cell_mapping.NumNodes(); ++i)
     {
       const int64_t ir = MapDOF(cell, i);
-      if (ir < 0) IR_MAP_ERROR();
+      if (ir < 0) IR_MAP_ERROR(App());
 
       if (not dof_handler.IsMapLocal(ir))
       {
@@ -333,7 +334,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
         for (unsigned int j = 0; j < cell_mapping.NumNodes(); ++j)
         {
           const int64_t jr = MapDOF(cell, j);
-          if (jr < 0) JR_MAP_ERROR();
+          if (jr < 0) JR_MAP_ERROR(App());
 
           if (IS_VALUE_IN_VECTOR(node_links, jr)) continue;
           else
@@ -352,11 +353,11 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   }     // for cell
 
   // Build communication structure
-  Chi::log.Log0Verbose1() << "Building communication structure.";
+  App().Log().Log0Verbose1() << "Building communication structure.";
 
   // Step 1
   // We now serialize the non-local data
-  std::vector<std::vector<int64_t>> locI_serialized(Chi::mpi.process_count);
+  std::vector<std::vector<int64_t>> locI_serialized(App().ProcessCount());
 
   for (const auto& ir_linkage : ir_links)
   {
@@ -372,26 +373,26 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   // Establish the size of the serialized data
   // to send to each location and communicate
   // to get receive count.
-  std::vector<int> sendcount(Chi::mpi.process_count, 0);
-  std::vector<int> recvcount(Chi::mpi.process_count, 0);
+  std::vector<int> sendcount(App().ProcessCount(), 0);
+  std::vector<int> recvcount(App().ProcessCount(), 0);
   int locI = 0;
   for (const auto& locI_data : locI_serialized)
   {
     sendcount[locI] = static_cast<int>(locI_data.size());
 
-    if (Chi::mpi.location_id == 0)
-      Chi::log.LogAllVerbose1() << "To send to " << locI << " = " << sendcount[locI];
+    if (App().LocationID() == 0)
+      App().Log().LogAllVerbose1() << "To send to " << locI << " = " << sendcount[locI];
 
     ++locI;
   }
 
-  MPI_Alltoall(sendcount.data(), 1, MPI_INT, recvcount.data(), 1, MPI_INT, Chi::mpi.comm);
+  MPI_Alltoall(sendcount.data(), 1, MPI_INT, recvcount.data(), 1, MPI_INT, App().Comm());
 
   // Step 3
   // We now establish send displacements and
   // receive displacements.
-  std::vector<int> send_displs(Chi::mpi.process_count, 0);
-  std::vector<int> recv_displs(Chi::mpi.process_count, 0);
+  std::vector<int> send_displs(App().ProcessCount(), 0);
+  std::vector<int> recv_displs(App().ProcessCount(), 0);
 
   int send_displ_c = 0;
   int recv_displ_c = 0;
@@ -410,7 +411,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   }
 
   // Communicate data
-  Chi::log.Log0Verbose1() << "Communicating non-local rows.";
+  App().Log().Log0Verbose1() << "Communicating non-local rows.";
 
   // We now initialize the buffers and
   // communicate the data
@@ -432,10 +433,10 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
                 recvcount.data(),
                 recv_displs.data(),
                 MPI_INT64_T,
-                Chi::mpi.comm);
+                App().Comm());
 
   // Deserialze data
-  Chi::log.Log0Verbose1() << "Deserialize data.";
+  App().Log().Log0Verbose1() << "Deserialize data.";
 
   std::vector<ROWJLINKS> foreign_ir_links;
 
@@ -458,7 +459,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
   {
     const int64_t ir = ir_linkage.first;
 
-    if (not dof_handler.IsMapLocal(ir)) IR_MAP_ERROR();
+    if (not dof_handler.IsMapLocal(ir)) IR_MAP_ERROR(App());
 
     int64_t il = dof_handler.MapIRLocal(ir);
     std::vector<int64_t>& node_links = nodal_connections[il];
@@ -474,7 +475,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(
     }
   }
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 
   // Spacing according to unknown manager
   auto backup_nnz_in_diag = nodal_nnz_in_diag;
@@ -536,7 +537,7 @@ PieceWiseLinearContinuous::MapDOF(const chi_mesh::Cell& cell,
   int64_t address = -1;
   if (storage == chi_math::UnknownStorageType::BLOCK)
   {
-    for (int locJ = 0; locJ < Chi::mpi.process_count; ++locJ)
+    for (int locJ = 0; locJ < App().ProcessCount(); ++locJ)
     {
       const int64_t local_id = global_id - sc_int64(locJ_block_address_[locJ]);
 
@@ -641,7 +642,7 @@ PieceWiseLinearContinuous::GetGhostDOFIndices(const chi_math::UnknownManager& un
         int64_t address = -1;
         if (storage == chi_math::UnknownStorageType::BLOCK)
         {
-          for (int locJ = 0; locJ < Chi::mpi.process_count; ++locJ)
+          for (int locJ = 0; locJ < App().ProcessCount(); ++locJ)
           {
             const int64_t local_id = global_id - sc_int64(locJ_block_address_[locJ]);
 

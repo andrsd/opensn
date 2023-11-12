@@ -21,7 +21,7 @@ public:
    * Constructor.
    * \param gs_context_ptr Context Pointer to abstract context.
    */
-  explicit WGSLinearSolver(WGSContextPtr gs_context_ptr);
+  explicit WGSLinearSolver(opensn::App& app, WGSContextPtr gs_context_ptr);
   ~WGSLinearSolver() override;
 
 protected:

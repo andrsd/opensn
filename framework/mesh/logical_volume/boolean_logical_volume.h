@@ -12,7 +12,7 @@ public:
   std::vector<std::pair<bool, std::shared_ptr<const LogicalVolume>>> parts;
 
   static chi::InputParameters GetInputParameters();
-  explicit BooleanLogicalVolume(const chi::InputParameters& params);
+  explicit BooleanLogicalVolume(opensn::App& app, const chi::InputParameters& params);
 
   bool Inside(const chi_mesh::Vector3& point) const override;
 };

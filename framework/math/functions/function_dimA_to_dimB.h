@@ -7,7 +7,8 @@ namespace chi_math
 {
 typedef std::function<double(double)> ScalarScalarFunction;
 typedef std::function<double(double, double, double, double)> ScalarXYZTFunction;
-class FunctionDimAToDimB : public ChiObject
+
+class FunctionDimAToDimB : public chi::ChiObject
 {
 private:
   const size_t input_dimension_;
@@ -15,7 +16,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit FunctionDimAToDimB(const chi::InputParameters& params);
+  explicit FunctionDimAToDimB(opensn::App& app, const chi::InputParameters& params);
 
   size_t InputDimension() const { return input_dimension_; }
   size_t OutputDimension() const { return output_dimension_; }

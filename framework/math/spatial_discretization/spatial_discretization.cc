@@ -1,8 +1,6 @@
 #include "framework/math/spatial_discretization/spatial_discretization.h"
-
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
-
 #include "framework/logging/log.h"
 
 namespace chi_math
@@ -11,11 +9,18 @@ namespace chi_math
 SpatialDiscretization::SpatialDiscretization(const chi_mesh::MeshContinuum& grid,
                                              CoordinateSystemType cs_type,
                                              SDMType sdm_type)
-  : UNITARY_UNKNOWN_MANAGER({std::make_pair(chi_math::UnknownType::SCALAR, 0)}),
+  : app_(grid.App()),
+    UNITARY_UNKNOWN_MANAGER(app_, {std::make_pair(chi_math::UnknownType::SCALAR, 0)}),
     ref_grid_(grid),
     coord_sys_type_(cs_type),
     type_(sdm_type)
 {
+}
+
+opensn::App&
+SpatialDiscretization::App() const
+{
+  return app_;
 }
 
 const CellMapping&

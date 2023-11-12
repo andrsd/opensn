@@ -18,12 +18,13 @@ public:
    * \param groupspan_first_id int First group index.
    * \param groupspan_last_id int Last group index.
    * \param verbose bool Flag to enable verbose output.*/
-  AGSLinearSolver(std::string iterative_method,
+  AGSLinearSolver(opensn::App& app,
+                  std::string iterative_method,
                   AGSContextPtr ags_context_ptr,
                   int groupspan_first_id,
                   int groupspan_last_id,
                   bool verbose = true)
-    : chi_math::LinearSolver(std::move(iterative_method), ags_context_ptr),
+    : chi_math::LinearSolver(app, std::move(iterative_method), ags_context_ptr),
       groupspan_first_id_(groupspan_first_id),
       groupspan_last_id_(groupspan_last_id),
       verbose_(verbose)

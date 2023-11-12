@@ -1,5 +1,4 @@
 #include "framework/math/quadratures/sldfesq/sldfe_sq.h"
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/math/quadratures/legendre_poly/legendrepoly.h"
@@ -68,23 +67,26 @@ SimplifiedLDFESQ::Quadrature::GenerateInitialRefinement(int level)
   }
   double area_avg = total_area / initial_octant_SQs_.size();
 
-  if (negative_weights_found)
-    Chi::log.Log0Warning() << "SLDFESQ Quadrature detected negative weights.";
+  // FIXME: make this work
+  // if (negative_weights_found)
+  //   Chi::log.Log0Warning() << "SLDFESQ Quadrature detected negative weights.";
 
+  // FIXME: make this work
   // Print Statistics
-  double time = timer.GetTime() / 1000.0;
-  Chi::log.Log0Verbose1() << "Number of dirs/octant: " << initial_octant_SQs_.size();
-  Chi::log.Log0Verbose1() << "Total weight         : " << total_area;
-  Chi::log.Log0Verbose1() << "Total weight/(pi/2)  : " << total_area / M_PI_2;
-  Chi::log.Log0Verbose1() << "Area Max/Min         : " << area_max / area_min;
-  Chi::log.Log0Verbose1() << "Area Max/Avg         : " << area_max / area_avg;
+  // double time = timer.GetTime() / 1000.0;
+  // Chi::log.Log0Verbose1() << "Number of dirs/octant: " << initial_octant_SQs_.size();
+  // Chi::log.Log0Verbose1() << "Total weight         : " << total_area;
+  // Chi::log.Log0Verbose1() << "Total weight/(pi/2)  : " << total_area / M_PI_2;
+  // Chi::log.Log0Verbose1() << "Area Max/Min         : " << area_max / area_min;
+  // Chi::log.Log0Verbose1() << "Area Max/Avg         : " << area_max / area_avg;
 
   CopyToAllOctants();
 
   // Populate quadriture points
   PopulateQuadratureAbscissae();
 
-  Chi::log.Log0Verbose1() << "Time taken           : " << time;
+  // FIXME: make this work
+  // Chi::log.Log0Verbose1() << "Time taken           : " << time;
 }
 
 void
@@ -142,7 +144,7 @@ SimplifiedLDFESQ::Quadrature::GenerateReferenceFaceVertices(
   int Ns = (level + 1); // Number of subdivisions
   int Np = Ns + 1;      // Number of diagonal points
 
-  QuadratureGaussLegendre legendre(QuadratureOrder::THIRTYSECOND);
+  QuadratureGaussLegendre legendre(App(), QuadratureOrder::THIRTYSECOND);
 
   // Generate xy_tilde values
   std::vector<VertList> vertices_xy_tilde_ij;
@@ -257,7 +259,8 @@ SimplifiedLDFESQ::Quadrature::IsolatedQPOptimization(
   auto weights = ComputeWeights(rho);
 
   // Apply algorithm
-  Chi::log.Log() << "=================================================== ";
+  // FIXME: make this work
+  // Chi::log.Log() << "=================================================== ";
   for (int k = 0; k < 150; ++k) // iteration
   {
     //    constexpr int N = 4;
@@ -295,13 +298,13 @@ SimplifiedLDFESQ::Quadrature::IsolatedQPOptimization(
     for (int i = 0; i < 4; ++i)
       change = std::fabs((weights[i] - SA_i[i]) / weights[i]);
 
-    Chi::log.Log() << "Weights: " << weights[0] << " " << weights[1] << " " << weights[2] << " "
-                   << weights[3] << " ";
-    Chi::log.Log() << "Areas: " << SA_i[0] << " " << SA_i[1] << " " << SA_i[2] << " " << SA_i[3]
-                   << "\n";
-    Chi::log.Log() << "rhos: " << rho[0] << " " << rho[1] << " " << rho[2] << " " << rho[3] << "\n";
-    Chi::log.Log() << k << " " << std::fabs(change);
-    Chi::log.Log() << "  ";
+    // FIXME: make this work
+    // Chi::log.Log() << "Weights: " << weights[0] << " " << weights[1] << " " << weights[2] << " "
+    //                << weights[3] << " ";
+    // Chi::log.Log() << "Areas: " << SA_i[0] << " " << SA_i[1] << " " << SA_i[2] << " " << SA_i[3]
+    //                << "\n";
+    // Chi::log.Log() << "rhos: " << rho[0] << " " << rho[1] << " " << rho[2] << " " << rho[3] <<
+    // "\n"; Chi::log.Log() << k << " " << std::fabs(change); Chi::log.Log() << "  ";
 
     if (rho_change_total < 1.0e-2) break;
     //    if (std::fabs(change) < 1.0e-2) break;
@@ -793,15 +796,17 @@ SimplifiedLDFESQ::Quadrature::TestIntegration(int test_case, double ref_solution
            h,
            std::fabs((I_riemann - I_quadrature) / ref_solution));
 
-  Chi::log.Log() << buff0;
-  Chi::log.Log() << buff1;
-  Chi::log.Log() << buff2;
+  // FIXME: make this work
+  // Chi::log.Log() << buff0;
+  // Chi::log.Log() << buff1;
+  // Chi::log.Log() << buff2;
 }
 
 void
 SimplifiedLDFESQ::Quadrature::PrintQuadratureToFile()
 {
-  Chi::log.Log() << "Printing SLDFE-Quadrature to file.";
+  // FIXME: make this work
+  // Chi::log.Log() << "Printing SLDFE-Quadrature to file.";
 
   std::ofstream vert_file, cell_file, points_file, python_file;
   vert_file.open(output_filename_prefix_ + "verts.txt");
@@ -958,7 +963,8 @@ SimplifiedLDFESQ::Quadrature::PrintQuadratureToFile()
                  "plt.show()\n";
   python_file.close();
 
-  Chi::log.Log() << "Done printing SLDFE-Quadrature to file.";
+  // FIXME: make this work
+  // Chi::log.Log() << "Done printing SLDFE-Quadrature to file.";
 }
 
 std::array<SimplifiedLDFESQ::SphericalQuadrilateral, 4>
@@ -1039,7 +1045,7 @@ SimplifiedLDFESQ::Quadrature::LocallyRefine(const chi_mesh::Vector3& ref_dir,
   std::vector<SphericalQuadrilateral> new_deployment;
   new_deployment.reserve(deployed_SQs_.size());
 
-  QuadratureGaussLegendre legendre(QuadratureOrder::THIRTYSECOND);
+  QuadratureGaussLegendre legendre(App(), QuadratureOrder::THIRTYSECOND);
 
   int num_refined = 0;
   for (auto& sq : deployed_SQs_)
@@ -1066,7 +1072,8 @@ SimplifiedLDFESQ::Quadrature::LocallyRefine(const chi_mesh::Vector3& ref_dir,
 
   PopulateQuadratureAbscissae();
 
-  Chi::log.Log() << "SLDFESQ refined " << num_refined << " SQs.";
+  // FIXME: make this work
+  // Chi::log.Log() << "SLDFESQ refined " << num_refined << " SQs.";
 }
 
 } // namespace chi_math

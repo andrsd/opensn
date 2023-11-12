@@ -4,12 +4,10 @@
 #include "framework/mesh/sweep_utilities/communicators/aah_asyn_comm.h"
 #include "framework/mesh/sweep_utilities/sweep_boundary/sweep_boundary.h"
 #include "framework/mesh/sweep_utilities/fluds/fluds.h"
-
 #include "framework/mpi/mpi.h"
+#include <memory>
 
 typedef chi_mesh::sweep_management::SweepBoundary SweepBndry;
-
-#include <memory>
 
 namespace chi_mesh::sweep_management
 {
@@ -28,6 +26,7 @@ public:
            std::map<uint64_t, SweepBndryPtr>& sim_boundaries,
            size_t in_ref_subset);
 
+  opensn::App& App() const;
   /**Returns the angleset's unique id.*/
   size_t GetID() const;
   /**Returns a reference to the associated spds.*/

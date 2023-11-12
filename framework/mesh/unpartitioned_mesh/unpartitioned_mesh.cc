@@ -1,7 +1,6 @@
 #include "framework/mesh/unpartitioned_mesh/unpartitioned_mesh.h"
 #include "framework/mesh/cell/cell.h"
 #include "framework/mesh/mesh_continuum/grid_vtk_utils.h"
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/mpi/mpi.h"
@@ -29,13 +28,23 @@
 namespace chi_mesh
 {
 
+UnpartitionedMesh::UnpartitionedMesh(opensn::App& app) : app_(app)
+{
+}
+
 UnpartitionedMesh::~UnpartitionedMesh()
 {
   for (auto& cell : raw_cells_)
     delete cell;
   for (auto& cell : raw_boundary_cells_)
     delete cell;
-  Chi::log.Log0Verbose1() << "Unpartitioned Mesh destructor called";
+  App().Log().Log0Verbose1() << "Unpartitioned Mesh destructor called";
+}
+
+opensn::App&
+UnpartitionedMesh::App() const
+{
+  return app_;
 }
 
 void
@@ -43,7 +52,7 @@ UnpartitionedMesh::ComputeCentroidsAndCheckQuality()
 {
   const Vector3 khat(0.0, 0.0, 1.0);
 
-  Chi::log.Log0Verbose1() << "Computing cell-centroids.";
+  App().Log().Log0Verbose1() << "Computing cell-centroids.";
   for (auto cell : raw_cells_)
   {
     cell->centroid = Vertex(0.0, 0.0, 0.0);
@@ -52,9 +61,9 @@ UnpartitionedMesh::ComputeCentroidsAndCheckQuality()
 
     cell->centroid = cell->centroid / static_cast<double>(cell->vertex_ids.size());
   }
-  Chi::log.Log0Verbose1() << "Done computing cell-centroids.";
+  App().Log().Log0Verbose1() << "Done computing cell-centroids.";
 
-  Chi::log.Log0Verbose1() << "Checking cell-center-to-face orientations";
+  App().Log().Log0Verbose1() << "Checking cell-center-to-face orientations";
   size_t num_negative_volume_elements = 0;
   for (auto cell : raw_cells_)
   {
@@ -110,7 +119,7 @@ UnpartitionedMesh::ComputeCentroidsAndCheckQuality()
     }   // if polyhedron
   }     // for cell in raw_cells
 
-  Chi::log.Log0Verbose1() << "Checking face sizes";
+  App().Log().Log0Verbose1() << "Checking face sizes";
   size_t cell_id = 0;
   for (auto cell : raw_cells_)
   {
@@ -154,11 +163,12 @@ UnpartitionedMesh::ComputeCentroidsAndCheckQuality()
   } // for cell in raw_cells
 
   if (num_negative_volume_elements > 0)
-    Chi::log.LogAllWarning() << "Cell quality checks detected " << num_negative_volume_elements
-                             << " negative volume sub-elements (sub-triangle or sub-tetrahedron)."
-                             << " This issue could result in incorrect quantities"
-                             << " under some circumstances.";
-  Chi::log.Log() << "Done checking cell-center-to-face orientations";
+    App().Log().LogAllWarning()
+      << "Cell quality checks detected " << num_negative_volume_elements
+      << " negative volume sub-elements (sub-triangle or sub-tetrahedron)."
+      << " This issue could result in incorrect quantities"
+      << " under some circumstances.";
+  App().Log().Log() << "Done checking cell-center-to-face orientations";
 }
 
 uint64_t
@@ -198,12 +208,13 @@ UnpartitionedMesh::BuildMeshConnectivity()
     for (auto& face : cell->faces)
       if (not face.has_neighbor) ++num_bndry_faces;
 
-  Chi::log.Log0Verbose1() << Chi::program_timer.GetTimeString()
-                          << " Number of unconnected faces "
-                             "before connectivity: "
-                          << num_bndry_faces;
-
-  Chi::log.Log() << Chi::program_timer.GetTimeString() << " Establishing cell connectivity.";
+  // FIXME:
+  // App().Log().Log0Verbose1() << Chi::program_timer.GetTimeString()
+  //                         << " Number of unconnected faces "
+  //                            "before connectivity: "
+  //                         << num_bndry_faces;
+  //
+  // App().Log().Log() << Chi::program_timer.GetTimeString() << " Establishing cell connectivity.";
 
   // Establish internal connectivity
   // Populate vertex subscriptions to internal cells
@@ -218,7 +229,9 @@ UnpartitionedMesh::BuildMeshConnectivity()
     }
   }
 
-  Chi::log.Log() << Chi::program_timer.GetTimeString() << " Vertex cell subscriptions complete.";
+  // FIXME:
+  // App().Log().Log() << Chi::program_timer.GetTimeString() << " Vertex cell subscriptions
+  // complete.";
 
   // Process raw cells
   {
@@ -267,15 +280,18 @@ UnpartitionedMesh::BuildMeshConnectivity()
         static_cast<double>(cur_cell_id) / static_cast<double>(num_raw_cells);
       if (fraction_complete >= static_cast<double>(aux_counter + 1) * 0.1)
       {
-        Chi::log.Log() << Chi::program_timer.GetTimeString() << " Surpassing cell " << cur_cell_id
-                       << " of " << num_raw_cells << " (" << (aux_counter + 1) * 10 << "%)";
+        // FIXME:
+        // App().Log().Log() << Chi::program_timer.GetTimeString() << " Surpassing cell "
+        //                   << cur_cell_id << " of " << num_raw_cells << " ("
+        //                   << (aux_counter + 1) * 10 << "%)";
         ++aux_counter;
       }
     } // for cell
   }
 
-  Chi::log.Log() << Chi::program_timer.GetTimeString()
-                 << " Establishing cell boundary connectivity.";
+  // FIXME
+  // App().Log().Log() << Chi::program_timer.GetTimeString()
+  //                   << " Establishing cell boundary connectivity.";
 
   // Establish boundary connectivity
   // Make list of internal cells on the boundary
@@ -336,12 +352,14 @@ UnpartitionedMesh::BuildMeshConnectivity()
     for (auto& face : cell->faces)
       if (not face.has_neighbor) ++num_bndry_faces;
 
-  Chi::log.Log0Verbose1() << Chi::program_timer.GetTimeString()
-                          << " Number of boundary faces "
-                             "after connectivity: "
-                          << num_bndry_faces;
-
-  Chi::log.Log() << Chi::program_timer.GetTimeString() << " Done establishing cell connectivity.";
+  // FIXME
+  // App().Log().Log0Verbose1() << Chi::program_timer.GetTimeString()
+  //                            << " Number of boundary faces "
+  //                               "after connectivity: "
+  //                            << num_bndry_faces;
+  //
+  // App().Log().Log() << Chi::program_timer.GetTimeString()
+  //                   << " Done establishing cell connectivity.";
 }
 
 UnpartitionedMesh::LightWeightCell*
@@ -763,7 +781,7 @@ UnpartitionedMesh::CopyUGridCellsAndPoints(vtkUnstructuredGrid& ugrid,
     bound_box_->zmax = std::max(bound_box_->zmax, vertex.z);
   }
 
-  Chi::log.Log() << fname + ": Done";
+  App().Log().Log() << fname + ": Done";
 }
 
 void
@@ -785,7 +803,7 @@ UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bnd
     for (auto& face : cell_ptr->faces)
       if (not face.has_neighbor) bndry_faces.push_back(&face);
 
-  Chi::log.Log() << "Number of boundary faces: " << bndry_faces.size();
+  App().Log().Log() << "Number of boundary faces: " << bndry_faces.size();
 
   // Build boundary vertex ids
   std::set<uint64_t> bndry_vids_set;
@@ -820,10 +838,10 @@ UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bnd
 
       if (not map_found)
       {
-        Chi::log.Log0Warning() << "UnpartitionedMesh::"
-                                  "SetBoundaryIDsFromBlocks: Failed to map a vertex. " +
-                                    point.PrintStr() + " for boundary " + ugrid_name.second +
-                                    " therefore the boundary assignment was skipped.";
+        App().Log().Log0Warning() << "UnpartitionedMesh::"
+                                     "SetBoundaryIDsFromBlocks: Failed to map a vertex. " +
+                                       point.PrintStr() + " for boundary " + ugrid_name.second +
+                                       " therefore the boundary assignment was skipped.";
         mapping_failed = true;
         break;
       }
@@ -871,8 +889,8 @@ UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bnd
       } // for face_id
     }   // for boundary cell bc
 
-    Chi::log.Log() << "UnpartitionedMesh: assigned " << num_faces_boundarified << " to boundary id "
-                   << bndry_id << " with name " << ugrid_name.second;
+    App().Log().Log() << "UnpartitionedMesh: assigned " << num_faces_boundarified
+                      << " to boundary id " << bndry_id << " with name " << ugrid_name.second;
 
     ++bndry_id;
   } // for boundary_block
@@ -881,7 +899,7 @@ UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bnd
 void
 UnpartitionedMesh::ReadFromVTU(const UnpartitionedMesh::Options& options)
 {
-  Chi::log.Log() << "Reading VTU file: " << options.file_name << ".";
+  App().Log().Log() << "Reading VTU file: " << options.file_name << ".";
 
   // Attempt to open file
   std::ifstream file;
@@ -907,7 +925,7 @@ UnpartitionedMesh::ReadFromVTU(const UnpartitionedMesh::Options& options)
 
   // Get the main + bndry blocks
   const int max_dimension = FindHighestDimension(grid_blocks);
-  Chi::log.Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
+  App().Log().Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
   std::vector<vtkUGridPtrAndName> domain_grid_blocks =
     GetBlocksOfDesiredDimension(grid_blocks, max_dimension);
   std::vector<vtkUGridPtrAndName> bndry_grid_blocks =
@@ -946,13 +964,13 @@ UnpartitionedMesh::ReadFromVTU(const UnpartitionedMesh::Options& options)
   ComputeCentroidsAndCheckQuality();
   BuildMeshConnectivity();
 
-  Chi::log.Log() << "Done reading VTU file: " << options.file_name << ".";
+  App().Log().Log() << "Done reading VTU file: " << options.file_name << ".";
 }
 
 void
 UnpartitionedMesh::ReadFromPVTU(const UnpartitionedMesh::Options& options)
 {
-  Chi::log.Log() << "Reading PVTU file: " << options.file_name << ".";
+  App().Log().Log() << "Reading PVTU file: " << options.file_name << ".";
 
   // Attempt to open file
   std::ifstream file;
@@ -978,7 +996,7 @@ UnpartitionedMesh::ReadFromPVTU(const UnpartitionedMesh::Options& options)
 
   // Get the main + bndry blocks
   const int max_dimension = FindHighestDimension(grid_blocks);
-  Chi::log.Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
+  App().Log().Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
   std::vector<vtkUGridPtrAndName> domain_grid_blocks =
     GetBlocksOfDesiredDimension(grid_blocks, max_dimension);
   std::vector<vtkUGridPtrAndName> bndry_grid_blocks =
@@ -1017,13 +1035,13 @@ UnpartitionedMesh::ReadFromPVTU(const UnpartitionedMesh::Options& options)
   ComputeCentroidsAndCheckQuality();
   BuildMeshConnectivity();
 
-  Chi::log.Log() << "Done reading PVTU file: " << options.file_name << ".";
+  App().Log().Log() << "Done reading PVTU file: " << options.file_name << ".";
 }
 
 void
 UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options)
 {
-  Chi::log.Log() << "Reading Ensight-Gold file: " << options.file_name << ".";
+  App().Log().Log() << "Reading Ensight-Gold file: " << options.file_name << ".";
 
   // Attempt to open file
   std::ifstream file;
@@ -1060,9 +1078,9 @@ UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options
         vtkUnstructuredGrid::SafeDownCast(block_a),
         chi::StringTrim(iter_a->GetCurrentMetaData()->Get(vtkCompositeDataSet::NAME())));
 
-      Chi::log.Log() << "Reading block " << block_name
-                     << " Number of cells: " << grid_blocks.back().first->GetNumberOfCells()
-                     << " Number of points: " << grid_blocks.back().first->GetNumberOfPoints();
+      App().Log().Log() << "Reading block " << block_name
+                        << " Number of cells: " << grid_blocks.back().first->GetNumberOfCells()
+                        << " Number of points: " << grid_blocks.back().first->GetNumberOfPoints();
     }
 
     iter_a->GoToNextItem();
@@ -1070,7 +1088,7 @@ UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options
 
   // Get the main + bndry blocks
   const int max_dimension = FindHighestDimension(grid_blocks);
-  Chi::log.Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
+  App().Log().Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
   std::vector<vtkUGridPtrAndName> domain_grid_blocks =
     GetBlocksOfDesiredDimension(grid_blocks, max_dimension);
   std::vector<vtkUGridPtrAndName> bndry_grid_blocks =
@@ -1109,7 +1127,7 @@ UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options
   // Set boundary ids
   SetBoundaryIDsFromBlocks(bndry_grid_blocks);
 
-  Chi::log.Log() << "Done reading Ensight-Gold file: " << options.file_name << ".";
+  App().Log().Log() << "Done reading Ensight-Gold file: " << options.file_name << ".";
 }
 
 void
@@ -1122,13 +1140,13 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
   file.open(options.file_name);
   if (!file.is_open())
   {
-    Chi::log.LogAllError() << "Failed to open file: " << options.file_name << " in call "
-                           << "to ImportFromOBJFile \n";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Failed to open file: " << options.file_name << " in call "
+                              << "to ImportFromOBJFile \n";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Making Unpartitioned mesh from wavefront file " << options.file_name;
+  App().Barrier();
+  App().Log().Log() << "Making Unpartitioned mesh from wavefront file " << options.file_name;
 
   typedef std::pair<uint64_t, uint64_t> Edge;
   struct BlockData
@@ -1165,7 +1183,8 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
 
     if (first_word == "usemtl")
     {
-      Chi::log.Log0Verbose1() << "New material at cell count: " << block_data.back().cells.size();
+      App().Log().Log0Verbose1() << "New material at cell count: "
+                                 << block_data.back().cells.size();
       ++material_id;
     }
 
@@ -1195,7 +1214,8 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
         // Catch conversion error
         catch (const std::invalid_argument& ia)
         {
-          Chi::log.Log0Warning() << "Failed to convert vertex in line " << file_line << std::endl;
+          App().Log().Log0Warning()
+            << "Failed to convert vertex in line " << file_line << std::endl;
         }
 
         // Stop word extraction on line end
@@ -1241,8 +1261,8 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
         }
         catch (const std::invalid_argument& ia)
         {
-          Chi::log.Log0Warning() << "Failed converting work to number in line " << file_line
-                                 << std::endl;
+          App().Log().Log0Warning()
+            << "Failed converting work to number in line " << file_line << std::endl;
         }
 
         // Stop word extraction on line end
@@ -1292,7 +1312,8 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
         // Catch conversion error
         catch (const std::invalid_argument& ia)
         {
-          Chi::log.Log0Warning() << "Failed to text to integer in line " << file_line << std::endl;
+          App().Log().Log0Warning()
+            << "Failed to text to integer in line " << file_line << std::endl;
         }
       } // for k
 
@@ -1305,7 +1326,7 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
     } // if (first_word == "l")
   }
   file.close();
-  Chi::log.Log0Verbose0() << "Max material id: " << material_id;
+  App().Log().Log0Verbose0() << "Max material id: " << material_id;
 
   // Error checks
   for (const auto& block : block_data)
@@ -1462,9 +1483,9 @@ UnpartitionedMesh::ReadFromWavefrontOBJ(const Options& options)
         } // for face
       }   // for edge
 
-      Chi::log.Log() << "UnpartitionedMesh: assigned " << num_faces_boundarified
-                     << " faces to boundary id " << bndry_id << " with name "
-                     << block_data[bid].name;
+      App().Log().Log() << "UnpartitionedMesh: assigned " << num_faces_boundarified
+                        << " faces to boundary id " << bndry_id << " with name "
+                        << block_data[bid].name;
 
       mesh_options_.boundary_id_map[bndry_id] = block_data[bid].name;
 
@@ -1483,13 +1504,13 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
   file.open(options.file_name);
   if (!file.is_open())
   {
-    Chi::log.LogAllError() << "Failed to open file: " << options.file_name << " in call "
-                           << "to ReadFromMsh \n";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Failed to open file: " << options.file_name << " in call "
+                              << "to ReadFromMsh \n";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
-  Chi::log.Log() << "Making Unpartitioned mesh from msh format file " << options.file_name;
-  Chi::mpi.Barrier();
+  App().Log().Log() << "Making Unpartitioned mesh from msh format file " << options.file_name;
+  App().Barrier();
 
   // Declarations
   std::string file_line;
@@ -1645,7 +1666,7 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
     if (IsElementType3D(elem_type))
     {
       mesh_is_2D_assumption = false;
-      Chi::log.Log() << "Mesh identified as 3D.";
+      App().Log().Log() << "Mesh identified as 3D.";
       break; // have the answer now leave loop
     }
 
@@ -1689,7 +1710,7 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
     if (not IsElementSupported(elem_type))
       throw std::logic_error(fname + ": Unsupported element encountered.");
 
-    Chi::log.Log0Verbose2() << "Reading element: " << file_line << " type: " << elem_type;
+    App().Log().Log0Verbose2() << "Reading element: " << file_line << " type: " << elem_type;
 
     int num_cell_nodes;
     if (elem_type == 1) num_cell_nodes = 2;
@@ -1710,13 +1731,13 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
       {
         raw_cell = new LightWeightCell(CellType::SLAB, CellType::SLAB);
         raw_boundary_cells_.push_back(raw_cell);
-        Chi::log.Log0Verbose2() << "Added to raw_boundary_cells.";
+        App().Log().Log0Verbose2() << "Added to raw_boundary_cells.";
       }
       else if (IsElementType2D(elem_type))
       {
         raw_cell = new LightWeightCell(CellType::POLYGON, CellTypeFromMSHTypeID(elem_type));
         raw_cells_.push_back(raw_cell);
-        Chi::log.Log0Verbose2() << "Added to raw_cells.";
+        App().Log().Log0Verbose2() << "Added to raw_cells.";
       }
     }
     else
@@ -1725,13 +1746,13 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
       {
         raw_cell = new LightWeightCell(CellType::POLYGON, CellTypeFromMSHTypeID(elem_type));
         raw_boundary_cells_.push_back(raw_cell);
-        Chi::log.Log0Verbose2() << "Added to raw_boundary_cells.";
+        App().Log().Log0Verbose2() << "Added to raw_boundary_cells.";
       }
       else if (IsElementType3D(elem_type))
       {
         raw_cell = new LightWeightCell(CellType::POLYHEDRON, CellTypeFromMSHTypeID(elem_type));
         raw_cells_.push_back(raw_cell);
-        Chi::log.Log0Verbose2() << "Added to raw_cells.";
+        App().Log().Log0Verbose2() << "Added to raw_cells.";
       }
     }
 
@@ -1837,15 +1858,15 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
   ComputeCentroidsAndCheckQuality();
   BuildMeshConnectivity();
 
-  Chi::log.Log() << "Done processing " << options.file_name << ".\n"
-                 << "Number of nodes read: " << vertices_.size() << "\n"
-                 << "Number of cells read: " << raw_cells_.size();
+  App().Log().Log() << "Done processing " << options.file_name << ".\n"
+                    << "Number of nodes read: " << vertices_.size() << "\n"
+                    << "Number of cells read: " << raw_cells_.size();
 }
 
 void
 UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
 {
-  Chi::log.Log() << "Reading Exodus file: " << options.file_name << ".";
+  App().Log().Log() << "Reading Exodus file: " << options.file_name << ".";
 
   // Attempt to open file
   std::ifstream file;
@@ -1907,9 +1928,9 @@ UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
     {
       grid_blocks.emplace_back(vtkUnstructuredGrid::SafeDownCast(block_a), block_name);
 
-      Chi::log.Log() << "Reading block " << block_name
-                     << " Number of cells: " << grid_blocks.back().first->GetNumberOfCells()
-                     << " Number of points: " << grid_blocks.back().first->GetNumberOfPoints();
+      App().Log().Log() << "Reading block " << block_name
+                        << " Number of cells: " << grid_blocks.back().first->GetNumberOfCells()
+                        << " Number of points: " << grid_blocks.back().first->GetNumberOfPoints();
     }
 
     iter_a->GoToNextItem();
@@ -1917,7 +1938,7 @@ UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
 
   // Get the main + bndry blocks
   const int max_dimension = FindHighestDimension(grid_blocks);
-  Chi::log.Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
+  App().Log().Log0Verbose1() << "Maximum dimension : " << max_dimension << "\n";
   std::vector<vtkUGridPtrAndName> domain_grid_blocks =
     GetBlocksOfDesiredDimension(grid_blocks, max_dimension);
   std::vector<vtkUGridPtrAndName> bndry_grid_blocks =
@@ -1956,7 +1977,7 @@ UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
   // Set boundary ids
   SetBoundaryIDsFromBlocks(bndry_grid_blocks);
 
-  Chi::log.Log() << "Done reading Exodus file: " << options.file_name << ".";
+  App().Log().Log() << "Done reading Exodus file: " << options.file_name << ".";
 }
 
 void

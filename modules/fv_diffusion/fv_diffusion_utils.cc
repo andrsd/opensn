@@ -1,12 +1,8 @@
-#include "framework/console/console.h"
-#ifdef OPENSN_WITH_LUA
-#include "framework/lua.h"
-#endif
 #include "modules/fv_diffusion/fv_diffusion_solver.h"
-
 #include "framework/physics/field_function/field_function_grid_based.h"
 
-#ifdef OPENSN_WITH_LUA
+// FIXME
+#if 0
 
 double
 fv_diffusion::Solver::CallLua_iXYZFunction(lua_State* L,

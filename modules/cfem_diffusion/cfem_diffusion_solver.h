@@ -2,15 +2,10 @@
 
 #include "framework/physics/solver_base/solver.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
-
 #include "modules/cfem_diffusion/cfem_diffusion_bndry.h"
 #include "framework/utils/timer.h"
-
-#include "framework/console/console.h"
-
-#include <map>
-
 #include "framework/mesh/mesh.h"
+#include <map>
 
 namespace chi_mesh
 {
@@ -53,14 +48,14 @@ public:
   BoundaryPreferences boundary_preferences_;
   std::map<uint64_t, Boundary> boundaries_;
 
-  explicit Solver(const std::string& in_solver_name);
+  explicit Solver(opensn::App& app, const std::string& in_solver_name);
   ~Solver() override;
 
   void Initialize() override;
 
   void Execute() override;
 
-#ifdef OPENSN_WITH_LUA
+#if 0
   /**Calls a lua function with xyz coordinates.
    * \param L The lua state.
    * \param lua_func_name The name used to define this lua function in the lua

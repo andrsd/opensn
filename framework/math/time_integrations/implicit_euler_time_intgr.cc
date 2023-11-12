@@ -25,8 +25,9 @@ ImplicitEulerTimeIntegration::GetInputParameters()
   return params;
 }
 
-ImplicitEulerTimeIntegration::ImplicitEulerTimeIntegration(const chi::InputParameters& params)
-  : ThetaSchemeTimeIntegration(params)
+ImplicitEulerTimeIntegration::ImplicitEulerTimeIntegration(opensn::App& app,
+                                                           const chi::InputParameters& params)
+  : ThetaSchemeTimeIntegration(app, params)
 {
 }
 

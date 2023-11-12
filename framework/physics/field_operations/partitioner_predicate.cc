@@ -1,10 +1,7 @@
 #include "framework/physics/field_operations/partitioner_predicate.h"
-
 #include "framework/graphs/graph_partitioner.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
-#include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
 #include "framework/object_factory.h"
 
 namespace chi_physics::field_operations
@@ -38,10 +35,10 @@ PartitionerPredicate::GetInputParameters()
   return params;
 }
 
-PartitionerPredicate::PartitionerPredicate(const chi::InputParameters& params)
-  : FieldOperation(params),
-    partitioner_(Chi::GetStackItem<chi::GraphPartitioner>(
-      Chi::object_stack, params.GetParamValue<size_t>("partitioner"), __FUNCTION__)),
+PartitionerPredicate::PartitionerPredicate(opensn::App& app, const chi::InputParameters& params)
+  : FieldOperation(app, params),
+    partitioner_(App().GetStackObject<chi::GraphPartitioner>(
+      params.GetParamValue<size_t>("partitioner"), __FUNCTION__)),
     result_field_param_(params.GetParam("result_field")),
     num_partitions_(params.GetParamValue<size_t>("num_partitions")),
     result_component_(params.GetParamValue<size_t>("result_component"))
@@ -55,8 +52,7 @@ PartitionerPredicate::Execute()
   if (result_field_param_.Type() == chi::ParameterBlockType::INTEGER)
   {
     const size_t handle = result_field_param_.GetValue<size_t>();
-    auto ff_ptr =
-      Chi::GetStackItemPtrAsType<FieldFunction>(Chi::field_function_stack, handle, __FUNCTION__);
+    auto ff_ptr = App().GetFieldFunction(handle, __FUNCTION__);
     grid_ff_ptr = std::dynamic_pointer_cast<FieldFunctionGridBased>(ff_ptr);
 
     ChiLogicalErrorIf(not grid_ff_ptr, "Could not cast field function to FieldFunctionGridBased");
@@ -64,7 +60,7 @@ PartitionerPredicate::Execute()
   else if (result_field_param_.Type() == chi::ParameterBlockType::STRING)
   {
     const std::string ff_name = result_field_param_.GetValue<std::string>();
-    for (auto& ff_ptr : Chi::field_function_stack)
+    for (auto& ff_ptr : App().FieldFunctionStack())
       if (ff_ptr->TextName() == ff_name)
       {
         grid_ff_ptr = std::dynamic_pointer_cast<FieldFunctionGridBased>(ff_ptr);
@@ -103,7 +99,7 @@ PartitionerPredicate::Execute()
 
   // Create partition
   auto cell_pids =
-    partitioner_.Partition(cell_graph, cell_centroids, static_cast<int>(num_partitions_));
+    partitioner_->Partition(cell_graph, cell_centroids, static_cast<int>(num_partitions_));
 
   auto& local_data = grid_ff_ptr->FieldVector();
   const auto& uk_man = grid_ff_ptr->GetUnknownManager();

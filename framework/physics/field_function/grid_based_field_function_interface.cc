@@ -1,5 +1,4 @@
 #include "framework/physics/field_function/grid_based_field_function_interface.h"
-
 #include "framework/physics/field_function/field_function_grid_based.h"
 
 namespace chi_physics
@@ -13,19 +12,17 @@ GridBasedFieldFunctionInterface::GetInputParameters()
   return params;
 }
 
-GridBasedFieldFunctionInterface::GridBasedFieldFunctionInterface(const chi::InputParameters& params)
-  : FieldFunctionInterface(params)
+GridBasedFieldFunctionInterface::GridBasedFieldFunctionInterface(opensn::App& app,
+                                                                 const chi::InputParameters& params)
+  : FieldFunctionInterface(app, params)
 {
 }
 
-FieldFunctionGridBased*
+std::shared_ptr<FieldFunctionGridBased>
 GridBasedFieldFunctionInterface::GetGridBasedFieldFunction() const
 {
-  auto* ff_ptr = GetFieldFunction();
-
-  auto* grid_based_ff_ptr = dynamic_cast<FieldFunctionGridBased*>(ff_ptr);
-
-  return grid_based_ff_ptr ? grid_based_ff_ptr : nullptr;
+  std::shared_ptr<FieldFunction> ff_ptr = GetFieldFunction();
+  return std::dynamic_pointer_cast<FieldFunctionGridBased>(ff_ptr);
 }
 
 } // namespace chi_physics

@@ -29,10 +29,11 @@ struct chi_math::QuadraturePointPhiTheta
 /**Base class for angular quadratures.*/
 class chi_math::AngularQuadrature
 {
-public:
-  const chi_math::AngularQuadratureType type_;
+private:
+  opensn::App& app_;
 
 public:
+  const chi_math::AngularQuadratureType type_;
   std::vector<chi_math::QuadraturePointPhiTheta> abscissae_;
   std::vector<double> weights_;
   std::vector<chi_mesh::Vector3> omegas_;
@@ -59,11 +60,18 @@ protected:
   bool m2d_op_built_ = false;
 
 public:
-  AngularQuadrature() : type_(chi_math::AngularQuadratureType::Arbitrary) {}
+  AngularQuadrature(opensn::App& app) : app_(app), type_(chi_math::AngularQuadratureType::Arbitrary)
+  {
+  }
 
-  explicit AngularQuadrature(chi_math::AngularQuadratureType in_type) : type_(in_type) {}
+  explicit AngularQuadrature(opensn::App& app, chi_math::AngularQuadratureType in_type)
+    : app_(app), type_(in_type)
+  {
+  }
 
   virtual ~AngularQuadrature() = default;
+
+  opensn::App& App() const { return app_; }
 
   /**Optimizes the angular quadrature for polar symmetry by removing
    * all the direction with downward pointing polar angles.
@@ -106,8 +114,14 @@ class chi_math::AngularQuadratureCustom : public chi_math::AngularQuadrature
 {
 public:
   /**Constructor using custom directions.*/
-  AngularQuadratureCustom(std::vector<double>& azimuthal,
+  AngularQuadratureCustom(opensn::App& app,
+                          std::vector<double>& azimuthal,
                           std::vector<double>& polar,
                           std::vector<double>& in_weights,
                           bool verbose);
 };
+
+namespace chi_math
+{
+typedef std::shared_ptr<chi_math::AngularQuadrature> AngularQuadraturePtr;
+}

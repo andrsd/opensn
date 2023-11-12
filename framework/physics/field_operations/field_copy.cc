@@ -1,7 +1,5 @@
 #include "framework/physics/field_operations/field_copy.h"
-
 #include "framework/object_factory.h"
-#include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 
 namespace chi_physics::field_operations
@@ -45,15 +43,14 @@ FieldCopyOperation::GetInputParameters()
   return params;
 }
 
-FieldCopyOperation::FieldCopyOperation(const chi::InputParameters& params)
-  : FieldOperation(params),
+FieldCopyOperation::FieldCopyOperation(opensn::App& app, const chi::InputParameters& params)
+  : FieldOperation(app, params),
     to_field_handle_(params.GetParamValue<size_t>("to")),
     from_field_handle_(params.GetParamValue<size_t>("from"))
 {
   // Get field functions
   {
-    auto to_base_ptr =
-      Chi::GetStackItemPtr(Chi::field_function_stack, to_field_handle_, __FUNCTION__);
+    auto to_base_ptr = App().GetFieldFunction(to_field_handle_, __FUNCTION__);
 
     to_ff_ = std::dynamic_pointer_cast<FieldFunctionGridBased>(to_base_ptr);
 
@@ -63,8 +60,7 @@ FieldCopyOperation::FieldCopyOperation(const chi::InputParameters& params)
   }
 
   {
-    auto from_base_ptr =
-      Chi::GetStackItemPtr(Chi::field_function_stack, from_field_handle_, __FUNCTION__);
+    auto from_base_ptr = App().GetFieldFunction(from_field_handle_, __FUNCTION__);
 
     from_ff_ = std::dynamic_pointer_cast<FieldFunctionGridBased>(from_base_ptr);
 

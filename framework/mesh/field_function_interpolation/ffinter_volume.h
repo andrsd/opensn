@@ -33,7 +33,10 @@ private:
   std::vector<uint64_t> cell_local_ids_inside_logvol_;
 
 public:
-  FieldFunctionInterpolationVolume() : FieldFunctionInterpolation(ff_interpolation::Type::VOLUME) {}
+  explicit FieldFunctionInterpolationVolume(opensn::App& app)
+    : FieldFunctionInterpolation(app, ff_interpolation::Type::VOLUME)
+  {
+  }
   std::shared_ptr<chi_mesh::LogicalVolume>& GetLogicalVolume() { return logical_volume_; }
 
   ff_interpolation::Operation& GetOperationType() { return op_type_; }
@@ -52,13 +55,8 @@ public:
   double CallLuaFunction(double ff_value, int mat_id) const;
 #endif
 
-  std::string GetDefaultFileBaseName() const override
-  {
-    return "ZVFFI";
-  }
-  void ExportPython(std::string base_name) override
-  {
-  }
+  std::string GetDefaultFileBaseName() const override { return "ZVFFI"; }
+  void ExportPython(std::string base_name) override {}
 };
 
 } // namespace chi_mesh

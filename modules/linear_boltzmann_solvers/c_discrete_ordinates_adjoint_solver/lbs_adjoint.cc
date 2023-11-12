@@ -1,9 +1,7 @@
 #include "modules/linear_boltzmann_solvers/c_discrete_ordinates_adjoint_solver/lbs_adjoint.h"
-
 #include "framework/math/math.h"
 #include "framework/math/serial_newton_iteration/serial_newton_iteration.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 void
@@ -13,7 +11,7 @@ lbs::TestFunction()
 }
 
 std::array<double, 2>
-lbs::MakeExpRepFromP1(const std::array<double, 4>& P1_moments, bool verbose)
+lbs::MakeExpRepFromP1(opensn::App& app, const std::array<double, 4>& P1_moments, bool verbose)
 {
   // Custom function to implement the non-linear equations
   // that make up the system to solve the a and b coefficients
@@ -105,7 +103,7 @@ lbs::MakeExpRepFromP1(const std::array<double, 4>& P1_moments, bool verbose)
     outstr << "P1 moments initial: " << 1.0 << " " << J_x << " " << J_y << " " << J_z << " |J|=";
     outstr << size_J_f << " ratio=" << ratio_f << "\n";
 
-    Chi::log.Log() << outstr.str();
+    app.Log().Log() << outstr.str();
   }
 
   if (size_J_f < 1.0e-10)
@@ -113,7 +111,7 @@ lbs::MakeExpRepFromP1(const std::array<double, 4>& P1_moments, bool verbose)
     double a = log(phi / 4.0 / M_PI);
     double b = 0.0;
 
-    if (verbose) { Chi::log.Log() << "Solution: " << a << " " << b; }
+    if (verbose) { app.Log().Log() << "Solution: " << a << " " << b; }
 
     return {a, b};
   }
@@ -125,7 +123,7 @@ lbs::MakeExpRepFromP1(const std::array<double, 4>& P1_moments, bool verbose)
     double a = solution[0];
     double b = solution[1];
 
-    if (verbose) { Chi::log.Log() << "Solution: " << a << " " << b; }
+    if (verbose) { app.Log().Log() << "Solution: " << a << " " << b; }
 
     return {a, b};
   }

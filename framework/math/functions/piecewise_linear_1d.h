@@ -9,7 +9,7 @@ class PiecewiseLinear1D : public FunctionDimAToDimB
 public:
   static chi::InputParameters GetInputParameters();
 
-  explicit PiecewiseLinear1D(const chi::InputParameters& params);
+  explicit PiecewiseLinear1D(opensn::App& app, const chi::InputParameters& params);
 
   std::vector<double> Evaluate(const std::vector<double>& values) const override;
   std::vector<double> EvaluateSlope(const std::vector<double>& values) const override;

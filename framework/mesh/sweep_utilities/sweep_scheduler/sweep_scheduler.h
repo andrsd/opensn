@@ -29,6 +29,7 @@ namespace sweep_management
 class SweepScheduler
 {
 private:
+  opensn::App& app_;
   SchedulingAlgorithm scheduler_type_;
   AngleAggregation& angle_agg_;
 
@@ -57,9 +58,12 @@ private:
   const std::vector<size_t> sweep_timing_events_tag_;
 
 public:
-  SweepScheduler(SchedulingAlgorithm in_scheduler_type,
+  SweepScheduler(opensn::App& app,
+                 SchedulingAlgorithm in_scheduler_type,
                  AngleAggregation& in_angle_agg,
                  SweepChunk& in_sweep_chunk);
+
+  opensn::App& App() const { return app_; }
 
   AngleAggregation& AngleAgg() { return angle_agg_; }
 

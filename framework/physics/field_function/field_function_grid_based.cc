@@ -10,7 +10,7 @@
 #include "framework/mesh/mesh_continuum/grid_vtk_utils.h"
 #include "framework/object_factory.h"
 #include "framework/logging/log.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include <petsc.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkCellData.h>
@@ -52,30 +52,32 @@ FieldFunctionGridBased::GetInputParameters()
   return params;
 }
 
-FieldFunctionGridBased::FieldFunctionGridBased(const chi::InputParameters& params)
-  : FieldFunction(params),
-    sdm_(MakeSpatialDiscretization(params)),
+FieldFunctionGridBased::FieldFunctionGridBased(opensn::App& app, const chi::InputParameters& params)
+  : FieldFunction(app, params),
+    sdm_(MakeSpatialDiscretization(App(), params)),
     ghosted_field_vector_(MakeFieldVector(*sdm_, GetUnknownManager())),
-    local_grid_bounding_box_(chi_mesh::GetCurrentHandler().GetGrid()->GetLocalBoundingBox())
+    local_grid_bounding_box_(App().GetCurrentMeshHandler()->GetGrid()->GetLocalBoundingBox())
 {
   ghosted_field_vector_->Set(params.GetParamValue<double>("initial_value"));
 }
 
-FieldFunctionGridBased::FieldFunctionGridBased(const std::string& text_name,
+FieldFunctionGridBased::FieldFunctionGridBased(opensn::App& app,
+                                               const std::string& text_name,
                                                chi_math::SDMPtr& discretization_ptr,
                                                chi_math::Unknown unknown)
-  : FieldFunction(text_name, std::move(unknown)),
+  : FieldFunction(app, text_name, std::move(unknown)),
     sdm_(discretization_ptr),
     ghosted_field_vector_(MakeFieldVector(*sdm_, GetUnknownManager())),
     local_grid_bounding_box_(sdm_->Grid().GetLocalBoundingBox())
 {
 }
 
-FieldFunctionGridBased::FieldFunctionGridBased(const std::string& text_name,
+FieldFunctionGridBased::FieldFunctionGridBased(opensn::App& app,
+                                               const std::string& text_name,
                                                chi_math::SDMPtr& sdm_ptr,
                                                chi_math::Unknown unknown,
                                                const std::vector<double>& field_vector)
-  : FieldFunction(text_name, std::move(unknown)),
+  : FieldFunction(app, text_name, std::move(unknown)),
     sdm_(sdm_ptr),
     ghosted_field_vector_(MakeFieldVector(*sdm_, GetUnknownManager())),
     local_grid_bounding_box_(sdm_->Grid().GetLocalBoundingBox())
@@ -86,11 +88,12 @@ FieldFunctionGridBased::FieldFunctionGridBased(const std::string& text_name,
   ghosted_field_vector_->Set(field_vector);
 }
 
-FieldFunctionGridBased::FieldFunctionGridBased(const std::string& text_name,
+FieldFunctionGridBased::FieldFunctionGridBased(opensn::App& app,
+                                               const std::string& text_name,
                                                chi_math::SDMPtr& sdm_ptr,
                                                chi_math::Unknown unknown,
                                                double field_value)
-  : FieldFunction(text_name, std::move(unknown)),
+  : FieldFunction(app, text_name, std::move(unknown)),
     sdm_(sdm_ptr),
     ghosted_field_vector_(MakeFieldVector(*sdm_, GetUnknownManager())),
     local_grid_bounding_box_(sdm_->Grid().GetLocalBoundingBox())
@@ -117,10 +120,11 @@ FieldFunctionGridBased::FieldVector()
 }
 
 chi_math::SDMPtr
-FieldFunctionGridBased::MakeSpatialDiscretization(const chi::InputParameters& params)
+FieldFunctionGridBased::MakeSpatialDiscretization(opensn::App& app,
+                                                  const chi::InputParameters& params)
 {
   const auto& user_params = params.ParametersAtAssignment();
-  const auto& grid_ptr = chi_mesh::GetCurrentHandler().GetGrid();
+  const auto& grid_ptr = app.GetCurrentMeshHandler()->GetGrid();
   const auto sdm_type = params.GetParamValue<std::string>("sdm_type");
 
   typedef chi_math::spatial_discretization::FiniteVolume FV;
@@ -180,7 +184,7 @@ FieldFunctionGridBased::MakeFieldVector(const chi_math::SpatialDiscretization& d
     std::make_unique<chi_math::GhostedParallelSTLVector>(discretization.GetNumLocalDOFs(uk_man),
                                                          discretization.GetNumGlobalDOFs(uk_man),
                                                          discretization.GetGhostDOFIndices(uk_man),
-                                                         Chi::mpi.comm);
+                                                         discretization.App().Comm());
 
   return field;
 }
@@ -206,11 +210,12 @@ FieldFunctionGridBased::UpdateFieldVector(const Vec& field_vector)
 
 void
 FieldFunctionGridBased::ExportMultipleToVTK(
+  opensn::App& app,
   const std::string& file_base_name,
   const std::vector<std::shared_ptr<const FieldFunctionGridBased>>& ff_list)
 {
   const std::string fname = "chi_physics::FieldFunction::ExportMultipleToVTK";
-  Chi::log.Log() << "Exporting field functions to VTK with file base \"" << file_base_name << "\"";
+  app.Log().Log() << "Exporting field functions to VTK with file base \"" << file_base_name << "\"";
 
   if (ff_list.empty())
     throw std::logic_error(fname + ": Cannot be used with empty field-function"
@@ -301,7 +306,7 @@ FieldFunctionGridBased::ExportMultipleToVTK(
 
   chi_mesh::WritePVTUFiles(ugrid, file_base_name);
 
-  Chi::log.Log() << "Done exporting field functions to VTK.";
+  app.Log().Log() << "Done exporting field functions to VTK.";
 }
 
 std::vector<double>
@@ -365,11 +370,11 @@ FieldFunctionGridBased::GetPointValue(const chi_mesh::Vector3& point) const
   // Communicate number of point hits
   size_t globl_num_point_hits;
   MPI_Allreduce(
-    &local_num_point_hits, &globl_num_point_hits, 1, MPIU_SIZE_T, MPI_SUM, Chi::mpi.comm);
+    &local_num_point_hits, &globl_num_point_hits, 1, MPIU_SIZE_T, MPI_SUM, App().Comm());
 
   std::vector<double> globl_point_value(num_components, 0.0);
   MPI_Allreduce(
-    local_point_value.data(), globl_point_value.data(), 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    local_point_value.data(), globl_point_value.data(), 1, MPI_DOUBLE, MPI_SUM, App().Comm());
 
   chi_math::Scale(globl_point_value, 1.0 / static_cast<double>(globl_num_point_hits));
 

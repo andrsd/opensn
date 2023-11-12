@@ -1,15 +1,10 @@
 #include "ags_linear_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/math/linear_solver/linear_matrix_action_Ax.h"
-
-#include <petscksp.h>
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
+#include <petscksp.h>
 #include <iomanip>
 
 #define sc_int64_t static_cast<int64_t>
@@ -111,9 +106,9 @@ AGSLinearSolver::Solve()
     VecNorm(x_, NORM_2, &sol_norm);
 
     if (verbose_)
-      Chi::log.Log() << "********** AGS solver iteration " << std::setw(3) << iter << " "
-                     << " Relative change " << std::setw(10) << std::setprecision(4)
-                     << error_norm / sol_norm;
+      App().Log().Log() << "********** AGS solver iteration " << std::setw(3) << iter << " "
+                        << " Relative change " << std::setw(10) << std::setprecision(4)
+                        << error_norm / sol_norm;
 
     lbs_solver.QMomentsLocal() = saved_qmoms; // Restore qmoms
 

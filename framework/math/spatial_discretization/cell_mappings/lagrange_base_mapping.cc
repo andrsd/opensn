@@ -1,10 +1,7 @@
 #include "framework/math/spatial_discretization/cell_mappings/lagrange_base_mapping.h"
-
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace chi_math::cell_mapping
@@ -50,9 +47,9 @@ LagrangeBaseMapping::MakeFaceNodeMapping(const chi_mesh::Cell& cell)
       } // for cell i
       if (mapping < 0)
       {
-        Chi::log.LogAllError() << "Unknown face mapping encountered. "
-                                  "pwl_polyhedron.h";
-        Chi::Exit(EXIT_FAILURE);
+        // FIXME: make this work
+        // Chi::log.LogAllError() << "Unknown face mapping encountered. pwl_polyhedron.h";
+        opensn::App::Exit(EXIT_FAILURE);
       }
       face_dof_mapping.push_back(mapping);
     } // for face i

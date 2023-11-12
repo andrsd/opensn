@@ -6,14 +6,14 @@ namespace chi_physics::field_operations
 {
 
 /**The base field operation class.*/
-class FieldOperation : public ChiObject
+class FieldOperation : public chi::ChiObject
 {
 public:
   /**Returns the input parameters.*/
   static chi::InputParameters GetInputParameters();
 
   /**Constructor.*/
-  explicit FieldOperation(const chi::InputParameters& params);
+  explicit FieldOperation(opensn::App& app, const chi::InputParameters& params);
 
   virtual void Execute() = 0;
 

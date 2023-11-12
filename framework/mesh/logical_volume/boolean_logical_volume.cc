@@ -1,6 +1,6 @@
 #include "framework/mesh/logical_volume/boolean_logical_volume.h"
-
 #include "framework/object_factory.h"
+#include "framework/app.h"
 
 namespace chi_mesh
 {
@@ -29,8 +29,8 @@ BooleanLogicalVolume::GetInputParameters()
   return params;
 }
 
-BooleanLogicalVolume::BooleanLogicalVolume(const chi::InputParameters& params)
-  : LogicalVolume(params)
+BooleanLogicalVolume::BooleanLogicalVolume(opensn::App& app, const chi::InputParameters& params)
+  : LogicalVolume(app, params)
 {
   const auto& input_parts = params.GetParam("parts");
   input_parts.RequireBlockTypeIs(chi::ParameterBlockType::ARRAY);
@@ -45,10 +45,11 @@ BooleanLogicalVolume::BooleanLogicalVolume(const chi::InputParameters& params)
     part_params.AssignParameters(part);
 
     const size_t lv_handle = part_params.GetParamValue<size_t>("lv");
-    auto lv_ptr =
-      Chi::GetStackItemPtrAsType<LogicalVolume>(Chi::object_stack, lv_handle, __FUNCTION__);
+    //    auto lv_ptr =
+    //      Chi::GetStackItemPtrAsType<LogicalVolume>(Chi::object_stack, lv_handle, __FUNCTION__);
+    auto lv = App().GetStackObject<LogicalVolume>(lv_handle, __FUNCTION__);
 
-    parts.emplace_back(part_params.GetParamValue<bool>("op"), lv_ptr);
+    parts.emplace_back(part_params.GetParamValue<bool>("op"), lv);
   }
 }
 

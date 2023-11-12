@@ -1,10 +1,9 @@
 #include "framework/math/spatial_discretization/finite_volume/finite_volume.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log_exceptions.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/spatial_discretization/cell_mappings/finite_volume_mapping.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
-#include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include "framework/mpi/mpi_utils_map_all2all.h"
 
@@ -29,9 +28,10 @@ FiniteVolume::FiniteVolume(const chi_mesh::MeshContinuum& grid,
 std::shared_ptr<FiniteVolume>
 FiniteVolume::New(const chi_mesh::MeshContinuum& in_grid, chi_math::CoordinateSystemType in_cs_type)
 {
+  opensn::App& app = in_grid.App();
   // First try to find an existing spatial discretization that matches the
   // one requested.
-  for (auto& sdm : Chi::sdm_stack)
+  for (auto& sdm : app.SdmStack())
     if (sdm->Type() == SpatialDiscretizationType::FINITE_VOLUME and
         std::addressof(sdm->Grid()) == std::addressof(in_grid) and
         sdm->GetCoordinateSystemType() == in_cs_type)
@@ -48,7 +48,7 @@ FiniteVolume::New(const chi_mesh::MeshContinuum& in_grid, chi_math::CoordinateSy
   auto new_sdm =
     std::shared_ptr<spatial_discretization::FiniteVolume>(new FiniteVolume(in_grid, in_cs_type));
 
-  Chi::sdm_stack.push_back(new_sdm);
+  app.SdmStack().push_back(new_sdm);
 
   return new_sdm;
 }
@@ -99,20 +99,20 @@ FiniteVolume::OrderNodes()
 {
   // Communicate node counts
   const uint64_t local_num_nodes = ref_grid_.local_cells.size();
-  locJ_block_size_.assign(Chi::mpi.process_count, 0);
+  locJ_block_size_.assign(App().ProcessCount(), 0);
   MPI_Allgather(
-    &local_num_nodes, 1, MPI_UINT64_T, locJ_block_size_.data(), 1, MPI_UINT64_T, Chi::mpi.comm);
+    &local_num_nodes, 1, MPI_UINT64_T, locJ_block_size_.data(), 1, MPI_UINT64_T, App().Comm());
 
   // Build block addresses
-  locJ_block_address_.assign(Chi::mpi.process_count, 0);
+  locJ_block_address_.assign(App().ProcessCount(), 0);
   uint64_t global_num_nodes = 0;
-  for (int j = 0; j < Chi::mpi.process_count; ++j)
+  for (int j = 0; j < App().ProcessCount(); ++j)
   {
     locJ_block_address_[j] = global_num_nodes;
     global_num_nodes += locJ_block_size_[j];
   }
 
-  local_block_address_ = locJ_block_address_[Chi::mpi.location_id];
+  local_block_address_ = locJ_block_address_[App().LocationID()];
 
   local_base_block_size_ = local_num_nodes;
   globl_base_block_size_ = global_num_nodes;
@@ -127,8 +127,7 @@ FiniteVolume::OrderNodes()
   }
 
   // Communicate neighbor ids requiring mapping
-  const auto query_nb_gids =
-    chi_mpi_utils::MapAllToAll(sorted_nb_gids, MPI_UINT64_T, Chi::mpi.comm);
+  const auto query_nb_gids = chi_mpi_utils::MapAllToAll(sorted_nb_gids, MPI_UINT64_T, App().Comm());
 
   // Map the ids
   std::map<uint64_t, std::vector<uint64_t>> mapped_query_nb_gids;
@@ -150,7 +149,7 @@ FiniteVolume::OrderNodes()
 
   // Communicate back the mapped ids
   const auto mapped_nb_gids =
-    chi_mpi_utils::MapAllToAll(mapped_query_nb_gids, MPI_UINT64_T, Chi::mpi.comm);
+    chi_mpi_utils::MapAllToAll(mapped_query_nb_gids, MPI_UINT64_T, App().Comm());
 
   // Create the neighbor cell mapping
   neighbor_cell_local_ids_.clear();
@@ -234,7 +233,7 @@ FiniteVolume::MapDOF(const chi_mesh::Cell& cell,
   if (component >= num_unknowns) return -1;
 
   int64_t address = -1;
-  if (cell.partition_id_ == Chi::mpi.location_id)
+  if (cell.partition_id_ == App().LocationID())
   {
     if (storage == chi_math::UnknownStorageType::BLOCK)
       address =
@@ -274,7 +273,7 @@ FiniteVolume::MapDOFLocal(const chi_mesh::Cell& cell,
   if (component >= num_unknowns) return -1;
 
   int64_t address = -1;
-  if (cell.partition_id_ == Chi::mpi.location_id)
+  if (cell.partition_id_ == App().LocationID())
   {
     if (storage == chi_math::UnknownStorageType::BLOCK)
       address = sc_int64(num_local_cells) * block_id + cell.local_id_;

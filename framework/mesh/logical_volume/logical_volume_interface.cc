@@ -1,8 +1,6 @@
 #include "framework/mesh/logical_volume/logical_volume_interface.h"
-
 #include "framework/mesh/logical_volume/logical_volume.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 
 namespace chi_mesh
 {
@@ -17,19 +15,18 @@ LogicalVolumeInterface::GetInputParameters()
   return params;
 }
 
-LogicalVolumeInterface::LogicalVolumeInterface(const chi::InputParameters& params)
-  : logical_volume_(
-      params.ParametersAtAssignment().Has("logical_volume")
-        ? Chi::GetStackItemPtrAsType<const LogicalVolume>(
-            Chi::object_stack, params.GetParamValue<size_t>("logical_volume"), __FUNCTION__)
-        : nullptr)
+LogicalVolumeInterface::LogicalVolumeInterface(opensn::App& app, const chi::InputParameters& params)
+  : logical_volume_(params.ParametersAtAssignment().Has("logical_volume")
+                      ? app.GetStackObject<LogicalVolume>(
+                          params.GetParamValue<size_t>("logical_volume"), __FUNCTION__)
+                      : std::shared_ptr<LogicalVolume>(nullptr))
 {
 }
 
-const LogicalVolume*
+const std::shared_ptr<LogicalVolume>
 LogicalVolumeInterface::GetLogicalVolume() const
 {
-  return logical_volume_ ? &(*logical_volume_) : nullptr;
+  return logical_volume_;
 }
 
 } // namespace chi_mesh

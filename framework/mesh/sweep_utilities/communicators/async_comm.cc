@@ -1,5 +1,6 @@
 #include "framework/mesh/sweep_utilities/communicators/async_comm.h"
-
+#include "framework/mesh/sweep_utilities/fluds/fluds.h"
+#include "framework/app.h"
 #include "framework/logging/log_exceptions.h"
 
 namespace chi_mesh::sweep_management
@@ -19,6 +20,12 @@ AsynchronousCommunicator::InitGetDownwindMessageData(int location_id,
                                                      size_t data_size)
 {
   ChiLogicalError("Method not implemented");
+}
+
+opensn::App&
+AsynchronousCommunicator::App() const
+{
+  return fluds_.App();
 }
 
 } // namespace chi_mesh::sweep_management

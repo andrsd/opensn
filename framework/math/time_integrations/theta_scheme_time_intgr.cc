@@ -26,8 +26,9 @@ ThetaSchemeTimeIntegration::GetInputParameters()
   return params;
 }
 
-ThetaSchemeTimeIntegration::ThetaSchemeTimeIntegration(const chi::InputParameters& params)
-  : TimeIntegration(params), theta_(params.GetParamValue<double>("theta"))
+ThetaSchemeTimeIntegration::ThetaSchemeTimeIntegration(opensn::App& app,
+                                                       const chi::InputParameters& params)
+  : TimeIntegration(app, params), theta_(params.GetParamValue<double>("theta"))
 {
 }
 

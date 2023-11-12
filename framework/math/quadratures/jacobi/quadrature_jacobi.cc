@@ -1,7 +1,16 @@
 #include "framework/math/quadratures/jacobi/quadrature_jacobi.h"
-
+#include "framework/app.h"
 #include <stdexcept>
 #include <string>
+
+chi_math::QuadratureJacobi::QuadratureJacobi(opensn::App& app,
+                                             QuadratureOrder order,
+                                             unsigned int alpha,
+                                             unsigned int beta)
+  : chi_math::Quadrature(app, order), m_alpha_(alpha), m_beta_(beta)
+{
+  Initialize(order);
+}
 
 void
 chi_math::QuadratureJacobi::Initialize(QuadratureOrder order)

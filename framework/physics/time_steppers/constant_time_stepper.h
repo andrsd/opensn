@@ -10,7 +10,7 @@ class ConstantTimeStepper : public TimeStepper
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit ConstantTimeStepper(const chi::InputParameters& params);
+  explicit ConstantTimeStepper(opensn::App& app, const chi::InputParameters& params);
 };
 
 } // namespace chi_physics

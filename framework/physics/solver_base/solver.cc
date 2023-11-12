@@ -1,11 +1,7 @@
 #include "framework/physics/solver_base/solver.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include "framework/physics/time_steppers/constant_time_stepper.h"
-
-#include "framework/object_factory.h"
 
 namespace chi_physics
 {
@@ -38,34 +34,39 @@ Solver::GetInputParameters()
   return params;
 }
 
-Solver::Solver(std::string in_text_name)
-  : timestepper_(InitTimeStepper(GetInputParameters())), text_name_(std::move(in_text_name))
-{
-}
-
-Solver::Solver(std::string in_text_name, std::initializer_list<BasicOption> in_options)
-  : basic_options_(in_options),
-    timestepper_(InitTimeStepper(GetInputParameters())),
+Solver::Solver(opensn::App& app, std::string in_text_name)
+  : chi::ChiObject(app),
+    timestepper_(InitTimeStepper(app, GetInputParameters())),
     text_name_(std::move(in_text_name))
 {
 }
 
-Solver::Solver(const chi::InputParameters& params)
-  : ChiObject(params),
-    timestepper_(InitTimeStepper(params)),
+Solver::Solver(opensn::App& app,
+               std::string in_text_name,
+               std::initializer_list<BasicOption> in_options)
+  : chi::ChiObject(app),
+    basic_options_(in_options),
+    timestepper_(InitTimeStepper(app, GetInputParameters())),
+    text_name_(std::move(in_text_name))
+{
+}
+
+Solver::Solver(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params),
+    timestepper_(InitTimeStepper(app, params)),
     text_name_(params.GetParamValue<std::string>("name"))
 {
 }
 
 std::shared_ptr<TimeStepper>
-Solver::InitTimeStepper(const chi::InputParameters& params)
+Solver::InitTimeStepper(opensn::App& app, const chi::InputParameters& params)
 {
   const auto& user_params = params.ParametersAtAssignment();
 
   if (user_params.Has("timestepper"))
   {
-    auto stepper = Chi::GetStackItemPtrAsType<TimeStepper>(
-      Chi::object_stack, params.GetParamValue<size_t>("timestepper"), __FUNCTION__);
+    auto stepper =
+      app.GetStackObject<TimeStepper>(params.GetParamValue<size_t>("timestepper"), __FUNCTION__);
 
     stepper->SetTimeStepSize(params.GetParamValue<double>("dt"));
     stepper->SetTime(params.GetParamValue<double>("time"));
@@ -77,10 +78,10 @@ Solver::InitTimeStepper(const chi::InputParameters& params)
   }
   else
   {
-    auto& factory = ChiObjectFactory::GetInstance();
+    auto& factory = app.Factory();
 
     const std::string obj_type = "chi_physics::ConstantTimeStepper";
-    auto valid_params = factory.GetRegisteredObjectParameters(obj_type);
+    auto valid_params = ChiObjectFactory::GetRegisteredObjectParameters(obj_type);
     chi::ParameterBlock custom_params;
 
     if (params.NumParameters() != 0)
@@ -94,9 +95,9 @@ Solver::InitTimeStepper(const chi::InputParameters& params)
 
     valid_params.AssignParameters(custom_params);
 
-    auto stepper = std::make_shared<ConstantTimeStepper>(valid_params);
-    Chi::object_stack.push_back(stepper);
-    stepper->SetStackID(Chi::object_stack.size() - 1);
+    auto stepper = std::make_shared<ConstantTimeStepper>(app, valid_params);
+    app.ObjectStack().push_back(stepper);
+    stepper->SetStackID(app.ObjectStack().size() - 1);
 
     return stepper;
   }
@@ -149,25 +150,25 @@ Solver::GetFieldFunctions() const
 void
 Solver::Initialize()
 {
-  Chi::log.Log() << "\"Initialize()\" method not defined for " << TextName();
+  App().Log().Log() << "\"Initialize()\" method not defined for " << TextName();
 }
 
 void
 Solver::Execute()
 {
-  Chi::log.Log() << "\"Execute()\" method not defined for " << TextName();
+  App().Log().Log() << "\"Execute()\" method not defined for " << TextName();
 }
 
 void
 Solver::Step()
 {
-  Chi::log.Log() << "\"Step()\" method not defined for " << TextName();
+  App().Log().Log() << "\"Step()\" method not defined for " << TextName();
 }
 
 void
 Solver::Advance()
 {
-  Chi::log.Log() << "\"Advance()\" method not defined for " << TextName();
+  App().Log().Log() << "\"Advance()\" method not defined for " << TextName();
 }
 
 chi::ParameterBlock
@@ -181,8 +182,8 @@ Solver::GetInfoWithPreCheck(const chi::ParameterBlock& params) const
 {
   if (not params.Has("name"))
   {
-    Chi::log.LogAllWarning() << "chi_physics::Solver::GetInfo called without "
-                                "\"name\" in the parameter list";
+    App().Log().LogAllWarning() << "chi_physics::Solver::GetInfo called without "
+                                   "\"name\" in the parameter list";
     return chi::ParameterBlock{};
   }
   return GetInfo(params);

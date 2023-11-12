@@ -26,11 +26,13 @@ private:
 
 public:
   explicit BoundaryIncidentHeterogeneous(
+    opensn::App& app,
     size_t in_num_groups,
     std::unique_ptr<BoundaryFunction> in_bndry_function,
     uint64_t in_ref_boundary_id,
     chi_math::CoordinateSystemType coord_type = chi_math::CoordinateSystemType::CARTESIAN)
-    : SweepBoundary(BoundaryType::INCIDENT_ANISOTROPIC_HETEROGENEOUS, in_num_groups, coord_type),
+    : SweepBoundary(
+        app, BoundaryType::INCIDENT_ANISOTROPIC_HETEROGENEOUS, in_num_groups, coord_type),
       boundary_function_(std::move(in_bndry_function)),
       ref_boundary_id_(in_ref_boundary_id)
   {

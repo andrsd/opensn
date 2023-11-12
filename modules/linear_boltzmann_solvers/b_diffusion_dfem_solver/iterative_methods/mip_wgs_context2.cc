@@ -1,15 +1,10 @@
 #include "modules/linear_boltzmann_solvers/b_diffusion_dfem_solver/iterative_methods/mip_wgs_context2.h"
-
-#include <petscksp.h>
-
 #include "modules/linear_boltzmann_solvers/b_diffusion_dfem_solver/lbs_mip_solver.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/preconditioning/lbs_shell_operations.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/diffusion_mip_solver.h"
-
-#include "framework/runtime.h"
-#include "framework/logging/log.h"
-
+#include "framework/app.h"
+#include <petscksp.h>
 #include <iomanip>
 
 #define sc_double static_cast<double>
@@ -49,9 +44,10 @@ MIPWGSContext2::PreSetupCallback()
       default:
         method_name = "KRYLOV_GMRES";
     }
-    Chi::log.Log() << "\n\n"
-                   << "********** Solving groupset " << groupset_.id_ << " with " << method_name
-                   << ".\n\n";
+    opensn::App& app = lbs_mip_ss_solver_.App();
+    app.Log().Log() << "\n\n"
+                    << "********** Solving groupset " << groupset_.id_ << " with " << method_name
+                    << ".\n\n";
   }
 }
 

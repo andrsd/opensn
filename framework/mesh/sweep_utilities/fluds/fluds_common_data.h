@@ -3,6 +3,11 @@
 #include <vector>
 #include <cstdint>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_mesh::sweep_management
 {
 class SPDS;
@@ -36,6 +41,7 @@ public:
 
   const SPDS& GetSPDS() const;
   const FaceNodalMapping& GetFaceNodalMapping(uint64_t cell_local_id, unsigned int face_id) const;
+  opensn::App& App() const;
 
 protected:
   const SPDS& spds_;

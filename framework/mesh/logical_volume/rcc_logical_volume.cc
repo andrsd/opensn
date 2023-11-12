@@ -25,8 +25,8 @@ RCCLogicalVolume::GetInputParameters()
   return params;
 }
 
-RCCLogicalVolume::RCCLogicalVolume(const chi::InputParameters& params)
-  : LogicalVolume(params),
+RCCLogicalVolume::RCCLogicalVolume(opensn::App& app, const chi::InputParameters& params)
+  : LogicalVolume(app, params),
     r_(params.GetParamValue<double>("r")),
     x0_(params.GetParamValue<double>("x0")),
     y0_(params.GetParamValue<double>("y0")),

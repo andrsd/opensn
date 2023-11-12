@@ -1,12 +1,9 @@
 #include "framework/interfaces/plugin.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/utils/utils.h"
-#include "framework/console/console.h"
-
+#include "lua/base/console.h"
 #include <dlfcn.h>
 
 namespace chi
@@ -35,7 +32,7 @@ Plugin::GetInputParameters()
 Plugin::Plugin(const InputParameters& params)
   : ChiObject(params), plugin_path_(params.GetParamValue<std::string>("plugin_path"))
 {
-  Chi::log.Log0Verbose1() << "Loading plugin \"" << plugin_path_ << "\"";
+  App().Log().Log0Verbose1() << "Loading plugin \"" << plugin_path_ << "\"";
   chi::RegistryStatuses registry_statuses = Chi::GetStatusOfRegistries();
 
   chi::AssertReadibleFile(plugin_path_);

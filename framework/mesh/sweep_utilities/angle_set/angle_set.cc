@@ -1,5 +1,5 @@
 #include "framework/mesh/sweep_utilities/angle_set/angle_set.h"
-
+#include "framework/mesh/sweep_utilities/spds/spds.h"
 #include "framework/logging/log_exceptions.h"
 
 namespace chi_mesh::sweep_management
@@ -20,6 +20,12 @@ AngleSet::AngleSet(size_t id,
     ref_boundaries_(sim_boundaries),
     ref_group_subset_(in_ref_subset)
 {
+}
+
+opensn::App&
+AngleSet::App() const
+{
+  return spds_.App();
 }
 
 size_t

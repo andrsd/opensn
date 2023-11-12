@@ -6,6 +6,11 @@
 #include <memory>
 #include <petscksp.h>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_math
 {
 
@@ -31,13 +36,18 @@ public:
     double gmres_breakdown_tolerance = 1.0e6;
   } tolerance_options_;
 
-  LinearSolver(const std::string& iterative_method, LinSolveContextPtr context_ptr);
+  LinearSolver(opensn::App& app,
+               const std::string& iterative_method,
+               LinSolveContextPtr context_ptr);
 
-  LinearSolver(const std::string& solver_name,
+  LinearSolver(opensn::App& app,
+               const std::string& solver_name,
                const std::string& iterative_method,
                LinSolveContextPtr context_ptr);
 
   virtual ~LinearSolver();
+
+  opensn::App& App() const { return app_; }
 
   ToleranceOptions& ToleranceOptions() { return tolerance_options_; }
   void ApplyToleranceOptions();
@@ -75,6 +85,7 @@ protected:
   virtual void PostSolveCallback();
 
   /// Solver name
+  opensn::App& app_;
   const std::string solver_name_;
   const std::string iterative_method_;
 

@@ -4,6 +4,11 @@
 #include <string>
 #include <stdexcept>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_math
 {
 
@@ -116,36 +121,42 @@ public:
 class UnknownManager
 {
 private:
+  opensn::App& app_;
+
 public:
   std::vector<Unknown> unknowns_;
   UnknownStorageType dof_storage_type_;
 
   typedef std::pair<UnknownType, unsigned int> UnknownInfo;
   // Constructors
-  explicit UnknownManager(UnknownStorageType in_storage_type = UnknownStorageType::NODAL) noexcept
-    : dof_storage_type_(in_storage_type)
+  explicit UnknownManager(opensn::App& app,
+                          UnknownStorageType in_storage_type = UnknownStorageType::NODAL) noexcept
+    : app_(app), dof_storage_type_(in_storage_type)
   {
   }
 
-  UnknownManager(std::initializer_list<UnknownInfo> unknown_info_list,
+  UnknownManager(opensn::App& app,
+                 std::initializer_list<UnknownInfo> unknown_info_list,
                  UnknownStorageType in_storage_type = UnknownStorageType::NODAL) noexcept
-    : dof_storage_type_(in_storage_type)
+    : app_(app), dof_storage_type_(in_storage_type)
   {
     for (const auto& uk_info : unknown_info_list)
       AddUnknown(uk_info.first, uk_info.second);
   }
 
-  explicit UnknownManager(const std::vector<Unknown>& unknown_info_list,
+  explicit UnknownManager(opensn::App& app,
+                          const std::vector<Unknown>& unknown_info_list,
                           UnknownStorageType in_storage_type = UnknownStorageType::NODAL) noexcept
-    : dof_storage_type_(in_storage_type)
+    : app_(app), dof_storage_type_(in_storage_type)
   {
     for (const auto& uk : unknown_info_list)
       AddUnknown(uk.type_, uk.num_components_);
   }
 
-  UnknownManager(std::initializer_list<Unknown> unknowns,
+  UnknownManager(opensn::App& app,
+                 std::initializer_list<Unknown> unknowns,
                  UnknownStorageType in_storage_type = UnknownStorageType::NODAL) noexcept
-    : dof_storage_type_(in_storage_type)
+    : app_(app), dof_storage_type_(in_storage_type)
   {
     size_t ukid = 0;
     for (const auto& uk : unknowns)
@@ -164,12 +175,14 @@ public:
   }
 
   UnknownManager(const UnknownManager& other) = default;
-  UnknownManager& operator=(const UnknownManager& other) = default;
+  // UnknownManager& operator=(const UnknownManager& other) = default;
+
+  opensn::App& App() const { return app_; }
 
   // Utilities
-  static UnknownManager GetUnitaryUnknownManager()
+  static UnknownManager GetUnitaryUnknownManager(opensn::App& app)
   {
-    return UnknownManager({std::make_pair(UnknownType::SCALAR, 0)});
+    return UnknownManager(app, {std::make_pair(UnknownType::SCALAR, 0)});
   }
 
   size_t NumberOfUnknowns() const { return unknowns_.size(); }

@@ -1,26 +1,19 @@
 #include "modules/fv_diffusion/fv_diffusion_solver.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
-
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
 #include "modules/fv_diffusion/fv_diffusion_bndry.h"
-
 #include "framework/physics/field_function/field_function_grid_based.h"
-
 #include "framework/math/spatial_discretization/finite_volume/finite_volume.h"
 
-// constructor
-fv_diffusion::Solver::Solver(const std::string& in_solver_name)
-  : chi_physics::Solver(in_solver_name,
-                        {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
+fv_diffusion::Solver::Solver(opensn::App& app, const std::string& in_solver_name)
+  : chi_physics::Solver(
+      app, in_solver_name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
 {
 }
 
-// destructor
 fv_diffusion::Solver::~Solver()
 {
   VecDestroy(&x_);
@@ -28,22 +21,21 @@ fv_diffusion::Solver::~Solver()
   MatDestroy(&A_);
 }
 
-// Initialize
 void
 fv_diffusion::Solver::Initialize()
 {
   const std::string fname = "fv_diffusion::Solver::Initialize";
-  Chi::log.Log() << "\n"
-                 << Chi::program_timer.GetTimeString() << " " << TextName()
-                 << ": Initializing CFEM Diffusion solver ";
+  App().Log().Log() << "\n"
+                    << App().ProgramTimer().GetTimeString() << " " << TextName()
+                    << ": Initializing CFEM Diffusion solver ";
 
   // Get grid
-  grid_ptr_ = chi_mesh::GetCurrentHandler().GetGrid();
+  grid_ptr_ = App().GetCurrentMeshHandler()->GetGrid();
   const auto& grid = *grid_ptr_;
   if (grid_ptr_ == nullptr)
     throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 
-  Chi::log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  App().Log().Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
 
   // BIDs
   auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
@@ -66,7 +58,7 @@ fv_diffusion::Solver::Initialize()
         {
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Reflecting, {0., 0., 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to reflecting.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to reflecting.";
           break;
         }
         case BoundaryType::Dirichlet:
@@ -74,7 +66,7 @@ fv_diffusion::Solver::Initialize()
           if (bndry_vals.empty()) bndry_vals.resize(1, 0.0);
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Dirichlet, {bndry_vals[0], 0., 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to dirichlet.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to dirichlet.";
           break;
         }
         case BoundaryType::Robin:
@@ -85,15 +77,15 @@ fv_diffusion::Solver::Initialize()
           boundaries_.insert(std::make_pair(
             bndry_id,
             Boundary{BoundaryType::Robin, {bndry_vals[0], bndry_vals[1], bndry_vals[2]}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to robin." << bndry_vals[0] << ","
-                         << bndry_vals[1] << "," << bndry_vals[2];
+          App().Log().Log() << "Boundary " << bndry_name << " set to robin." << bndry_vals[0] << ","
+                            << bndry_vals[1] << "," << bndry_vals[2];
           break;
         }
         case BoundaryType::Vacuum:
         {
           boundaries_.insert(
             std::make_pair(bndry_id, Boundary{BoundaryType::Robin, {0.25, 0.5, 0.}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to vacuum.";
+          App().Log().Log() << "Boundary " << bndry_name << " set to vacuum.";
           break;
         }
         case BoundaryType::Neumann:
@@ -103,7 +95,7 @@ fv_diffusion::Solver::Initialize()
                                    " Neumann needs 3 values in bndry vals.");
           boundaries_.insert(std::make_pair(
             bndry_id, Boundary{BoundaryType::Robin, {0., bndry_vals[0], bndry_vals[1]}}));
-          Chi::log.Log() << "Boundary " << bndry_name << " set to neumann." << bndry_vals[0];
+          App().Log().Log() << "Boundary " << bndry_name << " set to neumann." << bndry_vals[0];
           break;
         }
       } // switch boundary type
@@ -111,8 +103,8 @@ fv_diffusion::Solver::Initialize()
     else
     {
       boundaries_.insert(std::make_pair(bndry_id, Boundary{BoundaryType::Dirichlet, {0., 0., 0.}}));
-      Chi::log.Log0Verbose1() << "No boundary preference found for boundary index " << bndry_name
-                              << "Dirichlet boundary added with zero boundary value.";
+      App().Log().Log0Verbose1() << "No boundary preference found for boundary index " << bndry_name
+                                 << "Dirichlet boundary added with zero boundary value.";
     }
   } // for bndry
 
@@ -124,8 +116,8 @@ fv_diffusion::Solver::Initialize()
   num_local_dofs_ = sdm.GetNumLocalDOFs(OneDofPerNode);
   num_globl_dofs_ = sdm.GetNumGlobalDOFs(OneDofPerNode);
 
-  Chi::log.Log() << "Num local DOFs: " << num_local_dofs_;
-  Chi::log.Log() << "Num globl DOFs: " << num_globl_dofs_;
+  App().Log().Log() << "Num local DOFs: " << num_local_dofs_;
+  App().Log().Log() << "Num globl DOFs: " << num_globl_dofs_;
 
   // Initializes Mats and Vecs
   const auto n = static_cast<int64_t>(num_local_dofs_);
@@ -150,10 +142,10 @@ fv_diffusion::Solver::Initialize()
 
     using namespace chi_math;
     auto initial_field_function = std::make_shared<chi_physics::FieldFunctionGridBased>(
-      text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
+      App(), text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
 
     field_functions_.push_back(initial_field_function);
-    Chi::field_function_stack.push_back(initial_field_function);
+    App().FieldFunctionStack().push_back(initial_field_function);
   } // if not ff set
 
 } // end initialize
@@ -162,19 +154,20 @@ fv_diffusion::Solver::Initialize()
 void
 fv_diffusion::Solver::Execute()
 {
-  Chi::log.Log() << "\nExecuting CFEM Diffusion solver";
+  App().Log().Log() << "\nExecuting CFEM Diffusion solver";
 
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-#ifdef OPENSN_WITH_LUA
+  // FIXME
+#if 0
   lua_State* L = Chi::console.GetConsoleState();
 #endif
 
   // Assemble the system
   // P ~ Present cell
   // N ~ Neighbor cell
-  Chi::log.Log() << "Assembling system: ";
+  App().Log().Log() << "Assembling system: ";
   for (const auto& cell_P : grid.local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell_P);
@@ -183,7 +176,8 @@ fv_diffusion::Solver::Execute()
 
     const auto imat = cell_P.material_id_;
 
-#ifdef OPENSN_WITH_LUA
+    // FIXME
+#if 0
     const double sigma_a = CallLua_iXYZFunction(L, "Sigma_a", imat, x_cc_P);
     const double q_ext = CallLua_iXYZFunction(L, "Q_ext", imat, x_cc_P);
     const double D_P = CallLua_iXYZFunction(L, "D_coef", imat, x_cc_P);
@@ -254,17 +248,17 @@ fv_diffusion::Solver::Execute()
 #endif
   } // for cell
 
-  Chi::log.Log() << "Global assembly";
+  App().Log().Log() << "Global assembly";
 
   MatAssemblyBegin(A_, MAT_FINAL_ASSEMBLY);
   MatAssemblyEnd(A_, MAT_FINAL_ASSEMBLY);
   VecAssemblyBegin(b_);
   VecAssemblyEnd(b_);
 
-  Chi::log.Log() << "Done global assembly";
+  App().Log().Log() << "Done global assembly";
 
   // Create Krylov Solver
-  Chi::log.Log() << "Solving: ";
+  App().Log().Log() << "Solving: ";
   auto petsc_solver = chi_math::PETScUtils::CreateCommonKrylovSolverSetup(
     A_,
     TextName(),
@@ -278,5 +272,5 @@ fv_diffusion::Solver::Execute()
 
   UpdateFieldFunctions();
 
-  Chi::log.Log() << "Done solving";
+  App().Log().Log() << "Done solving";
 }

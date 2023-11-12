@@ -23,7 +23,7 @@ private:
   //  Methods
 public:
   static chi::InputParameters GetInputParameters();
-  explicit DiscreteOrdinatesCurvilinearSolver(const chi::InputParameters& params);
+  explicit DiscreteOrdinatesCurvilinearSolver(opensn::App& app, const chi::InputParameters& params);
 
   // Deleted copy constructors
   DiscreteOrdinatesCurvilinearSolver(const DiscreteOrdinatesCurvilinearSolver&) = delete;

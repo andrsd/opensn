@@ -1,11 +1,10 @@
 #include "framework/math/quadratures/quadrature_quadrilateral.h"
-
 #include "framework/math/quadratures/quadrature_gausslegendre.h"
 
-chi_math::QuadratureQuadrilateral::QuadratureQuadrilateral(QuadratureOrder order)
-  : Quadrature(order)
+chi_math::QuadratureQuadrilateral::QuadratureQuadrilateral(opensn::App& app, QuadratureOrder order)
+  : Quadrature(app, order)
 {
-  QuadratureGaussLegendre legendre(order);
+  QuadratureGaussLegendre legendre(app, order);
 
   legendre.SetRange({-1.0, 1.0});
 

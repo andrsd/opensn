@@ -2,6 +2,7 @@
 
 #include "framework/object.h"
 #include "framework/mesh/unpartitioned_mesh/unpartitioned_mesh.h"
+#include "mpi.h"
 
 namespace chi
 {
@@ -31,7 +32,7 @@ class MeshContinuum;
  * creates the real mesh can be hooked up to a partitioner that can also be
  * designed to be pluggable.
  */
-class MeshGenerator : public ChiObject
+class MeshGenerator : public chi::ChiObject
 {
 public:
   /**
@@ -40,7 +41,7 @@ public:
   virtual void Execute();
 
   static chi::InputParameters GetInputParameters();
-  explicit MeshGenerator(const chi::InputParameters& params);
+  explicit MeshGenerator(opensn::App& app, const chi::InputParameters& params);
 
   /**
    * Virtual method to generate the unpartitioned mesh for the next step.
@@ -80,7 +81,7 @@ protected:
   /**
    * Broadcasts PIDs to other locations.
    */
-  static void BroadcastPIDs(std::vector<int64_t>& cell_pids, int root, MPI_Comm communicator);
+  static void BroadcastPIDs(opensn::App& app, std::vector<int64_t>& cell_pids, int root);
 
   /**
    * Determines if a cells needs to be included as a ghost or as a local cell.
@@ -108,8 +109,8 @@ protected:
 
   const double scale_;
   const bool replicated_;
-  std::vector<MeshGenerator*> inputs_;
-  chi::GraphPartitioner* partitioner_ = nullptr;
+  std::vector<std::shared_ptr<MeshGenerator>> inputs_;
+  std::shared_ptr<chi::GraphPartitioner> partitioner_;
 };
 
 } // namespace chi_mesh

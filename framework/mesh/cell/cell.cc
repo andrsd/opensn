@@ -1,9 +1,6 @@
 #include "framework/mesh/cell/cell.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
 #include "framework/data_types/byte_array.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 
@@ -87,18 +84,18 @@ bool
 chi_mesh::CellFace::IsNeighborLocal(const chi_mesh::MeshContinuum& grid) const
 {
   if (not has_neighbor_) return false;
-  if (Chi::mpi.process_count == 1) return true;
+  if (grid.App().ProcessCount() == 1) return true;
 
   auto& adj_cell = grid.cells[neighbor_id_];
 
-  return (adj_cell.partition_id_ == static_cast<uint64_t>(Chi::mpi.location_id));
+  return (adj_cell.partition_id_ == static_cast<uint64_t>(grid.App().LocationID()));
 }
 
 int
 chi_mesh::CellFace::GetNeighborPartitionID(const chi_mesh::MeshContinuum& grid) const
 {
   if (not has_neighbor_) return -1;
-  if (Chi::mpi.process_count == 1) return 0;
+  if (grid.App().ProcessCount() == 1) return 0;
 
   auto& adj_cell = grid.cells[neighbor_id_];
 
@@ -109,11 +106,11 @@ uint64_t
 chi_mesh::CellFace::GetNeighborLocalID(const chi_mesh::MeshContinuum& grid) const
 {
   if (not has_neighbor_) return -1;
-  if (Chi::mpi.process_count == 1) return neighbor_id_; // cause global_ids=local_ids
+  if (grid.App().ProcessCount() == 1) return neighbor_id_; // cause global_ids=local_ids
 
   auto& adj_cell = grid.cells[neighbor_id_];
 
-  if (adj_cell.partition_id_ != Chi::mpi.location_id)
+  if (adj_cell.partition_id_ != grid.App().LocationID())
     throw std::logic_error("Cell local ID requested from a non-local cell.");
 
   return adj_cell.local_id_;

@@ -7,6 +7,13 @@
 namespace lbs
 {
 
+AGSContext::AGSContext(LBSSolver& lbs_solver, std::vector<LinSolveBaseTypePtr> sub_solvers_list)
+  : chi_math::LinearSolverContext(lbs_solver.App()),
+    lbs_solver_(lbs_solver),
+    sub_solvers_list_(std::move(sub_solvers_list))
+{
+}
+
 std::pair<int64_t, int64_t>
 AGSContext::SystemSize()
 {

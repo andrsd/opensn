@@ -9,7 +9,7 @@ class FromFileMeshGenerator : public MeshGenerator
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit FromFileMeshGenerator(const chi::InputParameters& params);
+  explicit FromFileMeshGenerator(opensn::App& app, const chi::InputParameters& params);
 
 protected:
   std::unique_ptr<UnpartitionedMesh>

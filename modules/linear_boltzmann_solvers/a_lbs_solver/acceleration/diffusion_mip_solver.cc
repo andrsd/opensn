@@ -4,10 +4,9 @@
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
 #include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_structs.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
-#include "framework/console/console.h"
 #include <utility>
 
 #define DefaultBCDirichlet                                                                         \
@@ -24,14 +23,16 @@
 namespace lbs::acceleration
 {
 
-DiffusionMIPSolver::DiffusionMIPSolver(std::string text_name,
+DiffusionMIPSolver::DiffusionMIPSolver(opensn::App& app,
+                                       std::string text_name,
                                        const chi_math::SpatialDiscretization& sdm,
                                        const chi_math::UnknownManager& uk_man,
                                        std::map<uint64_t, BoundaryCondition> bcs,
                                        MatID2XSMap map_mat_id_2_xs,
                                        const std::vector<UnitCellMatrices>& unit_cell_matrices,
                                        const bool verbose)
-  : DiffusionSolver(std::move(text_name),
+  : DiffusionSolver(app,
+                    std::move(text_name),
                     sdm,
                     uk_man,
                     std::move(bcs),
@@ -56,9 +57,11 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
   if (A_ == nullptr or rhs_ == nullptr or ksp_ == nullptr)
     throw std::logic_error(fname + ": Some or all PETSc elements are null. "
                                    "Check that Initialize has been called.");
-  if (options.verbose) Chi::log.Log() << Chi::program_timer.GetTimeString() << " Starting assembly";
+  if (options.verbose)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
-#ifdef OPENSN_WITH_LUA
+    // FIXME
+#if 0
   lua_State* L = Chi::console.GetConsoleState();
 #endif
   const auto& source_function = options.source_lua_function;
@@ -115,7 +118,8 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 
         if (not source_function.empty())
         {
-#ifdef OPENSN_WITH_LUA
+          // FIXME
+#if 0
           for (size_t qp : qp_data.QuadraturePointIndices())
             entry_rhs_i += CallLuaXYZFunction(L, source_function, qp_data.QPointXYZ(qp)) *
                            qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
@@ -271,7 +275,8 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 
                 if (not solution_function.empty())
                 {
-#ifdef OPENSN_WITH_LUA
+                  // FIXME
+#if 0
                   aij_bc_value = 0.0;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     aij_bc_value +=
@@ -309,7 +314,8 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 
                 if (not solution_function.empty())
                 {
-#ifdef OPENSN_WITH_LUA
+                  // FIXME
+#if 0
                   chi_mesh::Vector3 vec_aij_mms;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     vec_aij_mms +=
@@ -386,7 +392,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
   KSPSetOperators(ksp_, A_, A_);
 
   if (options.verbose)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Assembly completed";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Assembly completed";
 
   PC pc;
   KSPGetPC(ksp_, &pc);
@@ -403,9 +409,11 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
   if (A_ == nullptr or rhs_ == nullptr or ksp_ == nullptr)
     throw std::logic_error(fname + ": Some or all PETSc elements are null. "
                                    "Check that Initialize has been called.");
-  if (options.verbose) Chi::log.Log() << Chi::program_timer.GetTimeString() << " Starting assembly";
+  if (options.verbose)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
-#ifdef OPENSN_WITH_LUA
+    // FIXME
+#if 0
   lua_State* L = Chi::console.GetConsoleState();
 #endif
   const auto& source_function = options.source_lua_function;
@@ -449,7 +457,8 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
           }   // for j
         else
         {
-#ifdef OPENSN_WITH_LUA
+          // FIXME
+#if 0
           for (size_t qp : qp_data.QuadraturePointIndices())
             entry_rhs_i += CallLuaXYZFunction(L, source_function, qp_data.QPointXYZ(qp)) *
                            qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
@@ -506,7 +515,8 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
                 if (not solution_function.empty())
                 {
                   aij_bc_value = 0.0;
-#ifdef OPENSN_WITH_LUA
+                  // FIXME
+#if 0
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     aij_bc_value +=
                       kappa * CallLuaXYZFunction(L, solution_function, fqp_data.QPointXYZ(qp)) *
@@ -540,7 +550,8 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
 
                 if (not solution_function.empty())
                 {
-#ifdef OPENSN_WITH_LUA
+                  // FIXME
+#if 0
                   chi_mesh::Vector3 vec_aij_mms;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     vec_aij_mms +=
@@ -589,7 +600,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
   KSPSetOperators(ksp_, A_, A_);
 
   if (options.verbose)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Assembly completed";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Assembly completed";
 
   PC pc;
   KSPGetPC(ksp_, &pc);
@@ -606,7 +617,8 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
   if (A_ == nullptr or rhs_ == nullptr or ksp_ == nullptr)
     throw std::logic_error(fname + ": Some or all PETSc elements are null. "
                                    "Check that Initialize has been called.");
-  if (options.verbose) Chi::log.Log() << Chi::program_timer.GetTimeString() << " Starting assembly";
+  if (options.verbose)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
   const size_t num_groups = uk_man_.unknowns_.front().num_components_;
 
@@ -861,10 +873,10 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
     MatInfo info;
     MatGetInfo(A_, MAT_GLOBAL_SUM, &info);
 
-    Chi::log.Log() << "Number of mallocs used = " << info.mallocs
-                   << "\nNumber of non-zeros allocated = " << info.nz_allocated
-                   << "\nNumber of non-zeros used = " << info.nz_used
-                   << "\nNumber of unneeded non-zeros = " << info.nz_unneeded;
+    App().Log().Log() << "Number of mallocs used = " << info.mallocs
+                      << "\nNumber of non-zeros allocated = " << info.nz_allocated
+                      << "\nNumber of non-zeros used = " << info.nz_used
+                      << "\nNumber of unneeded non-zeros = " << info.nz_unneeded;
   }
 
   if (options.perform_symmetry_check)
@@ -877,7 +889,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
   KSPSetOperators(ksp_, A_, A_);
 
   if (options.verbose)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Assembly completed";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Assembly completed";
 
   PC pc;
   KSPGetPC(ksp_, &pc);
@@ -894,7 +906,8 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
   if (A_ == nullptr or rhs_ == nullptr or ksp_ == nullptr)
     throw std::logic_error(fname + ": Some or all PETSc elements are null. "
                                    "Check that Initialize has been called.");
-  if (options.verbose) Chi::log.Log() << Chi::program_timer.GetTimeString() << " Starting assembly";
+  if (options.verbose)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
   const size_t num_groups = uk_man_.unknowns_.front().num_components_;
 
@@ -1026,7 +1039,7 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
   VecAssemblyEnd(rhs_);
 
   if (options.verbose)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Assembly completed";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Assembly completed";
 }
 
 void
@@ -1037,7 +1050,8 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
   if (A_ == nullptr or rhs_ == nullptr or ksp_ == nullptr)
     throw std::logic_error(fname + ": Some or all PETSc elements are null. "
                                    "Check that Initialize has been called.");
-  if (options.verbose) Chi::log.Log() << Chi::program_timer.GetTimeString() << " Starting assembly";
+  if (options.verbose)
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
   const size_t num_groups = uk_man_.unknowns_.front().num_components_;
 
@@ -1174,7 +1188,7 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
   VecAssemblyEnd(rhs_);
 
   if (options.verbose)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Assembly completed";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Assembly completed";
 }
 
 double
@@ -1266,7 +1280,7 @@ DiffusionMIPSolver::MapFaceNodeDisc(const chi_mesh::Cell& cur_cell,
     "lbs::acceleration::DiffusionMIPSolver::MapFaceNodeDisc: Mapping failure.");
 }
 
-#ifdef OPENSN_WITH_LUA
+#if 0
 double
 DiffusionMIPSolver::CallLuaXYZFunction(lua_State* L,
                                        const std::string& lua_func_name,

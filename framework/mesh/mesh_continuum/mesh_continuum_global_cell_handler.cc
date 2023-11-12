@@ -1,13 +1,11 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
-#include "framework/runtime.h"
 #include "framework/mpi/mpi.h"
 #include "framework/logging/log.h"
 
 void
 chi_mesh::GlobalCellHandler::push_back(std::unique_ptr<chi_mesh::Cell> new_cell)
 {
-  if (new_cell->partition_id_ == static_cast<uint64_t>(Chi::mpi.location_id))
+  if (new_cell->partition_id_ == static_cast<uint64_t>(app_.LocationID()))
   {
     new_cell->local_id_ = local_cells_ref_.size();
 

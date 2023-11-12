@@ -17,4 +17,6 @@ public:
   std::string name_ = "Unnamed Material";
 };
 
+typedef std::shared_ptr<Material> MaterialPtr;
+
 } // namespace chi_physics

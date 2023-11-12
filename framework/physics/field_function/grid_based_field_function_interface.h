@@ -16,9 +16,9 @@ class GridBasedFieldFunctionInterface : public FieldFunctionInterface
 public:
   static chi::InputParameters GetInputParameters();
 
-  explicit GridBasedFieldFunctionInterface(const chi::InputParameters& params);
+  explicit GridBasedFieldFunctionInterface(opensn::App& app, const chi::InputParameters& params);
 
-  FieldFunctionGridBased* GetGridBasedFieldFunction() const;
+  std::shared_ptr<FieldFunctionGridBased> GetGridBasedFieldFunction() const;
 };
 
 } // namespace chi_physics

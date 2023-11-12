@@ -10,7 +10,7 @@ class SurfaceMeshLogicalVolume : public LogicalVolume
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit SurfaceMeshLogicalVolume(const chi::InputParameters& params);
+  explicit SurfaceMeshLogicalVolume(opensn::App& app, const chi::InputParameters& params);
 
   bool Inside(const chi_mesh::Vector3& point) const override;
 

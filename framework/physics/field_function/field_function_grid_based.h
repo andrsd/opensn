@@ -32,23 +32,26 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**ObjectMaker based constructor.*/
-  explicit FieldFunctionGridBased(const chi::InputParameters& params);
+  explicit FieldFunctionGridBased(opensn::App& app, const chi::InputParameters& params);
 
   /**Creates a field function, filling it with zeros.*/
-  FieldFunctionGridBased(const std::string& text_name,
+  FieldFunctionGridBased(opensn::App& app,
+                         const std::string& text_name,
                          chi_math::SDMPtr& discretization_ptr,
                          chi_math::Unknown unknown);
 
   /**Creates a field function with an associated field vector.
    * The field's data vector is set to the incoming field vector.*/
-  FieldFunctionGridBased(const std::string& text_name,
+  FieldFunctionGridBased(opensn::App& app,
+                         const std::string& text_name,
                          chi_math::SDMPtr& sdm_ptr,
                          chi_math::Unknown unknown,
                          const std::vector<double>& field_vector);
 
   /**Creates a field function where all the values are assigned to
    * the single supplied value.*/
-  FieldFunctionGridBased(const std::string& text_name,
+  FieldFunctionGridBased(opensn::App& app,
+                         const std::string& text_name,
                          chi_math::SDMPtr& sdm_ptr,
                          chi_math::Unknown unknown,
                          double field_value);
@@ -88,7 +91,8 @@ public:
   /**
    * Export multiple field functions to VTK.
    */
-  static void ExportMultipleToVTK(const std::string& file_base_name, const FFList& ff_list);
+  static void
+  ExportMultipleToVTK(opensn::App& app, const std::string& file_base_name, const FFList& ff_list);
 
   /**
    * Makes a copy of the locally stored data with ghost access.
@@ -113,16 +117,13 @@ private:
   /**
    * Static method for making the GetSpatialDiscretization for the constructors.
    */
-  static chi_math::SDMPtr MakeSpatialDiscretization(const chi::InputParameters& params);
+  static chi_math::SDMPtr MakeSpatialDiscretization(opensn::App& app,
+                                                    const chi::InputParameters& params);
 
   /**
    * Static method for making the ghosted vector for the constructors.
    */
   static std::unique_ptr<chi_math::GhostedParallelSTLVector>
-
-  /**
-   * Private method for creating the field vector.
-   */
   MakeFieldVector(const chi_math::SpatialDiscretization& discretization,
                   const chi_math::UnknownManager& uk_man);
 

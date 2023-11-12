@@ -17,7 +17,7 @@ class ExtruderMeshGenerator : public MeshGenerator
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit ExtruderMeshGenerator(const chi::InputParameters& params);
+  explicit ExtruderMeshGenerator(opensn::App& app, const chi::InputParameters& params);
 
 protected:
   std::unique_ptr<UnpartitionedMesh>

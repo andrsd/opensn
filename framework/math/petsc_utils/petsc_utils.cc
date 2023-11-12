@@ -1,6 +1,5 @@
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/math/parallel_vector/parallel_vector.h"
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include <iomanip>
 
@@ -170,7 +169,8 @@ KSPMonitorRelativeToRHS(KSP ksp, PetscInt n, PetscReal rnorm, void*)
   buff << ksp_name << " iteration " << std::setw(4) << n << " - Residual " << std::scientific
        << std::setprecision(7) << rnorm / rhs_norm << std::endl;
 
-  Chi::log.Log() << buff.str();
+  // FIXME: make this work
+  // Chi::log.Log() << buff.str();
 
   return 0;
 }
@@ -192,7 +192,8 @@ KSPMonitorStraight(KSP ksp, PetscInt n, PetscReal rnorm, void*)
   buff << ksp_name << " iteration " << std::setw(4) << n << " - Residual " << std::scientific
        << std::setprecision(7) << rnorm << std::endl;
 
-  Chi::log.Log() << buff.str();
+  // FIXME: make this work
+  // Chi::log.Log() << buff.str();
 
   return 0;
 }

@@ -1,4 +1,5 @@
-#ifdef OPENSN_WITH_LUA
+// FIXME
+#if 0
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/tools/lbs_bndry_func_lua.h"
 
 #include "framework/lua.h"

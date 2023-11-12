@@ -2,6 +2,11 @@
 
 #include "framework/post_processors/post_processor.h"
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_physics
 {
 class Solver;
@@ -14,12 +19,12 @@ class SolverInfoPostProcessor : public PostProcessor
 {
 public:
   static InputParameters GetInputParameters();
-  explicit SolverInfoPostProcessor(const InputParameters& params);
+  explicit SolverInfoPostProcessor(opensn::App& app, const InputParameters& params);
 
   void Execute(const Event& event_context) override;
 
 private:
-  const chi_physics::Solver& solver_;
+  std::shared_ptr<chi_physics::Solver> solver_;
   const ParameterBlock info_;
 };
 

@@ -12,7 +12,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit ThetaSchemeTimeIntegration(const chi::InputParameters& params);
+  explicit ThetaSchemeTimeIntegration(opensn::App& app, const chi::InputParameters& params);
 
   double ThetaFactor() const;
 };

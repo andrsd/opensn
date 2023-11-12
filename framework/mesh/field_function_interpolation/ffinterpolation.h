@@ -1,5 +1,6 @@
 #pragma once
 
+#include "framework/app.h"
 #include <memory>
 #include <vector>
 
@@ -56,13 +57,21 @@ namespace chi_mesh
 /** Base class for field-function interpolation objects.*/
 class FieldFunctionInterpolation
 {
+private:
+  opensn::App& app_;
+
 protected:
   ff_interpolation::Type type_;
   unsigned int ref_component_ = 0;
   std::vector<chi_physics::FieldFunctionGridBasedPtr> field_functions_;
 
 public:
-  explicit FieldFunctionInterpolation(ff_interpolation::Type type) : type_(type) {}
+  explicit FieldFunctionInterpolation(opensn::App& app, ff_interpolation::Type type)
+    : app_(app), type_(type)
+  {
+  }
+
+  opensn::App& App() const { return app_; }
 
   std::vector<chi_physics::FieldFunctionGridBasedPtr>& GetFieldFunctions()
   {

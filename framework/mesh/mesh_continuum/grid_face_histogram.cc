@@ -1,6 +1,4 @@
 #include "framework/mesh/mesh_continuum/grid_face_histogram.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 namespace chi_mesh
@@ -36,8 +34,9 @@ GridFaceHistogram::GetFaceHistogramBinDOFSize(size_t bin_number) const
   }
   catch (std::out_of_range& o)
   {
-    Chi::log.LogAllWarning() << "Fault detected in chi_mesh::MeshContinuum::"
-                             << "GetFaceHistogramBinDOFSize.";
+    // FIXME: make this work
+    // Chi::log.LogAllWarning()
+    //   << "Fault detected in chi_mesh::MeshContinuum::GetFaceHistogramBinDOFSize.";
     return 0;
   }
 

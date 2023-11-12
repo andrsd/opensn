@@ -36,8 +36,9 @@ private:
   uint64_t zmin_bndry_id = 5;
 
 public:
-  explicit VolumeMesherExtruder(std::shared_ptr<const UnpartitionedMesh> in_unpartitioned_mesh)
-    : VolumeMesher(VolumeMesherType::EXTRUDER),
+  explicit VolumeMesherExtruder(opensn::App& app,
+                                std::shared_ptr<const UnpartitionedMesh> in_unpartitioned_mesh)
+    : VolumeMesher(app, VolumeMesherType::EXTRUDER),
       template_type_(TemplateType::UNPARTITIONED_MESH),
       template_unpartitioned_mesh_(std::move(in_unpartitioned_mesh))
   {

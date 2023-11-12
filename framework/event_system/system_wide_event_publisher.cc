@@ -3,17 +3,18 @@
 namespace chi
 {
 
-SystemWideEventPublisher::SystemWideEventPublisher() : chi::EventPublisher("SystemWide")
+SystemWideEventPublisher::SystemWideEventPublisher(opensn::App& app)
+  : chi::EventPublisher(app, "SystemWide")
 {
 }
 
-SystemWideEventPublisher&
-SystemWideEventPublisher::GetInstance()
-{
-  static SystemWideEventPublisher instance;
-
-  return instance;
-}
+// SystemWideEventPublisher&
+// SystemWideEventPublisher::GetInstance()
+//{
+//   static SystemWideEventPublisher instance;
+//
+//   return instance;
+// }
 
 void
 SystemWideEventPublisher::PublishEvent(const chi::Event& event)

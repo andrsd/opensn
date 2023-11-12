@@ -1,11 +1,8 @@
 #include "framework/graphs/kba_graph_partitioner.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
 #include "framework/utils/utils.h"
-
 #include "framework/mesh/mesh.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 #include <cmath>
@@ -38,8 +35,12 @@ KBAGraphPartitioner::GetInputParameters()
   return params;
 }
 
-KBAGraphPartitioner::KBAGraphPartitioner(const InputParameters& params)
-  : GraphPartitioner(params),
+KBAGraphPartitioner::KBAGraphPartitioner(opensn::App& app) : GraphPartitioner(app)
+{
+}
+
+KBAGraphPartitioner::KBAGraphPartitioner(opensn::App& app, const InputParameters& params)
+  : GraphPartitioner(app, params),
     nx_(params.GetParamValue<size_t>("nx")),
     ny_(params.GetParamValue<size_t>("ny")),
     nz_(params.GetParamValue<size_t>("nz")),
@@ -78,7 +79,7 @@ KBAGraphPartitioner::Partition(const std::vector<std::vector<uint64_t>>& graph,
                                const std::vector<chi_mesh::Vector3>& centroids,
                                int number_of_parts)
 {
-  Chi::log.Log0Verbose1() << "Partitioning with KBAGraphPartitioner";
+  App().Log().Log0Verbose1() << "Partitioning with KBAGraphPartitioner";
 
   ChiLogicalErrorIf(centroids.size() != graph.size(),
                     "Graph number of entries not equal to centroids' number of entries.");
@@ -118,7 +119,7 @@ KBAGraphPartitioner::Partition(const std::vector<std::vector<uint64_t>>& graph,
   } // for cell c
 
   if ((nx_ * ny_ * nz_) != number_of_parts)
-    Chi::log.Log0Warning() << "KBAGraphPartitioner::Partition nx_*ny_*nz_ != number_of_parts";
+    App().Log().Log0Warning() << "KBAGraphPartitioner::Partition nx_*ny_*nz_ != number_of_parts";
 
   const auto pid_subsets = chi::MakeSubSets(nx_ * ny_ * nz_, number_of_parts);
 
@@ -132,7 +133,7 @@ KBAGraphPartitioner::Partition(const std::vector<std::vector<uint64_t>>& graph,
     }
   }
 
-  Chi::log.Log0Verbose1() << "Done partitioning with KBAGraphPartitioner";
+  App().Log().Log0Verbose1() << "Done partitioning with KBAGraphPartitioner";
 
   return real_pids;
 }

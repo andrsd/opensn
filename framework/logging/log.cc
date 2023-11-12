@@ -1,19 +1,19 @@
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "framework/app.h"
 #include "framework/utils/timer.h"
 
 #include "framework/logging/stringstream_color.h"
 
 #include <sstream>
 
-chi::ChiLog&
-chi::ChiLog::GetInstance() noexcept
-{
-  static ChiLog instance;
-  return instance;
-}
+// chi::ChiLog&
+// chi::ChiLog::GetInstance() noexcept
+//{
+//   static ChiLog instance;
+//   return instance;
+// }
 
-chi::ChiLog::ChiLog() noexcept
+chi::ChiLog::ChiLog(opensn::App& app) noexcept : TimingLog(app)
 {
   verbosity_ = 0;
   std::string memory_usage_event("Maximum Memory Usage");
@@ -22,7 +22,7 @@ chi::ChiLog::ChiLog() noexcept
   RepeatingEvent& ref_rep_event = repeating_events.back();
 
   ref_rep_event.Events().emplace_back(
-    Chi::program_timer.GetTime(), EventType::EVENT_CREATED, std::make_shared<EventInfo>());
+    app.ProgramTimer().GetTime(), EventType::EVENT_CREATED, std::make_shared<EventInfo>());
 }
 
 chi::LogStream
@@ -33,9 +33,9 @@ chi::ChiLog::Log(LOG_LVL level)
     case LOG_0VERBOSE_0:
     case LOG_0:
     {
-      if (Chi::mpi.location_id == 0)
+      if (App().LocationID() == 0)
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         return {&std::cout, header};
       }
       else
@@ -46,9 +46,9 @@ chi::ChiLog::Log(LOG_LVL level)
     }
     case LOG_0WARNING:
     {
-      if (Chi::mpi.location_id == 0)
+      if (App().LocationID() == 0)
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_YELLOW) + "**WARNING** ";
         return {&std::cout, header};
       }
@@ -60,9 +60,9 @@ chi::ChiLog::Log(LOG_LVL level)
     }
     case LOG_0ERROR:
     {
-      if (Chi::mpi.location_id == 0)
+      if (App().LocationID() == 0)
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_RED) + "**!**ERROR**!** ";
         return {&std::cerr, header};
       }
@@ -75,9 +75,9 @@ chi::ChiLog::Log(LOG_LVL level)
 
     case LOG_0VERBOSE_1:
     {
-      if ((Chi::mpi.location_id == 0) && (verbosity_ >= 1))
+      if ((App().LocationID() == 0) && (verbosity_ >= 1))
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_CYAN);
         return {&std::cout, header};
       }
@@ -89,9 +89,9 @@ chi::ChiLog::Log(LOG_LVL level)
     }
     case ChiLog::LOG_LVL::LOG_0VERBOSE_2:
     {
-      if ((Chi::mpi.location_id == 0) && (verbosity_ >= 2))
+      if ((App().LocationID() == 0) && (verbosity_ >= 2))
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_MAGENTA);
         return {&std::cout, header};
       }
@@ -104,18 +104,18 @@ chi::ChiLog::Log(LOG_LVL level)
     case LOG_ALLVERBOSE_0:
     case LOG_ALL:
     {
-      std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+      std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
       return {&std::cout, header};
     }
     case LOG_ALLWARNING:
     {
-      std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+      std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
       header += StringStreamColor(FG_YELLOW) + "**WARNING** ";
       return {&std::cout, header};
     }
     case LOG_ALLERROR:
     {
-      std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+      std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
       header += StringStreamColor(FG_RED) + "**!**ERROR**!** ";
       return {&std::cerr, header};
     }
@@ -124,7 +124,7 @@ chi::ChiLog::Log(LOG_LVL level)
     {
       if (verbosity_ >= 1)
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_CYAN);
         return {&std::cout, header};
       }
@@ -138,7 +138,7 @@ chi::ChiLog::Log(LOG_LVL level)
     {
       if (verbosity_ >= 2)
       {
-        std::string header = "[" + std::to_string(Chi::mpi.location_id) + "]  ";
+        std::string header = "[" + std::to_string(App().LocationID()) + "]  ";
         header += StringStreamColor(FG_MAGENTA);
         return {&std::cout, header};
       }
@@ -174,7 +174,7 @@ chi::ChiLog::GetRepeatingEventTag(std::string event_name)
   RepeatingEvent& ref_rep_event = repeating_events.back();
 
   ref_rep_event.Events().emplace_back(
-    Chi::program_timer.GetTime(), EventType::EVENT_CREATED, std::make_shared<EventInfo>());
+    App().ProgramTimer().GetTime(), EventType::EVENT_CREATED, std::make_shared<EventInfo>());
 
   return repeating_events.size() - 1;
 }
@@ -196,7 +196,7 @@ chi::ChiLog::LogEvent(size_t ev_tag, EventType ev_type, const std::shared_ptr<Ev
 
   RepeatingEvent& ref_rep_event = repeating_events[ev_tag];
 
-  ref_rep_event.Events().emplace_back(Chi::program_timer.GetTime(), ev_type, ev_info);
+  ref_rep_event.Events().emplace_back(App().ProgramTimer().GetTime(), ev_type, ev_info);
 }
 
 void
@@ -206,7 +206,7 @@ chi::ChiLog::LogEvent(size_t ev_tag, EventType ev_type)
 
   RepeatingEvent& ref_rep_event = repeating_events[ev_tag];
 
-  ref_rep_event.Events().emplace_back(Chi::program_timer.GetTime(), ev_type, nullptr);
+  ref_rep_event.Events().emplace_back(App().ProgramTimer().GetTime(), ev_type, nullptr);
 }
 
 std::string
@@ -219,7 +219,7 @@ chi::ChiLog::PrintEventHistory(size_t ev_tag)
 
   for (auto& event : ref_rep_event.Events())
   {
-    outstr << "[" << Chi::mpi.location_id << "] ";
+    outstr << "[" << App().LocationID() << "] ";
 
     char buf[100];
     snprintf(buf, 100, "%16.9f", event.ev_time / 1000.0);

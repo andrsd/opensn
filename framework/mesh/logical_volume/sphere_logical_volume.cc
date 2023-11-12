@@ -25,8 +25,8 @@ SphereLogicalVolume::GetInputParameters()
   return params;
 }
 
-SphereLogicalVolume::SphereLogicalVolume(const chi::InputParameters& params)
-  : LogicalVolume(params),
+SphereLogicalVolume::SphereLogicalVolume(opensn::App& app, const chi::InputParameters& params)
+  : LogicalVolume(app, params),
     r_(params.GetParamValue<double>("r")),
     x0_(params.GetParamValue<double>("x")),
     y0_(params.GetParamValue<double>("y")),

@@ -4,6 +4,11 @@
 #include <cstdint>
 #include <vector>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi
 {
 class ChiMPICommunicatorSet;
@@ -27,6 +32,8 @@ public:
                                                           unsigned int face_id,
                                                           size_t angle_set_id,
                                                           size_t data_size);
+
+  opensn::App& App() const;
 
 protected:
   FLUDS& fluds_;

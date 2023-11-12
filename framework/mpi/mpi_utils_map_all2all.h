@@ -2,10 +2,7 @@
 
 #include <map>
 #include <vector>
-
 #include <type_traits>
-
-#include "framework/runtime.h"
 #include "framework/mpi/mpi.h"
 
 namespace chi_mpi_utils
@@ -24,13 +21,15 @@ template <typename K, class T>
 std::map<K, std::vector<T>>
 MapAllToAll(const std::map<K, std::vector<T>>& pid_data_pairs,
             const MPI_Datatype data_mpi_type,
-            const MPI_Comm communicator = Chi::mpi.comm)
+            const MPI_Comm communicator = MPI_COMM_WORLD)
 {
   static_assert(std::is_integral<K>::value, "Integral datatype required.");
 
+  int process_count;
+  MPI_Comm_size(communicator, &process_count);
   // Make sendcounts and senddispls
-  std::vector<int> sendcounts(Chi::mpi.process_count, 0);
-  std::vector<int> senddispls(Chi::mpi.process_count, 0);
+  std::vector<int> sendcounts(process_count, 0);
+  std::vector<int> senddispls(process_count, 0);
   {
     size_t accumulated_displ = 0;
     for (const auto& [pid, data] : pid_data_pairs)
@@ -42,20 +41,20 @@ MapAllToAll(const std::map<K, std::vector<T>>& pid_data_pairs,
   }
 
   // Communicate sendcounts to get recvcounts
-  std::vector<int> recvcounts(Chi::mpi.process_count, 0);
+  std::vector<int> recvcounts(process_count, 0);
 
   MPI_Alltoall(sendcounts.data(), 1, MPI_INT, recvcounts.data(), 1, MPI_INT, communicator);
 
   // Populate recvdispls, sender_pids_set, and total_recv_count
   // All three these quantities are constructed
   // from recvcounts.
-  std::vector<int> recvdispls(Chi::mpi.process_count, 0);
+  std::vector<int> recvdispls(process_count, 0);
   // set of neighbor-partitions sending data
   std::set<K> sender_pids_set;
   size_t total_recv_count;
   {
     int displacement = 0;
-    for (int pid = 0; pid < Chi::mpi.process_count; ++pid)
+    for (int pid = 0; pid < process_count; ++pid)
     {
       recvdispls[pid] = displacement;
       displacement += recvcounts[pid];

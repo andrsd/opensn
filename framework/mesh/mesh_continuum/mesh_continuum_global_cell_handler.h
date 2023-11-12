@@ -1,7 +1,7 @@
 #pragma once
 
 #include "framework/mesh/cell/cell.h"
-
+#include "framework/app.h"
 #include <map>
 
 namespace chi_mesh
@@ -13,6 +13,7 @@ class GlobalCellHandler
   friend class MeshContinuum;
 
 private:
+  opensn::App& app_;
   std::vector<std::unique_ptr<chi_mesh::Cell>>& local_cells_ref_;
   std::vector<std::unique_ptr<chi_mesh::Cell>>& ghost_cells_ref_;
 
@@ -20,11 +21,13 @@ private:
   std::map<uint64_t, uint64_t>& global_cell_id_to_foreign_id_map;
 
 private:
-  explicit GlobalCellHandler(std::vector<std::unique_ptr<chi_mesh::Cell>>& in_native_cells,
+  explicit GlobalCellHandler(opensn::App& app,
+                             std::vector<std::unique_ptr<chi_mesh::Cell>>& in_native_cells,
                              std::vector<std::unique_ptr<chi_mesh::Cell>>& in_foreign_cells,
                              std::map<uint64_t, uint64_t>& in_global_cell_id_to_native_id_map,
                              std::map<uint64_t, uint64_t>& in_global_cell_id_to_foreign_id_map)
-    : local_cells_ref_(in_native_cells),
+    : app_(app),
+      local_cells_ref_(in_native_cells),
       ghost_cells_ref_(in_foreign_cells),
       global_cell_id_to_native_id_map(in_global_cell_id_to_native_id_map),
       global_cell_id_to_foreign_id_map(in_global_cell_id_to_foreign_id_map)

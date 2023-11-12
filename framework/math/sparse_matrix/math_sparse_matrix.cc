@@ -1,8 +1,6 @@
 #include "framework/math/sparse_matrix/math_sparse_matrix.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include <iomanip>
 #include <algorithm>
 
@@ -33,10 +31,11 @@ chi_math::SparseMatrix::Insert(size_t i, size_t j, double value)
 
   if ((i < 0) || (i >= row_size_) || (j < 0) || (j >= col_size_))
   {
-    Chi::log.LogAllError() << "SparseMatrix::Insert encountered out of bounds,"
-                           << " i=" << i << " j=" << j << " bounds(" << row_size_ << ","
-                           << col_size_ << ")";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "SparseMatrix::Insert encountered out of bounds,"
+    //                        << " i=" << i << " j=" << j << " bounds(" << row_size_ << ","
+    //                        << col_size_ << ")";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   auto relative_location = std::find(rowI_indices_[i].begin(), rowI_indices_[i].end(), j);
@@ -61,10 +60,11 @@ chi_math::SparseMatrix::InsertAdd(size_t i, size_t j, double value)
 
   if ((i < 0) || (i >= row_size_) || (j < 0) || (j >= col_size_))
   {
-    Chi::log.LogAllError() << "SparseMatrix::Insert encountered out of bounds,"
-                           << " i=" << i << " j=" << j << " bounds(" << row_size_ << ","
-                           << col_size_ << ")";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "SparseMatrix::Insert encountered out of bounds,"
+    //                        << " i=" << i << " j=" << j << " bounds(" << row_size_ << ","
+    //                        << col_size_ << ")";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   auto relative_location = std::find(rowI_indices_[i].begin(), rowI_indices_[i].end(), j);
@@ -91,9 +91,10 @@ chi_math::SparseMatrix::SetDiagonal(const std::vector<double>& diag)
   // Check size
   if (diag.size() != rowI_values_.size())
   {
-    Chi::log.LogAllError() << "Incompatible matrix-vector size encountered "
-                           << "in call to SparseMatrix::SetDiagonal.";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "Incompatible matrix-vector size encountered "
+    //                        << "in call to SparseMatrix::SetDiagonal.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   // Assign values
@@ -121,10 +122,11 @@ chi_math::SparseMatrix::ValueIJ(size_t i, size_t j) const
   double retval = 0.0;
   if ((i < 0) || (i >= rowI_indices_.size()))
   {
-    Chi::log.LogAllError() << "Index i out of bounds"
-                           << " in call to SparseMatrix::ValueIJ"
-                           << " i=" << i;
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "Index i out of bounds"
+    //                        << " in call to SparseMatrix::ValueIJ"
+    //                        << " i=" << i;
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   if (not rowI_indices_[i].empty())
@@ -213,8 +215,9 @@ chi_math::SparseMatrix::CheckInitialized() const
 {
   if (rowI_values_.empty())
   {
-    Chi::log.LogAllError() << "Illegal call to unitialized SparseMatrix matrix.";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "Illegal call to unitialized SparseMatrix matrix.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 }
 

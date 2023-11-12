@@ -4,6 +4,11 @@
 #include <memory>
 #include <string>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi
 {
 class Event;
@@ -25,9 +30,10 @@ public:
   virtual ~EventPublisher() = default;
 
 protected:
-  explicit EventPublisher(const std::string& name);
+  EventPublisher(opensn::App& app, const std::string& name);
 
 protected:
+  opensn::App& app_;
   const std::string publisher_name_;
   std::vector<std::weak_ptr<chi::EventSubscriber>> subscribers_;
 };

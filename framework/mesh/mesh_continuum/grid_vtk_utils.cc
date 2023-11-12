@@ -1,6 +1,5 @@
 #include "framework/mesh/mesh_continuum/grid_vtk_utils.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include <vtkPoints.h>
 #include <vtkPointData.h>
@@ -303,7 +302,8 @@ ConsolidateGridBlocks(std::vector<vtkUGridPtrAndName>& ugrid_blocks,
                              block_id_array_name + "\" array.");
   } // for grid_name pairs
 
-  if (has_global_ids) Chi::log.Log() << fname << ": blocks have global-id arrays";
+  // FIXME: make this work
+  // if (has_global_ids) Chi::log.Log() << fname << ": blocks have global-id arrays";
 
   // Consolidate the blocks
   auto append = vtkSmartPointer<vtkAppendFilter>::New();
@@ -316,9 +316,10 @@ ConsolidateGridBlocks(std::vector<vtkUGridPtrAndName>& ugrid_blocks,
   auto consolidated_ugrid =
     vtkSmartPointer<vtkUnstructuredGrid>(vtkUnstructuredGrid::SafeDownCast(append->GetOutput()));
 
-  Chi::log.Log0Verbose1() << "Consolidated grid num cells and points: "
-                          << consolidated_ugrid->GetNumberOfCells() << " "
-                          << consolidated_ugrid->GetNumberOfPoints();
+  // FIXME: make this work
+  // Chi::log.Log0Verbose1() << "Consolidated grid num cells and points: "
+  //                         << consolidated_ugrid->GetNumberOfCells() << " "
+  //                         << consolidated_ugrid->GetNumberOfPoints();
 
   if (has_global_ids)
   {
@@ -335,7 +336,8 @@ ConsolidateGridBlocks(std::vector<vtkUGridPtrAndName>& ugrid_blocks,
       max_id = std::max(max_id, point_gid);
     }
 
-    Chi::log.Log() << "Minimum and Maximum node-ids " << min_id << " " << max_id;
+    // FIXME: make this work
+    // Chi::log.Log() << "Minimum and Maximum node-ids " << min_id << " " << max_id;
   }
 
   std::map<std::string, size_t> cell_type_count_map;
@@ -349,25 +351,26 @@ ConsolidateGridBlocks(std::vector<vtkUGridPtrAndName>& ugrid_blocks,
     cell_type_count_map[cell_type_name] += 1;
   }
 
-  if (Chi::log.GetVerbosity() >= 1)
-  {
-    std::stringstream outstr;
-    /**Lambda to right pad an entry.*/
-    auto RightPad = [](std::string& entry, size_t width)
-    {
-      const size_t pad_size = width - entry.size();
-      entry.append(std::string(pad_size, ' '));
-    };
-
-    outstr << "Block statistictics:\n";
-    for (const auto& [type_name, count] : cell_type_count_map)
-    {
-      auto temp_name = type_name;
-      RightPad(temp_name, 20);
-      outstr << "  " << temp_name << " " << count << "\n";
-    }
-    Chi::log.Log0Verbose1() << outstr.str();
-  }
+  // FIXME: make this work
+  // if (Chi::log.GetVerbosity() >= 1)
+  // {
+  //   std::stringstream outstr;
+  //   /**Lambda to right pad an entry.*/
+  //   auto RightPad = [](std::string& entry, size_t width)
+  //   {
+  //     const size_t pad_size = width - entry.size();
+  //     entry.append(std::string(pad_size, ' '));
+  //   };
+  //
+  //   outstr << "Block statistictics:\n";
+  //   for (const auto& [type_name, count] : cell_type_count_map)
+  //   {
+  //     auto temp_name = type_name;
+  //     RightPad(temp_name, 20);
+  //     outstr << "  " << temp_name << " " << count << "\n";
+  //   }
+  //   Chi::log.Log0Verbose1() << outstr.str();
+  // }
 
   return consolidated_ugrid;
 }
@@ -446,9 +449,9 @@ BuildCellMaterialIDsFromField(vtkUGridPtr& ugrid,
   vtkDataArray* cell_id_array_ptr;
   if (field_name.empty())
   {
-    Chi::log.Log0Warning() << "A user-supplied field name from which to recover material "
-                              "identifiers "
-                           << "has not been found. Material-ids will be left unassigned.";
+    // Chi::log.Log0Warning()
+    //   << "A user-supplied field name from which to recover material identifiers has not been "
+    //      "found. Material-ids will be left unassigned.";
     goto end_error_checks;
   }
   else
@@ -458,41 +461,41 @@ BuildCellMaterialIDsFromField(vtkUGridPtr& ugrid,
 
     if (!vtk_abstract_array_ptr)
     {
-      Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
-                             << "does not contain a vtkCellData field of name : \"" << field_name
-                             << "\". Material-ids will be left unassigned.";
+      // Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
+      //                        << "does not contain a vtkCellData field of name : \"" << field_name
+      //                        << "\". Material-ids will be left unassigned.";
       goto end_error_checks;
     }
 
     cell_id_array_ptr = vtkArrayDownCast<vtkDataArray>(vtk_abstract_array_ptr);
     if (!cell_id_array_ptr)
     {
-      Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
-                             << "with vtkCellData field of name : \"" << field_name << "\" "
-                             << "cannot be downcast to vtkDataArray. Material-ids will be left "
-                                "unassigned.";
+      // Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
+      //                        << "with vtkCellData field of name : \"" << field_name << "\" "
+      //                        << "cannot be downcast to vtkDataArray. Material-ids will be left "
+      //                           "unassigned.";
       goto end_error_checks;
     }
 
     const auto cell_id_n_tup = cell_id_array_ptr->GetNumberOfTuples();
     if (cell_id_n_tup != total_cell_count)
     {
-      Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
-                             << "with vtkCellData field of name : \"" << field_name
-                             << "\" has n. tuples : " << cell_id_n_tup
-                             << ", but differs from the value expected : " << total_cell_count
-                             << ". Material-ids will be left unassigned.";
+      // Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
+      //                        << "with vtkCellData field of name : \"" << field_name
+      //                        << "\" has n. tuples : " << cell_id_n_tup
+      //                        << ", but differs from the value expected : " << total_cell_count
+      //                        << ". Material-ids will be left unassigned.";
       goto end_error_checks;
     }
 
     const auto cell_id_n_val = cell_id_array_ptr->GetNumberOfValues();
     if (cell_id_n_val != total_cell_count)
     {
-      Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
-                             << "with vtkCellData field of name : \"" << field_name
-                             << "\" has n. values : " << cell_id_n_val
-                             << ", but differs from the value expected : " << total_cell_count
-                             << ". Material-ids will be left unassigned.";
+      // Chi::log.Log0Warning() << "The VTU file : \"" << file_name << "\" "
+      //                        << "with vtkCellData field of name : \"" << field_name
+      //                        << "\" has n. values : " << cell_id_n_val
+      //                        << ", but differs from the value expected : " << total_cell_count
+      //                        << ". Material-ids will be left unassigned.";
       goto end_error_checks;
     }
   }
@@ -566,6 +569,8 @@ PrepareVtkUnstructuredGrid(const MeshContinuum& grid, bool discontinuous)
 void
 WritePVTUFiles(vtkNew<vtkUnstructuredGrid>& ugrid, const std::string& file_base_name)
 {
+  // FIXME: make this work
+#if 0
   // Construct file name
   std::string base_filename = std::string(file_base_name);
   std::string location_filename =
@@ -596,6 +601,7 @@ WritePVTUFiles(vtkNew<vtkUnstructuredGrid>& ugrid, const std::string& file_base_
   grid_writer->SetFileName(location_filename.c_str());
 
   grid_writer->Write();
+#endif
 }
 
 } // namespace chi_mesh

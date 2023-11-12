@@ -322,12 +322,6 @@ Chi::RunBatch(int argc, char** argv)
   return error_code;
 }
 
-void
-Chi::Exit(int error_code)
-{
-  MPI_Abort(mpi.comm, error_code);
-}
-
 std::string
 Chi::GetVersionStr()
 {

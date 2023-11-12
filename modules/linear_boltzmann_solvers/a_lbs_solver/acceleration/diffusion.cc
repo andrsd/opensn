@@ -3,13 +3,14 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/physics/physics_namespace.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace lbs::acceleration
 {
 
-DiffusionSolver::DiffusionSolver(std::string text_name,
+DiffusionSolver::DiffusionSolver(opensn::App& app,
+                                 std::string text_name,
                                  const chi_math::SpatialDiscretization& sdm,
                                  const chi_math::UnknownManager& uk_man,
                                  std::map<uint64_t, BoundaryCondition> bcs,
@@ -17,7 +18,8 @@ DiffusionSolver::DiffusionSolver(std::string text_name,
                                  const std::vector<UnitCellMatrices>& unit_cell_matrices,
                                  const bool verbose,
                                  const bool requires_ghosts)
-  : text_name_(std::move(text_name)),
+  : app_(app),
+    text_name_(std::move(text_name)),
     grid_(sdm.Grid()),
     sdm_(sdm),
     uk_man_(uk_man),
@@ -109,26 +111,26 @@ DiffusionSolver::AddToRHS(const std::vector<double>& values)
 void
 DiffusionSolver::Initialize()
 {
-  if (options.verbose) Chi::log.Log() << text_name_ << ": Initializing PETSc items";
+  if (options.verbose) App().Log().Log() << text_name_ << ": Initializing PETSc items";
 
   if (options.verbose)
-    Chi::log.Log() << text_name_ << ": Global number of DOFs=" << num_global_dofs_;
+    App().Log().Log() << text_name_ << ": Global number of DOFs=" << num_global_dofs_;
 
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Sparsity pattern";
-  Chi::mpi.Barrier();
+  App().Barrier();
+  App().Log().Log() << "Sparsity pattern";
+  App().Barrier();
   // Create Matrix
   std::vector<int64_t> nodal_nnz_in_diag;
   std::vector<int64_t> nodal_nnz_off_diag;
   sdm_.BuildSparsityPattern(nodal_nnz_in_diag, nodal_nnz_off_diag, uk_man_);
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Done Sparsity pattern";
-  Chi::mpi.Barrier();
+  App().Barrier();
+  App().Log().Log() << "Done Sparsity pattern";
+  App().Barrier();
   A_ = chi_math::PETScUtils::CreateSquareMatrix(num_local_dofs_, num_global_dofs_);
   chi_math::PETScUtils::InitMatrixSparsity(A_, nodal_nnz_in_diag, nodal_nnz_off_diag);
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Done matrix creation";
-  Chi::mpi.Barrier();
+  App().Barrier();
+  App().Log().Log() << "Done matrix creation";
+  App().Barrier();
 
   // Create RHS
   if (not requires_ghosts_)
@@ -140,9 +142,9 @@ DiffusionSolver::Initialize()
       static_cast<int64_t>(sdm_.GetNumGhostDOFs(uk_man_)),
       sdm_.GetGhostDOFIndices(uk_man_));
 
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Done vector creation";
-  Chi::mpi.Barrier();
+  App().Barrier();
+  App().Log().Log() << "Done vector creation";
+  App().Barrier();
 
   // Create KSP
   KSPCreate(PETSC_COMM_WORLD, &ksp_);
@@ -211,7 +213,7 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
 
     double rhs_norm;
     VecNorm(rhs_, NORM_2, &rhs_norm);
-    Chi::log.Log() << "RHS-norm " << rhs_norm;
+    App().Log().Log() << "RHS-norm " << rhs_norm;
   }
 
   if (use_initial_guess)
@@ -232,13 +234,13 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
   {
     double sol_norm;
     VecNorm(x, NORM_2, &sol_norm);
-    Chi::log.Log() << "Solution-norm " << sol_norm;
+    App().Log().Log() << "Solution-norm " << sol_norm;
 
     using namespace chi_physics;
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp_, &reason);
 
-    Chi::log.Log() << "Convergence Reason: " << GetPETScConvergedReasonstring(reason);
+    App().Log().Log() << "Convergence Reason: " << GetPETScConvergedReasonstring(reason);
   }
 
   // Transfer petsc solution to vector
@@ -285,7 +287,7 @@ DiffusionSolver::Solve(Vec petsc_solution, bool use_initial_guess)
 
     double rhs_norm;
     VecNorm(rhs_, NORM_2, &rhs_norm);
-    Chi::log.Log() << "RHS-norm " << rhs_norm;
+    App().Log().Log() << "RHS-norm " << rhs_norm;
   }
 
   if (use_initial_guess) { VecCopy(petsc_solution, x); }
@@ -298,13 +300,13 @@ DiffusionSolver::Solve(Vec petsc_solution, bool use_initial_guess)
   {
     double sol_norm;
     VecNorm(x, NORM_2, &sol_norm);
-    Chi::log.Log() << "Solution-norm " << sol_norm;
+    App().Log().Log() << "Solution-norm " << sol_norm;
 
     using namespace chi_physics;
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp_, &reason);
 
-    Chi::log.Log() << "Convergence Reason: " << GetPETScConvergedReasonstring(reason);
+    App().Log().Log() << "Convergence Reason: " << GetPETScConvergedReasonstring(reason);
   }
 
   // Transfer petsc solution to vector

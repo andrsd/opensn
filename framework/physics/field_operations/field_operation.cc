@@ -11,7 +11,8 @@ FieldOperation::GetInputParameters()
   return ChiObject::GetInputParameters();
 }
 
-FieldOperation::FieldOperation(const chi::InputParameters& params) : ChiObject(params)
+FieldOperation::FieldOperation(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params)
 {
 }
 

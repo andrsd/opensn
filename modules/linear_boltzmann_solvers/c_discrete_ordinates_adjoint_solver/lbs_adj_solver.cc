@@ -7,7 +7,7 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/logical_volume/logical_volume.h"
 #include "framework/math/math_vector_nx.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include <utility>
@@ -33,14 +33,16 @@ DiscreteOrdinatesAdjointSolver::GetInputParameters()
   return params;
 }
 
-DiscreteOrdinatesAdjointSolver::DiscreteOrdinatesAdjointSolver(const chi::InputParameters& params)
-  : lbs::DiscreteOrdinatesSolver(params)
+DiscreteOrdinatesAdjointSolver::DiscreteOrdinatesAdjointSolver(opensn::App& app,
+                                                               const chi::InputParameters& params)
+  : lbs::DiscreteOrdinatesSolver(app, params)
 {
   basic_options_.AddOption<std::string>("REFERENCE_RF", std::string());
 }
 
-DiscreteOrdinatesAdjointSolver::DiscreteOrdinatesAdjointSolver(const std::string& solver_name)
-  : lbs::DiscreteOrdinatesSolver(solver_name)
+DiscreteOrdinatesAdjointSolver::DiscreteOrdinatesAdjointSolver(opensn::App& app,
+                                                               const std::string& solver_name)
+  : lbs::DiscreteOrdinatesSolver(app, solver_name)
 {
   basic_options_.AddOption<std::string>("REFERENCE_RF", std::string());
 }
@@ -79,7 +81,7 @@ DiscreteOrdinatesAdjointSolver::Initialize()
   }
 
   InitializeSolverSchemes(); // j
-  source_event_tag_ = Chi::log.GetRepeatingEventTag("Set Source");
+  source_event_tag_ = App().Log().GetRepeatingEventTag("Set Source");
 }
 
 void
@@ -94,7 +96,7 @@ DiscreteOrdinatesAdjointSolver::MakeAdjointXSs()
   {
     const auto matid = matid_xs_pair.first;
     const auto fwd_xs = std::dynamic_pointer_cast<chi_physics::MultiGroupXS>(matid_xs_pair.second);
-    matid_to_adj_xs_map[matid] = std::make_shared<AdjXS>(*fwd_xs);
+    matid_to_adj_xs_map[matid] = std::make_shared<AdjXS>(App(), *fwd_xs);
   } // for each mat
   matid_to_xs_map_ = std::move(matid_to_adj_xs_map);
 
@@ -127,10 +129,10 @@ DiscreteOrdinatesAdjointSolver::InitQOIs()
     size_t num_globl_subs = 0;
 
     MPI_Allreduce(
-      &num_local_subs, &num_globl_subs, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, Chi::mpi.comm);
+      &num_local_subs, &num_globl_subs, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, App().Comm());
 
-    Chi::log.Log() << "LBAdjointSolver: Number of cells subscribed to " << qoi_designation.name
-                   << " = " << num_globl_subs;
+    App().Log().Log() << "LBAdjointSolver: Number of cells subscribed to " << qoi_designation.name
+                      << " = " << num_globl_subs;
   }
 #endif
 }
@@ -144,7 +146,7 @@ DiscreteOrdinatesAdjointSolver::Execute()
   primary_ags_solver_->Solve();
 
   // Apply post processing
-  Chi::log.Log() << "LBAdjointSolver: post-processing.";
+  App().Log().Log() << "LBAdjointSolver: post-processing.";
   std::set<int> set_group_numbers;
   for (const auto& groupset : groupsets_)
     for (const auto& group : groupset.groups_)
@@ -280,18 +282,19 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
       {
         const auto& p1_moments = cell_avg_p1_moments[cell.local_id_][g];
 
-        auto a_b = MakeExpRepFromP1({p1_moments[0], p1_moments[1], p1_moments[2], p1_moments[3]});
+        auto a_b =
+          MakeExpRepFromP1(App(), {p1_moments[0], p1_moments[1], p1_moments[2], p1_moments[3]});
 
         cell_exp_reps[cell.local_id_][g] = std::make_pair(a_b[0], a_b[1]);
       } // for g
     }   // for cell
   }
 
-  Chi::log.Log() << "Exporting importance map to binary file " << file_name;
+  App().Log().Log() << "Exporting importance map to binary file " << file_name;
 
   const auto locJ_io_flags = std::ofstream::binary | std::ofstream::out;
   const auto loc0_io_flags = locJ_io_flags | std::ofstream::trunc;
-  const bool is_home = (Chi::mpi.location_id == 0);
+  const bool is_home = (App().LocationID() == 0);
 
   // Build header
   std::string header_info = "Chi-Tech LinearBoltzmann: Importance map file\n"
@@ -319,13 +322,13 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
 
   // Process each location
   uint64_t num_global_cells = grid_ptr_->GetGlobalNumberOfCells();
-  for (int locationJ = 0; locationJ < Chi::mpi.process_count; ++locationJ)
+  for (int locationJ = 0; locationJ < App().ProcessCount(); ++locationJ)
   {
-    Chi::log.LogAll() << "  Barrier at " << locationJ;
-    Chi::mpi.Barrier();
-    if (Chi::mpi.location_id != locationJ) continue;
+    App().Log().LogAll() << "  Barrier at " << locationJ;
+    App().Barrier();
+    if (App().LocationID() != locationJ) continue;
 
-    Chi::log.LogAll() << "  Location " << locationJ << " appending data.";
+    App().Log().LogAll() << "  Location " << locationJ << " appending data.";
 
     std::ofstream file(file_name, is_home ? loc0_io_flags : locJ_io_flags);
 
@@ -333,7 +336,7 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
     {
       std::stringstream outstr;
 
-      outstr << fname << ": Location " << Chi::mpi.location_id << ", failed to open file "
+      outstr << fname << ": Location " << App().LocationID() << ", failed to open file "
              << file_name;
       throw std::logic_error(outstr.str());
     }
@@ -372,8 +375,8 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
     file.close();
   } // for location
 
-  Chi::log.LogAll() << "Done exporting importance map to binary file " << file_name;
-  Chi::mpi.Barrier();
+  App().Log().LogAll() << "Done exporting importance map to binary file " << file_name;
+  App().Barrier();
 }
 
 double
@@ -445,7 +448,7 @@ DiscreteOrdinatesAdjointSolver::ComputeInnerProduct()
 
   double global_integral = 0.0;
 
-  MPI_Allreduce(&local_integral, &global_integral, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+  MPI_Allreduce(&local_integral, &global_integral, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
 
   return global_integral;
 }

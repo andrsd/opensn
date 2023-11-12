@@ -12,12 +12,12 @@ namespace chi
 class MaterialPropertyScalarFuncXYZTV : public MaterialProperty
 {
 protected:
-  const chi_math::FunctionDimAToDimB& function_;
+  const std::shared_ptr<chi_math::FunctionDimAToDimB> function_;
   const std::vector<std::string> dependent_variables_;
 
 public:
   static InputParameters GetInputParameters();
-  explicit MaterialPropertyScalarFuncXYZTV(const InputParameters& params);
+  explicit MaterialPropertyScalarFuncXYZTV(opensn::App& app, const InputParameters& params);
 
   double Evaluate(const std::vector<double>& vars);
 };

@@ -7,6 +7,11 @@
 
 #include "framework/mesh/sweep_utilities/fluds/fluds_common_data.h"
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_mesh
 {
 class GridFaceHistogram;
@@ -21,13 +26,11 @@ class SPDS;
 class FLUDS
 {
 public:
-  FLUDS(size_t num_groups, size_t num_angles, const SPDS& spds)
-    : num_groups_(num_groups),
-      num_angles_(num_angles),
-      num_groups_and_angles_(num_groups_ * num_angles_),
-      spds_(spds){};
+  FLUDS(size_t num_groups, size_t num_angles, const SPDS& spds);
 
   const SPDS& GetSPDS() const { return spds_; }
+
+  opensn::App& App() const;
 
   virtual void ClearLocalAndReceivePsi() {}
   virtual void ClearSendPsi() {}

@@ -22,7 +22,7 @@ class CellVolumeIntegralPostProcessor : public PostProcessor,
 {
 public:
   static InputParameters GetInputParameters();
-  explicit CellVolumeIntegralPostProcessor(const InputParameters& params);
+  explicit CellVolumeIntegralPostProcessor(opensn::App& app, const InputParameters& params);
 
   void Execute(const Event& event_context) override;
 

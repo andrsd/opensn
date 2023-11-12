@@ -1,6 +1,6 @@
 #include "framework/physics/field_function/field_function.h"
-
 #include "framework/logging/log_exceptions.h"
+#include "framework/app.h"
 
 namespace chi_physics
 {
@@ -31,8 +31,8 @@ FieldFunction::GetInputParameters()
   return params;
 }
 
-FieldFunction::FieldFunction(const chi::InputParameters& params)
-  : ChiObject(params),
+FieldFunction::FieldFunction(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params),
     text_name_(params.GetParamValue<std::string>("name")),
     unknown_((params.GetParamValue<std::string>("unknown_type") == "Scalar")
                ? chi_math::Unknown(chi_math::UnknownType::SCALAR)
@@ -44,12 +44,17 @@ FieldFunction::FieldFunction(const chi::InputParameters& params)
                ? chi_math::Unknown(chi_math::UnknownType::VECTOR_N,
                                    params.GetParamValue<unsigned int>("num_components"))
                : chi_math::Unknown(chi_math::UnknownType::SCALAR)),
-    unknown_manager_({unknown_})
+    unknown_manager_(app, {unknown_})
 {
 }
 
-FieldFunction::FieldFunction(const std::string& text_name, chi_math::Unknown unknown)
-  : text_name_(text_name), unknown_(std::move(unknown)), unknown_manager_({unknown_})
+FieldFunction::FieldFunction(opensn::App& app,
+                             const std::string& text_name,
+                             chi_math::Unknown unknown)
+  : ChiObject(app),
+    text_name_(text_name),
+    unknown_(std::move(unknown)),
+    unknown_manager_(app, {unknown_})
 {
 }
 
@@ -60,8 +65,8 @@ FieldFunction::PushOntoStack(std::shared_ptr<ChiObject>& new_object)
 
   ChiLogicalErrorIf(not ff_ptr, "Bad trouble when casting object to field function");
 
-  Chi::field_function_stack.push_back(ff_ptr);
-  new_object->SetStackID(Chi::field_function_stack.size() - 1);
+  App().FieldFunctionStack().push_back(ff_ptr);
+  new_object->SetStackID(App().FieldFunctionStack().size() - 1);
 }
 
 } // namespace chi_physics

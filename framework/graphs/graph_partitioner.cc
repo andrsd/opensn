@@ -11,7 +11,12 @@ GraphPartitioner::GetInputParameters()
   return params;
 }
 
-GraphPartitioner::GraphPartitioner(const InputParameters& params) : ChiObject(params)
+GraphPartitioner::GraphPartitioner(opensn::App& app) : ChiObject(app)
+{
+}
+
+GraphPartitioner::GraphPartitioner(opensn::App& app, const InputParameters& params)
+  : ChiObject(app, params)
 {
 }
 

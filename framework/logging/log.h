@@ -3,10 +3,14 @@
 #include "framework/logging/log_stream.h"
 #include "framework/logging/log_exceptions.h"
 #include "framework/logging/timing_log.h"
-
 #include <utility>
 #include <vector>
 #include <memory>
+
+namespace opensn
+{
+class App;
+}
 
 namespace chi
 {
@@ -213,12 +217,10 @@ private:
   int verbosity_;
 
 public:
-  /**Access to the singleton*/
-  static ChiLog& GetInstance() noexcept;
+  //  /**Access to the singleton*/
+  //  static ChiLog& GetInstance() noexcept;
 
-private:
-  /** Default constructor*/
-  ChiLog() noexcept;
+  explicit ChiLog(opensn::App& app) noexcept;
 
 public:
   /** Makes a log entry.*/

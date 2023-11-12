@@ -12,10 +12,7 @@ namespace chi_mesh::sweep_management
 class SPDS
 {
 public:
-  SPDS(const chi_mesh::Vector3& in_omega, const chi_mesh::MeshContinuum& in_grid, bool verbose)
-    : omega_(in_omega), grid_(in_grid), verbose_(verbose)
-  {
-  }
+  SPDS(const chi_mesh::Vector3& in_omega, const chi_mesh::MeshContinuum& in_grid, bool verbose);
 
   const chi_mesh::MeshContinuum& Grid() const { return grid_; }
   const chi_mesh::Vector3& Omega() const { return omega_; }
@@ -41,6 +38,11 @@ public:
   int MapLocJToDeplocI(int locJ) const;
 
   virtual ~SPDS() = default;
+
+  opensn::App& App() const;
+
+private:
+  opensn::App& app_;
 
 protected:
   chi_mesh::Vector3 omega_;

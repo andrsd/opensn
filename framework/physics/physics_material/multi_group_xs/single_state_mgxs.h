@@ -54,9 +54,8 @@ private:
   std::vector<std::vector<AnglePairs>> scat_angles_gprime_g_;
 
 public:
-  // 00
-  SingleStateMGXS()
-    : MultiGroupXS(),
+  SingleStateMGXS(opensn::App& app)
+    : MultiGroupXS(app),
       num_groups_(0),
       scattering_order_(0),
       num_precursors_(0),

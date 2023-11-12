@@ -33,7 +33,7 @@ SweepChunkPWLRZ::SweepChunkPWLRZ(
                    num_moments,
                    max_num_cell_dofs),
     secondary_unit_cell_matrices_(secondary_unit_cell_matrices),
-    unknown_manager_(),
+    unknown_manager_(grid.App()),
     psi_sweep_(),
     normal_vector_boundary_()
 {

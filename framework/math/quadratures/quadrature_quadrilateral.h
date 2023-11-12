@@ -13,5 +13,5 @@ class chi_math::QuadratureQuadrilateral : public chi_math::Quadrature
 public:
   /**Initialzes a set of points for a quadrature integration over
    * the volume of a quadrilateral.*/
-  explicit QuadratureQuadrilateral(QuadratureOrder order);
+  explicit QuadratureQuadrilateral(opensn::App& app, QuadratureOrder order);
 };

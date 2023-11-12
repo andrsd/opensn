@@ -31,6 +31,9 @@ struct Multigroup_D_and_sigR;
  */
 class DiffusionSolver
 {
+private:
+  opensn::App& app_;
+
 protected:
   typedef std::map<int, Multigroup_D_and_sigR> MatID2XSMap;
 
@@ -68,7 +71,8 @@ public:
   } options;
 
 public:
-  DiffusionSolver(std::string text_name,
+  DiffusionSolver(opensn::App& app,
+                  std::string text_name,
                   const chi_math::SpatialDiscretization& sdm,
                   const chi_math::UnknownManager& uk_man,
                   std::map<uint64_t, BoundaryCondition> bcs,
@@ -76,6 +80,8 @@ public:
                   const std::vector<UnitCellMatrices>& unit_cell_matrices,
                   bool verbose,
                   bool requires_ghosts);
+
+  opensn::App& App() const { return app_; }
 
   /**
    * Returns the assigned text name.

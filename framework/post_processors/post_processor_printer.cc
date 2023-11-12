@@ -3,7 +3,7 @@
 #include "framework/event_system/event_subscriber.h"
 #include "framework/event_system/event.h"
 #include "framework/post_processors/post_processor.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/utils.h"
 #include <set>
@@ -13,9 +13,6 @@
 #define JoinWordsA(x, y) x##y
 /**IDK why this is needed. Seems like counter doesnt work properly without it*/
 #define JoinWordsB(x, y) JoinWordsA(x, y)
-
-std::shared_ptr<chi::PPPrinterSubscribeHelper> chi::PostProcessorPrinter::helper_ptr_ =
-  std::make_shared<PPPrinterSubscribeHelper>(PostProcessorPrinter::GetInstance());
 
 static char JoinWordsB(unique_var_name_ppp_, __COUNTER__) =
   chi::PostProcessorPrinter::SubscribeToSystemWideEventPublisher();
@@ -34,32 +31,26 @@ PPPrinterSubscribeHelper::ReceiveEventUpdate(const Event& event)
   printer_ref_.ReceiveEventUpdate(event);
 }
 
-PostProcessorPrinter::PostProcessorPrinter()
-  : events_on_which_to_print_postprocs_(
+PostProcessorPrinter::PostProcessorPrinter(opensn::App& app)
+  : app_(app),
+    events_on_which_to_print_postprocs_(
       {"SolverInitialized", "SolverAdvanced", "SolverExecuted", "ProgramExecuted"})
 {
-}
-
-PostProcessorPrinter&
-PostProcessorPrinter::GetInstance()
-{
-  static PostProcessorPrinter instance;
-
-  return instance;
 }
 
 char
 PostProcessorPrinter::SubscribeToSystemWideEventPublisher()
 {
-  auto helper_ptr = PostProcessorPrinter::helper_ptr_;
-
-  auto& publisher = SystemWideEventPublisher::GetInstance();
-  auto subscriber_ptr = std::dynamic_pointer_cast<EventSubscriber>(helper_ptr);
-
-  ChiLogicalErrorIf(not subscriber_ptr,
-                    "Failure to cast chi::PPPrinterSubscribeHelper to chi::EventSubscriber");
-
-  publisher.AddSubscriber(subscriber_ptr);
+  // FIXME
+  // auto helper_ptr = PostProcessorPrinter::helper_ptr_;
+  //
+  // auto& publisher = SystemWideEventPublisher::GetInstance();
+  // auto subscriber_ptr = std::dynamic_pointer_cast<EventSubscriber>(helper_ptr);
+  //
+  // ChiLogicalErrorIf(not subscriber_ptr,
+  //                   "Failure to cast chi::PPPrinterSubscribeHelper to chi::EventSubscriber");
+  //
+  // publisher.AddSubscriber(subscriber_ptr);
 
   return 0;
 }
@@ -209,10 +200,10 @@ PostProcessorPrinter::PrintPPsLatestValuesOnly(const std::string& pps_typename,
       outstr << PrintPPsHorizontal(scalar_ppnames_and_vals, event.Code());
     else if (scalar_pp_table_format_ == ScalarPPTableFormat::VERTICAL)
       outstr << PrintPPsVertical(scalar_ppnames_and_vals, event.Code());
-    Chi::log.Log() << "\n"
-                   << pps_typename << " post-processors latest values at event \"" << event.Name()
-                   << "\"\n"
-                   << outstr.str() << "\n";
+    App().Log().Log() << "\n"
+                      << pps_typename << " post-processors latest values at event \""
+                      << event.Name() << "\"\n"
+                      << outstr.str() << "\n";
   }
 }
 
@@ -444,10 +435,10 @@ PostProcessorPrinter::PrintPPsTimeHistory(const std::string& pps_typename,
     for (const auto& sub_matrix : sub_matrices)
       outstr << PrintPPsSubTimeHistory(sub_matrix);
 
-    Chi::log.Log() << "\n"
-                   << pps_typename << " post-processors history at event \"" << event.Name()
-                   << "\"\n"
-                   << outstr.str();
+    App().Log().Log() << "\n"
+                      << pps_typename << " post-processors history at event \"" << event.Name()
+                      << "\"\n"
+                      << outstr.str();
   } // for each thing in pp_timehist_size_subs
 }
 
@@ -590,10 +581,10 @@ PostProcessorPrinter::PrintArbitraryPPsToCSV(std::ofstream& csvfile,
 }
 
 std::vector<const PostProcessor*>
-PostProcessorPrinter::GetScalarPostProcessorsList(const Event& event)
+PostProcessorPrinter::GetScalarPostProcessorsList(const Event& event) const
 {
   std::vector<const PostProcessor*> scalar_pp_list;
-  for (const auto& pp : Chi::postprocessor_stack)
+  for (const auto& pp : App().PostprocessorStack())
   {
     const auto& scope = pp->PrintScope();
 
@@ -607,10 +598,10 @@ PostProcessorPrinter::GetScalarPostProcessorsList(const Event& event)
 }
 
 std::vector<const PostProcessor*>
-PostProcessorPrinter::GetVectorPostProcessorsList(const Event& event)
+PostProcessorPrinter::GetVectorPostProcessorsList(const Event& event) const
 {
   std::vector<const PostProcessor*> scalar_pp_list;
-  for (const auto& pp : Chi::postprocessor_stack)
+  for (const auto& pp : App().PostprocessorStack())
   {
     const auto& scope = pp->PrintScope();
 
@@ -624,10 +615,10 @@ PostProcessorPrinter::GetVectorPostProcessorsList(const Event& event)
 }
 
 std::vector<const PostProcessor*>
-PostProcessorPrinter::GetArbitraryPostProcessorsList(const Event& event)
+PostProcessorPrinter::GetArbitraryPostProcessorsList(const Event& event) const
 {
   std::vector<const PostProcessor*> scalar_pp_list;
-  for (const auto& pp : Chi::postprocessor_stack)
+  for (const auto& pp : App().PostprocessorStack())
   {
     const auto& scope = pp->PrintScope();
 

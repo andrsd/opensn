@@ -2,11 +2,9 @@
 #include "framework/mesh/cell/cell.h"
 #include "framework/mesh/raytrace/raytracer.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-#include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/math/vector_ghost_communicator/vector_ghost_communicator.h"
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include <fstream>
@@ -17,7 +15,7 @@ namespace chi_mesh
 void
 FieldFunctionInterpolationSlice::Initialize()
 {
-  Chi::log.Log0Verbose1() << "Initializing slice interpolator.";
+  App().Log().Log0Verbose1() << "Initializing slice interpolator.";
   // Check grid available
   if (field_functions_.empty())
     throw std::logic_error("Unassigned field function in slice "
@@ -182,9 +180,9 @@ FieldFunctionInterpolationSlice::Initialize()
       }
       else
       {
-        Chi::log.LogAllWarning() << "No face intersections encountered "
-                                    "for a cell that is indicated as being "
-                                    "intersected. Slice FF interp.";
+        App().Log().LogAllWarning() << "No face intersections encountered "
+                                       "for a cell that is indicated as being "
+                                       "intersected. Slice FF interp.";
       }
 
       // Computing 2D transforms
@@ -249,7 +247,7 @@ FieldFunctionInterpolationSlice::Initialize()
     } // polyhedron
   }   // for intersected cell
 
-  // chi::log.Log() << "Finished initializing interpolator.";
+  // App().Log().Log() << "Finished initializing interpolator.";
 }
 
 void
@@ -297,7 +295,7 @@ FieldFunctionInterpolationSlice::ExportPython(std::string base_name)
   std::ofstream ofile;
 
   std::string fileName = base_name;
-  fileName = fileName + std::to_string(Chi::mpi.location_id);
+  fileName = fileName + std::to_string(App().LocationID());
   fileName = fileName + std::string(".py");
   ofile.open(fileName);
 
@@ -321,12 +319,12 @@ FieldFunctionInterpolationSlice::ExportPython(std::string base_name)
            "    self.c = []\n\n";
 
   std::string offset;
-  if (Chi::mpi.location_id == 0)
+  if (App().LocationID() == 0)
   {
     std::string submod_name = base_name;
-    submod_name = submod_name + std::to_string(Chi::mpi.location_id + 1);
+    submod_name = submod_name + std::to_string(App().LocationID() + 1);
 
-    if (Chi::mpi.process_count > 1) { ofile << "import " << submod_name << "\n\n"; }
+    if (App().ProcessCount() > 1) { ofile << "import " << submod_name << "\n\n"; }
 
     ofile << "class BaseDataClass:\n"
           << "  def __init__(self):\n"
@@ -335,13 +333,13 @@ FieldFunctionInterpolationSlice::ExportPython(std::string base_name)
 
     offset = std::string("    ");
   }
-  else if (Chi::mpi.process_count > 1)
+  else if (App().ProcessCount() > 1)
   {
 
-    if (Chi::mpi.location_id != (Chi::mpi.process_count - 1))
+    if (App().LocationID() != (App().ProcessCount() - 1))
     {
       std::string submod_name = base_name;
-      submod_name = submod_name + std::to_string(Chi::mpi.location_id + 1);
+      submod_name = submod_name + std::to_string(App().LocationID() + 1);
 
       ofile << "import " << submod_name << "\n\n";
     }
@@ -382,16 +380,16 @@ FieldFunctionInterpolationSlice::ExportPython(std::string base_name)
     ofile << offset << "data_object.append(new_cell_data)\n";
   }
 
-  if (Chi::mpi.location_id != (Chi::mpi.process_count - 1))
+  if (App().LocationID() != (App().ProcessCount() - 1))
   {
     std::string submod_name = base_name;
-    submod_name = submod_name + std::to_string(Chi::mpi.location_id + 1);
+    submod_name = submod_name + std::to_string(App().LocationID() + 1);
 
     ofile << offset << "data_object = " << submod_name << ".AddData(data_object)\n\n";
   }
-  if (Chi::mpi.location_id > 0) { ofile << offset << "return data_object\n"; }
+  if (App().LocationID() > 0) { ofile << offset << "return data_object\n"; }
 
-  if (Chi::mpi.location_id == 0)
+  if (App().LocationID() == 0)
   {
     ofile << "data = BaseDataClass()\n"
           << "print(len(data.data_object))\n\n"
@@ -465,8 +463,8 @@ FieldFunctionInterpolationSlice::ExportPython(std::string base_name)
 
   ofile.close();
 
-  Chi::log.Log() << "Exported Python files for field func \"" << field_functions_[0]->TextName()
-                 << "\" to base name \"" << base_name << "\" Successfully";
+  App().Log().Log() << "Exported Python files for field func \"" << field_functions_[0]->TextName()
+                    << "\" to base name \"" << base_name << "\" Successfully";
 }
 
 } // namespace chi_mesh

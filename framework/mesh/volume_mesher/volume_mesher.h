@@ -39,6 +39,7 @@ enum VolumeMesherProperty
 class VolumeMesher
 {
 private:
+  opensn::App& app_;
   MeshContinuumPtr grid_ptr_;
   const VolumeMesherType type_;
 
@@ -64,8 +65,10 @@ public:
   VOLUME_MESHER_OPTIONS options;
 
 public:
-  explicit VolumeMesher(VolumeMesherType type);
+  explicit VolumeMesher(opensn::App& app, VolumeMesherType type);
   virtual ~VolumeMesher() = default;
+
+  opensn::App& App() { return app_; }
 
   /**
    * Sets the grid member of the volume mesher.
@@ -91,34 +94,38 @@ public:
    * Obtains the xy partition IDs of a cell.
    * Cell xy_partition ids are obtained from the surface mesher.
    */
-  static std::pair<int, int> GetCellXYPartitionID(Cell* cell);
+  static std::pair<int, int> GetCellXYPartitionID(opensn::App& app, Cell* cell);
 
   /**
    * Obtains the xyz partition IDs of a cell.
    * Cell xy_partition ids are obtained from
    * the surface mesher. z id is obtained from the volume mesher.
    */
-  static std::tuple<int, int, int> GetCellXYZPartitionID(Cell* cell);
+  static std::tuple<int, int, int> GetCellXYZPartitionID(opensn::App& app, Cell* cell);
 
   /**
    * Creates 2D polygon cells for each face of an unpartitioned mesh.
    */
-  static void CreatePolygonCells(const UnpartitionedMesh& umesh, MeshContinuumPtr& grid);
-  /**
-   * Sets material id's using a logical volume.
-   */
-  static void SetMatIDFromLogical(const LogicalVolume& log_vol, bool sense, int mat_id);
-
+  static void
+  CreatePolygonCells(opensn::App& app, const UnpartitionedMesh& umesh, MeshContinuumPtr& grid);
   /**
    * Sets material id's using a logical volume.
    */
   static void
-  SetBndryIDFromLogical(const LogicalVolume& log_vol, bool sense, const std::string& bndry_name);
+  SetMatIDFromLogical(opensn::App& app, const LogicalVolume& log_vol, bool sense, int mat_id);
+
+  /**
+   * Sets material id's using a logical volume.
+   */
+  static void SetBndryIDFromLogical(opensn::App& app,
+                                    const LogicalVolume& log_vol,
+                                    bool sense,
+                                    const std::string& bndry_name);
 
   /**
    * Sets material id's for all cells to the specified material id.
    */
-  static void SetMatIDToAll(int mat_id);
+  static void SetMatIDToAll(opensn::App& app, int mat_id);
 
 #ifdef OPENSN_WITH_LUA
   /**
@@ -132,7 +139,7 @@ public:
    * end
    * \endcode
    */
-  static void SetMatIDFromLuaFunction(const std::string& lua_fname);
+  static void SetMatIDFromLuaFunction(opensn::App& app, const std::string& lua_fname);
 
   /**Sets boundary id's using a lua function. The lua function is called for each boundary face
    * with 7 arguments, the face's centroid x,y,z values, the face's normal x,y,z values and the
@@ -145,14 +152,14 @@ public:
    * end
    * \endcode
    */
-  static void SetBndryIDFromLuaFunction(const std::string& lua_fname);
+  static void SetBndryIDFromLuaFunction(opensn::App& app, const std::string& lua_fname);
 #endif
 
   /**
    * Sets boundary numbers on boundaries orthogonal to the cardinal directions as "XMAX", "XMIN",
    * "YMAX", "YMIN", "ZMAX", "ZMIN".
    */
-  static void SetupOrthogonalBoundaries();
+  static void SetupOrthogonalBoundaries(opensn::App& app);
 
   virtual void Execute();
 };

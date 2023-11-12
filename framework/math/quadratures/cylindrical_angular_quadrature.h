@@ -18,14 +18,16 @@ public:
    *  the azimuthal quadrature is applied at each polar level.
    *  If not already present in the azimuthal quadrature, the method inserts
    *  the azimuthal starting directions. */
-  CylindricalAngularQuadrature(const chi_math::Quadrature& quad_polar,
+  CylindricalAngularQuadrature(opensn::App& app,
+                               const chi_math::Quadrature& quad_polar,
                                const chi_math::Quadrature& quad_azimu,
                                const bool verbose = false);
   /** Effective constructor. Initialize with one-dimensional quadratures:
    *  a possibly diverse azimuthal quadrature is applied at each polar level.
    *  If not already present in the azimuthal quadrature, the method inserts
    *  the azimuthal starting directions. */
-  CylindricalAngularQuadrature(const chi_math::Quadrature& quad_polar,
+  CylindricalAngularQuadrature(opensn::App& app,
+                               const chi_math::Quadrature& quad_polar,
                                const std::vector<chi_math::Quadrature>& quad_azimu_vec,
                                const bool verbose = false);
   /** Default destructor. */

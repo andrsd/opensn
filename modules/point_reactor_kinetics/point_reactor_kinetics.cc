@@ -1,11 +1,8 @@
 #include "modules/point_reactor_kinetics/point_reactor_kinetics.h"
-
 #include "framework/physics/time_steppers/time_stepper.h"
 #include "framework/physics/physics_event_publisher.h"
-
 #include "framework/object_factory.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 #include <numeric>
@@ -53,8 +50,8 @@ TransientSolver::GetInputParameters()
   return params;
 }
 
-TransientSolver::TransientSolver(const chi::InputParameters& params)
-  : chi_physics::Solver(params.GetParamValue<std::string>("name")),
+TransientSolver::TransientSolver(opensn::App& app, const chi::InputParameters& params)
+  : chi_physics::Solver(app, params.GetParamValue<std::string>("name")),
     lambdas_(params.GetParamVectorValue<double>("precursor_lambdas")),
     betas_(params.GetParamVectorValue<double>("precursor_betas")),
     gen_time_(params.GetParamValue<double>("gen_time")),
@@ -63,20 +60,20 @@ TransientSolver::TransientSolver(const chi::InputParameters& params)
     time_integration_(params.GetParamValue<std::string>("time_integration")),
     num_precursors_(lambdas_.size())
 {
-  Chi::log.Log() << "Created solver " << TextName();
+  App().Log().Log() << "Created solver " << TextName();
   {
     std::stringstream outstr;
     outstr << "lambdas = ";
     for (double val : lambdas_)
       outstr << val << " ";
-    Chi::log.Log() << outstr.str();
+    App().Log().Log() << outstr.str();
   }
   {
     std::stringstream outstr;
     outstr << "betas = ";
     for (double val : betas_)
       outstr << val << " ";
-    Chi::log.Log() << outstr.str();
+    App().Log().Log() << outstr.str();
   }
 }
 
@@ -135,13 +132,13 @@ TransientSolver::Initialize()
     x_t_ = A_temp.Inverse() * b_temp;
   }
 
-  Chi::log.Log() << "Final: " << x_t_.PrintStr();
+  App().Log().Log() << "Final: " << x_t_.PrintStr();
 }
 
 void
 TransientSolver::Execute()
 {
-  auto& physics_ev_pub = chi_physics::PhysicsEventPublisher::GetInstance();
+  auto& physics_ev_pub = App().PhysicsEventPublisher();
 
   while (timestepper_->IsActive())
   {
@@ -153,7 +150,7 @@ TransientSolver::Execute()
 void
 TransientSolver::Step()
 {
-  Chi::log.Log() << "Solver \"" + TextName() + "\" " + timestepper_->StringTimeInfo();
+  App().Log().Log() << "Solver \"" + TextName() + "\" " + timestepper_->StringTimeInfo();
 
   const double dt = timestepper_->TimeStepSize();
 

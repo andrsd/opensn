@@ -4,9 +4,11 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/vector_ghost_communicator/vector_ghost_communicator.h"
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-#include "framework/console/console.h"
+#ifdef OPENSN_WITH_LUA
+#include "lua/base/console.h"
+#endif
 
 namespace chi_mesh
 {
@@ -14,7 +16,7 @@ namespace chi_mesh
 void
 FieldFunctionInterpolationVolume::Initialize()
 {
-  Chi::log.Log0Verbose1() << "Initializing volume interpolator.";
+  App().Log().Log0Verbose1() << "Initializing volume interpolator.";
   // Check grid available
   if (field_functions_.empty())
     throw std::logic_error("Unassigned field function in volume field "
@@ -98,7 +100,7 @@ FieldFunctionInterpolationVolume::Execute()
   if (op_type_ == Operation::OP_SUM or op_type_ == Operation::OP_SUM_LUA)
   {
     double global_sum;
-    MPI_Allreduce(&local_sum, &global_sum, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    MPI_Allreduce(&local_sum, &global_sum, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
     op_value_ = global_sum;
   }
   if (op_type_ == Operation::OP_AVG or op_type_ == Operation::OP_AVG_LUA)
@@ -106,7 +108,7 @@ FieldFunctionInterpolationVolume::Execute()
     double local_data[] = {local_volume, local_sum};
     double global_data[] = {0.0, 0.0};
 
-    MPI_Allreduce(&local_data, &global_data, 2, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    MPI_Allreduce(&local_data, &global_data, 2, MPI_DOUBLE, MPI_SUM, App().Comm());
     double global_volume = global_data[0];
     double global_sum = global_data[1];
     op_value_ = global_sum / global_volume;
@@ -114,7 +116,7 @@ FieldFunctionInterpolationVolume::Execute()
   if (op_type_ == Operation::OP_MAX or op_type_ == Operation::OP_MAX_LUA)
   {
     double global_value;
-    MPI_Allreduce(&local_max, &global_value, 1, MPI_DOUBLE, MPI_MAX, Chi::mpi.comm);
+    MPI_Allreduce(&local_max, &global_value, 1, MPI_DOUBLE, MPI_MAX, App().Comm());
     op_value_ = global_value;
   }
 }
@@ -123,6 +125,8 @@ FieldFunctionInterpolationVolume::Execute()
 double
 FieldFunctionInterpolationVolume::CallLuaFunction(double ff_value, int mat_id) const
 {
+  // FIXME: make this work
+  /*
   lua_State* L = Chi::console.GetConsoleState();
   double ret_val = 0.0;
 
@@ -135,6 +139,8 @@ FieldFunctionInterpolationVolume::CallLuaFunction(double ff_value, int mat_id) c
   lua_pop(L, 1);
 
   return ret_val;
+   */
+  return 0.;
 }
 #endif
 

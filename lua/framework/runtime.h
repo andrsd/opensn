@@ -11,7 +11,6 @@
 namespace chi_mesh
 {
 class MeshHandler;
-typedef std::shared_ptr<MeshHandler> MeshHandlerPtr;
 
 class SurfaceMesh;
 typedef std::shared_ptr<SurfaceMesh> SurfaceMeshPtr;
@@ -32,18 +31,12 @@ class Material;
 class MultiGroupXS;
 class FieldFunction;
 
-typedef std::shared_ptr<Material> MaterialPtr;
-typedef std::shared_ptr<MultiGroupXS> MultiGroupXSPtr;
-typedef std::shared_ptr<FieldFunction> FieldFunctionPtr;
 } // namespace chi_physics
 
 namespace chi_math
 {
 class AngularQuadrature;
 class SpatialDiscretization;
-
-typedef std::shared_ptr<AngularQuadrature> AngularQuadraturePtr;
-typedef std::shared_ptr<SpatialDiscretization> SpatialDiscretizationPtr;
 
 class UnknownManager;
 } // namespace chi_math
@@ -55,7 +48,6 @@ class Timer;
 class Console;
 class ChiLog;
 class PostProcessor;
-typedef std::shared_ptr<PostProcessor> PostProcessorPtr;
 /**Stores all the keys currently in the registries.*/
 struct RegistryStatuses
 {
@@ -116,8 +108,6 @@ public:
   static std::vector<ChiObjectPtr> object_stack;
   static std::vector<chi_math::SpatialDiscretizationPtr> sdm_stack;
   static std::vector<chi::PostProcessorPtr> postprocessor_stack;
-
-  static const size_t SIZE_T_INVALID = ((size_t)-1);
 
   /**
    * Get current memory usage.
@@ -204,8 +194,6 @@ public:
    * Finalizes ChiTech.
    */
   static void Finalize();
-  /** Exits the program appropriately.*/
-  static void Exit(int error_code);
 
   /**Builds a `RegistryStatuses` structure*/
   static chi::RegistryStatuses GetStatusOfRegistries();
@@ -227,7 +215,7 @@ public:
      // Returns chi_mesh::SurfaceMesh&
    * \endcode
    * */
-  template <class R, class T>
+  ` template <class R, class T>
   static R& GetStackItem(std::vector<std::shared_ptr<T>>& stack,
                          const size_t handle,
                          const std::string& calling_function_name = "Unknown")
@@ -249,25 +237,25 @@ public:
                               calling_function_name);
     }
   }
-
-  /**Attempts to obtain object of type `shared_ptr<T>` at the given
-   * handle of a stack with parent type P.
-   * \n
-   * \n
-   * Example usage:
-   *
-   * \code
-   * auto surf_mesh_ptr =
-   *   Chi::GetStackItemPtrAsType<chi_mesh::SurfaceMesh>(
-         Chi::object_stack, surf_mesh_hndle, fname);
-     // Returns std::shared_ptr<chi_mesh::SurfaceMesh>
-   * \endcode
-   * */
-  template <class T, class P>
-  static std::shared_ptr<T>
-  GetStackItemPtrAsType(std::vector<std::shared_ptr<P>>& stack,
-                        const size_t handle,
-                        const std::string& calling_function_name = "Unknown")
+  `
+    /**Attempts to obtain object of type `shared_ptr<T>` at the given
+     * handle of a stack with parent type P.
+     * \n
+     * \n
+     * Example usage:
+     *
+     * \code
+     * auto surf_mesh_ptr =
+     *   Chi::GetStackItemPtrAsType<chi_mesh::SurfaceMesh>(
+           Chi::object_stack, surf_mesh_hndle, fname);
+       // Returns std::shared_ptr<chi_mesh::SurfaceMesh>
+     * \endcode
+     * */
+    template <class T, class P>
+    static std::shared_ptr<T>
+    GetStackItemPtrAsType(std::vector<std::shared_ptr<P>>& stack,
+                          const size_t handle,
+                          const std::string& calling_function_name = "Unknown")
   {
     std::shared_ptr<P> item_type_P;
     try

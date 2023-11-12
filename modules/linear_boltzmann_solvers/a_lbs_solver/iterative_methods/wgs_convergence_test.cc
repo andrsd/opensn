@@ -1,13 +1,9 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_convergence_test.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_context.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/groupset/lbs_groupset.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include "framework/utils/timer.h"
-
 #include <iomanip>
 
 namespace lbs
@@ -53,20 +49,23 @@ GSConvergenceTest(KSP ksp, PetscInt n, PetscReal rnorm, KSPConvergedReason* conv
   if (context->groupset_.apply_wgdsa_ || context->groupset_.apply_tgdsa_)
     offset = std::string("    ");
 
-  std::stringstream iter_info;
-  iter_info << Chi::program_timer.GetTimeString() << " " << offset << "WGS groups ["
-            << context->groupset_.groups_.front().id_ << "-"
-            << context->groupset_.groups_.back().id_ << "]"
-            << " Iteration " << std::setw(5) << n << " Residual " << std::setw(9)
-            << scaled_residual;
+  // FIXME
+  // std::stringstream iter_info;
+  // iter_info << Chi::program_timer.GetTimeString() << " " << offset << "WGS groups ["
+  //           << context->groupset_.groups_.front().id_ << "-"
+  //           << context->groupset_.groups_.back().id_ << "]"
+  //           << " Iteration " << std::setw(5) << n << " Residual " << std::setw(9)
+  //           << scaled_residual;
 
   if (scaled_residual < tol)
   {
     *convergedReason = KSP_CONVERGED_RTOL;
-    iter_info << " CONVERGED\n";
+    // FIXME
+    // iter_info << " CONVERGED\n";
   }
 
-  if (context->log_info_) Chi::log.Log() << iter_info.str() << std::endl;
+  // FIXME
+  // if (context->log_info_) Chi::log.Log() << iter_info.str() << std::endl;
 
   return KSP_CONVERGED_ITERATING;
 }

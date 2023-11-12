@@ -10,7 +10,7 @@ class SphereLogicalVolume : public LogicalVolume
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit SphereLogicalVolume(const chi::InputParameters& params);
+  explicit SphereLogicalVolume(opensn::App& app, const chi::InputParameters& params);
 
   bool Inside(const chi_mesh::Vector3& point) const override;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framework/parameters/input_parameters.h"
+#include "framework/app.h"
 
 namespace chi_mesh
 {
@@ -16,12 +17,12 @@ class LogicalVolumeInterface
 protected:
   static chi::InputParameters GetInputParameters();
 
-  explicit LogicalVolumeInterface(const chi::InputParameters& params);
+  explicit LogicalVolumeInterface(opensn::App& app, const chi::InputParameters& params);
 
-  const LogicalVolume* GetLogicalVolume() const;
+  const std::shared_ptr<LogicalVolume> GetLogicalVolume() const;
 
 private:
-  const std::shared_ptr<const LogicalVolume> logical_volume_;
+  const std::shared_ptr<LogicalVolume> logical_volume_;
 };
 
 } // namespace chi_mesh

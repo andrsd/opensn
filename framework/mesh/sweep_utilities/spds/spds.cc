@@ -1,14 +1,19 @@
 #include "framework/mesh/sweep_utilities/spds/spds.h"
 
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
-#include "framework/console/console.h"
 #include "framework/utils/timer.h"
 
 #include <algorithm>
+
+chi_mesh::sweep_management::SPDS::SPDS(const chi_mesh::Vector3& in_omega,
+                                       const chi_mesh::MeshContinuum& in_grid,
+                                       bool verbose)
+  : app_(in_grid.App()), omega_(in_omega), grid_(in_grid), verbose_(verbose)
+{
+}
 
 int
 chi_mesh::sweep_management::SPDS::MapLocJToPrelocI(int locJ) const
@@ -23,8 +28,8 @@ chi_mesh::sweep_management::SPDS::MapLocJToPrelocI(int locJ) const
     if (delayed_location_dependencies_[i] == locJ) { return -(i + 1); }
   }
 
-  Chi::log.LogAllError() << "SPDS Invalid mapping encountered in MapLocJToPrelocI.";
-  Chi::Exit(EXIT_FAILURE);
+  app_.Log().LogAllError() << "SPDS Invalid mapping encountered in MapLocJToPrelocI.";
+  opensn::App::Exit(EXIT_FAILURE);
   return 0;
 }
 
@@ -36,9 +41,15 @@ chi_mesh::sweep_management::SPDS::MapLocJToDeplocI(int locJ) const
     if (location_successors_[i] == locJ) { return i; }
   }
 
-  Chi::log.LogAllError() << "SPDS Invalid mapping encountered in MapLocJToDeplocI.";
-  Chi::Exit(EXIT_FAILURE);
+  app_.Log().LogAllError() << "SPDS Invalid mapping encountered in MapLocJToDeplocI.";
+  opensn::App::Exit(EXIT_FAILURE);
   return 0;
+}
+
+opensn::App&
+chi_mesh::sweep_management::SPDS::App() const
+{
+  return app_;
 }
 
 void
@@ -166,9 +177,9 @@ chi_mesh::sweep_management::SPDS::PrintedGhostedGraph() const
 {
   constexpr double tolerance = 1.0e-16;
 
-  for (int p = 0; p < Chi::mpi.process_count; ++p)
+  for (int p = 0; p < app_.ProcessCount(); ++p)
   {
-    if (p == Chi::mpi.location_id)
+    if (p == app_.LocationID())
     {
       std::cout << "// Printing directed graph for location " << p << ":\n";
       std::cout << "digraph DG {\n";
@@ -225,6 +236,6 @@ chi_mesh::sweep_management::SPDS::PrintedGhostedGraph() const
       std::cout << "}\n";
 
     } // if current location
-    Chi::mpi.Barrier();
+    app_.Barrier();
   } // for p
 }

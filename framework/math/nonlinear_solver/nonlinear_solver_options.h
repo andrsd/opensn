@@ -5,12 +5,11 @@
 namespace chi_math
 {
 
-class NonLinearSolverOptions : public ChiObject
+class NonLinearSolverOptions : public chi::ChiObject
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit NonLinearSolverOptions(const chi::InputParameters& params);
-  NonLinearSolverOptions() = default;
+  explicit NonLinearSolverOptions(opensn::App& app, const chi::InputParameters& params);
 
   std::string nl_method_ = "JFNK";
   std::string l_method_ = "gmres";

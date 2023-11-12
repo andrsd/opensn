@@ -17,7 +17,9 @@ public:
   /** Effective constructor. Initialize with one-dimensional quadrature.
    *  If not already present in the quadrature, the method inserts
    *  the starting directions. */
-  SphericalAngularQuadrature(const chi_math::Quadrature& quad_polar, const bool verbose = false);
+  SphericalAngularQuadrature(opensn::App& app,
+                             const chi_math::Quadrature& quad_polar,
+                             const bool verbose = false);
   /** Default destructor. */
   virtual ~SphericalAngularQuadrature() = default;
 

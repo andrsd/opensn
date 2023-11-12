@@ -17,7 +17,7 @@ class SplitFileMeshGenerator : public MeshGenerator
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit SplitFileMeshGenerator(const chi::InputParameters& params);
+  explicit SplitFileMeshGenerator(opensn::App& app, const chi::InputParameters& params);
 
   void Execute() override;
 
@@ -41,7 +41,7 @@ protected:
   };
   SplitMeshInfo ReadSplitMesh();
 
-  static std::shared_ptr<MeshContinuum> SetupLocalMesh(SplitMeshInfo& mesh_info);
+  static std::shared_ptr<MeshContinuum> SetupLocalMesh(opensn::App& app, SplitMeshInfo& mesh_info);
 
   // void
   const int num_parts_;

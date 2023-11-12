@@ -1,7 +1,6 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-#include "framework/console/console.h"
 #include "framework/mpi/mpi.h"
 #include "framework/object_factory.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_context.h"
@@ -19,7 +18,7 @@
 #include "framework/math/spatial_discretization/finite_element/piecewise_linear/piecewise_linear_discontinuous.h"
 #include "framework/physics/physics_material/physics_material.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
-#ifdef OPENSN_WITH_LUA
+#if 0
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/tools/lbs_bndry_func_lua.h"
 #endif
 #include <algorithm>
@@ -53,7 +52,8 @@ RegisterSyntaxBlock(lbs, OptionsBlock, LBSSolver::OptionsBlock);
 
 RegisterSyntaxBlock(lbs, BoundaryOptionsBlock, LBSSolver::BoundaryOptionsBlock);
 
-LBSSolver::LBSSolver(const std::string& text_name) : chi_physics::Solver(text_name)
+LBSSolver::LBSSolver(opensn::App& app, const std::string& text_name)
+  : chi_physics::Solver(app, text_name), flux_moments_uk_man_(app)
 {
 }
 
@@ -82,7 +82,8 @@ LBSSolver::GetInputParameters()
   return params;
 }
 
-LBSSolver::LBSSolver(const chi::InputParameters& params) : chi_physics::Solver(params)
+LBSSolver::LBSSolver(opensn::App& app, const chi::InputParameters& params)
+  : chi_physics::Solver(app, params), flux_moments_uk_man_(app)
 {
   // Make groups
   const size_t num_groups = params.GetParamValue<size_t>("num_groups");
@@ -101,7 +102,7 @@ LBSSolver::LBSSolver(const chi::InputParameters& params) : chi_physics::Solver(p
     gs_input_params.SetObjectType("LBSSolver:LBSGroupset");
     gs_input_params.AssignParameters(groupset_params);
 
-    groupsets_.emplace_back(gs_input_params, gs, *this);
+    groupsets_.emplace_back(App(), gs_input_params, gs, *this);
   } // for gs
 
   // Options
@@ -185,7 +186,7 @@ LBSSolver::Groups() const
 void
 LBSSolver::AddGroupset()
 {
-  groupsets_.emplace_back(static_cast<int>(groupsets_.size()));
+  groupsets_.emplace_back(App(), static_cast<int>(groupsets_.size()));
 }
 
 std::vector<LBSGroupset>&
@@ -708,20 +709,20 @@ LBSSolver::SetBoundaryOptions(const chi::InputParameters& params)
 void
 LBSSolver::Initialize()
 {
-  PerformInputChecks(); // a assigns num_groups and grid
-  PrintSimHeader();     // b
+  PerformInputChecks();
+  PrintSimHeader();
 
-  MPI_Barrier(Chi::mpi.comm);
+  App().Barrier();
 
-  InitMaterials();                   // c
-  InitializeSpatialDiscretization(); // d
-  InitializeGroupsets();             // e
-  ComputeNumberOfMoments();          // f
-  InitializeParrays();               // g
-  InitializeBoundaries();            // h
-  InitializePointSources();          // i
+  InitMaterials();
+  InitializeSpatialDiscretization();
+  InitializeGroupsets();
+  ComputeNumberOfMoments();
+  InitializeParrays();
+  InitializeBoundaries();
+  InitializePointSources();
 
-  source_event_tag_ = Chi::log.GetRepeatingEventTag("Set Source");
+  source_event_tag_ = App().Log().GetRepeatingEventTag("Set Source");
 }
 
 void
@@ -729,41 +730,44 @@ LBSSolver::PerformInputChecks()
 {
   if (groups_.empty())
   {
-    Chi::log.LogAllError() << "LinearBoltzmann::SteadyStateSolver: No groups added to solver.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "LinearBoltzmann::SteadyStateSolver: No groups added to solver.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   num_groups_ = groups_.size();
 
   if (groupsets_.empty())
   {
-    Chi::log.LogAllError() << "LinearBoltzmann::SteadyStateSolver: No group-sets added to solver.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError()
+      << "LinearBoltzmann::SteadyStateSolver: No group-sets added to solver.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
   int grpset_counter = 0;
   for (auto& group_set : groupsets_)
   {
     if (group_set.groups_.empty())
     {
-      Chi::log.LogAllError() << "LinearBoltzmann::SteadyStateSolver: No groups added to groupset "
-                             << grpset_counter << ".";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError()
+        << "LinearBoltzmann::SteadyStateSolver: No groups added to groupset " << grpset_counter
+        << ".";
+      opensn::App::Exit(EXIT_FAILURE);
     }
     ++grpset_counter;
   }
   if (options_.sd_type == chi_math::SpatialDiscretizationType::UNDEFINED)
   {
-    Chi::log.LogAllError() << "LinearBoltzmann::SteadyStateSolver: No discretization_ method set.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError()
+      << "LinearBoltzmann::SteadyStateSolver: No discretization_ method set.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
-  grid_ptr_ = chi_mesh::GetCurrentHandler().GetGrid();
+  grid_ptr_ = App().GetCurrentMeshHandler()->GetGrid();
 
   if (grid_ptr_ == nullptr)
   {
-    Chi::log.LogAllError() << "LinearBoltzmann::SteadyStateSolver: No "
-                              "grid_ptr_ available from region.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "LinearBoltzmann::SteadyStateSolver: No "
+                                 "grid_ptr_ available from region.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   // Determine geometry type
@@ -781,7 +785,7 @@ LBSSolver::PerformInputChecks()
 void
 LBSSolver::PrintSimHeader()
 {
-  if (Chi::mpi.location_id == 0)
+  if (App().LocationID() == 0)
   {
     std::stringstream outstr;
     outstr << "\nInitializing LBS SteadyStateSolver with name: " << TextName() << "\n\n"
@@ -809,7 +813,7 @@ LBSSolver::PrintSimHeader()
         }
 
       } // for g
-      Chi::log.Log() << outstr.str() << "\n" << std::endl;
+      App().Log().Log() << outstr.str() << "\n" << std::endl;
     } // for gs
   }
 }
@@ -818,7 +822,7 @@ void
 LBSSolver::InitMaterials()
 {
   const std::string fname = "lbs::SteadyStateSolver::InitMaterials";
-  Chi::log.Log0Verbose1() << "Initializing Materials";
+  App().Log().Log0Verbose1() << "Initializing Materials";
 
   // Create set of material ids locally relevant
   std::set<int> unique_material_ids;
@@ -838,7 +842,7 @@ LBSSolver::InitMaterials()
 
   if (invalid_mat_cell_count > 0)
   {
-    Chi::log.LogAllWarning() << "Number of invalid material cells: " << invalid_mat_cell_count;
+    App().Log().LogAllWarning() << "Number of invalid material cells: " << invalid_mat_cell_count;
   }
 
   // Get ready for processing
@@ -847,7 +851,7 @@ LBSSolver::InitMaterials()
   matid_to_src_map_.clear();
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Process materials found
-  const size_t num_physics_mats = Chi::material_stack.size();
+  const size_t num_physics_mats = App().MaterialStack().size();
 
   for (const int& mat_id : unique_material_ids)
   {
@@ -862,7 +866,7 @@ LBSSolver::InitMaterials()
                                      " matches no material in physics material "
                                      "library.");
 
-    auto current_material = Chi::GetStackItemPtr(Chi::material_stack, mat_id, fname);
+    auto current_material = App().GetMaterial(mat_id, fname);
 
     // Extract properties
     using MatProperty = chi_physics::PropertyType;
@@ -881,10 +885,10 @@ LBSSolver::InitMaterials()
 
         if (mg_source->source_value_g_.size() < groups_.size())
         {
-          Chi::log.LogAllWarning() << fname + ": Isotropic Multigroup source specified in "
-                                   << "material \"" << current_material->name_ << "\" has fewer "
-                                   << "energy groups than called for in the simulation. "
-                                   << "Source will be ignored.";
+          App().Log().LogAllWarning() << fname + ": Isotropic Multigroup source specified in "
+                                      << "material \"" << current_material->name_ << "\" has fewer "
+                                      << "energy groups than called for in the simulation. "
+                                      << "Source will be ignored.";
         }
         else { matid_to_src_map_[mat_id] = mg_source; }
       } // P0 source
@@ -893,29 +897,30 @@ LBSSolver::InitMaterials()
     // Check valid property
     if (!found_transport_xs)
     {
-      Chi::log.LogAllError() << fname + ": Found no transport cross-section property for "
-                             << "material \"" << current_material->name_ << "\".";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << fname + ": Found no transport cross-section property for "
+                                << "material \"" << current_material->name_ << "\".";
+      opensn::App::Exit(EXIT_FAILURE);
     }
     // Check number of groups legal
     if (matid_to_xs_map_[mat_id]->NumGroups() < groups_.size())
     {
-      Chi::log.LogAllError() << fname + ": Found material \"" << current_material->name_
-                             << "\" has " << matid_to_xs_map_[mat_id]->NumGroups() << " groups and"
-                             << " the simulation has " << groups_.size() << " groups."
-                             << " The material must have a greater or equal amount of groups.";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << fname + ": Found material \"" << current_material->name_
+                                << "\" has " << matid_to_xs_map_[mat_id]->NumGroups()
+                                << " groups and"
+                                << " the simulation has " << groups_.size() << " groups."
+                                << " The material must have a greater or equal amount of groups.";
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     // Check number of moments
     if (matid_to_xs_map_[mat_id]->ScatteringOrder() < options_.scattering_order)
     {
-      Chi::log.Log0Warning() << fname + ": Found material \"" << current_material->name_
-                             << "\" has a scattering order of "
-                             << matid_to_xs_map_[mat_id]->ScatteringOrder()
-                             << " and the simulation has a scattering order of "
-                             << options_.scattering_order
-                             << ". The higher moments will therefore not be used.";
+      App().Log().Log0Warning() << fname + ": Found material \"" << current_material->name_
+                                << "\" has a scattering order of "
+                                << matid_to_xs_map_[mat_id]->ScatteringOrder()
+                                << " and the simulation has a scattering order of "
+                                << options_.scattering_order
+                                << ". The higher moments will therefore not be used.";
     }
 
     materials_list << " number of moments " << matid_to_xs_map_[mat_id]->ScatteringOrder() + 1
@@ -962,16 +967,16 @@ LBSSolver::InitMaterials()
       transport_view.ReassingXS(*xs_ptr);
     }
 
-  Chi::log.Log0Verbose1() << "Materials Initialized:\n" << materials_list.str() << "\n";
+  App().Log().Log0Verbose1() << "Materials Initialized:\n" << materials_list.str() << "\n";
 
-  MPI_Barrier(Chi::mpi.comm);
+  App().Barrier();
 }
 
 void
 LBSSolver::InitializeSpatialDiscretization()
 {
   using namespace chi_math::finite_element;
-  Chi::log.Log() << "Initializing spatial discretization.\n";
+  App().Log().Log() << "Initializing spatial discretization.\n";
   discretization_ = chi_math::spatial_discretization::PieceWiseLinearDiscontinuous::New(*grid_ptr_);
 
   ComputeUnitIntegrals();
@@ -980,7 +985,7 @@ LBSSolver::InitializeSpatialDiscretization()
 void
 LBSSolver::ComputeUnitIntegrals()
 {
-  Chi::log.Log() << "Computing unit integrals.\n";
+  App().Log().Log() << "Computing unit integrals.\n";
   const auto& sdm = *discretization_;
 
   // Define spatial weighting functions
@@ -1110,13 +1115,14 @@ LBSSolver::ComputeUnitIntegrals()
   std::array<size_t, 2> num_globl_ucms = {0, 0};
 
   MPI_Allreduce(
-    num_local_ucms.data(), num_globl_ucms.data(), 2, MPIU_SIZE_T, MPI_SUM, Chi::mpi.comm);
+    num_local_ucms.data(), num_globl_ucms.data(), 2, MPIU_SIZE_T, MPI_SUM, App().Comm());
 
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Ghost cell unit cell-matrix ratio: "
-                 << (double)num_globl_ucms[1] * 100 / (double)num_globl_ucms[0] << "%";
-  Chi::log.Log() << "Cell matrices computed.                   Process memory = "
-                 << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB";
+  App().Barrier();
+  App().Log().Log() << "Ghost cell unit cell-matrix ratio: "
+                    << (double)num_globl_ucms[1] * 100 / (double)num_globl_ucms[0] << "%";
+  // FIXME
+  // App().Log().Log() << "Cell matrices computed.                   Process memory = "
+  //                   << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB";
 }
 
 void
@@ -1161,8 +1167,8 @@ LBSSolver::ComputeNumberOfMoments()
 void
 LBSSolver::InitializeParrays()
 {
-  Chi::log.Log() << "Initializing parallel arrays."
-                 << " G=" << num_groups_ << " M=" << num_moments_ << std::endl;
+  App().Log().Log() << "Initializing parallel arrays."
+                    << " G=" << num_groups_ << " M=" << num_moments_ << std::endl;
 
   // Initialize unknown
   // structure
@@ -1174,7 +1180,7 @@ LBSSolver::InitializeParrays()
   }
 
   // Compute local # of dof
-  auto per_node = chi_math::UnknownManager::GetUnitaryUnknownManager();
+  auto per_node = chi_math::UnknownManager::GetUnitaryUnknownManager(App());
   local_node_count_ = discretization_->GetNumLocalDOFs(per_node);
   glob_node_count_ = discretization_->GetNumGlobalDOFs(per_node);
 
@@ -1182,7 +1188,7 @@ LBSSolver::InitializeParrays()
   size_t num_grps = groups_.size();
   size_t local_unknown_count = local_node_count_ * num_grps * num_moments_;
 
-  Chi::log.LogAllVerbose1() << "LBS Number of phi unknowns: " << local_unknown_count;
+  App().Log().LogAllVerbose1() << "LBS Number of phi unknowns: " << local_unknown_count;
 
   // Size local vectors
   q_moments_local_.assign(local_unknown_count, 0.0);
@@ -1211,7 +1217,7 @@ LBSSolver::InitializeParrays()
   // Read Restart data
   if (options_.read_restart_data)
     ReadRestartData(options_.read_restart_folder_name, options_.read_restart_file_base);
-  Chi::mpi.Barrier();
+  App().Barrier();
 
   // Initialize transport views
   // Transport views act as a data structure to store information
@@ -1248,7 +1254,7 @@ LBSSolver::InitializeParrays()
 
     const size_t num_faces = cell.faces_.size();
     std::vector<bool> face_local_flags(num_faces, true);
-    std::vector<int> face_locality(num_faces, Chi::mpi.location_id);
+    std::vector<int> face_locality(num_faces, App().LocationID());
     std::vector<const chi_mesh::Cell*> neighbor_cell_ptrs(num_faces, nullptr);
     bool cell_on_boundary = false;
     int f = 0;
@@ -1280,7 +1286,7 @@ LBSSolver::InitializeParrays()
       else
       {
         const int neighbor_partition = face.GetNeighborPartitionID(*grid_ptr_);
-        face_local_flags[f] = (neighbor_partition == Chi::mpi.location_id);
+        face_local_flags[f] = (neighbor_partition == App().LocationID());
         face_locality[f] = neighbor_partition;
         neighbor_cell_ptrs[f] = &grid_ptr_->cells[face.neighbor_id_];
       }
@@ -1340,9 +1346,10 @@ LBSSolver::InitializeParrays()
   // Initialize Field Functions
   InitializeFieldFunctions();
 
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "Done with parallel arrays.                Process memory = "
-                 << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB" << std::endl;
+  App().Barrier();
+  // FIXME
+  // App().Log().Log() << "Done with parallel arrays.                Process memory = "
+  //                   << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB" << std::endl;
 }
 
 void
@@ -1374,9 +1381,9 @@ LBSSolver::InitializeFieldFunctions()
       const std::string text_name = std::string(buff);
 
       auto group_ff = std::make_shared<chi_physics::FieldFunctionGridBased>(
-        text_name, discretization_, Unknown(UnknownType::SCALAR));
+        App(), text_name, discretization_, Unknown(UnknownType::SCALAR));
 
-      Chi::field_function_stack.push_back(group_ff);
+      App().FieldFunctionStack().push_back(group_ff);
       field_functions_.push_back(group_ff);
 
       phi_field_functions_local_map_[{g, m}] = field_functions_.size() - 1;
@@ -1395,9 +1402,9 @@ LBSSolver::InitializeFieldFunctions()
     if (options_.field_function_prefix_option == "solver_name") prefix = TextName() + "_";
 
     auto power_ff = std::make_shared<chi_physics::FieldFunctionGridBased>(
-      prefix + "power_generation", discretization_, Unknown(UnknownType::SCALAR));
+      App(), prefix + "power_generation", discretization_, Unknown(UnknownType::SCALAR));
 
-    Chi::field_function_stack.push_back(power_ff);
+    App().FieldFunctionStack().push_back(power_ff);
     field_functions_.push_back(power_ff);
 
     power_gen_fieldfunc_local_handle_ = field_functions_.size() - 1;
@@ -1419,14 +1426,14 @@ LBSSolver::InitializeBoundaries()
     std::vector<uint64_t> local_unique_bids(local_unique_bids_set.begin(),
                                             local_unique_bids_set.end());
     const int local_num_unique_bids = static_cast<int>(local_unique_bids.size());
-    std::vector<int> recvcounts(Chi::mpi.process_count, 0);
+    std::vector<int> recvcounts(App().ProcessCount(), 0);
 
-    MPI_Allgather(&local_num_unique_bids, 1, MPI_INT, recvcounts.data(), 1, MPI_INT, Chi::mpi.comm);
+    MPI_Allgather(&local_num_unique_bids, 1, MPI_INT, recvcounts.data(), 1, MPI_INT, App().Comm());
 
-    std::vector<int> recvdispls(Chi::mpi.process_count, 0);
+    std::vector<int> recvdispls(App().ProcessCount(), 0);
 
     int running_displacement = 0;
-    for (int locI = 0; locI < Chi::mpi.process_count; ++locI)
+    for (int locI = 0; locI < App().ProcessCount(); ++locI)
     {
       recvdispls[locI] = running_displacement;
       running_displacement += recvcounts[locI];
@@ -1441,7 +1448,7 @@ LBSSolver::InitializeBoundaries()
                    recvcounts.data(),
                    recvdispls.data(),
                    MPI_UINT64_T,
-                   Chi::mpi.comm);
+                   App().Comm());
 
     globl_unique_bids_set = local_unique_bids_set; // give it a head start
 
@@ -1459,7 +1466,7 @@ LBSSolver::InitializeBoundaries()
     const bool has_not_been_set = sweep_boundaries_.count(bid) == 0;
     if (has_no_preference and has_not_been_set)
     {
-      sweep_boundaries_[bid] = mk_shrd(SweepVaccuumBndry)(G);
+      sweep_boundaries_[bid] = mk_shrd(SweepVaccuumBndry)(App(), G);
     } // defaulted
     else if (has_not_been_set)
     {
@@ -1467,14 +1474,14 @@ LBSSolver::InitializeBoundaries()
       const auto& mg_q = bndry_pref.isotropic_mg_source;
 
       if (bndry_pref.type == lbs::BoundaryType::VACUUM)
-        sweep_boundaries_[bid] = mk_shrd(SweepVaccuumBndry)(G);
+        sweep_boundaries_[bid] = mk_shrd(SweepVaccuumBndry)(App(), G);
       else if (bndry_pref.type == lbs::BoundaryType::INCIDENT_ISOTROPIC)
-        sweep_boundaries_[bid] = mk_shrd(SweepIncHomoBndry)(G, mg_q);
+        sweep_boundaries_[bid] = mk_shrd(SweepIncHomoBndry)(App(), G, mg_q);
       else if (bndry_pref.type == BoundaryType::INCIDENT_ANISTROPIC_HETEROGENEOUS)
       {
-#ifdef OPENSN_WITH_LUA
+#if 0
         sweep_boundaries_[bid] = mk_shrd(SweepAniHeteroBndry)(
-          G, std::make_unique<BoundaryFunctionToLua>(bndry_pref.source_function), bid);
+          App(), G, std::make_unique<BoundaryFunctionToLua>(bndry_pref.source_function), bid);
 #else
         // hard exit since this is a missing capability
         exit(-1);
@@ -1500,16 +1507,15 @@ LBSSolver::InitializeBoundaries()
         const int local_has_bid = n_ptr != nullptr ? 1 : 0;
         const Vec3 local_normal = local_has_bid ? *n_ptr : Vec3(0.0, 0.0, 0.0);
 
-        std::vector<int> locJ_has_bid(Chi::mpi.process_count, 1);
-        std::vector<double> locJ_n_val(Chi::mpi.process_count * 3, 0.0);
+        std::vector<int> locJ_has_bid(App().ProcessCount(), 1);
+        std::vector<double> locJ_n_val(App().ProcessCount() * 3, 0.0);
 
-        MPI_Allgather(&local_has_bid, 1, MPI_INT, locJ_has_bid.data(), 1, MPI_INT, Chi::mpi.comm);
+        MPI_Allgather(&local_has_bid, 1, MPI_INT, locJ_has_bid.data(), 1, MPI_INT, App().Comm());
 
-        MPI_Allgather(
-          &local_normal, 3, MPI_DOUBLE, locJ_n_val.data(), 3, MPI_DOUBLE, Chi::mpi.comm);
+        MPI_Allgather(&local_normal, 3, MPI_DOUBLE, locJ_n_val.data(), 3, MPI_DOUBLE, App().Comm());
 
         Vec3 global_normal;
-        for (int j = 0; j < Chi::mpi.process_count; ++j)
+        for (int j = 0; j < App().ProcessCount(); ++j)
         {
           if (locJ_has_bid[j])
           {
@@ -1526,7 +1532,7 @@ LBSSolver::InitializeBoundaries()
         }
 
         sweep_boundaries_[bid] = mk_shrd(SweepReflectingBndry)(
-          G, global_normal, MapGeometryTypeToCoordSys(options_.geometry_type));
+          App(), G, global_normal, MapGeometryTypeToCoordSys(options_.geometry_type));
       }
     } // non-defaulted
   }   // for bndry id
@@ -1605,7 +1611,7 @@ LBSSolver::InitializePointSources()
           output << val << " ";
         output << "volume_weight=" << info.volume_weight / v_total;
 
-        Chi::log.LogAll() << output.str();
+        App().Log().LogAll() << output.str();
       }
     } // for info in temp list
   }   // for point_source
@@ -1614,7 +1620,7 @@ LBSSolver::InitializePointSources()
 void
 LBSSolver::InitializeSolverSchemes()
 {
-  Chi::log.Log() << "Initializing Solver schemes";
+  App().Log().Log() << "Initializing Solver schemes";
 
   InitializeWGSSolvers();
 
@@ -1627,7 +1633,7 @@ LBSSolver::InitializeSolverSchemes()
     auto ags_context = std::make_shared<AGSContext>(*this, wgs_solvers_);
 
     auto ags_solver = std::make_shared<AGSLinearSolver>(
-      "richardson", ags_context, groupsets_.front().id_, groupsets_.back().id_);
+      App(), "richardson", ags_context, groupsets_.front().id_, groupsets_.back().id_);
     ags_solver->ToleranceOptions().maximum_iterations = 1;
     ags_solver->SetVerbosity(options_.verbose_ags_iterations);
 
@@ -1644,7 +1650,7 @@ lbs::LBSSolver::InitWGDSA(LBSGroupset& groupset, bool vaccum_bcs_are_dirichlet)
   {
     // Make UnknownManager
     const size_t num_gs_groups = groupset.groups_.size();
-    chi_math::UnknownManager uk_man;
+    chi_math::UnknownManager uk_man(App());
     uk_man.AddUnknown(chi_math::UnknownType::VECTOR_N, num_gs_groups);
 
     // Make boundary conditions
@@ -1658,7 +1664,8 @@ lbs::LBSSolver::InitWGDSA(LBSGroupset& groupset, bool vaccum_bcs_are_dirichlet)
     const auto& sdm = *discretization_;
 
     auto solver =
-      std::make_shared<acceleration::DiffusionMIPSolver>(std::string(TextName() + "_WGDSA"),
+      std::make_shared<acceleration::DiffusionMIPSolver>(App(),
+                                                         std::string(TextName() + "_WGDSA"),
                                                          sdm,
                                                          uk_man,
                                                          bcs,
@@ -1864,7 +1871,8 @@ lbs::LBSSolver::InitTGDSA(LBSGroupset& groupset)
     const auto& sdm = *discretization_;
 
     auto solver =
-      std::make_shared<acceleration::DiffusionMIPSolver>(std::string(TextName() + "_TGDSA"),
+      std::make_shared<acceleration::DiffusionMIPSolver>(App(),
+                                                         std::string(TextName() + "_TGDSA"),
                                                          sdm,
                                                          uk_man,
                                                          bcs,
@@ -1974,17 +1982,17 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   Stat st;
 
   // Make sure folder exists
-  if (Chi::mpi.location_id == 0)
+  if (App().LocationID() == 0)
   {
     if (stat(folder_name.c_str(), &st) != 0) // if not exist, make it
       if ((mkdir(folder_name.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) != 0) and (errno != EEXIST))
       {
-        Chi::log.Log0Warning() << "Failed to create restart directory: " << folder_name;
+        App().Log().Log0Warning() << "Failed to create restart directory: " << folder_name;
         return;
       }
   }
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 
   // Create files
   // This step might fail for specific locations and
@@ -1993,7 +2001,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   // the process as whole succeeded.
   bool location_succeeded = true;
   char location_cstr[20];
-  snprintf(location_cstr, 20, "%d.r", Chi::mpi.location_id);
+  snprintf(location_cstr, 20, "%d.r", App().LocationID());
 
   std::string file_name = folder_name + std::string("/") + file_base + std::string(location_cstr);
 
@@ -2002,7 +2010,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
 
   if (not ofile.is_open())
   {
-    Chi::log.LogAllError() << "Failed to create restart file: " << file_name;
+    App().Log().LogAllError() << "Failed to create restart file: " << file_name;
     ofile.close();
     location_succeeded = false;
   }
@@ -2017,23 +2025,23 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   }
 
   // Wait for all processes then check success status
-  Chi::mpi.Barrier();
+  App().Barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, Chi::mpi.comm);
+  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, App().Comm());
 
   // Write status message
   if (global_succeeded)
-    Chi::log.Log() << "Successfully wrote restart data: "
-                   << folder_name + std::string("/") + file_base + std::string("X.r");
+    App().Log().Log() << "Successfully wrote restart data: "
+                      << folder_name + std::string("/") + file_base + std::string("X.r");
   else
-    Chi::log.Log0Error() << "Failed to write restart data: "
-                         << folder_name + std::string("/") + file_base + std::string("X.r");
+    App().Log().Log0Error() << "Failed to write restart data: "
+                            << folder_name + std::string("/") + file_base + std::string("X.r");
 }
 
 void
 LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& file_base)
 {
-  Chi::mpi.Barrier();
+  App().Barrier();
 
   // Open files
   // This step might fail for specific locations and
@@ -2042,7 +2050,7 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
   // the process as whole succeeded.
   bool location_succeeded = true;
   char location_cstr[20];
-  snprintf(location_cstr, 20, "%d.r", Chi::mpi.location_id);
+  snprintf(location_cstr, 20, "%d.r", App().LocationID());
 
   std::string file_name = folder_name + std::string("/") + file_base + std::string(location_cstr);
 
@@ -2088,21 +2096,21 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
   }
 
   // Wait for all processes then check success status
-  Chi::mpi.Barrier();
+  App().Barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, Chi::mpi.comm);
+  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, App().Comm());
 
   // Write status message
-  if (global_succeeded) Chi::log.Log() << "Successfully read restart data";
+  if (global_succeeded) App().Log().Log() << "Successfully read restart data";
   else
-    Chi::log.Log0Error() << "Failed to read restart data: "
-                         << folder_name + std::string("/") + file_base + std::string("X.r");
+    App().Log().Log0Error() << "Failed to read restart data: "
+                            << folder_name + std::string("/") + file_base + std::string("X.r");
 }
 
 void
 LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset, const std::string& file_base)
 {
-  std::string file_name = file_base + std::to_string(Chi::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(App().LocationID()) + ".data";
 
   // Open file
   std::ofstream file(file_name,
@@ -2113,7 +2121,7 @@ LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset, const std::st
   // Check file is open
   if (not file.is_open())
   {
-    Chi::log.LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
+    App().Log().LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
     return;
   }
 
@@ -2142,7 +2150,7 @@ LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset, const std::st
   file << header_bytes;
 
   // Get relevant items
-  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager();
+  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager(App());
 
   size_t num_local_nodes = discretization_->GetNumLocalDOFs(NODES_ONLY);
   size_t num_angles = groupset.quadrature_->abscissae_.size();
@@ -2188,7 +2196,7 @@ close_file:
 void
 LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& file_base)
 {
-  std::string file_name = file_base + std::to_string(Chi::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(App().LocationID()) + ".data";
 
   // Open file
   std::ifstream file(file_name,
@@ -2198,12 +2206,12 @@ LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& f
   // Check file is open
   if (not file.is_open())
   {
-    Chi::log.LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
+    App().Log().LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
     return;
   }
 
   // Get relevant items
-  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager();
+  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager(App());
 
   size_t num_local_nodes = discretization_->GetNumLocalDOFs(NODES_ONLY);
   size_t num_angles = groupset.quadrature_->abscissae_.size();
@@ -2218,7 +2226,7 @@ LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& f
   size_t file_num_local_dofs;
 
   // Read header
-  Chi::log.Log() << "Reading angular flux file " << file_name;
+  App().Log().Log() << "Reading angular flux file " << file_name;
   char header_bytes[320];
   header_bytes[319] = '\0';
   file.read(header_bytes, 319);
@@ -2237,8 +2245,8 @@ LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& f
     outstr << "num_angles     : " << file_num_angles << "\n";
     outstr << "num_groups     : " << file_num_groups << "\n";
     outstr << "num_local_dofs : " << file_num_local_dofs << "\n";
-    Chi::log.LogAll() << "Incompatible DOF data found in file " << file_name << "\n"
-                      << outstr.str();
+    App().Log().LogAll() << "Incompatible DOF data found in file " << file_name << "\n"
+                         << outstr.str();
     file.close();
     return;
   }
@@ -2271,7 +2279,7 @@ LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& f
     psi[imap] = psi_value;
   }
 
-  Chi::log.LogAll() << "Number of cells read: " << cells_touched.size();
+  App().Log().LogAll() << "Number of cells read: " << cells_touched.size();
 
   // Clean-up
   file.close();
@@ -2298,11 +2306,11 @@ LBSSolver::MakeSourceMomentsFromPhi()
 void
 LBSSolver::WriteFluxMoments(const std::string& file_base, const std::vector<double>& flux_moments)
 {
-  std::string file_name = file_base + std::to_string(Chi::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(App().LocationID()) + ".data";
 
   // Open file
-  Chi::log.Log() << "Writing flux-moments to files with base-name " << file_base
-                 << " and extension .data";
+  App().Log().Log() << "Writing flux-moments to files with base-name " << file_base
+                    << " and extension .data";
   std::ofstream file(file_name,
                      std::ofstream::binary |  // binary file
                        std::ofstream::out |   // no accidental reading
@@ -2311,7 +2319,7 @@ LBSSolver::WriteFluxMoments(const std::string& file_base, const std::vector<doub
   // Check file is open
   if (not file.is_open())
   {
-    Chi::log.LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
+    App().Log().LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
     return;
   }
 
@@ -2348,7 +2356,7 @@ LBSSolver::WriteFluxMoments(const std::string& file_base, const std::vector<doub
   file << header_bytes;
 
   // Get relevant items
-  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager();
+  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager(App());
   auto& sdm = discretization_;
   uint64_t num_local_nodes = discretization_->GetNumLocalDOFs(NODES_ONLY);
   uint64_t num_moments_t = static_cast<uint64_t>(num_moments_);
@@ -2410,11 +2418,11 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
                            std::vector<double>& flux_moments,
                            bool single_file)
 {
-  std::string file_name = file_base + std::to_string(Chi::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(App().LocationID()) + ".data";
   if (single_file) file_name = file_base + ".data";
 
   // Open file
-  Chi::log.Log() << "Reading flux-moments file " << file_name;
+  App().Log().Log() << "Reading flux-moments file " << file_name;
   std::ifstream file(file_name,
                      std::ofstream::binary | // binary file
                        std::ofstream::in);   // no accidental writing
@@ -2422,12 +2430,12 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
   // Check file is open
   if (not file.is_open())
   {
-    Chi::log.LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
+    App().Log().LogAllWarning() << __FUNCTION__ << "Failed to open " << file_name;
     return;
   }
 
   // Get relevant items
-  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager();
+  auto NODES_ONLY = chi_math::UnknownManager::GetUnitaryUnknownManager(App());
   auto& sdm = discretization_;
   uint64_t num_local_nodes = discretization_->GetNumLocalDOFs(NODES_ONLY);
   uint64_t num_moments_t = static_cast<uint64_t>(num_moments_);
@@ -2466,9 +2474,9 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
       outstr << "num_groups     : " << file_num_groups << " vs " << num_groups_ << "\n";
       outstr << "num_local_dofs : " << file_num_local_dofs << " vs " << num_local_dofs << "\n";
       outstr << "num_local_cells: " << file_num_local_cells << " vs " << num_local_cells << "\n";
-      Chi::log.LogAll() << "Incompatible DOF data found in file " << file_name << "\n"
-                        << "File data vs system:\n"
-                        << outstr.str();
+      App().Log().LogAll() << "Incompatible DOF data found in file " << file_name << "\n"
+                           << "File data vs system:\n"
+                           << outstr.str();
       file.close();
       return;
     }
@@ -2677,7 +2685,7 @@ LBSSolver::UpdateFieldFunctions()
     if (options_.power_normalization > 0.0)
     {
       double globl_total_power;
-      MPI_Allreduce(&local_total_power, &globl_total_power, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+      MPI_Allreduce(&local_total_power, &globl_total_power, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
 
       chi_math::Scale(data_vector_local, options_.power_normalization / globl_total_power);
     }
@@ -2777,7 +2785,7 @@ LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_production = 0.0;
-  MPI_Allreduce(&local_production, &global_production, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+  MPI_Allreduce(&local_production, &global_production, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
 
   return global_production;
 }
@@ -2817,7 +2825,7 @@ LBSSolver::ComputeFissionRate(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_fission_rate = 0.0;
-  MPI_Allreduce(&local_fission_rate, &global_fission_rate, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+  MPI_Allreduce(&local_fission_rate, &global_fission_rate, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
 
   return global_fission_rate;
 }

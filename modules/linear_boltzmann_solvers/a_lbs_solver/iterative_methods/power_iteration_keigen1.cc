@@ -1,11 +1,8 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/ags_linear_solver.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_context.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/diffusion_mip_solver.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 
@@ -17,6 +14,8 @@ namespace lbs
 void
 PowerIterationKEigen1(LBSSolver& lbs_solver, double tolerance, int max_iterations, double& k_eff)
 {
+  opensn::App& app = lbs_solver.App();
+
   const std::string fname = "lbs::PowerIterationKEigen";
 
   for (auto& wgs_solver : lbs_solver.GetWGSSolvers())
@@ -174,8 +173,8 @@ PowerIterationKEigen1(LBSSolver& lbs_solver, double tolerance, int max_iteration
 
       const double lambda_change = std::fabs(1.0 - lambda_kp1 / lambda_k);
       if (pisa_verbose_level >= 1)
-        Chi::log.Log() << "PISA iteration " << k << " lambda " << lambda_kp1 << " lambda change "
-                       << lambda_change;
+        app.Log().Log() << "PISA iteration " << k << " lambda " << lambda_kp1 << " lambda change "
+                        << lambda_change;
 
       if (lambda_change < pisa_pi_k_tol) break;
 
@@ -204,26 +203,26 @@ PowerIterationKEigen1(LBSSolver& lbs_solver, double tolerance, int max_iteration
     if (lbs_solver.Options().verbose_outer_iterations)
     {
       std::stringstream k_iter_info;
-      k_iter_info << Chi::program_timer.GetTimeString() << " "
+      k_iter_info << app.ProgramTimer().GetTimeString() << " "
                   << "  Iteration " << std::setw(5) << nit << "  k_eff " << std::setw(11)
                   << std::setprecision(7) << k_eff << "  k_eff change " << std::setw(12)
                   << k_eff_change << "  reactivity " << std::setw(10) << reactivity * 1e5;
       if (converged) k_iter_info << " CONVERGED\n";
 
-      Chi::log.Log() << k_iter_info.str();
+      app.Log().Log() << k_iter_info.str();
     }
 
     if (converged) break;
   } // for k iterations
 
   // Print summary
-  Chi::log.Log() << "\n";
-  Chi::log.Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff;
-  Chi::log.Log() << "        Final change          :        " << std::setprecision(6)
-                 << k_eff_change
-                 << " (num_TrOps:" << frons_wgs_context->counter_applications_of_inv_op_ << ")"
-                 << "\n";
-  Chi::log.Log() << "\n";
+  app.Log().Log() << "\n";
+  app.Log().Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff;
+  app.Log().Log() << "        Final change          :        " << std::setprecision(6)
+                  << k_eff_change
+                  << " (num_TrOps:" << frons_wgs_context->counter_applications_of_inv_op_ << ")"
+                  << "\n";
+  app.Log().Log() << "\n";
 }
 
 } // namespace lbs

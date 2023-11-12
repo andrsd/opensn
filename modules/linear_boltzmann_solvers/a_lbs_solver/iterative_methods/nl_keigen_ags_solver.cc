@@ -1,16 +1,10 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/nl_keigen_ags_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/snes_k_monitor.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/nl_keigen_ags_residual_func.h"
-
 #include "framework/math/petsc_utils/petsc_utils.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include <petscsnes.h>
-
 #include <iomanip>
 
 #define CheckContext(x)                                                                            \
@@ -116,10 +110,11 @@ NLKEigenvalueAGSSolver::PostSolveCallback()
   SNESGetNumberFunctionEvals(nl_solver_, &number_of_func_evals);
 
   // Print summary
-  Chi::log.Log() << "\n"
-                 << "        Final k-eigenvalue    :        " << std::fixed << std::setw(10)
-                 << std::setprecision(7) << k_eff << " (num_TrOps:" << number_of_func_evals << ")"
-                 << "\n";
+  App().Log().Log() << "\n"
+                    << "        Final k-eigenvalue    :        " << std::fixed << std::setw(10)
+                    << std::setprecision(7) << k_eff << " (num_TrOps:" << number_of_func_evals
+                    << ")"
+                    << "\n";
 }
 
 } // namespace lbs

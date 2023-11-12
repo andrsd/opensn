@@ -1,14 +1,8 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/nl_keigen_acc_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/nl_keigen_acc_residual_func.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/snes_k_monitor.h"
-
 #include "framework/math/petsc_utils/petsc_utils.h"
-
-#include "framework/runtime.h"
-#include "framework/logging/log.h"
-
+#include "framework/app.h"
 #include <iomanip>
 
 #define CheckContext(x)                                                                            \
@@ -111,9 +105,10 @@ NLKEigenDiffSolver::PostSolveCallback()
 
   // Print summary
   if (nl_context_ptr->verbosity_level_ >= 1)
-    Chi::log.Log() << "        Final lambda-eigenvalue    :        " << std::fixed << std::setw(10)
-                   << std::setprecision(7) << k_eff << " (num_DOps:" << number_of_func_evals << ")"
-                   << "\n";
+    App().Log().Log() << "        Final lambda-eigenvalue    :        " << std::fixed
+                      << std::setw(10) << std::setprecision(7) << k_eff
+                      << " (num_DOps:" << number_of_func_evals << ")"
+                      << "\n";
 }
 
 } // namespace lbs::acceleration

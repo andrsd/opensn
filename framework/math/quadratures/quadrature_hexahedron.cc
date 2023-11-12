@@ -1,10 +1,10 @@
 #include "framework/math/quadratures/quadrature_hexahedron.h"
-
 #include "framework/math/quadratures/quadrature_gausslegendre.h"
 
-chi_math::QuadratureHexahedron::QuadratureHexahedron(QuadratureOrder order) : Quadrature(order)
+chi_math::QuadratureHexahedron::QuadratureHexahedron(opensn::App& app, QuadratureOrder order)
+  : Quadrature(app, order)
 {
-  QuadratureGaussLegendre legendre(order);
+  QuadratureGaussLegendre legendre(app, order);
 
   legendre.SetRange({-1.0, 1.0});
 

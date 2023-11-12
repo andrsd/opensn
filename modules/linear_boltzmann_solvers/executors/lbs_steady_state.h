@@ -8,12 +8,12 @@ namespace lbs
 class SteadyStateSolver : public chi_physics::Solver
 {
 protected:
-  LBSSolver& lbs_solver_;
+  std::shared_ptr<LBSSolver> lbs_solver_;
 
 public:
   static chi::InputParameters GetInputParameters();
 
-  explicit SteadyStateSolver(const chi::InputParameters& params);
+  explicit SteadyStateSolver(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

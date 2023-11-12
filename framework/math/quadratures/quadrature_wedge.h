@@ -11,7 +11,7 @@ class QuadratureWedge : public Quadrature
 {
 public:
   // Constructor
-  explicit QuadratureWedge(QuadratureOrder order);
+  explicit QuadratureWedge(opensn::App& app, QuadratureOrder order);
 };
 
 } // namespace chi_math

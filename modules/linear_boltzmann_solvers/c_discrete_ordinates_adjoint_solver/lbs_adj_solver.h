@@ -25,8 +25,8 @@ public:
   std::vector<std::vector<double>> m_moment_buffers_;
 
 public:
-  explicit DiscreteOrdinatesAdjointSolver(const chi::InputParameters& params);
-  explicit DiscreteOrdinatesAdjointSolver(const std::string& solver_name);
+  explicit DiscreteOrdinatesAdjointSolver(opensn::App& app, const chi::InputParameters& params);
+  explicit DiscreteOrdinatesAdjointSolver(opensn::App& app, const std::string& solver_name);
 
   DiscreteOrdinatesAdjointSolver(const DiscreteOrdinatesAdjointSolver&) = delete;
   DiscreteOrdinatesAdjointSolver& operator=(const DiscreteOrdinatesAdjointSolver&) = delete;

@@ -1,6 +1,4 @@
 #include "framework/mesh/mesh.h"
-#include "framework/mesh/mesh_handler/mesh_handler.h"
-#include "framework/runtime.h"
 #include "framework/mesh/surface_mesher/predefined/surfmesher_predefined.h"
 #include "framework/mesh/volume_mesher/predefined_unpartitioned/volmesher_predefunpart.h"
 #include "framework/logging/log.h"
@@ -8,33 +6,13 @@
 namespace chi_mesh
 {
 
-MeshHandler&
-GetCurrentHandler()
-{
-  if (Chi::meshhandler_stack.empty())
-    throw std::logic_error("chi_mesh::GetCurrentHandler: No handlers on stack");
-
-  return Chi::GetStackItem<MeshHandler>(Chi::meshhandler_stack, Chi::current_mesh_handler);
-}
-
 size_t
-PushNewHandlerAndGetIndex()
-{
-  Chi::meshhandler_stack.push_back(std::make_shared<MeshHandler>());
-
-  int index = (int)Chi::meshhandler_stack.size() - 1;
-  Chi::current_mesh_handler = index;
-
-  return index;
-}
-
-size_t
-CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices)
+CreateUnpartitioned1DOrthoMesh(opensn::App& app, std::vector<double>& vertices)
 {
   ChiLogicalErrorIf(vertices.empty(), "Empty vertex list.");
 
   // Get current mesh handler
-  auto& handler = GetCurrentHandler();
+  auto handler = app.GetCurrentMeshHandler();
 
   // Reorient 1D verts along z
   std::vector<Vertex> zverts;
@@ -43,7 +21,7 @@ CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices)
     zverts.emplace_back(0.0, 0.0, z_coord);
 
   // Create unpartitioned mesh
-  auto umesh = std::make_shared<UnpartitionedMesh>();
+  auto umesh = std::make_shared<UnpartitionedMesh>(app);
 
   umesh->GetMeshAttributes() = DIMENSION_1 | ORTHOGONAL;
 
@@ -85,6 +63,8 @@ CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices)
   umesh->ComputeCentroidsAndCheckQuality();
   umesh->BuildMeshConnectivity();
 
+  // FIXME: make this work
+#if 0
   Chi::unpartitionedmesh_stack.push_back(umesh);
 
   // Create meshers
@@ -94,19 +74,22 @@ CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices)
   //  handler.GetVolumeMesher().Execute();
 
   return Chi::unpartitionedmesh_stack.size() - 1;
+#endif
+  return 0;
 }
 
 size_t
-CreateUnpartitioned2DOrthoMesh(std::vector<double>& vertices_1d_x,
+CreateUnpartitioned2DOrthoMesh(opensn::App& app,
+                               std::vector<double>& vertices_1d_x,
                                std::vector<double>& vertices_1d_y)
 {
   ChiLogicalErrorIf(vertices_1d_x.empty() or vertices_1d_y.empty(), "Empty vertex list.");
 
   // Get current mesh handler
-  auto& handler = GetCurrentHandler();
+  auto handler = app.GetCurrentMeshHandler();
 
   // Create unpartitioned mesh
-  auto umesh = std::make_shared<UnpartitionedMesh>();
+  auto umesh = std::make_shared<UnpartitionedMesh>(app);
 
   umesh->GetMeshAttributes() = DIMENSION_2 | ORTHOGONAL;
 
@@ -178,6 +161,8 @@ CreateUnpartitioned2DOrthoMesh(std::vector<double>& vertices_1d_x,
   umesh->ComputeCentroidsAndCheckQuality();
   umesh->BuildMeshConnectivity();
 
+// FIXME: make this work
+#if 0
   Chi::unpartitionedmesh_stack.push_back(umesh);
 
   // Create meshers
@@ -187,10 +172,13 @@ CreateUnpartitioned2DOrthoMesh(std::vector<double>& vertices_1d_x,
   handler.GetSurfaceMesher().Execute();
 
   return Chi::unpartitionedmesh_stack.size() - 1;
+#endif
+  return 0;
 }
 
 size_t
-CreateUnpartitioned3DOrthoMesh(std::vector<double>& vertices_1d_x,
+CreateUnpartitioned3DOrthoMesh(opensn::App& app,
+                               std::vector<double>& vertices_1d_x,
                                std::vector<double>& vertices_1d_y,
                                std::vector<double>& vertices_1d_z)
 {
@@ -198,10 +186,10 @@ CreateUnpartitioned3DOrthoMesh(std::vector<double>& vertices_1d_x,
                     "Empty vertex list.");
 
   // Get current mesh handler
-  auto& handler = GetCurrentHandler();
+  auto handler = app.GetCurrentMeshHandler();
 
   // Create unpartitioned mesh
-  auto umesh = std::make_shared<UnpartitionedMesh>();
+  auto umesh = std::make_shared<UnpartitionedMesh>(app);
 
   umesh->GetMeshAttributes() = DIMENSION_3 | ORTHOGONAL;
 
@@ -335,6 +323,8 @@ CreateUnpartitioned3DOrthoMesh(std::vector<double>& vertices_1d_x,
   umesh->ComputeCentroidsAndCheckQuality();
   umesh->BuildMeshConnectivity();
 
+  // FIXME: make this work
+#if 0
   Chi::unpartitionedmesh_stack.push_back(umesh);
 
   // Create meshers
@@ -344,6 +334,8 @@ CreateUnpartitioned3DOrthoMesh(std::vector<double>& vertices_1d_x,
   handler.GetSurfaceMesher().Execute();
 
   return Chi::unpartitionedmesh_stack.size() - 1;
+#endif
+  return 0;
 }
 
 } // namespace chi_mesh

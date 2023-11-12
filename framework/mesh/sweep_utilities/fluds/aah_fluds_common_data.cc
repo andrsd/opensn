@@ -2,7 +2,7 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/sweep_utilities/spds/spds.h"
 #include "framework/mesh/mesh_continuum/grid_face_histogram.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include <algorithm>
 
@@ -73,8 +73,8 @@ AAH_FLUDSCommonData::InitializeAlphaElements(const SPDS& spds,
 
   } // for csoi
 
-  Chi::log.Log(chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2) << "Done with Slot Dynamics.";
-  Chi::mpi.Barrier();
+  App().Log().Log(chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2) << "Done with Slot Dynamics.";
+  App().Barrier();
 
   // Populate boundary dependencies
   for (auto bndry : location_boundary_dependency_set)
@@ -104,8 +104,8 @@ AAH_FLUDSCommonData::InitializeAlphaElements(const SPDS& spds,
   delayed_local_psi_Gn_block_stride = largest_face * delayed_lock_box.size();
   delayed_local_psi_Gn_block_strideG = delayed_local_psi_Gn_block_stride * /*G=*/1;
 
-  Chi::log.Log(chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2) << "Done with Local Incidence mapping.";
-  Chi::mpi.Barrier();
+  App().Log().Log(chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2) << "Done with Local Incidence mapping.";
+  App().Barrier();
 
   // Clean up
   so_cell_outb_face_slot_indices.shrink_to_fit();
@@ -196,13 +196,13 @@ AAH_FLUDSCommonData::SlotDynamics(const chi_mesh::Cell& cell,
         }
         if (!found)
         {
-          Chi::log.LogAllError() << "Lock-box location not found in call to "
-                                 << "InitializeAlphaElements. Local Cell " << cell.local_id_
-                                 << " face " << f << " looking for cell "
-                                 << face.GetNeighborLocalID(grid) << " face " << ass_face
-                                 << " cat: " << face_categ << " omg=" << spds.Omega().PrintS()
-                                 << " lbsize=" << lock_box.size();
-          Chi::Exit(EXIT_FAILURE);
+          App().Log().LogAllError()
+            << "Lock-box location not found in call to "
+            << "InitializeAlphaElements. Local Cell " << cell.local_id_ << " face " << f
+            << " looking for cell " << face.GetNeighborLocalID(grid) << " face " << ass_face
+            << " cat: " << face_categ << " omg=" << spds.Omega().PrintS()
+            << " lbsize=" << lock_box.size();
+          opensn::App::Exit(EXIT_FAILURE);
         }
 
       } // if local
@@ -466,7 +466,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
               MPI_INT,
               locJ,
               101 + tag_index,
-              Chi::mpi.comm,
+              App().Comm(),
               &send_requests[deplocI]);
 
     // TODO: Watch eager limits on sent data
@@ -485,7 +485,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
     int locJ = delayed_location_dependencies[prelocI];
 
     MPI_Status probe_status;
-    MPI_Probe(locJ, 101 + tag_index, Chi::mpi.comm, &probe_status);
+    MPI_Probe(locJ, 101 + tag_index, App().Comm(), &probe_status);
 
     int amount_to_receive = 0;
     MPI_Get_count(&probe_status, MPI_INT, &amount_to_receive);
@@ -498,7 +498,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
              MPI_INT,
              locJ,
              101 + tag_index,
-             Chi::mpi.comm,
+             App().Comm(),
              MPI_STATUS_IGNORE);
 
     DeSerializeCellInfo(
@@ -520,7 +520,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
     int locJ = location_dependencies[prelocI];
 
     MPI_Status probe_status;
-    MPI_Probe(locJ, 101 + tag_index, Chi::mpi.comm, &probe_status);
+    MPI_Probe(locJ, 101 + tag_index, App().Comm(), &probe_status);
 
     int amount_to_receive = 0;
     MPI_Get_count(&probe_status, MPI_INT, &amount_to_receive);
@@ -533,7 +533,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
              MPI_INT,
              locJ,
              101 + tag_index,
-             Chi::mpi.comm,
+             App().Comm(),
              MPI_STATUS_IGNORE);
 
     DeSerializeCellInfo(
@@ -558,7 +558,7 @@ AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0
               MPI_INT,
               locJ,
               101 + tag_index,
-              Chi::mpi.comm,
+              App().Comm(),
               &send_requests[deplocI]);
 
     // TODO: Watch eager limits on sent data
@@ -739,10 +739,10 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
           }
           if (ass_cell < 0)
           {
-            Chi::log.LogAll() << "Required predecessor cell not located in call to"
-                              << " InitializeBetaElements. locJ=" << locJ << " prelocI=" << prelocI
-                              << " cell=" << face.neighbor_id_;
-            Chi::Exit(EXIT_FAILURE);
+            App().Log().LogAll() << "Required predecessor cell not located in call to"
+                                 << " InitializeBetaElements. locJ=" << locJ
+                                 << " prelocI=" << prelocI << " cell=" << face.neighbor_id_;
+            opensn::App::Exit(EXIT_FAILURE);
           }
 
           // Find associated face
@@ -766,8 +766,8 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
           }
           if (ass_face < 0)
           {
-            Chi::log.LogAll() << "Associated face not found in call to InitializeBetaElements";
-            Chi::Exit(EXIT_FAILURE);
+            App().Log().LogAll() << "Associated face not found in call to InitializeBetaElements";
+            opensn::App::Exit(EXIT_FAILURE);
           }
 
           // Map dofs
@@ -789,9 +789,9 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
 
             if (!match_found)
             {
-              Chi::log.LogAll() << "Associated vertex not found in call to "
-                                   "InitializeBetaElements";
-              Chi::Exit(EXIT_FAILURE);
+              App().Log().LogAll() << "Associated vertex not found in call to "
+                                      "InitializeBetaElements";
+              opensn::App::Exit(EXIT_FAILURE);
             }
           }
 
@@ -822,11 +822,11 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
           }
           if (ass_cell < 0)
           {
-            Chi::log.LogAll() << "Required predecessor cell not located in call to"
-                              << " InitializeBetaElements. locJ=" << locJ
-                              << " delayed prelocI=" << delayed_preLocI
-                              << " cell=" << face.neighbor_id_;
-            Chi::Exit(EXIT_FAILURE);
+            App().Log().LogAll() << "Required predecessor cell not located in call to"
+                                 << " InitializeBetaElements. locJ=" << locJ
+                                 << " delayed prelocI=" << delayed_preLocI
+                                 << " cell=" << face.neighbor_id_;
+            opensn::App::Exit(EXIT_FAILURE);
           }
 
           // Find associated face
@@ -862,8 +862,8 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
           }
           if (ass_face < 0)
           {
-            Chi::log.LogAll() << "Associated face not found in call to InitializeBetaElements";
-            Chi::Exit(EXIT_FAILURE);
+            App().Log().LogAll() << "Associated face not found in call to InitializeBetaElements";
+            opensn::App::Exit(EXIT_FAILURE);
           }
 
           // Map dofs
@@ -885,9 +885,9 @@ AAH_FLUDSCommonData::NonLocalIncidentMapping(const chi_mesh::Cell& cell, const S
 
             if (!match_found)
             {
-              Chi::log.LogAll() << "Associated vertex not found in call to "
-                                   "InitializeBetaElements";
-              Chi::Exit(EXIT_FAILURE);
+              App().Log().LogAll() << "Associated vertex not found in call to "
+                                      "InitializeBetaElements";
+              opensn::App::Exit(EXIT_FAILURE);
             }
           }
 

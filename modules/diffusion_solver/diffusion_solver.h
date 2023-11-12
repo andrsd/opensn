@@ -110,7 +110,7 @@ public:
    * chiSolverSetBasicOption(phys1, "discretization_method", "PWLC")
    * \endcode
    */
-  explicit Solver(const std::string& in_solver_name);
+  explicit Solver(opensn::App& app, const std::string& in_solver_name);
   virtual ~Solver();
 
   /**

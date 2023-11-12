@@ -3,10 +3,9 @@
 #include "framework/mesh/sweep_utilities/spds/spds.h"
 #include "framework/mesh/sweep_utilities/fluds/aah_fluds.h"
 #include "framework/mpi/mpi_comm_set.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
-#include "framework/console/console.h"
 
 namespace chi_mesh::sweep_management
 {
@@ -264,9 +263,9 @@ AAH_ASynchronousCommunicator::ReceiveDelayedData(int angle_set_num)
       if (not delayed_prelocI_message_received[prelocI][m])
       {
         int message_available = 0;
-        MPI_Iprobe(comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+        MPI_Iprobe(comm_set_.MapIonJ(locJ, App().LocationID()),
                    max_num_mess * angle_set_num + m,
-                   comm_set_.LocICommunicator(Chi::mpi.location_id),
+                   comm_set_.LocICommunicator(App().LocationID()),
                    &message_available,
                    MPI_STATUS_IGNORE);
 
@@ -285,9 +284,9 @@ AAH_ASynchronousCommunicator::ReceiveDelayedData(int angle_set_num)
         int error_code = MPI_Recv(&upstream_psi[block_addr],
                                   static_cast<int>(message_size),
                                   MPI_DOUBLE,
-                                  comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+                                  comm_set_.MapIonJ(locJ, App().LocationID()),
                                   max_num_mess * angle_set_num + m,
-                                  comm_set_.LocICommunicator(Chi::mpi.location_id),
+                                  comm_set_.LocICommunicator(App().LocationID()),
                                   MPI_STATUS_IGNORE);
 
         delayed_prelocI_message_received[prelocI][m] = true;
@@ -307,7 +306,7 @@ AAH_ASynchronousCommunicator::ReceiveDelayedData(int angle_set_num)
           err_stream << error_string << "\n";
           MPI_Error_string(error_code, error_string, &length_of_error_string);
           err_stream << error_string << "\n";
-          Chi::log.LogAllWarning() << err_stream.str();
+          App().Log().LogAllWarning() << err_stream.str();
         }
       } // if not message already received
     }   // for message
@@ -344,9 +343,9 @@ AAH_ASynchronousCommunicator::ReceiveUpstreamPsi(int angle_set_num)
       if (!prelocI_message_received[prelocI][m])
       {
         int message_available = 0;
-        MPI_Iprobe(comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+        MPI_Iprobe(comm_set_.MapIonJ(locJ, App().LocationID()),
                    max_num_mess * angle_set_num + m,
-                   comm_set_.LocICommunicator(Chi::mpi.location_id),
+                   comm_set_.LocICommunicator(App().LocationID()),
                    &message_available,
                    MPI_STATUS_IGNORE);
 
@@ -365,9 +364,9 @@ AAH_ASynchronousCommunicator::ReceiveUpstreamPsi(int angle_set_num)
         int error_code = MPI_Recv(&upstream_psi[block_addr],
                                   static_cast<int>(message_size),
                                   MPI_DOUBLE,
-                                  comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+                                  comm_set_.MapIonJ(locJ, App().LocationID()),
                                   max_num_mess * angle_set_num + m,
-                                  comm_set_.LocICommunicator(Chi::mpi.location_id),
+                                  comm_set_.LocICommunicator(App().LocationID()),
                                   MPI_STATUS_IGNORE);
 
         prelocI_message_received[prelocI][m] = true;
@@ -386,7 +385,7 @@ AAH_ASynchronousCommunicator::ReceiveUpstreamPsi(int angle_set_num)
           err_stream << error_string << "\n";
           MPI_Error_string(error_code, error_string, &length_of_error_string);
           err_stream << error_string << "\n";
-          Chi::log.LogAllWarning() << err_stream.str();
+          App().Log().LogAllWarning() << err_stream.str();
         }
       } // if not message already received
     }   // for message
@@ -444,15 +443,16 @@ AAH_ASynchronousCommunicator::InitializeLocalAndDownstreamBuffers()
     const size_t num_loc_sucs = spds.GetLocationSuccessors().size();
     fluds_.AllocateOutgoingPsi(num_groups_, num_angles_, num_loc_sucs);
 
-    // Make a memory query
-    double memory_mb = Chi::GetMemoryUsageInMB();
-
-    std::shared_ptr<chi::ChiLog::EventInfo> memory_event_info =
-      std::make_shared<chi::ChiLog::EventInfo>(memory_mb);
-
-    Chi::log.LogEvent(chi::ChiLog::StdTags::MAX_MEMORY_USAGE,
-                      chi::ChiLog::EventType::SINGLE_OCCURRENCE,
-                      memory_event_info);
+    // FIXME:
+    // // Make a memory query
+    // double memory_mb = Chi::GetMemoryUsageInMB();
+    //
+    // std::shared_ptr<chi::ChiLog::EventInfo> memory_event_info =
+    //   std::make_shared<chi::ChiLog::EventInfo>(memory_mb);
+    //
+    // App().Log().LogEvent(chi::ChiLog::StdTags::MAX_MEMORY_USAGE,
+    //                      chi::ChiLog::EventType::SINGLE_OCCURRENCE,
+    //                      memory_event_info);
 
     data_initialized = true;
   }

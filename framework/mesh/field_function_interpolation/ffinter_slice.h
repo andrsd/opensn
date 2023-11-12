@@ -44,7 +44,10 @@ private:
   std::vector<FFICellIntersection> cell_intersections_;
 
 public:
-  FieldFunctionInterpolationSlice() : FieldFunctionInterpolation(ff_interpolation::Type::SLICE) {}
+  explicit FieldFunctionInterpolationSlice(opensn::App& app)
+    : FieldFunctionInterpolation(app, ff_interpolation::Type::SLICE)
+  {
+  }
 
   Normal& GetNormal() { return normal_; }
   Normal& GetBiNorm() { return binorm_; }

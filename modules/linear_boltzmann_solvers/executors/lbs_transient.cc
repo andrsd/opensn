@@ -1,7 +1,6 @@
 #include "modules/linear_boltzmann_solvers/executors/lbs_transient.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
-
 #include "framework/math/time_integrations/time_integration.h"
 
 namespace lbs
@@ -28,19 +27,18 @@ TransientSolver::GetInputParameters()
   return params;
 }
 
-TransientSolver::TransientSolver(const chi::InputParameters& params)
-  : chi_physics::Solver(params),
-    lbs_solver_(Chi::GetStackItem<LBSSolver>(Chi::object_stack,
-                                             params.GetParamValue<size_t>("lbs_solver_handle"))),
-    time_integration_(Chi::GetStackItemPtrAsType<chi_math::TimeIntegration>(
-      Chi::object_stack, params.GetParamValue<size_t>("time_integration")))
+TransientSolver::TransientSolver(opensn::App& app, const chi::InputParameters& params)
+  : chi_physics::Solver(app, params),
+    lbs_solver_(App().GetStackObject<LBSSolver>(params.GetParamValue<size_t>("lbs_solver_handle"))),
+    time_integration_(App().GetStackObject<chi_math::TimeIntegration>(
+      params.GetParamValue<size_t>("time_integration")))
 {
 }
 
 void
 TransientSolver::Initialize()
 {
-  lbs_solver_.Initialize();
+  lbs_solver_->Initialize();
 }
 
 void

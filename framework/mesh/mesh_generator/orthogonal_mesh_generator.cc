@@ -24,8 +24,9 @@ OrthogonalMeshGenerator::GetInputParameters()
   return params;
 }
 
-OrthogonalMeshGenerator::OrthogonalMeshGenerator(const chi::InputParameters& params)
-  : MeshGenerator(params)
+OrthogonalMeshGenerator::OrthogonalMeshGenerator(opensn::App& app,
+                                                 const chi::InputParameters& params)
+  : MeshGenerator(app, params)
 {
   // Parse the node_sets param
   if (params.ParametersAtAssignment().Has("node_sets"))
@@ -99,20 +100,21 @@ OrthogonalMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<Unpartitioned
                        "OrthogonalMeshGenerator can not be preceded by another"
                        " mesh generator because it cannot process an input mesh");
 
-  if (node_sets_.size() == 1) return CreateUnpartitioned1DOrthoMesh(node_sets_[0]);
+  if (node_sets_.size() == 1) return CreateUnpartitioned1DOrthoMesh(App(), node_sets_[0]);
   else if (node_sets_.size() == 2)
-    return CreateUnpartitioned2DOrthoMesh(node_sets_[0], node_sets_[1]);
+    return CreateUnpartitioned2DOrthoMesh(App(), node_sets_[0], node_sets_[1]);
   else if (node_sets_.size() == 3)
-    return CreateUnpartitioned3DOrthoMesh(node_sets_[0], node_sets_[1], node_sets_[2]);
+    return CreateUnpartitioned3DOrthoMesh(App(), node_sets_[0], node_sets_[1], node_sets_[2]);
   else
     throw std::logic_error(
       ""); // This will never get triggered because of the checks in constructor
 }
 
 std::unique_ptr<UnpartitionedMesh>
-OrthogonalMeshGenerator::CreateUnpartitioned1DOrthoMesh(const std::vector<double>& vertices)
+OrthogonalMeshGenerator::CreateUnpartitioned1DOrthoMesh(opensn::App& app,
+                                                        const std::vector<double>& vertices)
 {
-  auto umesh = std::make_unique<UnpartitionedMesh>();
+  auto umesh = std::make_unique<UnpartitionedMesh>(app);
 
   // Reorient 1D verts along z
   std::vector<Vertex> zverts;
@@ -176,10 +178,11 @@ OrthogonalMeshGenerator::CreateUnpartitioned1DOrthoMesh(const std::vector<double
 }
 
 std::unique_ptr<UnpartitionedMesh>
-OrthogonalMeshGenerator::CreateUnpartitioned2DOrthoMesh(const std::vector<double>& vertices_1d_x,
+OrthogonalMeshGenerator::CreateUnpartitioned2DOrthoMesh(opensn::App& app,
+                                                        const std::vector<double>& vertices_1d_x,
                                                         const std::vector<double>& vertices_1d_y)
 {
-  auto umesh = std::make_unique<UnpartitionedMesh>();
+  auto umesh = std::make_unique<UnpartitionedMesh>(app);
 
   umesh->GetMeshAttributes() = DIMENSION_2 | ORTHOGONAL;
 
@@ -276,11 +279,12 @@ OrthogonalMeshGenerator::CreateUnpartitioned2DOrthoMesh(const std::vector<double
 }
 
 std::unique_ptr<UnpartitionedMesh>
-OrthogonalMeshGenerator::CreateUnpartitioned3DOrthoMesh(const std::vector<double>& vertices_1d_x,
+OrthogonalMeshGenerator::CreateUnpartitioned3DOrthoMesh(opensn::App& app,
+                                                        const std::vector<double>& vertices_1d_x,
                                                         const std::vector<double>& vertices_1d_y,
                                                         const std::vector<double>& vertices_1d_z)
 {
-  auto umesh = std::make_unique<UnpartitionedMesh>();
+  auto umesh = std::make_unique<UnpartitionedMesh>(app);
 
   umesh->GetMeshAttributes() = DIMENSION_3 | ORTHOGONAL;
 

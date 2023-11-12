@@ -1,12 +1,10 @@
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_angle_set.h"
-
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_async_comm.h"
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_spds.h"
 #include "framework/mesh/sweep_utilities/sweep_chunk_base.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/math_range.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace lbs
@@ -67,13 +65,13 @@ CBC_AngleSet::AngleSetAdvance(chi_mesh::sweep_management::SweepChunk& sweep_chun
       if (not cell_task.completed_) all_tasks_completed = false;
       if (cell_task.num_dependencies_ == 0 and not cell_task.completed_)
       {
-        Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_BEGIN);
+        App().Log().LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_BEGIN);
         sweep_chunk.SetCell(cell_task.cell_ptr_, *this);
         sweep_chunk.Sweep(*this);
 
         for (uint64_t local_task_num : cell_task.successors_)
           --current_task_list_[local_task_num].num_dependencies_;
-        Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_END);
+        App().Log().LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_END);
 
         cell_task.completed_ = true;
         a_task_executed = true;

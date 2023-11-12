@@ -71,7 +71,7 @@ public:
   static InputParameters GetInputParameters();
 
 protected:
-  explicit PostProcessor(const InputParameters& params, PPType type);
+  explicit PostProcessor(opensn::App& app, const InputParameters& params, PPType type);
 
   static PPType FigureTypeFromValue(const ParameterBlock& value);
 
@@ -93,5 +93,7 @@ protected:
 private:
   static PPNumericFormat ConstructNumericFormat(const std::string& format_string);
 };
+
+typedef std::shared_ptr<PostProcessor> PostProcessorPtr;
 
 } // namespace chi

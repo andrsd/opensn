@@ -1,16 +1,26 @@
 #include "framework/object.h"
+#include "framework/app.h"
 
-chi::InputParameters
+namespace chi
+{
+
+static const size_t SIZE_T_INVALID = ((size_t)-1);
+
+InputParameters
 ChiObject::GetInputParameters()
 {
-  return {}; // Returns an empty block
+  InputParameters params;
+  //  params.AddPrivateParameter<opensn::App*>("_app", nullptr, "Application this object belongs
+  //  to");
+  return params;
 }
 
-ChiObject::ChiObject()
+ChiObject::ChiObject(opensn::App& app) : stack_id_(SIZE_T_INVALID), app_(app)
 {
 }
 
-ChiObject::ChiObject(const chi::InputParameters&)
+ChiObject::ChiObject(opensn::App& app, const chi::InputParameters& params)
+  : stack_id_(SIZE_T_INVALID), app_(app)
 {
 }
 
@@ -26,9 +36,17 @@ ChiObject::StackID() const
   return stack_id_;
 }
 
+opensn::App&
+ChiObject::App() const
+{
+  return app_;
+}
+
 void
 ChiObject::PushOntoStack(std::shared_ptr<ChiObject>& new_object)
 {
-  Chi::object_stack.push_back(new_object);
-  new_object->SetStackID(Chi::object_stack.size() - 1);
+  app_.ObjectStack().push_back(new_object);
+  new_object->SetStackID(app_.ObjectStack().size() - 1);
 }
+
+} // namespace chi

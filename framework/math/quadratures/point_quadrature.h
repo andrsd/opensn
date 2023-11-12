@@ -10,7 +10,7 @@ namespace chi_math
 class PointQuadrature : public Quadrature
 {
 public:
-  PointQuadrature();
+  PointQuadrature(opensn::App& app);
 };
 
 } // namespace chi_math

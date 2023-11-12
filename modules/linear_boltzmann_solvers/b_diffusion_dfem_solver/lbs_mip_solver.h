@@ -14,7 +14,7 @@ public:
   std::vector<MIPSolverPtr> gs_mip_solvers_;
 
 public:
-  explicit DiffusionDFEMSolver(const chi::InputParameters& params);
+  explicit DiffusionDFEMSolver(opensn::App& app, const chi::InputParameters& params);
   ~DiffusionDFEMSolver() override;
   void Initialize() override;
   void InitializeWGSSolvers() override;

@@ -1,6 +1,5 @@
 #include "framework/parameters/input_parameters.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 #include <sstream>
@@ -204,8 +203,9 @@ InputParameters::AssignParameters(const ParameterBlock& params)
   param_block_at_assignment_ = params;
   std::stringstream err_stream;
 
-  if (Chi::log.GetVerbosity() >= 2)
-    Chi::log.Log0Verbose2() << "Number of parameters " << params.NumParameters();
+  // FIXME
+  // if (Chi::log.GetVerbosity() >= 2)
+  //   Chi::log.Log0Verbose2() << "Number of parameters " << params.NumParameters();
 
   // Check required parameters
   // Loops over all input-parameters that have been
@@ -264,10 +264,11 @@ InputParameters::AssignParameters(const ParameterBlock& params)
 
       if (IsParameterIgnored(param_name)) continue;
 
-      if (this->Has(param_name) and (dep_warns.count(param_name) > 0))
-        Chi::log.Log0Warning() << "Parameter \"" << param_name << "\" has been deprecated "
-                               << "and will be removed soon.\n"
-                               << dep_warns.at(param_name);
+      // FIXME
+      // if (this->Has(param_name) and (dep_warns.count(param_name) > 0))
+      //  Chi::log.Log0Warning() << "Parameter \"" << param_name << "\" has been deprecated "
+      //                         << "and will be removed soon.\n"
+      //                         << dep_warns.at(param_name);
     }
   }
 
@@ -284,9 +285,10 @@ InputParameters::AssignParameters(const ParameterBlock& params)
 
       if (this->Has(param_name) and (dep_errs.count(param_name) > 0))
       {
-        Chi::log.Log0Error() << "Parameter \"" << param_name << "\" has been deprecated.\n"
-                             << dep_errs.at(param_name);
-        Chi::Exit(EXIT_FAILURE);
+        // FIXME
+        // Chi::log.Log0Error() << "Parameter \"" << param_name << "\" has been deprecated.\n"
+        //                      << dep_errs.at(param_name);
+        opensn::App::Exit(EXIT_FAILURE);
       }
     }
   }
@@ -325,7 +327,9 @@ InputParameters::AssignParameters(const ParameterBlock& params)
       }
     } // if constraint
 
-    if (Chi::log.GetVerbosity() >= 2) Chi::log.Log0Verbose2() << "Setting parameter " << param_name;
+    // FIXME
+    // if (Chi::log.GetVerbosity() >= 2) Chi::log.Log0Verbose2() << "Setting parameter " <<
+    // param_name;
     input_param = param;
   } // for input params
 
@@ -386,61 +390,62 @@ InputParameters::SetParameterTypeMismatchAllowed(const std::string& param_name)
 void
 InputParameters::DumpParameters() const
 {
-  Chi::log.Log() << "CLASS_NAME " << class_name_;
-
-  Chi::log.Log() << "DESCRIPTION_BEGIN";
-  std::cout << GetGeneralDescription() << "\n";
-  Chi::log.Log() << "DESCRIPTION_END\n";
-
-  Chi::log.Log() << "DOC_GROUP " << doc_group_;
-
-  const std::string sp2 = "  ";
-  const std::string sp4 = "    ";
-  const auto params = Parameters();
-  for (const auto& param : params)
-  {
-    const auto& param_name = param.Name();
-    Chi::log.Log() << sp2 << "PARAM_BEGIN " << param_name;
-
-    const auto type = param.Type();
-
-    Chi::log.Log() << sp4 << "TYPE " << ParameterBlockTypeName(type);
-
-    if (parameter_class_tags_.at(param_name) == InputParameterTag::OPTIONAL)
-    {
-      Chi::log.Log() << sp4 << "TAG OPTIONAL";
-      if (type != ParameterBlockType::BLOCK and type != ParameterBlockType::ARRAY)
-        Chi::log.Log() << sp4 << "DEFAULT_VALUE " << param.Value().PrintStr();
-      else if (type == ParameterBlockType::ARRAY)
-      {
-        std::stringstream outstr;
-        outstr << sp4 << "DEFAULT_VALUE ";
-        for (size_t k = 0; k < param.NumParameters(); ++k)
-        {
-          const auto& sub_param = param.GetParam(k);
-          outstr << sub_param.Value().PrintStr() << ", ";
-        }
-        Chi::log.Log() << outstr.str();
-      }
-    }
-    else
-      Chi::log.Log() << sp4 << "TAG REQUIRED";
-
-    if (constraint_tags_.count(param_name) != 0)
-      Chi::log.Log() << sp4 << "CONSTRAINTS " << constraint_tags_.at(param_name)->PrintRange();
-
-    if (parameter_doc_string_.count(param_name) != 0)
-    {
-      Chi::log.Log() << sp4 << "DOC_STRING_BEGIN";
-      std::cout << parameter_doc_string_.at(param_name) << "\n";
-      Chi::log.Log() << sp4 << "DOC_STRING_END";
-    }
-
-    const auto& linkage = GetParameterDocumentationLink(param_name);
-    if (not linkage.empty()) { Chi::log.Log() << sp4 << "LINKS " << linkage; }
-
-    Chi::log.Log() << sp2 << "PARAM_END";
-  }
+  // FIXME
+  // Chi::log.Log() << "CLASS_NAME " << class_name_;
+  //
+  // Chi::log.Log() << "DESCRIPTION_BEGIN";
+  // std::cout << GetGeneralDescription() << "\n";
+  // Chi::log.Log() << "DESCRIPTION_END\n";
+  //
+  // Chi::log.Log() << "DOC_GROUP " << doc_group_;
+  //
+  // const std::string sp2 = "  ";
+  // const std::string sp4 = "    ";
+  // const auto params = Parameters();
+  // for (const auto& param : params)
+  // {
+  //   const auto& param_name = param.Name();
+  //   Chi::log.Log() << sp2 << "PARAM_BEGIN " << param_name;
+  //
+  //   const auto type = param.Type();
+  //
+  //   Chi::log.Log() << sp4 << "TYPE " << ParameterBlockTypeName(type);
+  //
+  //   if (parameter_class_tags_.at(param_name) == InputParameterTag::OPTIONAL)
+  //   {
+  //     Chi::log.Log() << sp4 << "TAG OPTIONAL";
+  //     if (type != ParameterBlockType::BLOCK and type != ParameterBlockType::ARRAY)
+  //       Chi::log.Log() << sp4 << "DEFAULT_VALUE " << param.Value().PrintStr();
+  //     else if (type == ParameterBlockType::ARRAY)
+  //     {
+  //       std::stringstream outstr;
+  //       outstr << sp4 << "DEFAULT_VALUE ";
+  //       for (size_t k = 0; k < param.NumParameters(); ++k)
+  //       {
+  //         const auto& sub_param = param.GetParam(k);
+  //         outstr << sub_param.Value().PrintStr() << ", ";
+  //       }
+  //       Chi::log.Log() << outstr.str();
+  //     }
+  //   }
+  //   else
+  //     Chi::log.Log() << sp4 << "TAG REQUIRED";
+  //
+  //   if (constraint_tags_.count(param_name) != 0)
+  //     Chi::log.Log() << sp4 << "CONSTRAINTS " << constraint_tags_.at(param_name)->PrintRange();
+  //
+  //   if (parameter_doc_string_.count(param_name) != 0)
+  //   {
+  //     Chi::log.Log() << sp4 << "DOC_STRING_BEGIN";
+  //     std::cout << parameter_doc_string_.at(param_name) << "\n";
+  //     Chi::log.Log() << sp4 << "DOC_STRING_END";
+  //   }
+  //
+  //   const auto& linkage = GetParameterDocumentationLink(param_name);
+  //   if (not linkage.empty()) { Chi::log.Log() << sp4 << "LINKS " << linkage; }
+  //
+  //   Chi::log.Log() << sp2 << "PARAM_END";
+  // }
 }
 
 } // namespace chi

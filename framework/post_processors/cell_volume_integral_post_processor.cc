@@ -36,10 +36,11 @@ CellVolumeIntegralPostProcessor::GetInputParameters()
   return params;
 }
 
-CellVolumeIntegralPostProcessor::CellVolumeIntegralPostProcessor(const InputParameters& params)
-  : PostProcessor(params, PPType::SCALAR),
-    chi_physics::GridBasedFieldFunctionInterface(params),
-    chi_mesh::LogicalVolumeInterface(params),
+CellVolumeIntegralPostProcessor::CellVolumeIntegralPostProcessor(opensn::App& app,
+                                                                 const InputParameters& params)
+  : PostProcessor(app, params, PPType::SCALAR),
+    chi_physics::GridBasedFieldFunctionInterface(app, params),
+    chi_mesh::LogicalVolumeInterface(app, params),
     compute_volume_average_(params.GetParamValue<bool>("compute_volume_average"))
 {
   value_ = ParameterBlock("", 0.0);
@@ -48,7 +49,7 @@ CellVolumeIntegralPostProcessor::CellVolumeIntegralPostProcessor(const InputPara
 void
 CellVolumeIntegralPostProcessor::Initialize()
 {
-  const auto* grid_field_function = GetGridBasedFieldFunction();
+  auto grid_field_function = GetGridBasedFieldFunction();
 
   ChiLogicalErrorIf(not grid_field_function,
                     "Attempted to access invalid field"
@@ -56,7 +57,7 @@ CellVolumeIntegralPostProcessor::Initialize()
 
   const auto& grid = grid_field_function->GetSpatialDiscretization().Grid();
 
-  const auto* logical_volume_ptr_ = GetLogicalVolume();
+  auto logical_volume_ptr_ = GetLogicalVolume();
   if (logical_volume_ptr_ == nullptr)
   {
     cell_local_ids_.reserve(grid.local_cells.size());
@@ -77,7 +78,7 @@ CellVolumeIntegralPostProcessor::Execute(const Event& event_context)
 {
   if (not initialized_) Initialize();
 
-  const auto* grid_field_function = GetGridBasedFieldFunction();
+  auto grid_field_function = GetGridBasedFieldFunction();
 
   ChiLogicalErrorIf(not grid_field_function,
                     "Attempted to access invalid field"
@@ -124,12 +125,14 @@ CellVolumeIntegralPostProcessor::Execute(const Event& event_context)
   }   // for cell-id
 
   double globl_integral;
-  MPI_Allreduce(&local_integral, &globl_integral, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+  MPI_Allreduce(
+    &local_integral, &globl_integral, 1, MPI_DOUBLE, MPI_SUM, PostProcessor::App().Comm());
   if (not compute_volume_average_) value_ = ParameterBlock("", globl_integral);
   else
   {
     double globl_volume;
-    MPI_Allreduce(&local_volume, &globl_volume, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    MPI_Allreduce(
+      &local_volume, &globl_volume, 1, MPI_DOUBLE, MPI_SUM, PostProcessor::App().Comm());
 
     value_ = ParameterBlock("", globl_integral / globl_volume);
   }

@@ -19,7 +19,7 @@ public:
     std::vector<double> emission_spectrum;
   };
 
-  MultiGroupXS() : MaterialProperty(PropertyType::TRANSPORT_XSECTIONS) {}
+  MultiGroupXS(opensn::App& app) : MaterialProperty(app, PropertyType::TRANSPORT_XSECTIONS) {}
 
   /**
    * Exports the cross section information to ChiTech format.
@@ -31,14 +31,7 @@ public:
    *      condition.
    */
   void ExportToChiXSFile(const std::string& file_name, const double fission_scaling = 1.0) const;
-
-#ifdef OPENSN_WITH_LUA
-  /**
-   * Pushes all of the relevant items of the transport xs to a lua table.
-   */
-  void PushLuaTable(lua_State* L) const override;
-#endif
-
+  
   virtual const unsigned int NumGroups() const = 0;
 
   virtual const unsigned int ScatteringOrder() const = 0;
@@ -81,5 +74,7 @@ public:
 
   virtual const std::vector<double>& SigmaSGtoG() const = 0;
 };
+
+typedef std::shared_ptr<MultiGroupXS> MultiGroupXSPtr;
 
 } // namespace chi_physics

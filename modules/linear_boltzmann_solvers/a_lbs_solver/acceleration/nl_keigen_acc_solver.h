@@ -14,8 +14,8 @@ class NLKEigenDiffSolver : public chi_math::NonLinearSolver
 public:
   typedef std::shared_ptr<NLKEigenDiffContext> NLKEigenDiffContextPtr;
 
-  explicit NLKEigenDiffSolver(NLKEigenDiffContextPtr nlk_diff_context_ptr)
-    : chi_math::NonLinearSolver(nlk_diff_context_ptr)
+  explicit NLKEigenDiffSolver(opensn::App& app, NLKEigenDiffContextPtr nlk_diff_context_ptr)
+    : chi_math::NonLinearSolver(app, nlk_diff_context_ptr)
   {
   }
 

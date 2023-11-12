@@ -11,8 +11,8 @@ class NLKEigenvalueAGSSolver : public chi_math::NonLinearSolver
 public:
   typedef std::shared_ptr<NLKEigenAGSContext> NLKAGSContextPtr;
 
-  explicit NLKEigenvalueAGSSolver(NLKAGSContextPtr nlk_ags_context_ptr)
-    : chi_math::NonLinearSolver(nlk_ags_context_ptr)
+  explicit NLKEigenvalueAGSSolver(opensn::App& app, NLKAGSContextPtr nlk_ags_context_ptr)
+    : chi_math::NonLinearSolver(app, nlk_ags_context_ptr)
   {
   }
 

@@ -1,23 +1,29 @@
 #pragma once
 
-#include "framework/runtime.h"
 #include "framework/parameters/input_parameters.h"
+
+namespace opensn
+{
+class App;
+}
+
+namespace chi
+{
+
+class ChiObject;
+typedef std::shared_ptr<ChiObject> ChiObjectPtr;
 
 class ChiObject
 {
-private:
-  size_t stack_id_ = Chi::SIZE_T_INVALID;
-
 public:
   /**Returns the input parameters. For the base ChiObject, there
    * are now parameters loaded.*/
-  static chi::InputParameters GetInputParameters();
+  static InputParameters GetInputParameters();
 
-  /**Default constructor. This will be removed in future.*/
-  ChiObject();
+  explicit ChiObject(opensn::App& app);
 
   /**Constructor with input parameters.*/
-  explicit ChiObject(const chi::InputParameters& params);
+  explicit ChiObject(opensn::App& app, const chi::InputParameters& params);
 
   // Setters
   /**Sets the stack id of the object. This allows this
@@ -29,10 +35,18 @@ public:
    * with input language to connect objects together.*/
   size_t StackID() const;
 
+  opensn::App& App() const;
+
   /**An overridable callback that is called by the ObjectMaker and by default
    * adds the object onto the object stack. This function can be used to
    * place the object on a different stack.*/
   virtual void PushOntoStack(std::shared_ptr<ChiObject>& new_object);
 
   virtual ~ChiObject() = default;
+
+private:
+  size_t stack_id_;
+  opensn::App& app_;
 };
+
+} // namespace chi

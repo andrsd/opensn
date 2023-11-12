@@ -1,8 +1,6 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/acceleration.h"
-
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace lbs::acceleration
@@ -88,12 +86,13 @@ MakeTwoGridCollapsedInfo(const chi_physics::MultiGroupXS& xs, EnergyCollapseSche
       collapsed_sig_a -= S[g][gp] * spectrum[gp];
   }
 
+  opensn::App& app = xs.App();
   // Verbose output the spectrum
-  Chi::log.Log0Verbose1() << "Fundamental eigen-value: " << rho;
+  app.Log().Log0Verbose1() << "Fundamental eigen-value: " << rho;
   std::stringstream outstr;
   for (auto& xi : spectrum)
     outstr << xi << '\n';
-  Chi::log.Log0Verbose1() << outstr.str();
+  app.Log().Log0Verbose1() << outstr.str();
 
   return {collapsed_D, collapsed_sig_a, spectrum};
 }

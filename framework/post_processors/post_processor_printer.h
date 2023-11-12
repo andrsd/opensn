@@ -6,6 +6,11 @@
 #include <string>
 #include <fstream>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi
 {
 class PostProcessor;
@@ -38,10 +43,11 @@ enum class ScalarPPTableFormat : int
 class PostProcessorPrinter
 {
 public:
-  static PostProcessorPrinter& GetInstance();
-
+  explicit PostProcessorPrinter(opensn::App& app);
   PostProcessorPrinter(const PostProcessorPrinter&) = delete;
   PostProcessorPrinter operator=(const PostProcessorPrinter&) = delete;
+
+  opensn::App& App() const { return app_; }
 
   void ReceiveEventUpdate(const Event& event);
 
@@ -67,8 +73,6 @@ public:
   std::string GetPrintedPostProcessors(const std::vector<const PostProcessor*>& pp_list) const;
 
 private:
-  PostProcessorPrinter();
-
   void PrintPostProcessors(const Event& event) const;
 
   void PrintPPsLatestValuesOnly(const std::string& pps_typename,
@@ -97,11 +101,11 @@ private:
   static void PrintArbitraryPPsToCSV(std::ofstream& csvfile,
                                      const std::vector<const PostProcessor*>& pp_list);
 
-  static std::vector<const PostProcessor*> GetScalarPostProcessorsList(const Event& event);
+  std::vector<const PostProcessor*> GetScalarPostProcessorsList(const Event& event) const;
 
-  static std::vector<const PostProcessor*> GetVectorPostProcessorsList(const Event& event);
+  std::vector<const PostProcessor*> GetVectorPostProcessorsList(const Event& event) const;
 
-  static std::vector<const PostProcessor*> GetArbitraryPostProcessorsList(const Event& event);
+  std::vector<const PostProcessor*> GetArbitraryPostProcessorsList(const Event& event) const;
 
   static std::vector<std::vector<std::string>>
   BuildPPHistoryMatrix(size_t timehistsize,
@@ -109,6 +113,8 @@ private:
                        const std::vector<const PostProcessor*>& pp_sub_list);
 
   static std::shared_ptr<PPPrinterSubscribeHelper> helper_ptr_;
+
+  opensn::App& app_;
   std::vector<std::string> events_on_which_to_print_postprocs_;
 
   ScalarPPTableFormat scalar_pp_table_format_ = ScalarPPTableFormat::VERTICAL;

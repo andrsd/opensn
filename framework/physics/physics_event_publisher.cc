@@ -8,15 +8,8 @@
 namespace chi_physics
 {
 
-PhysicsEventPublisher::PhysicsEventPublisher() : chi::EventPublisher("Physics")
+PhysicsEventPublisher::PhysicsEventPublisher(opensn::App& app) : chi::EventPublisher(app, "Physics")
 {
-}
-
-PhysicsEventPublisher&
-PhysicsEventPublisher::GetInstance()
-{
-  static PhysicsEventPublisher singleton;
-  return singleton;
 }
 
 void
@@ -24,7 +17,8 @@ PhysicsEventPublisher::PublishEvent(const chi::Event& event)
 {
   chi::EventPublisher::PublishEvent(event);
 
-  chi::SystemWideEventPublisher::GetInstance().PublishEvent(event);
+  // FIXME
+  // chi::SystemWideEventPublisher::GetInstance().PublishEvent(event);
 }
 
 void

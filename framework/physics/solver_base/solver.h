@@ -16,14 +16,14 @@ class TimeStepper;
 
 /**\defgroup SolverBase Base class for all solvers
  * \ingroup doc_PhysicsSolver*/
-class Solver : public ChiObject
+class Solver : public chi::ChiObject
 {
 public:
   /**Returns the input parameters.*/
   static chi::InputParameters GetInputParameters();
-  explicit Solver(std::string in_text_name);
-  Solver(std::string in_text_name, std::initializer_list<BasicOption> in_options);
-  explicit Solver(const chi::InputParameters& params);
+  explicit Solver(opensn::App& app, std::string in_text_name);
+  Solver(opensn::App& app, std::string in_text_name, std::initializer_list<BasicOption> in_options);
+  explicit Solver(opensn::App& app, const chi::InputParameters& params);
   virtual ~Solver() = default;
 
   std::string TextName() const;
@@ -70,7 +70,8 @@ protected:
   std::shared_ptr<TimeStepper> timestepper_ = nullptr;
 
 private:
-  static std::shared_ptr<TimeStepper> InitTimeStepper(const chi::InputParameters& params);
+  static std::shared_ptr<TimeStepper> InitTimeStepper(opensn::App& app,
+                                                      const chi::InputParameters& params);
   const std::string text_name_;
 };
 

@@ -28,8 +28,7 @@ public:
   const std::vector<double>& GetStreamingOperatorFactor() const { return fac_streaming_operator_; }
 
 protected:
-  /** Default constructor. */
-  CurvilinearAngularQuadrature() = default;
+  explicit CurvilinearAngularQuadrature(opensn::App& app) : ProductQuadrature(app) {}
   /** Default destructor. */
   virtual ~CurvilinearAngularQuadrature() = default;
 };

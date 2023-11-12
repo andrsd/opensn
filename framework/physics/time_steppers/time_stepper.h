@@ -13,7 +13,7 @@ enum class TimeStepStatus
 };
 
 /**Base class for all timestep controllers.*/
-class TimeStepper : public ChiObject
+class TimeStepper : public chi::ChiObject
 {
 public:
   /**Overridable method to get the timestep size.*/
@@ -70,7 +70,7 @@ public:
 
 protected:
   static chi::InputParameters GetInputParameters();
-  explicit TimeStepper(const chi::InputParameters& params);
+  explicit TimeStepper(opensn::App& app, const chi::InputParameters& params);
 
   double dt_;
   double time_;

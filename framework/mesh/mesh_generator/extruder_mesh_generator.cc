@@ -1,7 +1,6 @@
 #include "framework/mesh/mesh_generator/extruder_mesh_generator.h"
-
 #include "framework/object_factory.h"
-
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace chi_mesh
@@ -64,8 +63,8 @@ ExtruderMeshGenerator::GetInputParameters()
   return params;
 }
 
-ExtruderMeshGenerator::ExtruderMeshGenerator(const chi::InputParameters& params)
-  : MeshGenerator(params),
+ExtruderMeshGenerator::ExtruderMeshGenerator(opensn::App& app, const chi::InputParameters& params)
+  : MeshGenerator(app, params),
     top_boundary_name_(params.GetParamValue<std::string>("top_boundary_name")),
     bottom_boundary_name_(params.GetParamValue<std::string>("bottom_boundary_name"))
 {
@@ -100,15 +99,15 @@ ExtruderMeshGenerator::ExtruderMeshGenerator(const chi::InputParameters& params)
 
     layers_.push_back(ExtrusionLayer{h, n});
 
-    Chi::log.Log0Verbose1() << "Layer " << layer_block.Name() << " height=" << h
-                            << " num_sub_layers=" << n << " top-z=" << current_z_level;
+    App().Log().Log0Verbose1() << "Layer " << layer_block.Name() << " height=" << h
+                               << " num_sub_layers=" << n << " top-z=" << current_z_level;
   } // layer_block in layers_param
 }
 
 std::unique_ptr<UnpartitionedMesh>
 ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMesh> input_umesh)
 {
-  Chi::log.Log0Verbose1() << "ExtruderMeshGenerator::GenerateUnpartitionedMesh";
+  App().Log().Log0Verbose1() << "ExtruderMeshGenerator::GenerateUnpartitionedMesh";
   const chi_mesh::Vector3 khat(0.0, 0.0, 1.0);
 
   ChiInvalidArgumentIf(not(input_umesh->GetMeshAttributes() & DIMENSION_2),
@@ -146,7 +145,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMe
                              " corrected.");
   }
 
-  auto umesh = std::make_unique<UnpartitionedMesh>();
+  auto umesh = std::make_unique<UnpartitionedMesh>(App());
 
   // Update boundary maps
   auto& umesh_bndry_map = umesh->GetMeshOptions().boundary_id_map;
@@ -294,7 +293,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMe
   umesh->ComputeCentroidsAndCheckQuality();
   umesh->BuildMeshConnectivity();
 
-  Chi::log.Log0Verbose1() << "ExtruderMeshGenerator::GenerateUnpartitionedMesh Done";
+  App().Log().Log0Verbose1() << "ExtruderMeshGenerator::GenerateUnpartitionedMesh Done";
   return umesh;
 }
 

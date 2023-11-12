@@ -1,8 +1,5 @@
 #include "framework/math/serial_newton_iteration/serial_newton_iteration.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
-
 #include <iomanip>
 
 VecDbl
@@ -25,7 +22,8 @@ chi_math::NewtonIteration(const NonLinearFunction& non_linear_function,
       output << std::showpos << std::scientific << std::setprecision(3) << value << " ";
     output << "L2_norm_F_x_i=" << L2_norm_F_x_i;
 
-    Chi::log.Log() << output.str();
+    // FIXME: make this work
+    // Chi::log.Log() << output.str();
   };
 
   // Declare and init variables

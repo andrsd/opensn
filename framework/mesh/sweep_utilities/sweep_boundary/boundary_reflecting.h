@@ -35,10 +35,11 @@ protected:
 
 public:
   BoundaryReflecting(
+    opensn::App& app,
     size_t in_num_groups,
     const chi_mesh::Normal& in_normal,
     chi_math::CoordinateSystemType coord_type = chi_math::CoordinateSystemType::CARTESIAN)
-    : SweepBoundary(BoundaryType::REFLECTING, in_num_groups, coord_type), normal_(in_normal)
+    : SweepBoundary(app, BoundaryType::REFLECTING, in_num_groups, coord_type), normal_(in_normal)
   {
   }
 

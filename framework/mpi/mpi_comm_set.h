@@ -1,8 +1,6 @@
 #pragma once
-
 #include <mpi.h>
 #include "framework/mesh/mesh.h"
-#include "framework/runtime.h"
 
 namespace chi
 {

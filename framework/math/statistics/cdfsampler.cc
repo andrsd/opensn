@@ -1,11 +1,7 @@
 #include "framework/math/math.h"
-
 #include "framework/math/statistics/cdfsampler.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
-#include <unistd.h>
 
 chi_math::CDFSampler::SubIntvl::SubIntvl(std::string offset,
                                          int ibin,
@@ -52,8 +48,11 @@ chi_math::CDFSampler::SubIntvl::SubIntvl(std::string offset,
   }
 }
 
-chi_math::CDFSampler::CDFSampler(std::vector<double>& in_cdf, int subdiv_factor, int final_res)
-  : ref_cdf_(in_cdf)
+chi_math::CDFSampler::CDFSampler(opensn::App& app,
+                                 std::vector<double>& in_cdf,
+                                 int subdiv_factor,
+                                 int final_res)
+  : app_(app), ref_cdf_(in_cdf)
 {
   // Setting sub-division factor
   if (subdiv_factor >= 1) this->subdiv_factor_ = subdiv_factor;
@@ -148,9 +147,9 @@ chi_math::CDFSampler::Sample(double x)
 
   if (ret_val < 0)
   {
-    Chi::log.LogAllError() << "chi_math::CDFSampler::Sample. Error in CDF sampling routine. "
-                           << "A bin was not found.";
-    Chi::Exit(EXIT_FAILURE);
+    app_.Log().LogAllError() << "chi_math::CDFSampler::Sample. Error in CDF sampling routine. "
+                             << "A bin was not found.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   return ret_val;
@@ -284,10 +283,11 @@ chi_math::SampleCDF(double x, std::vector<double> cdf_bin)
 
   if (ret_val < 0)
   {
-    Chi::log.LogAllError() << "chi_math::SampleCDF. Error in CDF sampling routine. "
-                           << "A bin was not found."
-                           << " i=" << lookup_i << " f=" << lookup_f << " x=" << x;
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    // Chi::log.LogAllError() << "chi_math::SampleCDF. Error in CDF sampling routine. "
+    //                        << "A bin was not found."
+    //                        << " i=" << lookup_i << " f=" << lookup_f << " x=" << x;
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   //  chi::log.Log() << ret_val;

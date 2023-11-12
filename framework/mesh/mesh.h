@@ -4,6 +4,11 @@
 #include <iostream>
 #include <memory>
 
+namespace opensn
+{
+class App;
+}
+
 /**
  * Namespace for all meshing features
  *
@@ -13,7 +18,7 @@
  */
 namespace chi_mesh
 {
-//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ FORWARD DECLARATIONS
+
 struct Vector3;
 typedef Vector3 Normal;
 typedef Vector3 Vertex;
@@ -80,21 +85,6 @@ operator|(const MeshAttributes f1, const MeshAttributes f2)
   return static_cast<MeshAttributes>(static_cast<int>(f1) | static_cast<int>(f2));
 }
 
-//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ROUTINES
-
-/**
- * Obtains a reference to the current mesh handler from the global stack.
- *
- * If the stack is empty this routine will through `std::logic_error`.
- * \author Jan
- */
-MeshHandler& GetCurrentHandler();
-
-/**
- * Adds a new mesh handler to the stack, sets it as the current handler and returns a handle to it.
- */
-size_t PushNewHandlerAndGetIndex();
-
 // Domain decompositions
 
 /**Makes a centroid based load balance factor calculation.
@@ -109,7 +99,7 @@ void DecomposeSurfaceMeshPxPy(const SurfaceMesh& smesh, int Px, int Py);
 /**
  * Creates a 1D slab mesh from a set of vertices.
  */
-size_t CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices_1d);
+size_t CreateUnpartitioned1DOrthoMesh(opensn::App& app, std::vector<double>& vertices_1d);
 
 /**
  * Creates a 2D orthogonal mesh from a set of vertices in x and y.
@@ -124,7 +114,8 @@ size_t CreateUnpartitioned1DOrthoMesh(std::vector<double>& vertices_1d);
  * This code will create a 2x2 mesh with \f$ \vec{x} \in [0,2]^2 \f$.
  *
  */
-size_t CreateUnpartitioned2DOrthoMesh(std::vector<double>& vertices_1d_x,
+size_t CreateUnpartitioned2DOrthoMesh(opensn::App& app,
+                                      std::vector<double>& vertices_1d_x,
                                       std::vector<double>& vertices_1d_y);
 
 /**
@@ -141,9 +132,11 @@ size_t CreateUnpartitioned2DOrthoMesh(std::vector<double>& vertices_1d_x,
  * This code will create a 2x2 mesh with \f$ \vec{x} \in [0,2]^2 \f$.
  *
  */
-size_t CreateUnpartitioned3DOrthoMesh(std::vector<double>& vertices_1d_x,
+size_t CreateUnpartitioned3DOrthoMesh(opensn::App& app,
+                                      std::vector<double>& vertices_1d_x,
                                       std::vector<double>& vertices_1d_y,
                                       std::vector<double>& vertices_1d_z);
+
 } // namespace chi_mesh
 
 #include "framework/mesh/mesh_vector.h"

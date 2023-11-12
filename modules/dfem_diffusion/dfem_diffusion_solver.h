@@ -4,7 +4,6 @@
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "modules/dfem_diffusion/dfem_diffusion_bndry.h"
 #include "framework/utils/timer.h"
-#include "framework/console/console.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
 #include "framework/mesh/mesh.h"
 #include <map>
@@ -51,7 +50,7 @@ public:
   BoundaryPreferences boundary_preferences_;
   std::map<uint64_t, Boundary> boundaries_;
 
-  explicit Solver(const std::string& in_solver_name);
+  explicit Solver(opensn::App& app, const std::string& in_solver_name);
   ~Solver() override;
 
   void Initialize() override;
@@ -81,7 +80,8 @@ public:
                       size_t ccfi,
                       double epsilon = 1.0e-12);
 
-#ifdef OPENSN_WITH_LUA
+  // FIXME
+#if 0
   /**
    * Calls a lua function with xyz coordinates.
    * \param L The lua state.

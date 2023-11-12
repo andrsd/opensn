@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 
 #include "framework/mesh/mesh.h"
@@ -15,6 +15,9 @@ namespace chi_mesh
  */
 class SurfaceMesh
 {
+private:
+  opensn::App& app_;
+
 protected:
   std::vector<Vertex> vertices_;
   std::vector<Vertex> tex_vertices_; ///< Texture vertices
@@ -32,9 +35,11 @@ public:
 
   const std::vector<PolyFace*>& GetPolygons() const { return poly_faces_; }
 
-  // constrdestr.cc
-  SurfaceMesh();
+  explicit SurfaceMesh(opensn::App& app);
   ~SurfaceMesh();
+
+  opensn::App& App() const;
+
   friend std::ostream& operator<<(std::ostream& os, SurfaceMesh& dt);
 
   /**
@@ -77,7 +82,8 @@ public:
    *
    * This code will create a 2x2 mesh with \f$ \vec{x} \in [0,2]^2 \f$.
    */
-  static SurfaceMesh* CreateFromDivisions(std::vector<double>& vertices_1d_x,
+  static SurfaceMesh* CreateFromDivisions(opensn::App& app,
+                                          std::vector<double>& vertices_1d_x,
                                           std::vector<double>& vertices_1d_y);
 
   /**

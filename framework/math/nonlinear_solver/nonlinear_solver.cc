@@ -1,14 +1,19 @@
 #include "framework/math/nonlinear_solver/nonlinear_solver.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/logging/stringstream_color.h"
 
 namespace chi_math
 {
 
-NonLinearSolver::NonLinearSolver(NLSolverContextPtr context_ptr, const chi::InputParameters& params)
-  : solver_name_(params.GetParamValue<std::string>("name")),
+NonLinearSolver::NonLinearSolver(opensn::App& app,
+                                 NLSolverContextPtr context_ptr,
+                                 const chi::InputParameters& params)
+  : app_(app),
+    comm_(app.Comm()),
+    solver_name_(params.GetParamValue<std::string>("name")),
     context_ptr_(context_ptr),
-    options_(params)
+    options_(app, params)
 {
 }
 
@@ -84,7 +89,7 @@ NonLinearSolver::Setup()
   if (IsSystemSet()) return;
   this->PreSetupCallback();
 
-  SNESCreate(Chi::mpi.comm, &nl_solver_);
+  SNESCreate(comm_, &nl_solver_);
 
   SNESSetOptionsPrefix(nl_solver_, solver_name_.c_str());
 

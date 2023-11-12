@@ -1,5 +1,6 @@
 #pragma once
 
+#include "framework/app.h"
 #include "framework/mesh/mesh.h"
 #include "framework/mesh/cell/cell.h"
 
@@ -65,6 +66,9 @@ public:
   {
     double xmin = 0.0, xmax = 0.0, ymin = 0.0, ymax = 0.0, zmin = 0.0, zmax = 0.0;
   };
+
+private:
+  opensn::App& app_;
 
 protected:
   std::vector<Vertex> vertices_;
@@ -192,7 +196,10 @@ public:
                      int cell_material_id,
                      const std::vector<std::vector<uint64_t>>& proxy_faces);
 
+  explicit UnpartitionedMesh(opensn::App& app);
   ~UnpartitionedMesh();
+
+  opensn::App& App() const;
 
   void CleanUp()
   {

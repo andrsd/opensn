@@ -1,10 +1,7 @@
 #include "framework/math/quadratures/quadrature_gausschebyshev.h"
-
 #include "framework/object_factory.h"
-#include <cmath>
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include <cmath>
 
 #define uint unsigned int
 #define scint static_cast<int>
@@ -32,8 +29,9 @@ QuadratureGaussChebyshev::GetInputParameters()
   return params;
 }
 
-QuadratureGaussChebyshev::QuadratureGaussChebyshev(const chi::InputParameters& params)
-  : chi_math::Quadrature(params)
+QuadratureGaussChebyshev::QuadratureGaussChebyshev(opensn::App& app,
+                                                   const chi::InputParameters& params)
+  : chi_math::Quadrature(app, params)
 {
   const auto& assigned_params = params.ParametersAtAssignment();
 
@@ -53,8 +51,8 @@ QuadratureGaussChebyshev::QuadratureGaussChebyshev(const chi::InputParameters& p
   }
 }
 
-QuadratureGaussChebyshev::QuadratureGaussChebyshev(unsigned int N, bool verbose)
-  : chi_math::Quadrature((QuadratureOrder)(2 * N - 1))
+QuadratureGaussChebyshev::QuadratureGaussChebyshev(opensn::App& app, unsigned int N, bool verbose)
+  : chi_math::Quadrature(app, (QuadratureOrder)(2 * N - 1))
 {
   Initialize(N);
 }
@@ -62,10 +60,9 @@ QuadratureGaussChebyshev::QuadratureGaussChebyshev(unsigned int N, bool verbose)
 void
 QuadratureGaussChebyshev::Initialize(unsigned int N)
 {
-  if (verbose_)
-    Chi::log.Log() << "Initializing Gauss-Chebyshev Quadrature "
-                      "with "
-                   << N << " q-points";
+  // FIXME: make this work
+  // if (verbose_)
+  //   Chi::log.Log() << "Initializing Gauss-Chebyshev Quadrature with " << N << " q-points";
 
   const double pi_N = M_PI / N;
   for (unsigned int n = 0; n < N; ++n)
@@ -76,8 +73,9 @@ QuadratureGaussChebyshev::Initialize(unsigned int N)
     qpoints_.emplace_back(xn);
     weights_.emplace_back(wn);
 
-    if (verbose_)
-      Chi::log.Log() << "root[" << n << "]=" << qpoints_[n][0] << ", weight=" << weights_[n];
+    // FIXME: make this work
+    // if (verbose_)
+    //   Chi::log.Log() << "root[" << n << "]=" << qpoints_[n][0] << ", weight=" << weights_[n];
   }
 
   range_ = {-1, +1};

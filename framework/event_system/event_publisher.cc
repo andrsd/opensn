@@ -1,9 +1,7 @@
 #include "framework/event_system/event_publisher.h"
-
+#include "framework/app.h"
 #include "framework/event_system/event.h"
 #include "framework/event_system/event_subscriber.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 #include <algorithm>
@@ -11,7 +9,8 @@
 namespace chi
 {
 
-EventPublisher::EventPublisher(const std::string& name) : publisher_name_(name)
+EventPublisher::EventPublisher(opensn::App& app, const std::string& name)
+  : app_(app), publisher_name_(name)
 {
 }
 
@@ -25,9 +24,9 @@ EventPublisher::PublishEvent(const chi::Event& event)
       subscriber_sptr->ReceiveEventUpdate(event);
       ++subs;
     }
-  if (Chi::log.GetVerbosity() >= 1)
-    Chi::log.Log0Verbose1() << publisher_name_ << " published event name \"" << event.Name()
-                            << "\"";
+  if (app_.Log().GetVerbosity() >= 1)
+    app_.Log().Log0Verbose1() << publisher_name_ << " published event name \"" << event.Name()
+                              << "\"";
 }
 
 void

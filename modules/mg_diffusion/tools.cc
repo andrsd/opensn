@@ -1,10 +1,8 @@
 #include "modules/mg_diffusion/tools.h"
 #include "framework/logging/log.h"
 #include "modules/mg_diffusion/mg_diffusion_solver.h"
-
+#include "framework/app.h"
 #include <iomanip>
-
-#include "framework/runtime.h"
 
 PetscErrorCode
 mg_diffusion::MGKSPMonitor(KSP ksp, PetscInt n, PetscReal rnorm, void*)
@@ -30,11 +28,13 @@ mg_diffusion::MGKSPMonitor(KSP ksp, PetscInt n, PetscReal rnorm, void*)
   // Print message
   if (my_app_context->verbose == PETSC_TRUE)
   {
-    std::stringstream buff;
-    buff << ksp_name << " iteration " << std::setw(4) << n << " - Residual " << std::scientific
-         << std::setprecision(7) << rnorm / rhs_norm << std::endl;
-
-    Chi::log.Log() << buff.str();
+    // FIXME
+    // std::stringstream buff;
+    // buff << ksp_name << " iteration " << std::setw(4) << n << " - Residual " << std::scientific
+    //      << std::setprecision(7) << rnorm / rhs_norm << std::endl;
+    //
+    //
+    // Chi::log.Log() << buff.str();
   }
 
   return 0;

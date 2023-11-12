@@ -1,4 +1,5 @@
 #include "framework/mesh/sweep_utilities/fluds/fluds_common_data.h"
+#include "framework/mesh/sweep_utilities/spds/spds.h"
 
 namespace chi_mesh::sweep_management
 {
@@ -19,6 +20,12 @@ const FaceNodalMapping&
 FLUDSCommonData::GetFaceNodalMapping(uint64_t cell_local_id, unsigned int face_id) const
 {
   return grid_nodal_mappings_[cell_local_id][face_id];
+}
+
+opensn::App&
+FLUDSCommonData::App() const
+{
+  return spds_.App();
 }
 
 } // namespace chi_mesh::sweep_management

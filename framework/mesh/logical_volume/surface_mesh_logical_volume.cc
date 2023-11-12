@@ -1,11 +1,9 @@
 #include "framework/mesh/logical_volume/surface_mesh_logical_volume.h"
-
+#include "framework/app.h"
 #include "framework/mesh/mesh.h"
 #include "framework/mesh/surface_mesh/surface_mesh.h"
 #include "framework/mesh/raytrace/raytracer.h"
-
 #include "framework/object_factory.h"
-
 #include <utility>
 
 namespace chi_mesh
@@ -26,10 +24,11 @@ SurfaceMeshLogicalVolume::GetInputParameters()
   return params;
 }
 
-SurfaceMeshLogicalVolume::SurfaceMeshLogicalVolume(const chi::InputParameters& params)
-  : LogicalVolume(params),
-    surf_mesh(Chi::GetStackItemPtrAsType<chi_mesh::SurfaceMesh>(
-      Chi::object_stack, params.GetParamValue<size_t>("surface_mesh_handle"), __FUNCTION__)),
+SurfaceMeshLogicalVolume::SurfaceMeshLogicalVolume(opensn::App& app,
+                                                   const chi::InputParameters& params)
+  : LogicalVolume(app, params),
+    surf_mesh(App().GetStackObject<chi_mesh::SurfaceMesh>(
+      params.GetParamValue<size_t>("surface_mesh_handle"), __FUNCTION__)),
     xbounds_({1.0e6, -1.0e6}),
     ybounds_({1.0e6, -1.0e6}),
     zbounds_({1.0e6, -1.0e6})

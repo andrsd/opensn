@@ -28,6 +28,7 @@ public:
   static const int AUTO_FINERES = -2;
 
 private:
+  opensn::App& app_;
   int subdiv_factor_;
   int final_res_;
   std::vector<double>& ref_cdf_;
@@ -35,7 +36,8 @@ private:
 
 public:
   /** constructor.*/
-  CDFSampler(std::vector<double>& in_cdf,
+  CDFSampler(opensn::App& app,
+             std::vector<double>& in_cdf,
              int subdiv_factor = AUTO_SUBDIV,
              int final_res = AUTO_FINERES);
 

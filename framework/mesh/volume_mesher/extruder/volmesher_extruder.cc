@@ -1,11 +1,8 @@
 #include "framework/mesh/volume_mesher/extruder/volmesher_extruder.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
-#include "framework/mesh/surface_mesher/surface_mesher.h"
 #include "framework/mesh/unpartitioned_mesh/unpartitioned_mesh.h"
-#include "framework/utils/timer.h"
-#include "framework/console/console.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include <iostream>
@@ -63,45 +60,48 @@ VolumeMesherExtruder::CreateLocalNodes(MeshContinuum& template_grid, MeshContinu
 void
 VolumeMesherExtruder::Execute()
 {
-  Chi::log.Log() << Chi::program_timer.GetTimeString()
-                 << " VolumeMesherExtruder executed. Memory in use = " << Chi::GetMemoryUsageInMB()
-                 << " MB" << std::endl;
+  // FIXME
+  // App().Log().Log() << App().ProgramTimer().GetTimeString()
+  //               << " VolumeMesherExtruder executed. Memory in use = " <<
+  //               Chi::GetMemoryUsageInMB()
+  //               << " MB" << std::endl;
 
   // Loop over all regions
-  Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Processing Region" << std::endl;
+  App().Log().Log0Verbose1() << "VolumeMesherExtruder: Processing Region" << std::endl;
 
   // Create new continuum
-  auto grid = MeshContinuum::New();
-  auto temp_grid = MeshContinuum::New();
+  auto grid = MeshContinuum::New(App());
+  auto temp_grid = MeshContinuum::New(App());
 
   SetContinuum(grid);
   SetGridAttributes(DIMENSION_3 | EXTRUDED);
 
   // Setup layers
   // populates vertex-layers
-  Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Setting up layers" << std::endl;
+  App().Log().Log0Verbose1() << "VolumeMesherExtruder: Setting up layers" << std::endl;
   SetupLayers();
 
   // Process templates
   if (template_type_ == TemplateType::UNPARTITIONED_MESH)
   {
-    Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Processing unpartitioned mesh" << std::endl;
+    App().Log().Log0Verbose1() << "VolumeMesherExtruder: Processing unpartitioned mesh"
+                               << std::endl;
 
     // Get node_z_incr
     node_z_index_incr_ = template_unpartitioned_mesh_->GetVertices().size();
 
     // Create baseline polygons in template continuum
-    Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Creating template cells" << std::endl;
-    CreatePolygonCells(*template_unpartitioned_mesh_, temp_grid);
+    App().Log().Log0Verbose1() << "VolumeMesherExtruder: Creating template cells" << std::endl;
+    CreatePolygonCells(App(), *template_unpartitioned_mesh_, temp_grid);
 
     grid->GetBoundaryIDMap() = template_unpartitioned_mesh_->GetMeshOptions().boundary_id_map;
     temp_grid->GetBoundaryIDMap() = template_unpartitioned_mesh_->GetMeshOptions().boundary_id_map;
   }
 
-  Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Creating local nodes" << std::endl;
+  App().Log().Log0Verbose1() << "VolumeMesherExtruder: Creating local nodes" << std::endl;
   CreateLocalNodes(*temp_grid, *grid);
 
-  Chi::log.Log0Verbose1() << "VolumeMesherExtruder: Done creating local nodes" << std::endl;
+  App().Log().Log0Verbose1() << "VolumeMesherExtruder: Done creating local nodes" << std::endl;
 
   // Insert top and bottom boundary id map
   auto& grid_bndry_id_map = grid->GetBoundaryIDMap();
@@ -111,50 +111,50 @@ VolumeMesherExtruder::Execute()
   grid_bndry_id_map[zmin_bndry_id] = "ZMIN";
 
   // Create extruded item_id
-  Chi::log.Log() << "VolumeMesherExtruder: Extruding cells" << std::endl;
-  Chi::mpi.Barrier();
+  App().Log().Log() << "VolumeMesherExtruder: Extruding cells" << std::endl;
+  App().Barrier();
   ExtrudeCells(*temp_grid, *grid);
 
   size_t total_local_cells = grid->local_cells.size();
   size_t total_global_cells = 0;
 
   MPI_Allreduce(
-    &total_local_cells, &total_global_cells, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, Chi::mpi.comm);
+    &total_local_cells, &total_global_cells, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, App().Comm());
 
-  Chi::log.Log() << "VolumeMesherExtruder: Cells extruded = " << total_global_cells << std::endl;
+  App().Log().Log() << "VolumeMesherExtruder: Cells extruded = " << total_global_cells << std::endl;
 
   // Checking partitioning parameters
   if (options.partition_type != KBA_STYLE_XYZ)
   {
-    Chi::log.LogAllError() << "Any partitioning scheme other than KBA_STYLE_XYZ is currently not"
-                              " supported by VolumeMesherExtruder. No worries. There are plans"
-                              " to develop this support.";
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Any partitioning scheme other than KBA_STYLE_XYZ is currently not"
+                                 " supported by VolumeMesherExtruder. No worries. There are plans"
+                                 " to develop this support.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
   if (!options.mesh_global)
   {
     int p_tot = options.partition_x * options.partition_y * options.partition_z;
 
-    if (Chi::mpi.process_count != p_tot)
+    if (App().ProcessCount() != p_tot)
     {
-      Chi::log.LogAllError() << "ERROR: Number of processors available (" << Chi::mpi.process_count
-                             << ") does not match amount of processors "
-                             << "required by surface mesher partitioning parameters (" << p_tot
-                             << ").";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << "ERROR: Number of processors available (" << App().ProcessCount()
+                                << ") does not match amount of processors "
+                                << "required by surface mesher partitioning parameters (" << p_tot
+                                << ").";
+      opensn::App::Exit(EXIT_FAILURE);
     }
   } // if mesh-global
 
-  Chi::log.LogAllVerbose1() << "Building local cell indices";
+  App().Log().LogAllVerbose1() << "Building local cell indices";
 
   // Print info
-  Chi::log.LogAllVerbose1() << "### LOCATION[" << Chi::mpi.location_id
-                            << "] amount of local cells=" << grid->local_cells.size();
+  App().Log().LogAllVerbose1() << "### LOCATION[" << App().LocationID()
+                               << "] amount of local cells=" << grid->local_cells.size();
 
-  Chi::log.Log() << "VolumeMesherExtruder: Number of cells in region = " << total_global_cells
-                 << std::endl;
+  App().Log().Log() << "VolumeMesherExtruder: Number of cells in region = " << total_global_cells
+                    << std::endl;
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 }
 
 void
@@ -215,9 +215,9 @@ VolumeMesherExtruder::SetupLayers(int default_layer_count)
   // Create default layers if no input layers are provided
   if (input_layers_.empty())
   {
-    Chi::log.Log0Warning() << "VolumeMesherExtruder: No extrusion layers have been specified. "
-                           << "A default single layer will be used with height 1.0 and a single "
-                           << "subdivision.";
+    App().Log().Log0Warning() << "VolumeMesherExtruder: No extrusion layers have been specified. "
+                              << "A default single layer will be used with height 1.0 and a single "
+                              << "subdivision.";
     double dz = 1.0 / default_layer_count;
     for (int k = 0; k <= default_layer_count; k++)
     {
@@ -241,8 +241,8 @@ VolumeMesherExtruder::SetupLayers(int default_layer_count)
     }
   }
 
-  Chi::log.Log() << "VolumeMesherExtruder: Total number of cell layers is "
-                 << vertex_layers_.size() - 1;
+  App().Log().Log() << "VolumeMesherExtruder: Total number of cell layers is "
+                    << vertex_layers_.size() - 1;
 }
 
 Vector3
@@ -265,7 +265,7 @@ VolumeMesherExtruder::GetCellKBAPartitionIDFromCentroid(Vector3& centroid)
   Cell n_gcell(CellType::GHOST, CellType::GHOST);
   n_gcell.centroid_ = centroid;
 
-  auto xyz_partition_indices = GetCellXYZPartitionID(&n_gcell);
+  auto xyz_partition_indices = GetCellXYZPartitionID(App(), &n_gcell);
 
   int nxi = std::get<0>(xyz_partition_indices);
   int nyi = std::get<1>(xyz_partition_indices);
@@ -284,7 +284,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
     auto& centroid = template_cell.centroid_;
     auto projected_centroid = ProjectCentroidToLevel(centroid, z_level);
     int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-    if (pid == Chi::mpi.location_id) return true;
+    if (pid == App().LocationID()) return true;
   }
 
   const size_t last_z_level = vertex_layers_.size() - 1;
@@ -313,7 +313,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
       {
         auto projected_centroid = ProjectCentroidToLevel(cc_centroid, z);
         int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-        if (pid == Chi::mpi.location_id) return true;
+        if (pid == App().LocationID()) return true;
       }
     } // for cid
 
@@ -324,7 +324,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
 
     auto projected_centroid = ProjectCentroidToLevel(template_cell.centroid_, z);
     int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-    if (pid == Chi::mpi.location_id) return true;
+    if (pid == App().LocationID()) return true;
   } // for z
 
   return false;

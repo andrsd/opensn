@@ -25,8 +25,9 @@ CrankNicolsonTimeIntegration::GetInputParameters()
   return params;
 }
 
-CrankNicolsonTimeIntegration::CrankNicolsonTimeIntegration(const chi::InputParameters& params)
-  : ThetaSchemeTimeIntegration(params)
+CrankNicolsonTimeIntegration::CrankNicolsonTimeIntegration(opensn::App& app,
+                                                           const chi::InputParameters& params)
+  : ThetaSchemeTimeIntegration(app, params)
 {
 }
 

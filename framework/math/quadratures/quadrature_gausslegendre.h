@@ -12,14 +12,15 @@ class chi_math::QuadratureGaussLegendre : public chi_math::Quadrature
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit QuadratureGaussLegendre(const chi::InputParameters& params);
+  explicit QuadratureGaussLegendre(opensn::App& app, const chi::InputParameters& params);
   /**Populates the abscissae and weights for a Gauss-Legendre
    * quadrature given the degree \f$ p \f$ of the mononomial such that
    * the quadrature rule integrates exactly the weighted integrand
    * \f$ \rho(x) x^{p} \f$, with \f$ \rho(x) := 1 \f$,
    * on the interval \f$ [-1;+1] \f$.
    * The number of points generated will be ceil((O+1)/2).*/
-  explicit QuadratureGaussLegendre(QuadratureOrder in_order,
+  explicit QuadratureGaussLegendre(opensn::App& app,
+                                   QuadratureOrder in_order,
                                    bool verbose = false,
                                    unsigned int max_iters = 1000,
                                    double tol = 1.0e-12);
@@ -27,7 +28,8 @@ public:
   /**Populates the abscissae and weights for a Gauss-Legendre
    * quadrature given the number of desired quadrature points. The
    * order of the quadrature will be 2N-1.*/
-  explicit QuadratureGaussLegendre(unsigned int N,
+  explicit QuadratureGaussLegendre(opensn::App& app,
+                                   unsigned int N,
                                    bool verbose = false,
                                    unsigned int max_iters = 1000,
                                    double tol = 1.0e-12);

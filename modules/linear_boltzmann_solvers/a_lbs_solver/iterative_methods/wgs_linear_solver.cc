@@ -1,16 +1,11 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_linear_solver.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_convergence_test.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
-
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/math/linear_solver/linear_matrix_action_Ax.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include "framework/utils/timer.h"
-
 #include <petscksp.h>
 #include <memory>
 #include <iomanip>
@@ -23,9 +18,9 @@
 namespace lbs
 {
 
-WGSLinearSolver::WGSLinearSolver(WGSContextPtr gs_context_ptr)
-  : chi_math::LinearSolver(IterativeMethodPETScName(gs_context_ptr->groupset_.iterative_method_),
-                           gs_context_ptr)
+WGSLinearSolver::WGSLinearSolver(opensn::App& app, WGSContextPtr gs_context_ptr)
+  : chi_math::LinearSolver(
+      app, IterativeMethodPETScName(gs_context_ptr->groupset_.iterative_method_), gs_context_ptr)
 {
   auto& groupset = gs_context_ptr->groupset_;
   auto& solver_tol_options = this->ToleranceOptions();
@@ -134,7 +129,7 @@ WGSLinearSolver::SetInitialGuess()
   if (init_guess_norm > 1.0e-10)
   {
     KSPSetInitialGuessNonzero(ksp_, PETSC_TRUE);
-    if (gs_context_ptr->log_info_) Chi::log.Log() << "Using phi_old as initial guess.";
+    if (gs_context_ptr->log_info_) App().Log().Log() << "Using phi_old as initial guess.";
   }
 }
 
@@ -147,7 +142,7 @@ WGSLinearSolver::SetRHS()
   auto& lbs_solver = gs_context_ptr->lbs_solver_;
 
   if (gs_context_ptr->log_info_)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Computing b";
+    App().Log().Log() << App().ProgramTimer().GetTimeString() << " Computing b";
 
   // SetSource for RHS
   saved_q_moments_local_ = lbs_solver.QMomentsLocal();
@@ -222,8 +217,8 @@ WGSLinearSolver::PostSolveCallback()
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp_, &reason);
     if (reason != KSP_CONVERGED_RTOL and reason != KSP_DIVERGED_ITS)
-      Chi::log.Log0Warning() << "Krylov solver failed. "
-                             << "Reason: " << chi_physics::GetPETScConvergedReasonstring(reason);
+      App().Log().Log0Warning() << "Krylov solver failed. "
+                                << "Reason: " << chi_physics::GetPETScConvergedReasonstring(reason);
   }
 
   // Copy x to local solution

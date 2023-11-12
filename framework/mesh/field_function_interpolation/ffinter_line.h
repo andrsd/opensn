@@ -30,7 +30,10 @@ protected:
   double delta_d_ = 1.0;
 
 public:
-  FieldFunctionInterpolationLine() : FieldFunctionInterpolation(ff_interpolation::Type::LINE) {}
+  explicit FieldFunctionInterpolationLine(opensn::App& app)
+    : FieldFunctionInterpolation(app, ff_interpolation::Type::LINE)
+  {
+  }
 
   int& GetNumberOfPoints() { return number_of_points_; }
   chi_mesh::Vector3& GetInitialPoint() { return pi_; }

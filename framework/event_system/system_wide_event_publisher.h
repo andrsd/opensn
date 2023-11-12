@@ -8,7 +8,7 @@ namespace chi
 class SystemWideEventPublisher : public chi::EventPublisher
 {
 public:
-  static SystemWideEventPublisher& GetInstance();
+  //  static SystemWideEventPublisher& GetInstance();
 
   /// Deleted copy constructor
   SystemWideEventPublisher(const SystemWideEventPublisher&) = delete;
@@ -19,7 +19,7 @@ public:
   void PublishEvent(const chi::Event& event) override;
 
 private:
-  SystemWideEventPublisher();
+  SystemWideEventPublisher(opensn::App& app);
 };
 
 } // namespace chi

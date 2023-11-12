@@ -12,7 +12,7 @@ namespace lbs
 class XXNonLinearKEigen : public chi_physics::Solver
 {
 protected:
-  LBSSolver& lbs_solver_;
+  std::shared_ptr<LBSSolver> lbs_solver_;
   std::shared_ptr<NLKEigenAGSContext> nl_context_;
   NLKEigenvalueAGSSolver nl_solver_;
 
@@ -21,7 +21,7 @@ protected:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit XXNonLinearKEigen(const chi::InputParameters& params);
+  explicit XXNonLinearKEigen(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

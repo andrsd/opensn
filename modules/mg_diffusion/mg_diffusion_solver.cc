@@ -2,12 +2,11 @@
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/spatial_discretization/finite_element/piecewise_linear/piecewise_linear_continuous.h"
-#include "framework/physics/physics_material/physics_material.h"
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
 #include "framework/physics/physics_material/material_property_isotropic_mg_src.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
 #include <algorithm>
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
@@ -18,8 +17,9 @@
 namespace mg_diffusion
 {
 
-Solver::Solver(const std::string& in_solver_name)
-  : chi_physics::Solver(in_solver_name,
+Solver::Solver(opensn::App& app, const std::string& in_solver_name)
+  : chi_physics::Solver(app,
+                        in_solver_name,
                         {{"max_inner_iters", int64_t(500)},
                          {"residual_tolerance", 1.0e-2},
                          {"verbose_level", int64_t(0)},
@@ -56,17 +56,17 @@ Solver::~Solver()
 void
 Solver::Initialize()
 {
-  Chi::log.Log() << "\n"
-                 << Chi::program_timer.GetTimeString() << " " << TextName()
-                 << ": Initializing CFEM Multigroup Diffusion solver ";
+  App().Log().Log() << "\n"
+                    << App().ProgramTimer().GetTimeString() << " " << TextName()
+                    << ": Initializing CFEM Multigroup Diffusion solver ";
 
   // Get grid
-  grid_ptr_ = chi_mesh::GetCurrentHandler().GetGrid();
+  grid_ptr_ = App().GetCurrentMeshHandler()->GetGrid();
   const auto& grid = *grid_ptr_;
   if (grid_ptr_ == nullptr)
     throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 
-  Chi::log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  App().Log().Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
 
   // Add unique material ids
   std::set<int> unique_material_ids;
@@ -86,7 +86,7 @@ Solver::Initialize()
 
   if (invalid_mat_cell_count > 0)
   {
-    Chi::log.LogAllWarning() << "Number of invalid material cells: " << invalid_mat_cell_count;
+    App().Log().LogAllWarning() << "Number of invalid material cells: " << invalid_mat_cell_count;
   }
 
   // Initialize materials
@@ -104,8 +104,8 @@ Solver::Initialize()
   num_local_dofs_ = sdm.GetNumLocalDOFs(OneDofPerNode);
   num_globl_dofs_ = sdm.GetNumGlobalDOFs(OneDofPerNode);
 
-  Chi::log.Log() << "Num local DOFs: " << num_local_dofs_;
-  Chi::log.Log() << "Num globl DOFs: " << num_globl_dofs_;
+  App().Log().Log() << "Num local DOFs: " << num_local_dofs_;
+  App().Log().Log() << "Num globl DOFs: " << num_globl_dofs_;
 
   // Initializes Mats and Vecs
   const auto n = static_cast<int64_t>(num_local_dofs_);
@@ -182,10 +182,10 @@ Solver::Initialize()
 
       using namespace chi_math;
       auto initial_field_function = std::make_shared<chi_physics::FieldFunctionGridBased>(
-        text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
+        App(), text_name, sdm_ptr_, Unknown(UnknownType::SCALAR));
 
       field_functions_.push_back(initial_field_function);
-      Chi::field_function_stack.push_back(initial_field_function);
+      App().FieldFunctionStack().push_back(initial_field_function);
     } // for g
   }   // if not ff set
 }
@@ -193,17 +193,17 @@ Solver::Initialize()
 void
 Solver::Initialize_Materials(std::set<int>& material_ids)
 {
-  Chi::log.Log0Verbose1() << "Initializing Materials";
+  App().Log().Log0Verbose1() << "Initializing Materials";
 
   std::stringstream materials_list;
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Process materials found
-  const size_t num_physics_mats = Chi::material_stack.size();
+  const size_t num_physics_mats = App().MaterialStack().size();
   bool first_material_read = true;
 
   for (const int& mat_id : material_ids)
   {
-    auto current_material = Chi::GetStackItemPtr(Chi::material_stack, mat_id, __FUNCTION__);
+    auto current_material = App().GetMaterial(mat_id, __FUNCTION__);
     materials_list << "Material id " << mat_id;
 
     // Check valid ids
@@ -236,7 +236,7 @@ Solver::Initialize_Materials(std::set<int>& material_ids)
 
         if (mg_source->source_value_g_.size() < num_groups_)
         {
-          Chi::log.LogAllWarning()
+          App().Log().LogAllWarning()
             << "MG-Diff-InitMaterials: Isotropic Multigroup source specified "
                "in "
             << "material \"" << current_material->name_ << "\" has fewer "
@@ -250,30 +250,31 @@ Solver::Initialize_Materials(std::set<int>& material_ids)
     // Check valid property
     if (!found_transport_xs)
     {
-      Chi::log.LogAllError() << "MG-Diff-InitMaterials: Found no transport cross-section property "
-                                "for "
-                             << "material \"" << current_material->name_ << "\".";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError()
+        << "MG-Diff-InitMaterials: Found no transport cross-section property "
+           "for "
+        << "material \"" << current_material->name_ << "\".";
+      opensn::App::Exit(EXIT_FAILURE);
     }
     // Check number of groups legal
     if (matid_to_xs_map[mat_id]->NumGroups() != num_groups_)
     {
-      Chi::log.LogAllError() << "MG-Diff-InitMaterials: Found material \""
-                             << current_material->name_ << "\" has "
-                             << matid_to_xs_map[mat_id]->NumGroups() << " groups and "
-                             << "the simulation has " << num_groups_ << " groups. The material "
-                             << "must have the same number of groups.";
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << "MG-Diff-InitMaterials: Found material \""
+                                << current_material->name_ << "\" has "
+                                << matid_to_xs_map[mat_id]->NumGroups() << " groups and "
+                                << "the simulation has " << num_groups_ << " groups. The material "
+                                << "must have the same number of groups.";
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     // Check number of moments
     if (matid_to_xs_map[mat_id]->ScatteringOrder() > 1)
     {
-      Chi::log.Log0Warning() << "MG-Diff-InitMaterials: Found material \""
-                             << current_material->name_ << "\" has a scattering order of "
-                             << matid_to_xs_map[mat_id]->ScatteringOrder() << " and"
-                             << " the simulation has a scattering order of One (MG-Diff)"
-                             << " The higher moments will therefore not be used.";
+      App().Log().Log0Warning() << "MG-Diff-InitMaterials: Found material \""
+                                << current_material->name_ << "\" has a scattering order of "
+                                << matid_to_xs_map[mat_id]->ScatteringOrder() << " and"
+                                << " the simulation has a scattering order of One (MG-Diff)"
+                                << " The higher moments will therefore not be used.";
     }
 
     materials_list << " number of moments " << matid_to_xs_map[mat_id]->ScatteringOrder() + 1
@@ -282,13 +283,13 @@ Solver::Initialize_Materials(std::set<int>& material_ids)
     first_material_read = false;
   } // for material id
 
-  Chi::log.Log() << "Materials Initialized:\n" << materials_list.str() << "\n";
+  App().Log().Log() << "Materials Initialized:\n" << materials_list.str() << "\n";
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Compute last fast group
   // initialize last fast group
-  Chi::log.Log() << "Computing last fast group.";
+  App().Log().Log() << "Computing last fast group.";
   unsigned int lfg = num_groups_;
 
   if (num_groups_ > 1)
@@ -317,13 +318,13 @@ Solver::Initialize_Materials(std::set<int>& material_ids)
   do_two_grid_ = basic_options_("do_two_grid").BoolValue();
   if ((lfg == num_groups_) && do_two_grid_)
   {
-    Chi::log.Log0Error() << "Two-grid is not possible with no upscattering.";
+    App().Log().Log0Error() << "Two-grid is not possible with no upscattering.";
     do_two_grid_ = false;
-    Chi::Exit(EXIT_FAILURE);
+    opensn::App::Exit(EXIT_FAILURE);
   }
   if (do_two_grid_)
   {
-    Chi::log.Log() << "Compute_TwoGrid_Params";
+    App().Log().Log() << "Compute_TwoGrid_Params";
     Compute_TwoGrid_Params();
   }
 }
@@ -386,20 +387,20 @@ Solver::Compute_TwoGrid_Params()
         collapsed_sig_a -= S[g][gp] * spectrum[gp];
     }
     // Verbose output the spectrum
-    Chi::log.Log0Verbose1() << "Fundamental eigen-value: " << rho;
+    App().Log().Log0Verbose1() << "Fundamental eigen-value: " << rho;
     std::stringstream outstr;
     for (auto& xi : spectrum)
       outstr << xi << '\n';
-    Chi::log.Log0Verbose1() << outstr.str(); // jcr verbose1
+    App().Log().Log0Verbose1() << outstr.str(); // jcr verbose1
 
     //    std::stringstream outstr2;
     //    for (auto &xi: diffusion_coeff)
     //      outstr2 << xi << '\n';
-    //    chi::log.Log0Verbose0() << outstr2.str();  // jcr verbose1
+    //    App().Log().Log0Verbose0() << outstr2.str();  // jcr verbose1
     //
     //    std::cout << "collapsed = " << collapsed_sig_a
     //    <<", "<< collapsed_D << std::endl;
-    //    chi::Exit(12345);
+    //    opensn::App::Exit(12345);
 
     const auto mat_id = mat_id_xs.first;
     map_mat_id_2_tginfo.insert(
@@ -442,13 +443,13 @@ Solver::Compute_TwoGrid_VolumeFractions()
 void
 Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
 {
-  Chi::log.Log0Verbose1() << "Setting Boundary Conditions";
+  App().Log().Log0Verbose1() << "Setting Boundary Conditions";
 
   uint64_t max_boundary_id = 0;
   for (const auto& id : globl_unique_bndry_ids)
     max_boundary_id = std::max(id, max_boundary_id);
 
-  Chi::log.Log() << "Max boundary id identified: " << max_boundary_id;
+  App().Log().Log() << "Max boundary id identified: " << max_boundary_id;
 
   for (int bndry = 0; bndry < (max_boundary_id + 1); ++bndry)
   {
@@ -462,7 +463,7 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
         case BoundaryType::Reflecting: // ------------- REFLECTING
         {
           boundaries_.push_back({BoundaryType::Reflecting});
-          Chi::log.Log() << "Boundary " << bndry << " set to reflecting.";
+          App().Log().Log() << "Boundary " << bndry << " set to reflecting.";
           break;
         }
         case BoundaryType::Robin: // ------------- ROBIN
@@ -471,7 +472,7 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
             throw std::logic_error(std::string(__PRETTY_FUNCTION__) +
                                    " Robin needs 3 values in bndry vals.");
           boundaries_.push_back(Boundary{BoundaryType::Robin, bndry_vals});
-          Chi::log.Log() << "Boundary " << bndry << " set to robin.";
+          App().Log().Log() << "Boundary " << bndry << " set to robin.";
           break;
         }
         case BoundaryType::Vacuum: // ------------- VACUUM
@@ -481,7 +482,7 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
           std::vector<double> b_values(ng, 0.5);
           std::vector<double> f_values(ng, 0.0);
           boundaries_.push_back(Boundary{BoundaryType::Robin, {a_values, b_values, f_values}});
-          Chi::log.Log() << "Boundary " << bndry << " set to vacuum.";
+          App().Log().Log() << "Boundary " << bndry << " set to vacuum.";
           break;
         }
         case BoundaryType::Neumann: // ------------- NEUMANN
@@ -490,7 +491,7 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
             throw std::logic_error(std::string(__PRETTY_FUNCTION__) +
                                    " Neumann needs 3 values in bndry vals.");
           boundaries_.push_back(Boundary{BoundaryType::Robin, bndry_vals});
-          Chi::log.Log() << "Boundary " << bndry << " set to neumann.";
+          App().Log().Log() << "Boundary " << bndry << " set to neumann.";
           break;
         }
       } // switch boundary type
@@ -502,8 +503,8 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
       std::vector<double> b_values(ng, 0.5);
       std::vector<double> f_values(ng, 0.0);
       boundaries_.push_back({BoundaryType::Robin, {a_values, b_values, f_values}});
-      Chi::log.Log0Verbose1() << "No boundary preference found for boundary index " << bndry
-                              << "Vacuum boundary added as default.";
+      App().Log().Log0Verbose1() << "No boundary preference found for boundary index " << bndry
+                                 << "Vacuum boundary added as default.";
     }
   } // for bndry
 }
@@ -654,7 +655,7 @@ Solver::Assemble_A_bext()
 
   } // for cell
 
-  Chi::log.Log() << "Global assembly";
+  App().Log().Log() << "Global assembly";
 
   for (uint g = 0; g < num_groups_; ++g)
   {
@@ -679,13 +680,13 @@ Solver::Assemble_A_bext()
   //  PetscViewerPopFormat(viewer);
   //  PetscViewerDestroy(&viewer);
 
-  Chi::log.Log() << "Done global assembly";
+  App().Log().Log() << "Done global assembly";
 }
 
 void
 Solver::Execute()
 {
-  Chi::log.Log() << "\nExecuting CFEM Multigroup Diffusion solver";
+  App().Log().Log() << "\nExecuting CFEM Multigroup Diffusion solver";
 
   // Create Krylov Solver
   // setup KSP once for all
@@ -756,9 +757,10 @@ Solver::Execute()
     }
 
     if (iverbose > 0)
-      Chi::log.Log() << " --thermal iteration = " << std::setw(5) << std::right << thermal_iteration
-                     << ", Error=" << std::setw(11) << std::right << std::scientific
-                     << std::setprecision(7) << thermal_error_all << std::endl;
+      App().Log().Log() << " --thermal iteration = " << std::setw(5) << std::right
+                        << thermal_iteration << ", Error=" << std::setw(11) << std::right
+                        << std::scientific << std::setprecision(7) << thermal_error_all
+                        << std::endl;
 
     ++thermal_iteration;
   } while ((thermal_error_all > thermal_tol) && (thermal_iteration < max_thermal_iters));
@@ -772,13 +774,13 @@ Solver::Execute()
   }
 
   UpdateFieldFunctions();
-  Chi::log.Log() << "Done solving multi-group diffusion";
+  App().Log().Log() << "Done solving multi-group diffusion";
 }
 
 void
 Solver::Assemble_RHS(const unsigned int g, const int64_t verbose)
 {
-  if (verbose > 2) Chi::log.Log() << "\nAssemblying RHS for group " + std::to_string(g);
+  if (verbose > 2) App().Log().Log() << "\nAssemblying RHS for group " + std::to_string(g);
 
   // copy the external source vector for group g into b
   VecSet(b_, 0.0);
@@ -832,7 +834,7 @@ Solver::Assemble_RHS(const unsigned int g, const int64_t verbose)
 void
 Solver::SolveOneGroupProblem(const unsigned int g, const int64_t verbose)
 {
-  if (verbose > 1) Chi::log.Log() << "Solving group: " << g;
+  if (verbose > 1) App().Log().Log() << "Solving group: " << g;
 
   KSPSetOperators(petsc_solver_.ksp, A_[g], A_[g]);
   KSPSolve(petsc_solver_.ksp, b_, x_[g]);
@@ -840,13 +842,13 @@ Solver::SolveOneGroupProblem(const unsigned int g, const int64_t verbose)
   // this is required to compute the inscattering RHS correctly in parallel
   chi_math::PETScUtils::CommunicateGhostEntries(x_[g]);
 
-  if (verbose > 1) Chi::log.Log() << "Done solving group " << g;
+  if (verbose > 1) App().Log().Log() << "Done solving group " << g;
 }
 
 void
 Solver::Assemble_RHS_TwoGrid(const int64_t verbose)
 {
-  if (verbose > 2) Chi::log.Log() << "\nAssemblying RHS for two-grid ";
+  if (verbose > 2) App().Log().Log() << "\nAssemblying RHS for two-grid ";
 
   VecSet(b_, 0.0);
 
@@ -899,13 +901,13 @@ Solver::Assemble_RHS_TwoGrid(const int64_t verbose)
   VecAssemblyBegin(b_);
   VecAssemblyEnd(b_);
   //  VecView(b, PETSC_VIEWER_STDERR_WORLD);
-  //  chi::Exit(1234);
+  //  opensn::App::Exit(1234);
 }
 
 void
 Solver::Update_Flux_With_TwoGrid(const int64_t verbose)
 {
-  if (verbose > 2) Chi::log.Log() << "\nUpdating Thermal fluxes from two-grid";
+  if (verbose > 2) App().Log().Log() << "\nUpdating Thermal fluxes from two-grid";
 
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;

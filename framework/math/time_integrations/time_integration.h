@@ -6,14 +6,14 @@
 namespace chi_math
 {
 
-class TimeIntegration : public ChiObject
+class TimeIntegration : public chi::ChiObject
 {
 private:
   SteppingMethod method_;
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit TimeIntegration(const chi::InputParameters& params);
+  explicit TimeIntegration(opensn::App& app, const chi::InputParameters& params);
 
   SteppingMethod Method() const;
 

@@ -1,15 +1,12 @@
 #include "framework/math/quadratures/spherical_angular_quadrature.h"
-
+#include "framework/logging/log.h"
 #include <algorithm>
 #include <limits>
 #include <numeric>
 
-#include "framework/runtime.h"
-#include "framework/logging/log.h"
-
 chi_math::SphericalAngularQuadrature::SphericalAngularQuadrature(
-  const chi_math::Quadrature& quad_polar, const bool verbose)
-  : CurvilinearAngularQuadrature()
+  opensn::App& app, const chi_math::Quadrature& quad_polar, const bool verbose)
+  : CurvilinearAngularQuadrature(app)
 {
   Initialize(quad_polar, verbose);
 }
@@ -122,26 +119,28 @@ chi_math::SphericalAngularQuadrature::Initialize(const chi_math::Quadrature& qua
   //  --------------------------------------------------------------------------
   //  print
   //  --------------------------------------------------------------------------
-  if (verbose)
-  {
-    Chi::log.Log() << "map_directions" << std::endl;
-    for (const auto& dir : map_directions_)
-    {
-      Chi::log.Log() << "polar level " << dir.first << " : ";
-      for (const auto& q : dir.second)
-        Chi::log.Log() << q << ", ";
-      Chi::log.Log() << std::endl;
-    }
-    Chi::log.Log() << "curvilinear product quadrature : spherical" << std::endl;
-    for (size_t k = 0; k < weights_.size(); ++k)
-      Chi::log.Log() << "angle index " << k << ": weight = " << weights_[k] << ", (phi, theta) = ("
-                     << abscissae_[k].phi << ", " << abscissae_[k].theta << ")"
-                     << ", omega = " << omegas_[k].PrintStr()
-                     << ", fac_diamond_difference = " << fac_diamond_difference_[k]
-                     << ", fac_streaming_operator = " << fac_streaming_operator_[k] << std::endl;
-    const auto sum_weights = std::accumulate(weights_.begin(), weights_.end(), 0.0);
-    Chi::log.Log() << "sum(weights) = " << sum_weights << std::endl;
-  }
+  // FIXME: make this work
+  // if (verbose)
+  // {
+  //   Chi::log.Log() << "map_directions" << std::endl;
+  //   for (const auto& dir : map_directions_)
+  //   {
+  //     Chi::log.Log() << "polar level " << dir.first << " : ";
+  //     for (const auto& q : dir.second)
+  //       Chi::log.Log() << q << ", ";
+  //     Chi::log.Log() << std::endl;
+  //   }
+  //   Chi::log.Log() << "curvilinear product quadrature : spherical" << std::endl;
+  //   for (size_t k = 0; k < weights_.size(); ++k)
+  //     Chi::log.Log() << "angle index " << k << ": weight = " << weights_[k] << ", (phi, theta) =
+  //     ("
+  //                    << abscissae_[k].phi << ", " << abscissae_[k].theta << ")"
+  //                    << ", omega = " << omegas_[k].PrintStr()
+  //                    << ", fac_diamond_difference = " << fac_diamond_difference_[k]
+  //                    << ", fac_streaming_operator = " << fac_streaming_operator_[k] << std::endl;
+  //   const auto sum_weights = std::accumulate(weights_.begin(), weights_.end(), 0.0);
+  //   Chi::log.Log() << "sum(weights) = " << sum_weights << std::endl;
+  // }
 }
 
 void

@@ -17,8 +17,8 @@ MaterialProperty::GetInputParameters()
   return params;
 }
 
-MaterialProperty::MaterialProperty(const chi::InputParameters& params)
-  : name_(params.GetParamValue<std::string>("name"))
+MaterialProperty::MaterialProperty(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params), name_(params.GetParamValue<std::string>("name"))
 {
 }
 

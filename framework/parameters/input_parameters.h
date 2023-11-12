@@ -14,7 +14,8 @@ enum class InputParameterTag
 {
   NONE = 0,
   OPTIONAL = 1,
-  REQUIRED = 2
+  REQUIRED = 2,
+  PRIVATE = 3
 };
 
 /**Class for handling input parameters.*/
@@ -132,6 +133,13 @@ public:
 
   /**Specialization for array type parameters.*/
   void AddRequiredParameterArray(const std::string& name, const std::string& doc_string);
+
+  template <typename T>
+  void AddPrivateParameter(const std::string& name, T value, const std::string& doc_string)
+  {
+    parameter_class_tags_[name] = InputParameterTag::PRIVATE;
+    parameter_doc_string_[name] = doc_string;
+  }
 
   template <typename T>
   void ChangeExistingParamToOptional(const std::string& name,

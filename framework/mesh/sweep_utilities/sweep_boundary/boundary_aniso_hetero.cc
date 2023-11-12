@@ -1,7 +1,7 @@
 #include "framework/mesh/sweep_utilities/sweep_boundary/boundary_aniso_hetero.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/quadratures/angular_quadrature_base.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 namespace chi_mesh::sweep_management
@@ -17,8 +17,8 @@ BoundaryIncidentHeterogeneous::HeterogeneousPsiIncoming(uint64_t cell_local_id,
 {
   if (local_cell_data_.empty())
   {
-    Chi::log.LogAllError() << "HeterogeneousPsiIncoming call made to a heterogeneous boundary "
-                              "with that information not yet set up.";
+    App().Log().LogAllError() << "HeterogeneousPsiIncoming call made to a heterogeneous boundary "
+                                 "with that information not yet set up.";
     exit(EXIT_FAILURE);
   }
 

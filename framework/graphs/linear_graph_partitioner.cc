@@ -1,10 +1,8 @@
 #include "framework/graphs/linear_graph_partitioner.h"
-
+#include "framework/app.h"
 #include "framework/object_factory.h"
 #include "framework/utils/utils.h"
-
 #include "framework/logging/log.h"
-
 #include <cmath>
 
 namespace chi
@@ -35,8 +33,8 @@ LinearGraphPartitioner::GetInputParameters()
   return params;
 }
 
-LinearGraphPartitioner::LinearGraphPartitioner(const InputParameters& params)
-  : GraphPartitioner(params), all_to_rank_(params.GetParamValue<int>("all_to_rank"))
+LinearGraphPartitioner::LinearGraphPartitioner(opensn::App& app, const InputParameters& params)
+  : GraphPartitioner(app, params), all_to_rank_(params.GetParamValue<int>("all_to_rank"))
 {
 }
 
@@ -45,7 +43,7 @@ LinearGraphPartitioner::Partition(const std::vector<std::vector<uint64_t>>& grap
                                   const std::vector<chi_mesh::Vector3>&,
                                   const int number_of_parts)
 {
-  Chi::log.Log0Verbose1() << "Partitioning with LinearGraphPartitioner";
+  App().Log().Log0Verbose1() << "Partitioning with LinearGraphPartitioner";
 
   const std::vector<chi::SubSetInfo> sub_sets = chi::MakeSubSets(graph.size(), number_of_parts);
 
@@ -61,7 +59,7 @@ LinearGraphPartitioner::Partition(const std::vector<std::vector<uint64_t>>& grap
   else
     pids.assign(graph.size(), all_to_rank_);
 
-  Chi::log.Log0Verbose1() << "Done partitioning with LinearGraphPartitioner";
+  App().Log().Log0Verbose1() << "Done partitioning with LinearGraphPartitioner";
   return pids;
 }
 

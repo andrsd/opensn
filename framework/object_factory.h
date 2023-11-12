@@ -19,7 +19,8 @@
  * \note Remember to include the header "ChiObject/ChiObjectFactory.h".*/
 #define RegisterChiObject(namespace_name, object_name)                                             \
   static char ChiObjectFactoryJoinWordsB(unique_var_name_object_##object_name##_, __COUNTER__) =   \
-    ChiObjectFactory::AddObjectToRegistry<object_name, ChiObject>(#namespace_name, #object_name)
+    ChiObjectFactory::AddObjectToRegistry<object_name, chi::ChiObject>(#namespace_name,            \
+                                                                       #object_name)
 
 /**Macro for registering an object (parameters only) within the
  * ChiObjectFactory singleton.
@@ -50,16 +51,14 @@
   static char ChiObjectFactoryJoinWordsB(unique_var_name_syntax_##block_name##_, __COUNTER__) =    \
     ChiObjectFactory::AddSyntaxBlockToRegistry(#namespace_name, #block_name, syntax_function)
 
-class ChiObject;
-
 /**Singleton object for handling the registration and making of ChiObjects.*/
 class ChiObjectFactory
 {
 public:
-  using ObjectPtr = std::shared_ptr<ChiObject>;
+  using ObjectPtr = std::shared_ptr<chi::ChiObject>;
 
   using ObjectGetInParamsFunc = chi::InputParameters (*)();
-  using ObjectConstructorFunc = ObjectPtr (*)(const chi::InputParameters&);
+  using ObjectConstructorFunc = ObjectPtr (*)(opensn::App& app, const chi::InputParameters&);
 
   // Structure storing the entities necessary for creating an object
   struct ObjectRegistryEntry
@@ -68,31 +67,27 @@ public:
     ObjectConstructorFunc constructor_func = nullptr;
   };
 
+  ChiObjectFactory(opensn::App& app);
   // Deleted copy, move constructors and copy assignment operator
   ChiObjectFactory(const ChiObjectFactory&) = delete;
   ChiObjectFactory(const ChiObjectFactory&&) = delete;
   ChiObjectFactory& operator=(const ChiObjectFactory&) = delete;
 
-  /**Access to the singleton*/
-  static ChiObjectFactory& GetInstance() noexcept;
-
   /**Returns a constant reference to the object registry.*/
-  const std::map<std::string, ObjectRegistryEntry>& Registry() const;
+  static const std::map<std::string, ObjectRegistryEntry>& Registry();
   /**Checks if the object registry has a specific text key.*/
-  bool RegistryHasKey(const std::string& key) const;
+  static bool RegistryHasKey(const std::string& key);
 
   template <typename T, typename base_T>
   static char AddObjectToRegistry(const std::string& namespace_name, const std::string& object_name)
   {
-    auto& object_maker = GetInstance();
-
     const std::string name = namespace_name + "::" + object_name;
-    object_maker.AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
+    AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
 
     ObjectRegistryEntry reg_entry;
     reg_entry.get_in_params_func = &CallGetInputParamsFunction<T>;
     reg_entry.constructor_func = &CallObjectConstructor<T, base_T>;
-    object_maker.object_registry_.insert(std::make_pair(name, reg_entry));
+    object_registry_.insert(std::make_pair(name, reg_entry));
 
     return 0;
   }
@@ -101,14 +96,12 @@ public:
   static char AddObjectToRegistryParamsOnly(const std::string& namespace_name,
                                             const std::string& object_name)
   {
-    auto& object_maker = GetInstance();
-
     const std::string name = namespace_name + "::" + object_name;
-    object_maker.AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
+    AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
 
     ObjectRegistryEntry reg_entry;
     reg_entry.get_in_params_func = &CallGetInputParamsFunction<T>;
-    object_maker.object_registry_.insert(std::make_pair(name, reg_entry));
+    object_registry_.insert(std::make_pair(name, reg_entry));
 
     return 0;
   }
@@ -117,14 +110,12 @@ public:
                                        const std::string& block_name,
                                        ObjectGetInParamsFunc syntax_function)
   {
-    auto& object_maker = GetInstance();
-
     const std::string name = namespace_name + "::" + block_name;
-    object_maker.AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
+    AssertRegistryKeyAvailable(name, __PRETTY_FUNCTION__);
 
     ObjectRegistryEntry reg_entry;
     reg_entry.get_in_params_func = syntax_function;
-    object_maker.object_registry_.insert(std::make_pair(name, reg_entry));
+    object_registry_.insert(std::make_pair(name, reg_entry));
 
     return 0;
   }
@@ -139,16 +130,14 @@ public:
                                     const chi::ParameterBlock& params) const;
 
   /**Returns the input parameters of a registered object.*/
-  chi::InputParameters GetRegisteredObjectParameters(const std::string& type) const;
+  static chi::InputParameters GetRegisteredObjectParameters(const std::string& type);
 
   /**\brief Dumps the object registry to stdout.*/
   void DumpRegister() const;
 
 private:
-  std::map<std::string, ObjectRegistryEntry> object_registry_;
-
-  /**Private constructor because this is a singleton.*/
-  ChiObjectFactory() = default;
+  opensn::App& app_;
+  static std::map<std::string, ObjectRegistryEntry> object_registry_;
 
   /**Utility redirection to call an object's static `GetInputParameters`
    * function.*/
@@ -161,13 +150,14 @@ private:
   /**Utility redirection to call an object's constructor with a specified list
    * of input parameters.*/
   template <typename T, typename base_T>
-  static std::shared_ptr<base_T> CallObjectConstructor(const chi::InputParameters& params)
+  static std::shared_ptr<base_T> CallObjectConstructor(opensn::App& app,
+                                                       const chi::InputParameters& params)
   {
-    return std::make_shared<T>(params);
+    return std::make_shared<T>(app, params);
   }
 
   /**Checks that the registry key is available and throws a
    * `std::logical_error` if it is not.*/
-  void AssertRegistryKeyAvailable(const std::string& key,
-                                  const std::string& calling_function) const;
+  static void AssertRegistryKeyAvailable(const std::string& key,
+                                         const std::string& calling_function);
 };

@@ -3,6 +3,11 @@
 #include "framework/graphs/directed_graph_vertex.h"
 #include <stack>
 
+namespace opensn
+{
+class App;
+}
+
 /**Simple implementation of a directed graph. This implementation was
  * considered to serve more versatile strategies with regards to grid
  * parallel partitioning.*/
@@ -13,7 +18,11 @@ public:
    * they are removed from the graph.*/
   class VertexAccessor
   {
+  public:
+    VertexAccessor(opensn::App& app);
+
   private:
+    opensn::App& app_;
     std::vector<GraphVertex> vertices_;
     std::vector<bool> vertex_valid_flags_;
 
@@ -109,6 +118,10 @@ public:
 
   VertexAccessor vertices;
 
+  DirectedGraph(opensn::App& app);
+
+  ~DirectedGraph();
+
   /** Adds a vertex to the graph. By default <I>context</I> is
    * assumed to be nullptr.*/
   void AddVertex(size_t id, void* context = nullptr);
@@ -202,5 +215,6 @@ public:
   /**Clears all the data structures associated with the graph.*/
   void Clear();
 
-  ~DirectedGraph();
+private:
+  opensn::App& app_;
 };

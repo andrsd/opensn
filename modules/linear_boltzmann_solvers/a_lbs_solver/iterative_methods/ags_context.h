@@ -20,10 +20,7 @@ struct AGSContext : public chi_math::LinearSolverContext
   LBSSolver& lbs_solver_;
   std::vector<LinSolveBaseTypePtr> sub_solvers_list_;
 
-  AGSContext(LBSSolver& lbs_solver, std::vector<LinSolveBaseTypePtr> sub_solvers_list)
-    : lbs_solver_(lbs_solver), sub_solvers_list_(std::move(sub_solvers_list))
-  {
-  }
+  AGSContext(LBSSolver& lbs_solver, std::vector<LinSolveBaseTypePtr> sub_solvers_list);
 
   std::pair<int64_t, int64_t> SystemSize();
 

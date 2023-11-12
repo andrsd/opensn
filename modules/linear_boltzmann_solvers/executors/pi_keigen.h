@@ -9,7 +9,7 @@ namespace lbs
 class XXPowerIterationKEigen : public chi_physics::Solver
 {
 protected:
-  LBSSolver& lbs_solver_;
+  std::shared_ptr<LBSSolver> lbs_solver_;
   size_t max_iters_;
   double k_tolerance_;
   bool reinit_phi_1_;
@@ -29,7 +29,7 @@ protected:
 public:
   static chi::InputParameters GetInputParameters();
 
-  explicit XXPowerIterationKEigen(const chi::InputParameters& params);
+  explicit XXPowerIterationKEigen(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

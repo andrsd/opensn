@@ -1,5 +1,5 @@
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include <iostream>
@@ -10,7 +10,7 @@ namespace chi_physics
 void
 MultiGroupXS::ExportToChiXSFile(const std::string& file_name, const double fission_scaling) const
 {
-  Chi::log.Log() << "Exporting transport cross section to file: " << file_name;
+  App().Log().Log() << "Exporting transport cross section to file: " << file_name;
 
   // Define utility functions
 
@@ -165,12 +165,12 @@ MultiGroupXS::ExportToChiXSFile(const std::string& file_name, const double fissi
 
   ofile.close();
 
-  Chi::log.Log0Verbose1() << "Done exporting transport "
-                             "cross section to file: "
-                          << file_name;
+  App().Log().Log0Verbose1() << "Done exporting transport "
+                                "cross section to file: "
+                             << file_name;
 }
 
-#ifdef OPENSN_WITH_LUA
+#if 0
 void
 MultiGroupXS::PushLuaTable(lua_State* L) const
 {

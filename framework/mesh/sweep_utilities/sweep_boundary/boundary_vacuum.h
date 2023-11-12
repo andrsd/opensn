@@ -19,9 +19,10 @@ private:
 
 public:
   explicit BoundaryVaccuum(
+    opensn::App& app,
     size_t in_num_groups,
     chi_math::CoordinateSystemType coord_type = chi_math::CoordinateSystemType::CARTESIAN)
-    : SweepBoundary(BoundaryType::INCIDENT_VACCUUM, in_num_groups, coord_type),
+    : SweepBoundary(app, BoundaryType::INCIDENT_VACCUUM, in_num_groups, coord_type),
       boundary_flux_(in_num_groups, 0.0)
   {
   }

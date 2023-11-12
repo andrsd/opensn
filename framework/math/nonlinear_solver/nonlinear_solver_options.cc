@@ -59,8 +59,8 @@ NonLinearSolverOptions::GetInputParameters()
   return params;
 }
 
-NonLinearSolverOptions::NonLinearSolverOptions(const chi::InputParameters& params)
-  : ChiObject(params),
+NonLinearSolverOptions::NonLinearSolverOptions(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params),
     nl_method_(params.GetParamValue<std::string>("nl_method")),
     l_method_(params.GetParamValue<std::string>("l_method")),
     pc_options_(params.GetParam("pc_options")),

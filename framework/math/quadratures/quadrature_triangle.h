@@ -11,7 +11,7 @@ class chi_math::QuadratureTriangle : public chi_math::Quadrature
 {
 public:
   /**Initializes quadratures for use on triangles.*/
-  explicit QuadratureTriangle(QuadratureOrder order);
+  explicit QuadratureTriangle(opensn::App& app, QuadratureOrder order);
 
   /*** The Dunavant rules are for triangles. This function takes
   permutation points and weights in a specific format as input and

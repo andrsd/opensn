@@ -13,12 +13,12 @@ namespace lbs
 class TransientSolver : public chi_physics::Solver
 {
 protected:
-  LBSSolver& lbs_solver_;
+  std::shared_ptr<LBSSolver> lbs_solver_;
   std::shared_ptr<chi_math::TimeIntegration> time_integration_;
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit TransientSolver(const chi::InputParameters& params);
+  explicit TransientSolver(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

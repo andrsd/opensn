@@ -3,15 +3,24 @@
 namespace chi_math
 {
 
-LinearSolver::LinearSolver(const std::string& iterative_method, LinSolveContextPtr context_ptr)
-  : solver_name_(iterative_method), iterative_method_(iterative_method), context_ptr_(context_ptr)
+LinearSolver::LinearSolver(opensn::App& app,
+                           const std::string& iterative_method,
+                           LinSolveContextPtr context_ptr)
+  : app_(app),
+    solver_name_(iterative_method),
+    iterative_method_(iterative_method),
+    context_ptr_(context_ptr)
 {
 }
 
-LinearSolver::LinearSolver(const std::string& solver_name,
+LinearSolver::LinearSolver(opensn::App& app,
+                           const std::string& solver_name,
                            const std::string& iterative_method,
                            LinSolveContextPtr context_ptr)
-  : solver_name_(solver_name), iterative_method_(iterative_method), context_ptr_(context_ptr)
+  : app_(app),
+    solver_name_(solver_name),
+    iterative_method_(iterative_method),
+    context_ptr_(context_ptr)
 {
 }
 

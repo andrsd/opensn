@@ -1,5 +1,5 @@
 #include "framework/physics/physics_material/multi_group_xs/single_state_mgxs.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include <algorithm>
 #include <string>
@@ -122,8 +122,7 @@ SingleStateMGXS::MakeCombined(std::vector<std::pair<int, double>>& combinations)
   for (auto combo : combinations)
   {
     // get the cross section from the lua stack
-    std::shared_ptr<MultiGroupXS> xs;
-    xs = Chi::GetStackItemPtr(Chi::multigroup_xs_stack, combo.first, std::string(__FUNCTION__));
+    auto xs = App().GetMultiGroupXS(combo.first, std::string(__FUNCTION__));
     xsecs.push_back(xs);
 
     // increment densities
@@ -303,7 +302,7 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
   // Open Chi XS file
 
-  Chi::log.Log() << "Reading Chi cross section file \"" << file_name << "\"\n";
+  App().Log().Log() << "Reading Chi cross section file \"" << file_name << "\"\n";
 
   // opens and checks if open
   std::ifstream file;
@@ -613,9 +612,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(sigma_f_))
         {
-          Chi::log.Log0Warning() << "The fission cross section specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The fission cross section specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           sigma_f_.clear();
         }
         else if (not IsNonNegative(sigma_f_))
@@ -629,9 +628,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(nu_sigma_f_))
         {
-          Chi::log.Log0Warning() << "The production cross-section specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The production cross-section specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           nu_sigma_f_.clear();
         }
         else if (not IsNonNegative(nu_sigma_f_))
@@ -647,9 +646,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(nu))
         {
-          Chi::log.Log0Warning() << "The total fission neutron yield specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The total fission neutron yield specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           nu.clear();
         }
         else if (std::any_of(
@@ -678,9 +677,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(nu_prompt))
         {
-          Chi::log.Log0Warning() << "The prompt fission neutron yield specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The prompt fission neutron yield specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           nu_prompt.clear();
         }
         else if (std::any_of(nu_prompt.begin(),
@@ -697,9 +696,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(nu_delayed))
         {
-          Chi::log.Log0Warning() << "The delayed fission neutron yield specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The delayed fission neutron yield specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           nu_prompt.clear();
         }
         else if (not IsNonNegative(nu_delayed))
@@ -713,9 +712,9 @@ SingleStateMGXS::MakeFromChiXSFile(const std::string& file_name)
 
         if (not HasNonZero(beta))
         {
-          Chi::log.Log0Warning() << "The delayed neutron fraction specified in "
-                                 << "\"" << file_name << "\" is uniformly zero..."
-                                 << "Clearing it.";
+          App().Log().Log0Warning() << "The delayed neutron fraction specified in "
+                                    << "\"" << file_name << "\" is uniformly zero..."
+                                    << "Clearing it.";
           beta.clear();
         }
         else if (std::any_of(
@@ -1081,7 +1080,7 @@ SingleStateMGXS::ComputeAbsorption()
   // estimate from a transfer matrix
   else
   {
-    Chi::log.Log0Warning() << "Estimating absorption from the transfer matrices.";
+    App().Log().Log0Warning() << "Estimating absorption from the transfer matrices.";
 
     const auto& S0 = transfer_matrices_[0];
     for (size_t g = 0; g < num_groups_; ++g)
@@ -1104,9 +1103,9 @@ SingleStateMGXS::ComputeAbsorption()
 
       // TODO: Should negative absorption be allowed?
       if (sigma_a_[g] < 0.0)
-        Chi::log.Log0Warning() << "Negative absorption cross section encountered "
-                               << "in group " << g << " when estimating from the "
-                               << "transfer matrices";
+        App().Log().Log0Warning() << "Negative absorption cross section encountered "
+                                  << "in group " << g << " when estimating from the "
+                                  << "transfer matrices";
     } // for g
   }   // if scattering present
 }
@@ -1148,10 +1147,10 @@ SingleStateMGXS::ComputeDiffusionParameters()
     if (sig_1 >= sigma_t_[g])
     {
       sig_1 = 0.0;
-      Chi::log.Log0Warning() << "Transport corrected diffusion coefficient failed for group " << g
-                             << " in call to " << __FUNCTION__ << ". "
-                             << "sigma_t=" << sigma_t_[g] << " sigs_g_(m=1)=" << sig_1
-                             << ". Setting sigs_g_(m=1) to zero for this group.";
+      App().Log().Log0Warning() << "Transport corrected diffusion coefficient failed for group "
+                                << g << " in call to " << __FUNCTION__ << ". "
+                                << "sigma_t=" << sigma_t_[g] << " sigs_g_(m=1)=" << sig_1
+                                << ". Setting sigs_g_(m=1) to zero for this group.";
     }
 
     // compute the diffusion coefficient

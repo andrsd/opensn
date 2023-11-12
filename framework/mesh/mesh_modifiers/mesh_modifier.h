@@ -6,16 +6,13 @@ namespace chi_mesh
 {
 
 /**Base class for mesh modifiers*/
-class MeshModifier : public ChiObject
+class MeshModifier : public chi::ChiObject
 {
 public:
-  explicit MeshModifier(const chi::InputParameters& params);
-
-  virtual void Apply() = 0;
+  explicit MeshModifier(opensn::App& app, const chi::InputParameters& params);
   virtual ~MeshModifier() = default;
 
-protected:
-  MeshModifier() = default;
+  virtual void Apply() = 0;
 };
 
 } // namespace chi_mesh

@@ -10,7 +10,7 @@ WGSContext::WGSContext(LBSSolver& lbs_solver,
                        Source lhs_scope,
                        Source rhs_scope,
                        bool log_info)
-  : chi_math::LinearSolverContext(),
+  : chi_math::LinearSolverContext(lbs_solver.App()),
     lbs_solver_(lbs_solver),
     groupset_(groupset),
     set_source_function_(set_source_function),

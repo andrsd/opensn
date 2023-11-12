@@ -1,13 +1,10 @@
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_async_comm.h"
-
 #include "framework/mpi/mpi_comm_set.h"
-
 #include "framework/mesh/sweep_utilities/fluds/fluds.h"
 #include "framework/mesh/sweep_utilities/spds/spds.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_fluds.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 
 #define uint unsigned int
@@ -120,9 +117,9 @@ CBC_ASynchronousCommunicator::ReceiveData()
   {
     int message_available = 0;
     MPI_Status status;
-    chi::MPI_Info::Call(MPI_Iprobe(comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+    chi::MPI_Info::Call(MPI_Iprobe(comm_set_.MapIonJ(locJ, App().LocationID()),
                                    static_cast<int>(angle_set_id_),
-                                   comm_set_.LocICommunicator(Chi::mpi.location_id),
+                                   comm_set_.LocICommunicator(App().LocationID()),
                                    &message_available,
                                    &status));
 
@@ -134,9 +131,9 @@ CBC_ASynchronousCommunicator::ReceiveData()
       chi::MPI_Info::Call(MPI_Recv(recv_buffer.data(),
                                    num_items,
                                    MPI_BYTE,
-                                   comm_set_.MapIonJ(locJ, Chi::mpi.location_id),
+                                   comm_set_.MapIonJ(locJ, App().LocationID()),
                                    status.MPI_TAG,
-                                   comm_set_.LocICommunicator(Chi::mpi.location_id),
+                                   comm_set_.LocICommunicator(App().LocationID()),
                                    MPI_STATUS_IGNORE));
 
       chi_data_types::ByteArray data_array(recv_buffer);

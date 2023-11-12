@@ -1,7 +1,7 @@
 #include "modules/linear_boltzmann_solvers/executors/pi_keigen.h"
 #include "framework/object_factory.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/ags_linear_solver.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/logging/log_exceptions.h"
 #include "framework/utils/timer.h"
@@ -38,18 +38,17 @@ XXPowerIterationKEigen::GetInputParameters()
   return params;
 }
 
-XXPowerIterationKEigen::XXPowerIterationKEigen(const chi::InputParameters& params)
-  : chi_physics::Solver(params),
-    lbs_solver_(Chi::GetStackItem<LBSSolver>(Chi::object_stack,
-                                             params.GetParamValue<size_t>("lbs_solver_handle"))),
+XXPowerIterationKEigen::XXPowerIterationKEigen(opensn::App& app, const chi::InputParameters& params)
+  : chi_physics::Solver(app, params),
+    lbs_solver_(App().GetStackObject<LBSSolver>(params.GetParamValue<size_t>("lbs_solver_handle"))),
     max_iters_(params.GetParamValue<size_t>("max_iters")),
     k_tolerance_(params.GetParamValue<double>("k_tol")),
     reinit_phi_1_(params.GetParamValue<bool>("reinit_phi_1")),
 
-    q_moments_local_(lbs_solver_.QMomentsLocal()),
-    phi_old_local_(lbs_solver_.PhiOldLocal()),
-    phi_new_local_(lbs_solver_.PhiNewLocal()),
-    groupsets_(lbs_solver_.Groupsets()),
+    q_moments_local_(lbs_solver_->QMomentsLocal()),
+    phi_old_local_(lbs_solver_->PhiOldLocal()),
+    phi_new_local_(lbs_solver_->PhiNewLocal()),
+    groupsets_(lbs_solver_->Groupsets()),
     front_gs_(groupsets_.front())
 {
 }
@@ -57,12 +56,12 @@ XXPowerIterationKEigen::XXPowerIterationKEigen(const chi::InputParameters& param
 void
 XXPowerIterationKEigen::Initialize()
 {
-  lbs_solver_.Initialize();
+  lbs_solver_->Initialize();
 
-  active_set_source_function_ = lbs_solver_.GetActiveSetSourceFunction();
-  primary_ags_solver_ = lbs_solver_.GetPrimaryAGSSolver();
+  active_set_source_function_ = lbs_solver_->GetActiveSetSourceFunction();
+  primary_ags_solver_ = lbs_solver_->GetPrimaryAGSSolver();
 
-  for (auto& wgs_solver : lbs_solver_.GetWGSSolvers())
+  for (auto& wgs_solver : lbs_solver_->GetWGSSolvers())
   {
     auto context = wgs_solver->GetContext();
     auto wgs_context = std::dynamic_pointer_cast<lbs::WGSContext>(context);
@@ -73,14 +72,14 @@ XXPowerIterationKEigen::Initialize()
     wgs_context->rhs_src_scope_.Unset(APPLY_AGS_FISSION_SOURCES); // rhs_scope
   }
 
-  primary_ags_solver_->SetVerbosity(lbs_solver_.Options().verbose_ags_iterations);
+  primary_ags_solver_->SetVerbosity(lbs_solver_->Options().verbose_ags_iterations);
 
-  front_wgs_solver_ = lbs_solver_.GetWGSSolvers().at(front_gs_.id_);
+  front_wgs_solver_ = lbs_solver_->GetWGSSolvers().at(front_gs_.id_);
   front_wgs_context_ = std::dynamic_pointer_cast<lbs::WGSContext>(front_wgs_solver_->GetContext());
 
   ChiLogicalErrorIf(not front_wgs_context_, ": Casting failure");
 
-  if (reinit_phi_1_) lbs_solver_.SetPhiVectorScalarValues(phi_old_local_, 1.0);
+  if (reinit_phi_1_) lbs_solver_->SetPhiVectorScalarValues(phi_old_local_, 1.0);
 }
 
 void
@@ -107,7 +106,7 @@ XXPowerIterationKEigen::Execute()
     primary_ags_solver_->Solve();
 
     // Recompute k-eigenvalue
-    double F_new = lbs_solver_.ComputeFissionProduction(phi_new_local_);
+    double F_new = lbs_solver_->ComputeFissionProduction(phi_new_local_);
     k_eff_ = F_new / F_prev * k_eff_;
     double reactivity = (k_eff_ - 1.0) / k_eff_;
 
@@ -120,39 +119,39 @@ XXPowerIterationKEigen::Execute()
     if (k_eff_change < std::max(k_tolerance_, 1.0e-12)) converged = true;
 
     // Print iteration summary
-    if (lbs_solver_.Options().verbose_outer_iterations)
+    if (lbs_solver_->Options().verbose_outer_iterations)
     {
       std::stringstream k_iter_info;
-      k_iter_info << Chi::program_timer.GetTimeString() << " "
+      k_iter_info << App().ProgramTimer().GetTimeString() << " "
                   << "  Iteration " << std::setw(5) << nit << "  k_eff " << std::setw(11)
                   << std::setprecision(7) << k_eff_ << "  k_eff change " << std::setw(12)
                   << k_eff_change << "  reactivity " << std::setw(10) << reactivity * 1e5;
       if (converged) k_iter_info << " CONVERGED\n";
 
-      Chi::log.Log() << k_iter_info.str();
+      App().Log().Log() << k_iter_info.str();
     }
 
     if (converged) break;
   } // for k iterations
 
   // Print summary
-  Chi::log.Log() << "\n";
-  Chi::log.Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff_;
-  Chi::log.Log() << "        Final change          :        " << std::setprecision(6)
-                 << k_eff_change
-                 << " (num_TrOps:" << front_wgs_context_->counter_applications_of_inv_op_ << ")"
-                 << "\n";
-  Chi::log.Log() << "\n";
+  App().Log().Log() << "\n";
+  App().Log().Log() << "        Final k-eigenvalue    :        " << std::setprecision(7) << k_eff_;
+  App().Log().Log() << "        Final change          :        " << std::setprecision(6)
+                    << k_eff_change
+                    << " (num_TrOps:" << front_wgs_context_->counter_applications_of_inv_op_ << ")"
+                    << "\n";
+  App().Log().Log() << "\n";
 
-  if (lbs_solver_.Options().use_precursors)
+  if (lbs_solver_->Options().use_precursors)
   {
-    lbs_solver_.ComputePrecursors();
-    chi_math::Scale(lbs_solver_.PrecursorsNewLocal(), 1.0 / k_eff_);
+    lbs_solver_->ComputePrecursors();
+    chi_math::Scale(lbs_solver_->PrecursorsNewLocal(), 1.0 / k_eff_);
   }
 
-  lbs_solver_.UpdateFieldFunctions();
+  lbs_solver_->UpdateFieldFunctions();
 
-  Chi::log.Log() << "LinearBoltzmann::KEigenvalueSolver execution completed\n\n";
+  App().Log().Log() << "LinearBoltzmann::KEigenvalueSolver execution completed\n\n";
 }
 
 void

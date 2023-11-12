@@ -19,8 +19,8 @@ FunctionDimAToDimB::GetInputParameters()
   return params;
 }
 
-FunctionDimAToDimB::FunctionDimAToDimB(const chi::InputParameters& params)
-  : ChiObject(params),
+FunctionDimAToDimB::FunctionDimAToDimB(opensn::App& app, const chi::InputParameters& params)
+  : ChiObject(app, params),
     input_dimension_(params.GetParamValue<size_t>("input_dimension")),
     output_dimension_(params.GetParamValue<size_t>("output_dimension"))
 {

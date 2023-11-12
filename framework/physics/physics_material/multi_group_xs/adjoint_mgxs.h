@@ -26,11 +26,10 @@ private:
   std::vector<std::vector<double>> transposed_production_matrices_;
 
 public:
-  AdjointMGXS() = delete;
   AdjointMGXS(const AdjointMGXS&) = delete;
   AdjointMGXS(AdjointMGXS&&) = delete;
 
-  explicit AdjointMGXS(const MultiGroupXS& xs);
+  explicit AdjointMGXS(opensn::App& app, const MultiGroupXS& xs);
 
   // Accessors
   const unsigned int NumGroups() const override { return xs_.NumGroups(); }

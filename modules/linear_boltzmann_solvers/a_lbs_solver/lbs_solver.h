@@ -48,11 +48,11 @@ public:
   typedef std::shared_ptr<chi_math::LinearSolver> LinSolvePtr;
 
 public:
-  explicit LBSSolver(const std::string& text_name);
+  explicit LBSSolver(opensn::App& app, const std::string& text_name);
   /**
    * Input parameters based construction.
    */
-  explicit LBSSolver(const chi::InputParameters& params);
+  explicit LBSSolver(opensn::App& app, const chi::InputParameters& params);
 
   LBSSolver(const LBSSolver&) = delete;
   LBSSolver& operator=(const LBSSolver&) = delete;

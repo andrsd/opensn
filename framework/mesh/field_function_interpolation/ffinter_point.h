@@ -17,7 +17,10 @@ protected:
   double point_value_ = 0.0;
 
 public:
-  FieldFunctionInterpolationPoint() : FieldFunctionInterpolation(ff_interpolation::Type::POINT) {}
+  explicit FieldFunctionInterpolationPoint(opensn::App& app)
+    : FieldFunctionInterpolation(app, ff_interpolation::Type::POINT)
+  {
+  }
 
   chi_mesh::Vector3& GetPointOfInterest() { return point_of_interest_; }
 

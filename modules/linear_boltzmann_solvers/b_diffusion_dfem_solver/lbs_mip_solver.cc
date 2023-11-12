@@ -25,7 +25,8 @@ DiffusionDFEMSolver::GetInputParameters()
   return params;
 }
 
-DiffusionDFEMSolver::DiffusionDFEMSolver(const chi::InputParameters& params) : LBSSolver(params)
+DiffusionDFEMSolver::DiffusionDFEMSolver(opensn::App& app, const chi::InputParameters& params)
+  : LBSSolver(app, params)
 {
 }
 
@@ -67,7 +68,7 @@ DiffusionDFEMSolver::InitializeWGSSolvers()
 
     // Make UnknownManager
     const size_t gs_G = groupset.groups_.size();
-    chi_math::UnknownManager uk_man;
+    chi_math::UnknownManager uk_man(App());
     uk_man.AddUnknown(chi_math::UnknownType::VECTOR_N, gs_G);
 
     // Make boundary conditions
@@ -125,7 +126,8 @@ DiffusionDFEMSolver::InitializeWGSSolvers()
     const auto& sdm = *discretization_;
 
     auto solver =
-      std::make_shared<acceleration::DiffusionMIPSolver>(std::string(TextName() + "_WGSolver"),
+      std::make_shared<acceleration::DiffusionMIPSolver>(App(),
+                                                         std::string(TextName() + "_WGSolver"),
                                                          sdm,
                                                          uk_man,
                                                          bcs,
@@ -159,7 +161,7 @@ DiffusionDFEMSolver::InitializeWGSSolvers()
       APPLY_FIXED_SOURCES | APPLY_AGS_SCATTER_SOURCES | APPLY_AGS_FISSION_SOURCES,
       options_.verbose_inner_iterations);
 
-    auto wgs_solver = std::make_shared<WGSLinearSolver>(mip_wgs_context_ptr);
+    auto wgs_solver = std::make_shared<WGSLinearSolver>(App(), mip_wgs_context_ptr);
 
     wgs_solvers_.push_back(wgs_solver);
   } // for groupset

@@ -18,10 +18,10 @@ PieceWiseLinearBase::PieceWiseLinearBase(const chi_mesh::MeshContinuum& grid,
                                          SDMType sdm_type,
                                          CoordinateSystemType cs_type)
   : FiniteElementBase(grid, cs_type, sdm_type, q_order),
-    line_quad_order_arbitrary_(q_order),
-    tri_quad_order_arbitrary_(q_order),
-    quad_quad_order_arbitrary_(q_order),
-    tet_quad_order_arbitrary_(q_order)
+    line_quad_order_arbitrary_(App(), q_order),
+    tri_quad_order_arbitrary_(App(), q_order),
+    quad_quad_order_arbitrary_(App(), q_order),
+    tet_quad_order_arbitrary_(App(), q_order)
 {
 }
 

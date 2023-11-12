@@ -28,7 +28,7 @@ class Quadrature;
 } // namespace chi_math
 
 /**Parent class for quadratures.*/
-class chi_math::Quadrature : public ChiObject
+class chi_math::Quadrature : public chi::ChiObject
 {
 public:
   QuadratureOrder order_;
@@ -44,8 +44,8 @@ protected:
   bool verbose_ = false;
 
 protected:
-  explicit Quadrature(const chi::InputParameters& params);
-  explicit Quadrature(QuadratureOrder in_order) : order_(in_order), range_({0, 0}) {}
+  explicit Quadrature(opensn::App& app, const chi::InputParameters& params);
+  explicit Quadrature(opensn::App& app, QuadratureOrder in_order);
 
 public:
   /**Get the range on which the quadrature is defined

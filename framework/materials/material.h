@@ -13,7 +13,7 @@ private:
 
 public:
   static InputParameters GetInputParameters();
-  explicit Material(const chi::InputParameters& params);
+  explicit Material(opensn::App& app, const chi::InputParameters& params);
 };
 
 } // namespace chi

@@ -18,7 +18,8 @@ ConstantTimeStepper::GetInputParameters()
   return params;
 }
 
-ConstantTimeStepper::ConstantTimeStepper(const chi::InputParameters& params) : TimeStepper(params)
+ConstantTimeStepper::ConstantTimeStepper(opensn::App& app, const chi::InputParameters& params)
+  : TimeStepper(app, params)
 {
 }
 

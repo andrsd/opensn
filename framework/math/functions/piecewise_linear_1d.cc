@@ -26,8 +26,8 @@ PiecewiseLinear1D::GetInputParameters()
   return params;
 }
 
-PiecewiseLinear1D::PiecewiseLinear1D(const chi::InputParameters& params)
-  : FunctionDimAToDimB(params),
+PiecewiseLinear1D::PiecewiseLinear1D(opensn::App& app, const chi::InputParameters& params)
+  : FunctionDimAToDimB(app, params),
     x_values_(params.GetParamVectorValue<double>("x_values")),
     y_values_(params.GetParamVectorValue<double>("y_values")),
     num_vals_(x_values_.size())

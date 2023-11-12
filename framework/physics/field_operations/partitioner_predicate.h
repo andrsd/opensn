@@ -14,12 +14,12 @@ class PartitionerPredicate : public FieldOperation
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit PartitionerPredicate(const chi::InputParameters& params);
+  explicit PartitionerPredicate(opensn::App& app, const chi::InputParameters& params);
 
   void Execute() override;
 
 protected:
-  chi::GraphPartitioner& partitioner_;
+  std::shared_ptr<chi::GraphPartitioner> partitioner_;
   const chi::ParameterBlock result_field_param_;
   const size_t num_partitions_;
   const size_t result_component_;

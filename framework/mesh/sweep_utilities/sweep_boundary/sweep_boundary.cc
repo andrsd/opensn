@@ -1,5 +1,5 @@
 #include "framework/mesh/sweep_utilities/sweep_boundary/sweep_boundary.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 
@@ -14,9 +14,9 @@ SweepBoundary::HeterogeneousPsiIncoming(uint64_t cell_local_id,
                                         int group_num,
                                         size_t gs_ss_begin)
 {
-  Chi::log.LogAllError()
+  App().Log().LogAllError()
     << "HeterogeneousPsiIncoming call made to boundary that has no such information.";
-  Chi::Exit(EXIT_FAILURE);
+  opensn::App::Exit(EXIT_FAILURE);
   return nullptr;
 }
 
@@ -27,9 +27,9 @@ SweepBoundary::HeterogeneousPsiOutgoing(uint64_t cell_local_id,
                                         unsigned int angle_num,
                                         size_t gs_ss_begin)
 {
-  Chi::log.LogAllError()
+  App().Log().LogAllError()
     << "HeterogeneousPsiOutgoing call made to boundary that has no such information.";
-  Chi::Exit(EXIT_FAILURE);
+  opensn::App::Exit(EXIT_FAILURE);
   return nullptr;
 }
 

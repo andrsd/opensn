@@ -7,6 +7,11 @@
 #include <utility>
 #include <petscsnes.h>
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_math
 {
 
@@ -17,9 +22,12 @@ public:
   typedef std::shared_ptr<NonLinearSolverContext> NLSolverContextPtr;
 
   explicit NonLinearSolver(
+    opensn::App& app,
     NLSolverContextPtr context_ptr,
     const chi::InputParameters& params = NonLinearSolverOptions::GetInputParameters());
   virtual ~NonLinearSolver();
+
+  opensn::App& App() const { return app_; }
 
   NonLinearSolverOptions& ToleranceOptions() { return options_; }
   void ApplyToleranceOptions();
@@ -54,6 +62,8 @@ protected:
   virtual void SetInitialGuess() = 0;
   virtual void PostSolveCallback();
 
+  opensn::App& app_;
+  MPI_Comm comm_;
   const std::string solver_name_;
 
   NLSolverContextPtr context_ptr_ = nullptr;

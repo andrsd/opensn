@@ -16,8 +16,13 @@ namespace chi_math
 {
 class SpatialDiscretization
 {
+private:
+  opensn::App& app_;
+
 public:
   const UnknownManager UNITARY_UNKNOWN_MANAGER;
+
+  opensn::App& App() const;
 
   /**Utility method for getting node indices seperately for domain internal
    * local nodes, and boundary nodes.*/
@@ -205,4 +210,7 @@ protected:
 private:
   const SpatialDiscretizationType type_;
 };
+
+typedef std::shared_ptr<SpatialDiscretization> SpatialDiscretizationPtr;
+
 } // namespace chi_math

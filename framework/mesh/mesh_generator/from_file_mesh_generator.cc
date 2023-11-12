@@ -1,12 +1,7 @@
 #include "framework/mesh/mesh_generator/from_file_mesh_generator.h"
-
 #include "framework/mesh/unpartitioned_mesh/unpartitioned_mesh.h"
-
 #include "framework/object_factory.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
-
 #include <filesystem>
 
 namespace chi_mesh
@@ -35,8 +30,8 @@ FromFileMeshGenerator::GetInputParameters()
   return params;
 }
 
-FromFileMeshGenerator::FromFileMeshGenerator(const chi::InputParameters& params)
-  : MeshGenerator(params),
+FromFileMeshGenerator::FromFileMeshGenerator(opensn::App& app, const chi::InputParameters& params)
+  : MeshGenerator(app, params),
     filename_(params.GetParamValue<std::string>("filename")),
     material_id_fieldname_(params.GetParamValue<std::string>("material_id_fieldname")),
     boundary_id_fieldname_(params.GetParamValue<std::string>("boundary_id_fieldname"))
@@ -61,9 +56,9 @@ FromFileMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMe
   const std::filesystem::path filepath(filename_);
   const std::string extension = filepath.extension();
 
-  auto umesh = std::make_unique<UnpartitionedMesh>();
+  auto umesh = std::make_unique<UnpartitionedMesh>(App());
 
-  Chi::log.Log() << "FromFileMeshGenerator: Generating UnpartitionedMesh";
+  App().Log().Log() << "FromFileMeshGenerator: Generating UnpartitionedMesh";
 
   if (extension == ".obj") umesh->ReadFromWavefrontOBJ(options);
   else if (extension == ".msh")
@@ -81,7 +76,7 @@ FromFileMeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMe
                        "\". Supported types limited to"
                        ".obj, .msh, .e, .vtu, .pvtu, .case.");
 
-  Chi::log.Log() << "FromFileMeshGenerator: Done generating UnpartitionedMesh";
+  App().Log().Log() << "FromFileMeshGenerator: Done generating UnpartitionedMesh";
   return umesh;
 }
 

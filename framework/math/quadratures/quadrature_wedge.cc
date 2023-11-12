@@ -6,11 +6,11 @@
 namespace chi_math
 {
 
-QuadratureWedge::QuadratureWedge(QuadratureOrder order) : Quadrature(order)
+QuadratureWedge::QuadratureWedge(opensn::App& app, QuadratureOrder order) : Quadrature(app, order)
 {
-  QuadratureGaussLegendre legendre(order);
+  QuadratureGaussLegendre legendre(app, order);
   legendre.SetRange({-1.0, 1.0});
-  QuadratureTriangle triangle(order);
+  QuadratureTriangle triangle(app, order);
 
   const size_t NL = legendre.qpoints_.size();
   const size_t NT = triangle.qpoints_.size();

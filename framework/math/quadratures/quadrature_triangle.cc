@@ -6,7 +6,8 @@
 #include <stdexcept>
 #include <cassert>
 
-chi_math::QuadratureTriangle::QuadratureTriangle(QuadratureOrder order) : Quadrature(order)
+chi_math::QuadratureTriangle::QuadratureTriangle(opensn::App& app, QuadratureOrder order)
+  : Quadrature(app, order)
 {
   double x = 0.0, y = 0.0, z = 0.0;
 
@@ -1198,7 +1199,7 @@ chi_math::QuadratureTriangle::QuadratureTriangle(QuadratureOrder order) : Quadra
 
     default:
     {
-      chi_math::QuadratureConical conical(order);
+      chi_math::QuadratureConical conical(App(), order);
       conical.Initialize_Conical_Product_Tri();
       qpoints_.swap(conical.qpoints_);
       weights_.swap(conical.weights_);

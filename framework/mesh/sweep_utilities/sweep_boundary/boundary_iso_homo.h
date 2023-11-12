@@ -19,10 +19,11 @@ private:
 
 public:
   explicit BoundaryIsotropicHomogenous(
+    opensn::App& app,
     size_t in_num_groups,
     std::vector<double> ref_boundary_flux,
     chi_math::CoordinateSystemType coord_type = chi_math::CoordinateSystemType::CARTESIAN)
-    : SweepBoundary(BoundaryType::INCIDENT_ISOTROPIC_HOMOGENOUS, in_num_groups, coord_type),
+    : SweepBoundary(app, BoundaryType::INCIDENT_ISOTROPIC_HOMOGENOUS, in_num_groups, coord_type),
       boundary_flux(std::move(ref_boundary_flux))
   {
   }

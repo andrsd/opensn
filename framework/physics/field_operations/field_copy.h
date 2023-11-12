@@ -25,7 +25,7 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**Constructor.*/
-  explicit FieldCopyOperation(const chi::InputParameters& params);
+  explicit FieldCopyOperation(opensn::App& app, const chi::InputParameters& params);
 
   void Execute() override;
 };

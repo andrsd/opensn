@@ -12,7 +12,7 @@ class Cell;
 namespace chi_physics
 {
 
-class FieldFunction : public ChiObject
+class FieldFunction : public chi::ChiObject
 {
 private:
   std::string text_name_;
@@ -24,10 +24,10 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**ObjectMaker based constructor.*/
-  explicit FieldFunction(const chi::InputParameters& params);
+  explicit FieldFunction(opensn::App& app, const chi::InputParameters& params);
 
   /**Conventional constructor.*/
-  FieldFunction(const std::string& text_name, chi_math::Unknown unknown);
+  FieldFunction(opensn::App& app, const std::string& text_name, chi_math::Unknown unknown);
 
   virtual ~FieldFunction() = default;
 
@@ -51,5 +51,7 @@ public:
     return 0.0;
   }
 };
+
+typedef std::shared_ptr<FieldFunction> FieldFunctionPtr;
 
 } // namespace chi_physics

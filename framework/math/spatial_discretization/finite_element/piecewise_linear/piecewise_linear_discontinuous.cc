@@ -2,7 +2,7 @@
 #include "framework/math/unknown_manager/unknown_manager.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/utils/timer.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include "framework/mpi/mpi_utils.h"
@@ -28,10 +28,11 @@ PieceWiseLinearDiscontinuous::New(const chi_mesh::MeshContinuum& grid,
                                   CoordinateSystemType cs_type)
 
 {
+  opensn::App& app = grid.App();
   const auto PWLD = SpatialDiscretizationType::PIECEWISE_LINEAR_DISCONTINUOUS;
   // First try to find an existing spatial discretization that matches the
   // one requested.
-  for (auto& sdm : Chi::sdm_stack)
+  for (auto& sdm : app.SdmStack())
     if (sdm->Type() == PWLD and std::addressof(sdm->Grid()) == std::addressof(grid) and
         sdm->GetCoordinateSystemType() == cs_type)
     {
@@ -51,7 +52,7 @@ PieceWiseLinearDiscontinuous::New(const chi_mesh::MeshContinuum& grid,
   auto new_sdm = std::shared_ptr<PieceWiseLinearDiscontinuous>(
     new PieceWiseLinearDiscontinuous(grid, q_order, cs_type));
 
-  Chi::sdm_stack.push_back(new_sdm);
+  app.SdmStack().push_back(new_sdm);
 
   return new_sdm;
 }
@@ -78,21 +79,21 @@ PieceWiseLinearDiscontinuous::OrderNodes()
   }
 
   // Allgather node_counts
-  locJ_block_size_.assign(Chi::mpi.process_count, 0);
+  locJ_block_size_.assign(App().ProcessCount(), 0);
   MPI_Allgather(&local_node_count,
                 1,
                 MPI_UNSIGNED_LONG_LONG,
                 locJ_block_size_.data(),
                 1,
                 MPI_UNSIGNED_LONG_LONG,
-                Chi::mpi.comm);
+                App().Comm());
 
   // Assign
   // local_block_address
   uint64_t running_block_address = 0;
-  for (int locI = 0; locI < Chi::mpi.process_count; ++locI)
+  for (int locI = 0; locI < App().ProcessCount(); ++locI)
   {
-    if (locI == Chi::mpi.location_id)
+    if (locI == App().LocationID())
       local_block_address_ = static_cast<int64_t>(running_block_address);
 
     running_block_address += locJ_block_size_[locI];
@@ -154,8 +155,8 @@ PieceWiseLinearDiscontinuous::OrderNodes()
   }
 
   // Print info
-  Chi::log.LogAllVerbose2() << "Local dof count, start, total " << local_node_count << " "
-                            << local_block_address_ << " " << global_node_count;
+  App().Log().LogAllVerbose2() << "Local dof count, start, total " << local_node_count << " "
+                               << local_block_address_ << " " << global_node_count;
 }
 
 void
@@ -267,7 +268,7 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(
     }   // for j
   }
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 }
 
 int64_t
@@ -282,7 +283,7 @@ PieceWiseLinearDiscontinuous::MapDOF(const chi_mesh::Cell& cell,
   size_t num_unknowns = unknown_manager.GetTotalUnknownStructureSize();
   size_t block_id = unknown_manager.MapUnknown(unknown_id, component);
 
-  if (cell.partition_id_ == Chi::mpi.location_id)
+  if (cell.partition_id_ == App().LocationID())
   {
     if (storage == chi_math::UnknownStorageType::BLOCK)
     {
@@ -315,10 +316,10 @@ PieceWiseLinearDiscontinuous::MapDOF(const chi_mesh::Cell& cell,
 
     if (!found)
     {
-      Chi::log.LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
-                             << "with global index " << cell.global_id_ << " and partition-ID "
-                             << cell.partition_id_;
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
+                                << "with global index " << cell.global_id_ << " and partition-ID "
+                                << cell.partition_id_;
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     if (storage == chi_math::UnknownStorageType::BLOCK)
@@ -350,7 +351,7 @@ PieceWiseLinearDiscontinuous::MapDOFLocal(const chi_mesh::Cell& cell,
   size_t num_unknowns = unknown_manager.GetTotalUnknownStructureSize();
   size_t block_id = unknown_manager.MapUnknown(unknown_id, component);
 
-  if (cell.partition_id_ == Chi::mpi.location_id)
+  if (cell.partition_id_ == App().LocationID())
   {
     if (storage == chi_math::UnknownStorageType::BLOCK)
     {
@@ -381,10 +382,10 @@ PieceWiseLinearDiscontinuous::MapDOFLocal(const chi_mesh::Cell& cell,
 
     if (!found)
     {
-      Chi::log.LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
-                             << "with global index " << cell.global_id_ << " and partition-ID "
-                             << cell.partition_id_;
-      Chi::Exit(EXIT_FAILURE);
+      App().Log().LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
+                                << "with global index " << cell.global_id_ << " and partition-ID "
+                                << cell.partition_id_;
+      opensn::App::Exit(EXIT_FAILURE);
     }
 
     if (storage == chi_math::UnknownStorageType::BLOCK)

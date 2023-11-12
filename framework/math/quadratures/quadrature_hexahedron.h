@@ -13,5 +13,5 @@ class chi_math::QuadratureHexahedron : public chi_math::Quadrature
 public:
   /**Initialzes a set of points for a quadrature integration over
    * the volume of a hexahedron.*/
-  explicit QuadratureHexahedron(QuadratureOrder order);
+  explicit QuadratureHexahedron(opensn::App& app, QuadratureOrder order);
 };

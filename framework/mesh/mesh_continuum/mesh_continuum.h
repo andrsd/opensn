@@ -7,8 +7,8 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum_local_cell_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum_global_cell_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum_vertex_handler.h"
-
 #include "framework/mpi/mpi.h"
+#include "framework/app.h"
 
 namespace chi_data_types
 {
@@ -35,6 +35,7 @@ private:
   typedef std::shared_ptr<chi::ChiMPICommunicatorSet> MPILocalCommSetPtr;
 
 private:
+  opensn::App& app_;
   std::vector<std::unique_ptr<Cell>> local_cells_; ///< Actual local cells
   std::vector<std::unique_ptr<Cell>> ghost_cells_; ///< Locally stored ghosts
 
@@ -61,14 +62,9 @@ private:
   std::map<uint64_t, std::string> boundary_id_map_;
 
 public:
-  MeshContinuum()
-    : local_cells(local_cells_),
-      cells(local_cells_,
-            ghost_cells_,
-            global_cell_id_to_local_id_map_,
-            global_cell_id_to_nonlocal_id_map_)
-  {
-  }
+  MeshContinuum(opensn::App& app);
+
+  opensn::App& App() const;
 
   void SetGlobalVertexCount(const uint64_t count) { global_vertex_count_ = count; }
   uint64_t GetGlobalVertexCount() const { return global_vertex_count_; }
@@ -84,18 +80,11 @@ public:
    */
   uint64_t MakeBoundaryID(const std::string& boundary_name) const;
 
-  static std::shared_ptr<MeshContinuum> New() { return std::make_shared<MeshContinuum>(); }
+  static std::shared_ptr<MeshContinuum> New(opensn::App& app);
 
   /**Method to be called if cells and nodes have been transferred
    * to another grid.*/
-  void ClearCellReferences()
-  {
-    local_cells_.clear();
-    ghost_cells_.clear();
-    global_cell_id_to_local_id_map_.clear();
-    global_cell_id_to_nonlocal_id_map_.clear();
-    vertices.Clear();
-  }
+  void ClearCellReferences();
 
   /**Export cells to python.
    *

@@ -8,7 +8,8 @@ namespace lbs::acceleration
 class DiffusionPWLCSolver : public DiffusionSolver
 {
 public:
-  DiffusionPWLCSolver(std::string text_name,
+  DiffusionPWLCSolver(opensn::App& app,
+                      std::string text_name,
                       const chi_math::SpatialDiscretization& sdm,
                       const chi_math::UnknownManager& uk_man,
                       std::map<uint64_t, BoundaryCondition> bcs,

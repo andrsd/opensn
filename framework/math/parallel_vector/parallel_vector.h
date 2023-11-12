@@ -2,8 +2,8 @@
 
 #include "framework/math/math.h"
 #include "framework/math/petsc_utils/petsc_forward_declarations.h"
-
 #include <cstdint>
+#include "mpi.h"
 
 namespace chi_math
 {

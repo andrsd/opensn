@@ -59,3 +59,8 @@ public:
   MeshHandler(const MeshHandler&) = delete;
   MeshHandler& operator=(const MeshHandler&) = delete;
 };
+
+namespace chi_mesh
+{
+typedef std::shared_ptr<MeshHandler> MeshHandlerPtr;
+}

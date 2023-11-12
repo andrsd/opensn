@@ -1,10 +1,12 @@
 #include "framework/graphs/directed_graph.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
 #include <sstream>
 #include <algorithm>
+
+chi::DirectedGraph::VertexAccessor::VertexAccessor(opensn::App& app) : app_(app)
+{
+}
 
 void
 chi::DirectedGraph::VertexAccessor::AddVertex(size_t id, void* context)
@@ -53,9 +55,18 @@ chi::GraphVertex&
 chi::DirectedGraph::VertexAccessor::operator[](size_t v)
 {
   if (not vertex_valid_flags_[v])
-    Chi::log.LogAllError() << "chi_graph::DirectedGraph::VertexAccessor: "
-                              "Invalid vertex accessed. Vertex may have been removed.";
+    app_.Log().LogAllError() << "chi_graph::DirectedGraph::VertexAccessor: "
+                                "Invalid vertex accessed. Vertex may have been removed.";
   return vertices_[v];
+}
+
+chi::DirectedGraph::DirectedGraph(opensn::App& app) : vertices(app), app_(app)
+{
+}
+
+chi::DirectedGraph::~DirectedGraph()
+{
+  Clear();
 }
 
 void
@@ -295,7 +306,7 @@ chi::DirectedGraph::FindApproxMinimumFAS()
 void
 chi::DirectedGraph::PrintGraphviz(int location_mask)
 {
-  if (Chi::mpi.location_id != location_mask) return;
+  if (app_.LocationID() != location_mask) return;
 
   std::stringstream o;
   std::string offset("    ");
@@ -322,7 +333,7 @@ chi::DirectedGraph::PrintGraphviz(int location_mask)
 void
 chi::DirectedGraph::PrintSubGraphviz(const std::vector<int>& verts_to_print, int location_mask)
 {
-  if (Chi::mpi.location_id != location_mask) return;
+  if (app_.LocationID() != location_mask) return;
 
   std::stringstream o;
   std::string offset("    ");
@@ -364,8 +375,8 @@ chi::DirectedGraph::RemoveCyclicDependencies()
   int iter = 0;
   while (not SCCs.empty())
   {
-    if (Chi::log.GetVerbosity() >= chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2)
-      Chi::log.LogAll() << "Inter cell cyclic dependency removal. Iteration " << ++iter;
+    if (app_.Log().GetVerbosity() >= chi::ChiLog::LOG_LVL::LOG_0VERBOSE_2)
+      app_.Log().LogAll() << "Inter cell cyclic dependency removal. Iteration " << ++iter;
 
     // Remove bi-connected then tri-connected SCCs then n-connected
     for (auto& subDG : SCCs)
@@ -397,7 +408,7 @@ chi::DirectedGraph::RemoveCyclicDependencies()
       else
       {
         // Add vertices to temporary graph
-        chi::DirectedGraph TG; // Temp Graph
+        chi::DirectedGraph TG(app_); // Temp Graph
         for (size_t k = 0; k < subDG.size(); ++k)
           TG.AddVertex();
 
@@ -476,9 +487,4 @@ void
 chi::DirectedGraph::Clear()
 {
   vertices.clear();
-}
-
-chi::DirectedGraph::~DirectedGraph()
-{
-  Clear();
 }

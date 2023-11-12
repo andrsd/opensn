@@ -19,12 +19,11 @@
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweepers/cbc_angle_set.h"
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweep_chunks/aah_sweep_chunk.h"
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweep_chunks/cbc_sweep_chunk.h"
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi.h"
 #include "framework/utils/timer.h"
 #include "framework/utils/utils.h"
-#include "framework/console/console.h"
 #include "framework/logging/log_exceptions.h"
 #include <iomanip>
 
@@ -32,7 +31,7 @@
   "When using PARMETIS type partitioning then groupset iterative method"                           \
   " must be NPT_CLASSICRICHARDSON_CYCLES or NPT_GMRES_CYCLES"
 
-#define IsParallel Chi::mpi.process_count > 1
+#define IsParallel (App().ProcessCount() > 1)
 
 #define IsPartitionTypeParmetis                                                                    \
   mesher.options.partition_type == chi_mesh::VolumeMesher::PartitionType::PARMETIS
@@ -65,8 +64,8 @@ namespace lbs
 
 RegisterChiObject(lbs, DiscreteOrdinatesSolver);
 
-DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(const std::string& text_name)
-  : LBSSolver(text_name)
+DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(opensn::App& app, const std::string& text_name)
+  : LBSSolver(app, text_name)
 {
 }
 
@@ -94,8 +93,9 @@ DiscreteOrdinatesSolver::GetInputParameters()
   return params;
 }
 
-DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(const chi::InputParameters& params)
-  : LBSSolver(params),
+DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(opensn::App& app,
+                                                 const chi::InputParameters& params)
+  : LBSSolver(app, params),
     verbose_sweep_angles_(params.GetParamVectorValue<size_t>("directions_sweep_order_to_print")),
     sweep_type_(params.GetParamValue<std::string>("sweep_type"))
 {
@@ -157,7 +157,7 @@ DiscreteOrdinatesSolver::Initialize()
   }
 
   InitializeSolverSchemes(); // j
-  source_event_tag_ = Chi::log.GetRepeatingEventTag("Set Source");
+  source_event_tag_ = App().Log().GetRepeatingEventTag("Set Source");
 }
 
 void
@@ -177,7 +177,7 @@ DiscreteOrdinatesSolver::InitializeWGSSolvers()
       options_.verbose_inner_iterations,
       sweep_chunk);
 
-    auto wgs_solver = std::make_shared<WGSLinearSolver>(sweep_wgs_context_ptr);
+    auto wgs_solver = std::make_shared<WGSLinearSolver>(App(), sweep_wgs_context_ptr);
 
     wgs_solvers_.push_back(wgs_solver);
   } // for groupset
@@ -527,8 +527,8 @@ DiscreteOrdinatesSolver::ZeroOutflowBalanceVars(LBSGroupset& groupset)
 void
 DiscreteOrdinatesSolver::ComputeBalance()
 {
-  Chi::mpi.Barrier();
-  Chi::log.Log() << "\n********** Computing balance\n";
+  App().Barrier();
+  App().Log().Log() << "\n********** Computing balance\n";
 
   // Get material source
   // This is done using the SetSource routine
@@ -635,7 +635,7 @@ DiscreteOrdinatesSolver::ComputeBalance()
                 table_size,
                 MPI_DOUBLE,
                 MPI_SUM,
-                Chi::mpi.comm);
+                App().Comm());
 
   double globl_absorption = globl_balance_table.at(0);
   double globl_production = globl_balance_table.at(1);
@@ -644,19 +644,19 @@ DiscreteOrdinatesSolver::ComputeBalance()
   double globl_balance = globl_balance_table.at(4);
   double globl_gain = globl_balance_table.at(5);
 
-  Chi::log.Log() << "Balance table:\n"
-                 << std::setprecision(5) << std::scientific
-                 << " Absorption rate              = " << globl_absorption << "\n"
-                 << " Production rate              = " << globl_production << "\n"
-                 << " In-flow rate                 = " << globl_in_flow << "\n"
-                 << " Out-flow rate                = " << globl_out_flow << "\n"
-                 << " Net Gain (In-flow + sources) = " << globl_gain << "\n"
-                 << " Net Balance                  = " << globl_balance << "\n"
-                 << " (Net Balance)/(Net Gain)     = " << globl_balance / globl_gain << "\n";
+  App().Log().Log() << "Balance table:\n"
+                    << std::setprecision(5) << std::scientific
+                    << " Absorption rate              = " << globl_absorption << "\n"
+                    << " Production rate              = " << globl_production << "\n"
+                    << " In-flow rate                 = " << globl_in_flow << "\n"
+                    << " Out-flow rate                = " << globl_out_flow << "\n"
+                    << " Net Gain (In-flow + sources) = " << globl_gain << "\n"
+                    << " Net Balance                  = " << globl_balance << "\n"
+                    << " (Net Balance)/(Net Gain)     = " << globl_balance / globl_gain << "\n";
 
-  Chi::log.Log() << "\n********** Done computing balance\n";
+  App().Log().Log() << "\n********** Done computing balance\n";
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 }
 
 std::vector<double>
@@ -727,7 +727,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const int groupset_id, const uint64_t bo
 
   std::vector<double> global_leakage(gs_num_groups, 0.0);
   MPI_Allreduce(
-    local_leakage.data(), global_leakage.data(), gs_num_groups, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+    local_leakage.data(), global_leakage.data(), gs_num_groups, MPI_DOUBLE, MPI_SUM, App().Comm());
 
   return global_leakage;
 }
@@ -735,12 +735,13 @@ DiscreteOrdinatesSolver::ComputeLeakage(const int groupset_id, const uint64_t bo
 void
 DiscreteOrdinatesSolver::InitializeSweepDataStructures()
 {
-  Chi::log.Log() << Chi::program_timer.GetTimeString() << " Initializing sweep datastructures.\n";
+  App().Log().Log() << App().ProgramTimer().GetTimeString()
+                    << " Initializing sweep datastructures.\n";
 
   // Perform checks
   {
-    auto& mesh_handler = chi_mesh::GetCurrentHandler();
-    auto& mesher = mesh_handler.GetVolumeMesher();
+    auto mesh_handler = App().GetCurrentMeshHandler();
+    auto& mesher = mesh_handler->GetVolumeMesher();
 
     for (const auto& groupset : groupsets_)
     {
@@ -830,8 +831,8 @@ DiscreteOrdinatesSolver::InitializeSweepDataStructures()
     }
   } // for quadrature spds-list pair
 
-  Chi::log.Log() << Chi::program_timer.GetTimeString()
-                 << " Done initializing sweep datastructures.\n";
+  App().Log().Log() << App().ProgramTimer().GetTimeString()
+                    << " Done initializing sweep datastructures.\n";
 }
 
 std::pair<UniqueSOGroupings, DirIDToSOMap>
@@ -1091,39 +1092,42 @@ DiscreteOrdinatesSolver::InitFluxDataStructures(LBSGroupset& groupset)
 
   groupset.angle_agg_->angle_set_groups.push_back(std::move(angle_set_group));
 
-  if (options_.verbose_inner_iterations)
-    Chi::log.Log() << Chi::program_timer.GetTimeString() << " Initialized Angle Aggregation.   "
-                   << "         Process memory = " << std::setprecision(3)
-                   << Chi::GetMemoryUsageInMB() << " MB.";
+  // FIXME
+  // if (options_.verbose_inner_iterations)
+  //   App().Log().Log() << App().ProgramTimer().GetTimeString()
+  //                     << " Initialized Angle Aggregation.   "
+  //                     << "         Process memory = " << std::setprecision(3)
+  //                     << Chi::GetMemoryUsageInMB() << " MB.";
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 }
 
 void
 DiscreteOrdinatesSolver::ResetSweepOrderings(LBSGroupset& groupset)
 {
-  Chi::log.Log0Verbose1() << "Resetting SPDS and FLUDS";
+  App().Log().Log0Verbose1() << "Resetting SPDS and FLUDS";
 
   groupset.angle_agg_->angle_set_groups.clear();
 
-  Chi::mpi.Barrier();
+  App().Barrier();
 
-  Chi::log.Log() << "SPDS and FLUDS reset complete.            Process memory = "
-                 << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB";
+  // FIXME
+  // App().Log().Log() << "SPDS and FLUDS reset complete.            Process memory = "
+  //                   << std::setprecision(3) << Chi::GetMemoryUsageInMB() << " MB";
 
-  double local_app_memory = Chi::log.ProcessEvent(chi::ChiLog::StdTags::MAX_MEMORY_USAGE,
-                                                  chi::ChiLog::EventOperation::MAX_VALUE);
+  double local_app_memory = App().Log().ProcessEvent(chi::ChiLog::StdTags::MAX_MEMORY_USAGE,
+                                                     chi::ChiLog::EventOperation::MAX_VALUE);
   double total_app_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &total_app_memory, 1, MPI_DOUBLE, MPI_SUM, Chi::mpi.comm);
+  MPI_Allreduce(&local_app_memory, &total_app_memory, 1, MPI_DOUBLE, MPI_SUM, App().Comm());
   double max_proc_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &max_proc_memory, 1, MPI_DOUBLE, MPI_MAX, Chi::mpi.comm);
+  MPI_Allreduce(&local_app_memory, &max_proc_memory, 1, MPI_DOUBLE, MPI_MAX, App().Comm());
 
-  Chi::log.Log() << "\n"
-                 << std::setprecision(3)
-                 << "           Total application memory (max): " << total_app_memory / 1024.0
-                 << " GB\n"
-                 << "           Maximum process memory        : " << max_proc_memory / 1024.0
-                 << " GB\n\n";
+  App().Log().Log() << "\n"
+                    << std::setprecision(3)
+                    << "           Total application memory (max): " << total_app_memory / 1024.0
+                    << " GB\n"
+                    << "           Maximum process memory        : " << max_proc_memory / 1024.0
+                    << " GB\n\n";
 }
 
 std::shared_ptr<SweepChunk>

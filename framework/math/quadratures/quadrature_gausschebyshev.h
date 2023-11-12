@@ -10,12 +10,12 @@ class QuadratureGaussChebyshev : public chi_math::Quadrature
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit QuadratureGaussChebyshev(const chi::InputParameters& params);
+  explicit QuadratureGaussChebyshev(opensn::App& app, const chi::InputParameters& params);
 
   /**Populates the abscissae and weights for a Gauss-Chebyshev
    * quadrature given the number of desired quadrature points. The
    * order of the quadrature will be 2N-1.*/
-  explicit QuadratureGaussChebyshev(unsigned int N, bool verbose = false);
+  explicit QuadratureGaussChebyshev(opensn::App& app, unsigned int N, bool verbose = false);
 
 private:
   /**Populates the abscissae and weights for a Gauss-Chebyshev

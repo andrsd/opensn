@@ -2,6 +2,11 @@
 
 #include "framework/physics/physics_material/material_property_base.h"
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi_physics
 {
 
@@ -11,10 +16,11 @@ class ScalarValue : public chi_physics::MaterialProperty
 public:
   double value_ = 1.0;
 
-  ScalarValue() : MaterialProperty(PropertyType::SCALAR_VALUE) {}
+  explicit ScalarValue(opensn::App& app) : MaterialProperty(app, PropertyType::SCALAR_VALUE) {}
 
   double GetScalarValue() override { return value_; }
-#ifdef OPENSN_WITH_LUA
+  // FIXME
+#if 0
   void PushLuaTable(lua_State* L) const override
   {
     lua_newtable(L);

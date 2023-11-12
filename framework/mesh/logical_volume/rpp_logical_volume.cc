@@ -28,8 +28,8 @@ RPPLogicalVolume::GetInputParameters()
   return params;
 }
 
-RPPLogicalVolume::RPPLogicalVolume(const chi::InputParameters& params)
-  : LogicalVolume(params),
+RPPLogicalVolume::RPPLogicalVolume(opensn::App& app, const chi::InputParameters& params)
+  : LogicalVolume(app, params),
     xmin_(params.GetParamValue<double>("xmin")),
     xmax_(params.GetParamValue<double>("xmax")),
     ymin_(params.GetParamValue<double>("ymin")),

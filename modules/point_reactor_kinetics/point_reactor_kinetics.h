@@ -30,7 +30,7 @@ public:
   /**Sets input parameters.*/
   static chi::InputParameters GetInputParameters();
   /**Constructor.*/
-  explicit TransientSolver(const chi::InputParameters& params);
+  explicit TransientSolver(opensn::App& app, const chi::InputParameters& params);
 
   void Initialize() override;
   void Execute() override;

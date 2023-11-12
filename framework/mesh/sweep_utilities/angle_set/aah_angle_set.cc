@@ -1,8 +1,5 @@
 #include "framework/mesh/sweep_utilities/angle_set/aah_angle_set.h"
-
 #include "framework/mesh/sweep_utilities/sweep_chunk_base.h"
-
-#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 namespace chi_mesh::sweep_management
@@ -57,9 +54,11 @@ AAH_AngleSet::AngleSetAdvance(SweepChunk& sweep_chunk,
   {
     async_comm_.InitializeLocalAndDownstreamBuffers();
 
-    Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_BEGIN);
+    // FIXME
+    // Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_BEGIN);
     sweep_chunk.Sweep(*this); // Execute chunk
-    Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_END);
+    // FIXME
+    // Chi::log.LogEvent(timing_tags[0], chi::ChiLog::EventType::EVENT_END);
 
     // Send outgoing psi and clear local and receive buffers
     async_comm_.SendDownstreamPsi(static_cast<int>(this->GetID()));

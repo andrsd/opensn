@@ -36,7 +36,10 @@ protected:
   std::map<unsigned int, std::vector<unsigned int>> map_directions_;
 
 protected:
-  ProductQuadrature() : AngularQuadrature(chi_math::AngularQuadratureType::ProductQuadrature) {}
+  ProductQuadrature(opensn::App& app)
+    : AngularQuadrature(app, chi_math::AngularQuadratureType::ProductQuadrature)
+  {
+  }
 
 public:
   ~ProductQuadrature() override = default;
@@ -73,28 +76,29 @@ class chi_math::AngularQuadratureProdGL : public chi_math::ProductQuadrature
 {
 public:
   /**Constructor for Angular Gauss-Legendre.*/
-  explicit AngularQuadratureProdGL(int Np, bool verbose = false);
+  explicit AngularQuadratureProdGL(opensn::App& app, int Np, bool verbose = false);
 };
 
 class chi_math::AngularQuadratureProdGLL : public chi_math::ProductQuadrature
 {
 public:
   /**Constructor for Angular Gauss-Legendre-Legendre.*/
-  explicit AngularQuadratureProdGLL(int Na, int Np, bool verbose = false);
+  explicit AngularQuadratureProdGLL(opensn::App& app, int Na, int Np, bool verbose = false);
 };
 
 class chi_math::AngularQuadratureProdGLC : public chi_math::ProductQuadrature
 {
 public:
   /**Constructor for Angular Gauss-Legendre-Chebyshev.*/
-  explicit AngularQuadratureProdGLC(int Na, int Np, bool verbose = false);
+  explicit AngularQuadratureProdGLC(opensn::App& app, int Na, int Np, bool verbose = false);
 };
 
 class chi_math::AngularQuadratureProdCustom : public chi_math::ProductQuadrature
 {
 public:
   /**Constructor for Custom Angular Product Quadrature.*/
-  AngularQuadratureProdCustom(const std::vector<double>& azimuthal,
+  AngularQuadratureProdCustom(opensn::App& app,
+                              const std::vector<double>& azimuthal,
                               const std::vector<double>& polar,
                               const std::vector<double>& in_weights,
                               bool verbose);

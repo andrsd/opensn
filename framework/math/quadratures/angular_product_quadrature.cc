@@ -1,12 +1,10 @@
 #include "framework/math/quadratures/angular_product_quadrature.h"
 #include "framework/math/quadratures/quadrature_gausslegendre.h"
 #include "framework/math/quadratures/quadrature_gausschebyshev.h"
-
+#include "framework/app.h"
+#include "framework/logging/log.h"
 #include <cmath>
 #include <sstream>
-
-#include "framework/runtime.h"
-#include "framework/logging/log.h"
 
 void
 chi_math::ProductQuadrature::AssembleCosines(const std::vector<double>& azimuthal,
@@ -20,10 +18,12 @@ chi_math::ProductQuadrature::AssembleCosines(const std::vector<double>& azimutha
 
   if (Nw != Na * Np)
   {
-    Chi::log.LogAllError() << "Product Quadrature, InitializeWithCustom: mismatch in the amount "
-                              "angles and weights. Number of azimuthal angles times number "
-                              "polar angles must equal the amount of weights.";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    //    Chi::log.LogAllError() << "Product Quadrature, InitializeWithCustom: mismatch in the
+    //    amount "
+    //                              "angles and weights. Number of azimuthal angles times number "
+    //                              "polar angles must equal the amount of weights.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   azimu_ang_ = azimuthal;
@@ -31,13 +31,14 @@ chi_math::ProductQuadrature::AssembleCosines(const std::vector<double>& azimutha
 
   if (verbose)
   {
-    Chi::log.Log() << "Azimuthal angles:";
-    for (const auto& ang : azimu_ang_)
-      Chi::log.Log() << ang;
-
-    Chi::log.Log() << "Polar angles:";
-    for (const auto& ang : polar_ang_)
-      Chi::log.Log() << ang;
+    // FIXME: make this work
+    //    Chi::log.Log() << "Azimuthal angles:";
+    //    for (const auto& ang : azimu_ang_)
+    //      Chi::log.Log() << ang;
+    //
+    //    Chi::log.Log() << "Polar angles:";
+    //    for (const auto& ang : polar_ang_)
+    //      Chi::log.Log() << ang;
   }
 
   // Create angle pairs
@@ -88,13 +89,15 @@ chi_math::ProductQuadrature::AssembleCosines(const std::vector<double>& azimutha
 
     omegas_.emplace_back(new_omega);
 
-    if (verbose) Chi::log.Log() << "Quadrature angle=" << new_omega.PrintS();
+    // FIXME: make this work
+    //    if (verbose) Chi::log.Log() << "Quadrature angle=" << new_omega.PrintS();
   }
 
   if (verbose)
   {
-    Chi::log.Log() << ostr.str() << "\n"
-                   << "Weight sum=" << weight_sum;
+    // FIXME: make this work
+    //    Chi::log.Log() << ostr.str() << "\n"
+    //                   << "Weight sum=" << weight_sum;
   }
 }
 
@@ -139,10 +142,12 @@ chi_math::ProductQuadrature::OptimizeForPolarSymmetry(const double normalization
   azimu_ang_ = new_azimu_ang;
 }
 
-chi_math::AngularQuadratureProdGL::AngularQuadratureProdGL(int Nphemi, bool verbose)
-  : chi_math::ProductQuadrature()
+chi_math::AngularQuadratureProdGL::AngularQuadratureProdGL(opensn::App& app,
+                                                           int Nphemi,
+                                                           bool verbose)
+  : chi_math::ProductQuadrature(app)
 {
-  chi_math::QuadratureGaussLegendre gl_polar(Nphemi * 2);
+  chi_math::QuadratureGaussLegendre gl_polar(app, Nphemi * 2);
 
   // Create azimuthal angles
   azimu_ang_.clear();
@@ -160,10 +165,14 @@ chi_math::AngularQuadratureProdGL::AngularQuadratureProdGL(int Nphemi, bool verb
   AssembleCosines(azimu_ang_, polar_ang_, weights, verbose);
 }
 
-chi_math::AngularQuadratureProdGLL::AngularQuadratureProdGLL(int Na, int Np, bool verbose)
+chi_math::AngularQuadratureProdGLL::AngularQuadratureProdGLL(opensn::App& app,
+                                                             int Na,
+                                                             int Np,
+                                                             bool verbose)
+  : ProductQuadrature(app)
 {
-  chi_math::QuadratureGaussLegendre gl_polar(Np * 2);
-  chi_math::QuadratureGaussLegendre gl_azimu(Na * 4);
+  chi_math::QuadratureGaussLegendre gl_polar(app, Np * 2);
+  chi_math::QuadratureGaussLegendre gl_azimu(app, Na * 4);
 
   // Create azimuthal angles
   azimu_ang_.clear();
@@ -185,10 +194,14 @@ chi_math::AngularQuadratureProdGLL::AngularQuadratureProdGLL(int Na, int Np, boo
   AssembleCosines(azimu_ang_, polar_ang_, weights, verbose);
 }
 
-chi_math::AngularQuadratureProdGLC::AngularQuadratureProdGLC(int Na, int Np, bool verbose)
+chi_math::AngularQuadratureProdGLC::AngularQuadratureProdGLC(opensn::App& app,
+                                                             int Na,
+                                                             int Np,
+                                                             bool verbose)
+  : ProductQuadrature(app)
 {
-  chi_math::QuadratureGaussLegendre gl_polar(Np * 2);
-  chi_math::QuadratureGaussChebyshev gc_azimu(Na * 4);
+  chi_math::QuadratureGaussLegendre gl_polar(app, Np * 2);
+  chi_math::QuadratureGaussChebyshev gc_azimu(app, Na * 4);
 
   // Create azimuthal angles
   azimu_ang_.clear();
@@ -211,10 +224,12 @@ chi_math::AngularQuadratureProdGLC::AngularQuadratureProdGLC(int Na, int Np, boo
 }
 
 chi_math::AngularQuadratureProdCustom::AngularQuadratureProdCustom(
+  opensn::App& app,
   const std::vector<double>& azimuthal,
   const std::vector<double>& polar,
   const std::vector<double>& in_weights,
   bool verbose)
+  : ProductQuadrature(app)
 {
   size_t Na = azimuthal.size();
   size_t Np = polar.size();
@@ -222,10 +237,12 @@ chi_math::AngularQuadratureProdCustom::AngularQuadratureProdCustom(
 
   if (Nw != Na * Np)
   {
-    Chi::log.LogAllError() << "Product Quadrature, InitializeWithCustom: mismatch in the amount "
-                              "angles and weights. Number of azimuthal angles times number "
-                              "polar angles must equal the amount of weights.";
-    Chi::Exit(EXIT_FAILURE);
+    // FIXME: make this work
+    //    Chi::log.LogAllError() << "Product Quadrature, InitializeWithCustom: mismatch in the
+    //    amount "
+    //                              "angles and weights. Number of azimuthal angles times number "
+    //                              "polar angles must equal the amount of weights.";
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   AssembleCosines(azimuthal, polar, weights_, verbose);

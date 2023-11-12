@@ -1,13 +1,9 @@
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/iterative_methods/sweep_wgs_context.h"
-
-#include <petscksp.h>
-
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/lbs_discrete_ordinates_solver.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/preconditioning/lbs_shell_operations.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-
+#include <petscksp.h>
 #include <iomanip>
 
 #define sc_double static_cast<double>
@@ -26,7 +22,8 @@ SweepWGSContext::SweepWGSContext(
   std::shared_ptr<chi_mesh::sweep_management::SweepChunk> sweep_chunk)
   : WGSContext(lbs_solver, groupset, set_source_function, lhs_scope, rhs_scope, log_info),
     sweep_chunk_(std::move(sweep_chunk)),
-    sweep_scheduler_(lbs_solver.SweepType() == "AAH"
+    sweep_scheduler_(lbs_solver.App(),
+                     lbs_solver.SweepType() == "AAH"
                        ? chi_mesh::sweep_management::SchedulingAlgorithm::DEPTH_OF_GRAPH
                        : chi_mesh::sweep_management::SchedulingAlgorithm::FIRST_IN_FIRST_OUT,
                      *groupset.angle_agg_,
@@ -55,13 +52,13 @@ SweepWGSContext::PreSetupCallback()
       default:
         method_name = "KRYLOV_GMRES";
     }
-    Chi::log.Log() << "\n\n"
-                   << "********** Solving groupset " << groupset_.id_ << " with " << method_name
-                   << ".\n\n"
-                   << "Quadrature number of angles: " << groupset_.quadrature_->abscissae_.size()
-                   << "\n"
-                   << "Groups " << groupset_.groups_.front().id_ << " "
-                   << groupset_.groups_.back().id_ << "\n\n";
+    App().Log().Log() << "\n\n"
+                      << "********** Solving groupset " << groupset_.id_ << " with " << method_name
+                      << ".\n\n"
+                      << "Quadrature number of angles: " << groupset_.quadrature_->abscissae_.size()
+                      << "\n"
+                      << "Groups " << groupset_.groups_.front().id_ << " "
+                      << groupset_.groups_.back().id_ << "\n\n";
   }
 }
 
@@ -103,10 +100,10 @@ SweepWGSContext::SystemSize()
 
   if (log_info_)
   {
-    Chi::log.Log() << "Total number of angular unknowns: " << num_psi_global << "\n"
-                   << "Number of lagged angular unknowns: " << num_delayed_psi_globl << "("
-                   << std::setprecision(2)
-                   << sc_double(num_delayed_psi_globl) * 100 / sc_double(num_psi_global) << "%)";
+    App().Log().Log() << "Total number of angular unknowns: " << num_psi_global << "\n"
+                      << "Number of lagged angular unknowns: " << num_delayed_psi_globl << "("
+                      << std::setprecision(2)
+                      << sc_double(num_delayed_psi_globl) * 100 / sc_double(num_psi_global) << "%)";
   }
 
   return {static_cast<int64_t>(local_size), static_cast<int64_t>(globl_size)};
@@ -151,26 +148,26 @@ SweepWGSContext::PostSolveCallback()
   {
     double sweep_time = sweep_scheduler_.GetAverageSweepTime();
     double chunk_overhead_ratio = 1.0 - sweep_scheduler_.GetAngleSetTimings()[2];
-    double source_time = Chi::log.ProcessEvent(lbs_solver_.GetSourceEventTag(),
-                                               chi::ChiLog::EventOperation::AVERAGE_DURATION);
+    double source_time = App().Log().ProcessEvent(lbs_solver_.GetSourceEventTag(),
+                                                  chi::ChiLog::EventOperation::AVERAGE_DURATION);
     size_t num_angles = groupset_.quadrature_->abscissae_.size();
     size_t num_unknowns = lbs_solver_.GlobalNodeCount() * num_angles * groupset_.groups_.size();
 
     if (log_info_)
     {
-      Chi::log.Log() << "\n\n";
-      Chi::log.Log() << "        Set Src Time/sweep (s):        " << source_time;
-      Chi::log.Log() << "        Average sweep time (s):        " << sweep_time;
-      Chi::log.Log() << "        Chunk-Overhead-Ratio  :        " << chunk_overhead_ratio;
-      Chi::log.Log() << "        Sweep Time/Unknown (ns):       "
-                     << sweep_time * 1.0e9 * Chi::mpi.process_count /
-                          static_cast<double>(num_unknowns);
-      Chi::log.Log() << "        Number of unknowns per sweep:  " << num_unknowns;
-      Chi::log.Log() << "\n\n";
+      App().Log().Log() << "\n\n";
+      App().Log().Log() << "        Set Src Time/sweep (s):        " << source_time;
+      App().Log().Log() << "        Average sweep time (s):        " << sweep_time;
+      App().Log().Log() << "        Chunk-Overhead-Ratio  :        " << chunk_overhead_ratio;
+      App().Log().Log() << "        Sweep Time/Unknown (ns):       "
+                        << sweep_time * 1.0e9 * App().ProcessCount() /
+                             static_cast<double>(num_unknowns);
+      App().Log().Log() << "        Number of unknowns per sweep:  " << num_unknowns;
+      App().Log().Log() << "\n\n";
 
       std::string sweep_log_file_name = std::string("GS_") + std::to_string(groupset_.id_) +
                                         std::string("_SweepLog_") +
-                                        std::to_string(Chi::mpi.location_id) + std::string(".log");
+                                        std::to_string(App().LocationID()) + std::string(".log");
       groupset_.PrintSweepInfoFile(sweep_scheduler_.SweepEventTag(), sweep_log_file_name);
     }
   }

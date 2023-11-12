@@ -1,22 +1,15 @@
 #pragma once
 
 #include "framework/object.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/groupset/lbs_group.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/lbs_iterative_methods.h"
-
 #include "framework/math/quadratures/legendre_poly/legendrepoly.h"
 #include "framework/math/quadratures/angular_quadrature_base.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
-
 #include "framework/mesh/sweep_utilities/angle_aggregation/angle_aggregation.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_structs.h"
-
 #include "framework/physics/physics_namespace.h"
-
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/acceleration/acceleration.h"
-
 #include "framework/utils/utils.h"
 
 namespace lbs::acceleration
@@ -30,7 +23,7 @@ namespace lbs
 class LBSSolver;
 
 /**Group set functioning as a collection of groups*/
-class LBSGroupset : public ChiObject
+class LBSGroupset : public chi::ChiObject
 {
 protected:
   typedef std::shared_ptr<chi_mesh::sweep_management::AngleAggregation> AngleAggPtr;
@@ -82,9 +75,12 @@ public:
   // lbs_groupset.cc
   static chi::InputParameters GetInputParameters();
   /**Input parameters based constructor.*/
-  explicit LBSGroupset(const chi::InputParameters& params, int id, const LBSSolver& lbs_solver);
-  LBSGroupset() : LBSGroupset(-1){};
-  explicit LBSGroupset(int id) : id_(id) {}
+  explicit LBSGroupset(opensn::App& app,
+                       const chi::InputParameters& params,
+                       int id,
+                       const LBSSolver& lbs_solver);
+  explicit LBSGroupset(opensn::App& app) : LBSGroupset(app, -1){};
+  explicit LBSGroupset(opensn::App& app, int id) : chi::ChiObject(app), id_(id), psi_uk_man_(app) {}
 
   /**Computes the discrete to moment operator.*/
   void BuildDiscMomOperator(unsigned int scattering_order, GeometryType geometry_type);

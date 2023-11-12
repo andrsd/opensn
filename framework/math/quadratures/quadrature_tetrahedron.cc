@@ -6,7 +6,8 @@
 #include <stdexcept>
 #include <cassert>
 
-chi_math::QuadratureTetrahedron::QuadratureTetrahedron(QuadratureOrder order) : Quadrature(order)
+chi_math::QuadratureTetrahedron::QuadratureTetrahedron(opensn::App& app, QuadratureOrder order)
+  : Quadrature(app, order)
 {
   double x = 0.0, y = 0.0, z = 0.0;
 
@@ -53,7 +54,7 @@ chi_math::QuadratureTetrahedron::QuadratureTetrahedron(QuadratureOrder order) : 
     }
     case QuadratureOrder::THIRD:
     {
-      chi_math::QuadratureConical conical(order);
+      chi_math::QuadratureConical conical(App(), order);
       conical.Initialize_Conical_Product_Tet();
       qpoints_.swap(conical.qpoints_);
       weights_.swap(conical.weights_);
@@ -155,7 +156,7 @@ chi_math::QuadratureTetrahedron::QuadratureTetrahedron(QuadratureOrder order) : 
     }
     default:
     {
-      chi_math::QuadratureConical conical(order);
+      chi_math::QuadratureConical conical(App(), order);
       conical.Initialize_Conical_Product_Tet();
       qpoints_.swap(conical.qpoints_);
       weights_.swap(conical.weights_);

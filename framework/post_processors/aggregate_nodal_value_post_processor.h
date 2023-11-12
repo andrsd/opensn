@@ -22,7 +22,7 @@ class AggregateNodalValuePostProcessor : public PostProcessor,
 {
 public:
   static InputParameters GetInputParameters();
-  explicit AggregateNodalValuePostProcessor(const InputParameters& params);
+  explicit AggregateNodalValuePostProcessor(opensn::App& app, const InputParameters& params);
 
   void Execute(const Event& event_context) override;
 

@@ -1,8 +1,6 @@
 #include "framework/mesh/sweep_utilities/fluds/aah_fluds.h"
-
-#include "framework/runtime.h"
+#include "framework/app.h"
 #include "framework/logging/log.h"
-#include "framework/math/math.h"
 
 namespace chi_mesh::sweep_management
 {
@@ -48,10 +46,10 @@ AAH_FLUDS::NLOutgoingPsi(int outb_face_counter, int face_dof, int n)
 {
   if (outb_face_counter > common_data_.nonlocal_outb_face_deplocI_slot.size())
   {
-    Chi::log.LogAllError() << "Invalid number of outb_face_counter " << outb_face_counter
-                           << " max allowed "
-                           << common_data_.nonlocal_outb_face_deplocI_slot.size();
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Invalid number of outb_face_counter " << outb_face_counter
+                              << " max allowed "
+                              << common_data_.nonlocal_outb_face_deplocI_slot.size();
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   int depLocI = common_data_.nonlocal_outb_face_deplocI_slot[outb_face_counter].first;
@@ -63,9 +61,10 @@ AAH_FLUDS::NLOutgoingPsi(int outb_face_counter, int face_dof, int n)
 
   if ((index < 0) || (index > deplocI_outgoing_psi_[depLocI].size()))
   {
-    Chi::log.LogAllError() << "Invalid index " << index << " encountered in non-local outgoing Psi"
-                           << " max allowed " << deplocI_outgoing_psi_[depLocI].size();
-    Chi::Exit(EXIT_FAILURE);
+    App().Log().LogAllError() << "Invalid index " << index
+                              << " encountered in non-local outgoing Psi"
+                              << " max allowed " << deplocI_outgoing_psi_[depLocI].size();
+    opensn::App::Exit(EXIT_FAILURE);
   }
 
   return &deplocI_outgoing_psi_[depLocI][index];

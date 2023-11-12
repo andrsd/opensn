@@ -1,8 +1,5 @@
 #include "framework/math/quadratures/quadrature.h"
-
 #include "framework/logging/log_exceptions.h"
-
-#include "framework/console/console.h"
 
 namespace chi_math
 {
@@ -10,10 +7,11 @@ namespace chi_math
 chi::InputParameters GetSyntax_Get1DQuadratureData();
 chi::ParameterBlock Get1DQuadratureData(const chi::InputParameters& params);
 
-RegisterWrapperFunction(chi_math,
-                        Get1DQuadratureData,
-                        GetSyntax_Get1DQuadratureData,
-                        Get1DQuadratureData);
+// FIXME
+// RegisterWrapperFunction(chi_math,
+//                        Get1DQuadratureData,
+//                        GetSyntax_Get1DQuadratureData,
+//                        Get1DQuadratureData);
 
 chi::InputParameters
 GetSyntax_Get1DQuadratureData()
@@ -28,39 +26,40 @@ GetSyntax_Get1DQuadratureData()
   return params;
 }
 
-chi::ParameterBlock
-Get1DQuadratureData(const chi::InputParameters& params)
-{
-  chi::ParameterBlock output;
-
-  const size_t handle = params.GetParamValue<size_t>("arg0");
-
-  auto& quad = Chi::GetStackItem<chi_math::Quadrature>(Chi::object_stack, handle, __FUNCTION__);
-
-  chi::ParameterBlock qpoints_block("qpoints");
-  chi::ParameterBlock weights_block("weights");
-  {
-    size_t k = 0;
-    for (const auto& qpointXYZ : quad.qpoints_)
-    {
-      qpoints_block.AddParameter(std::to_string(k++),
-                                 std::vector<double>{qpointXYZ.x, qpointXYZ.y, qpointXYZ.z});
-    }
-    k = 0;
-    for (const double w : quad.weights_)
-      weights_block.AddParameter(std::to_string(k++), w);
-  }
-  qpoints_block.ChangeToArray();
-  weights_block.ChangeToArray();
-
-  output.AddParameter(qpoints_block);
-  output.AddParameter(weights_block);
-
-  chi::ParameterBlock output_as_table;
-  output_as_table.AddParameter(output);
-
-  return output_as_table;
-}
+// FIXME
+// chi::ParameterBlock
+// Get1DQuadratureData(const chi::InputParameters& params)
+//{
+//  chi::ParameterBlock output;
+//
+//  const size_t handle = params.GetParamValue<size_t>("arg0");
+//
+//  auto& quad = Chi::GetStackItem<chi_math::Quadrature>(Chi::object_stack, handle, __FUNCTION__);
+//
+//  chi::ParameterBlock qpoints_block("qpoints");
+//  chi::ParameterBlock weights_block("weights");
+//  {
+//    size_t k = 0;
+//    for (const auto& qpointXYZ : quad.qpoints_)
+//    {
+//      qpoints_block.AddParameter(std::to_string(k++),
+//                                 std::vector<double>{qpointXYZ.x, qpointXYZ.y, qpointXYZ.z});
+//    }
+//    k = 0;
+//    for (const double w : quad.weights_)
+//      weights_block.AddParameter(std::to_string(k++), w);
+//  }
+//  qpoints_block.ChangeToArray();
+//  weights_block.ChangeToArray();
+//
+//  output.AddParameter(qpoints_block);
+//  output.AddParameter(weights_block);
+//
+//  chi::ParameterBlock output_as_table;
+//  output_as_table.AddParameter(output);
+//
+//  return output_as_table;
+//}
 
 chi::InputParameters
 Quadrature::GetInputParameters()
@@ -80,10 +79,15 @@ Quadrature::GetInputParameters()
   return params;
 }
 
-Quadrature::Quadrature(const chi::InputParameters& params)
-  : ChiObject(params),
+Quadrature::Quadrature(opensn::App& app, const chi::InputParameters& params)
+  : chi::ChiObject(app, params),
     order_(static_cast<QuadratureOrder>(params.GetParamValue<int>("order"))),
     verbose_(params.GetParamValue<bool>("verbose"))
+{
+}
+
+Quadrature::Quadrature(opensn::App& app, QuadratureOrder in_order)
+  : chi::ChiObject(app), order_(in_order), range_({0, 0})
 {
 }
 
