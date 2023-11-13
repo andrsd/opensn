@@ -1,6 +1,6 @@
 #include "lua/framework/init.h"
-#include "framework/runtime.h"
-#include "framework/console/console.h"
+#include "lua/framework/runtime.h"
+#include "lua/base/console.h"
 
 int
 main(int argc, char** argv)

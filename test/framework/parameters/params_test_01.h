@@ -6,17 +6,17 @@
 namespace chi_unit_testsB
 {
 
-class TestSubObject : public ChiObject
+class TestSubObject : public chi::ChiObject
 {
 private:
   const size_t num_groups_;
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit TestSubObject(const chi::InputParameters& params);
+  explicit TestSubObject(opensn::App& app, const chi::InputParameters& params);
 };
 
-class TestObject : public ChiObject
+class TestObject : public chi::ChiObject
 {
 private:
   const std::string solver_type_;
@@ -25,7 +25,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit TestObject(const chi::InputParameters& params);
+  //  explicit TestObject(opensn::App& app, const chi::InputParameters& params);
 };
 
 class ChildTestObject : public TestObject
@@ -35,7 +35,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit ChildTestObject(const chi::InputParameters& params);
+  explicit ChildTestObject(opensn::App& app, const chi::InputParameters& params);
 };
 
 } // namespace chi_unit_testsB
