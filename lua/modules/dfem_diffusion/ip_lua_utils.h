@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 #include "modules/dfem_diffusion/dfem_diffusion_solver.h"
 
 /** Creates a DFEM Diffusion solver based on the interior penalty method.

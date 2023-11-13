@@ -1,5 +1,4 @@
-#include "framework/lua.h"
-
+#include "lua/base/lua.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 
@@ -16,11 +15,12 @@ chiMeshHandlerExportMeshToObj(lua_State* L)
   bool per_material = false;
   if (num_args == 2) per_material = lua_toboolean(L, 2);
 
-  // Get current handler
-  auto& cur_hndlr = chi_mesh::GetCurrentHandler();
-
-  auto& grid = cur_hndlr.GetGrid();
-  grid->ExportCellsToObj(file_name.c_str(), per_material);
+  // FIXME
+  // // Get current handler
+  // auto& cur_hndlr = chi_mesh::GetCurrentHandler();
+  //
+  // auto& grid = cur_hndlr.GetGrid();
+  // grid->ExportCellsToObj(file_name.c_str(), per_material);
 
   return 0;
 }
@@ -35,11 +35,12 @@ chiMeshHandlerExportMeshToVTK(lua_State* L)
 
   const std::string file_name = lua_tostring(L, 1);
 
-  // Get current handler
-  auto& cur_hndlr = chi_mesh::GetCurrentHandler();
-
-  auto& grid = cur_hndlr.GetGrid();
-  grid->ExportCellsToVTK(file_name);
+  // FIXME
+  // // Get current handler
+  // auto& cur_hndlr = chi_mesh::GetCurrentHandler();
+  //
+  // auto& grid = cur_hndlr.GetGrid();
+  // grid->ExportCellsToVTK(file_name);
 
   return 0;
 }
@@ -68,11 +69,12 @@ chiMeshHandlerExportMeshToExodus(lua_State* L)
     suppress_sidesets = lua_toboolean(L, 3);
   }
 
-  // Get current handler
-  auto& cur_hndlr = chi_mesh::GetCurrentHandler();
-
-  auto& grid = cur_hndlr.GetGrid();
-  grid->ExportCellsToExodus(file_name, suppress_nodesets, suppress_sidesets);
+  // FIXME
+  // // Get current handler
+  // auto& cur_hndlr = chi_mesh::GetCurrentHandler();
+  //
+  // auto& grid = cur_hndlr.GetGrid();
+  // grid->ExportCellsToExodus(file_name, suppress_nodesets, suppress_sidesets);
 
   return 0;
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 
 namespace chi_physics::field_operations::lua_utils
 {

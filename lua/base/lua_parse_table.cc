@@ -1,9 +1,6 @@
-#ifdef OPENSN_WITH_LUA
-#include "framework/lua.h"
-
-#include "framework/runtime.h"
+#include "lua/base/lua.h"
+#include "lua/framework/runtime.h"
 #include "framework/logging/log_exceptions.h"
-
 #include "framework/data_types/data_types.h"
 #include "framework/parameters/parameter_block.h"
 
@@ -210,4 +207,3 @@ StackItemToParameterBlock(lua_State* L, int index)
 }
 
 } // namespace chi_lua
-#endif

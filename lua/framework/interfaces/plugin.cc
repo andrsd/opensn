@@ -1,3 +1,4 @@
+#if 0
 #include "framework/interfaces/plugin.h"
 #include "framework/app.h"
 #include "framework/object_factory.h"
@@ -65,3 +66,4 @@ Plugin::~Plugin()
 }
 
 } // namespace chi
+#endif

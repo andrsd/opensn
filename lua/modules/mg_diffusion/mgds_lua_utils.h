@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 #include "modules/mg_diffusion/mg_diffusion_solver.h"
 
 namespace mg_diffusion::mgd_lua_utils

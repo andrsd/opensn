@@ -7,6 +7,12 @@
 #include <memory>
 
 #include "framework/mpi/mpi.h"
+#include "framework/mesh/mesh_handler/mesh_handler.h"
+#include "framework/physics/physics_material/physics_material.h"
+#include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
+#include "framework/physics/field_function/field_function.h"
+#include "framework/math/spatial_discretization/spatial_discretization.h"
+#include "framework/post_processors/post_processor.h"
 
 namespace chi_mesh
 {
@@ -89,7 +95,6 @@ public:
   static chi::MPI_Info& mpi;
   static chi::Timer program_timer;
   static chi::Console& console;
-  static chi::ChiLog& log;
 
   /** Global stack of handlers */
   static std::vector<chi_mesh::MeshHandlerPtr> meshhandler_stack;
@@ -215,7 +220,7 @@ public:
      // Returns chi_mesh::SurfaceMesh&
    * \endcode
    * */
-  ` template <class R, class T>
+  template <class R, class T>
   static R& GetStackItem(std::vector<std::shared_ptr<T>>& stack,
                          const size_t handle,
                          const std::string& calling_function_name = "Unknown")
@@ -237,25 +242,25 @@ public:
                               calling_function_name);
     }
   }
-  `
-    /**Attempts to obtain object of type `shared_ptr<T>` at the given
-     * handle of a stack with parent type P.
-     * \n
-     * \n
-     * Example usage:
-     *
-     * \code
-     * auto surf_mesh_ptr =
-     *   Chi::GetStackItemPtrAsType<chi_mesh::SurfaceMesh>(
-           Chi::object_stack, surf_mesh_hndle, fname);
-       // Returns std::shared_ptr<chi_mesh::SurfaceMesh>
-     * \endcode
-     * */
-    template <class T, class P>
-    static std::shared_ptr<T>
-    GetStackItemPtrAsType(std::vector<std::shared_ptr<P>>& stack,
-                          const size_t handle,
-                          const std::string& calling_function_name = "Unknown")
+
+  /**Attempts to obtain object of type `shared_ptr<T>` at the given
+   * handle of a stack with parent type P.
+   * \n
+   * \n
+   * Example usage:
+   *
+   * \code
+   * auto surf_mesh_ptr =
+   *   Chi::GetStackItemPtrAsType<chi_mesh::SurfaceMesh>(
+         Chi::object_stack, surf_mesh_hndle, fname);
+     // Returns std::shared_ptr<chi_mesh::SurfaceMesh>
+   * \endcode
+   * */
+  template <class T, class P>
+  static std::shared_ptr<T>
+  GetStackItemPtrAsType(std::vector<std::shared_ptr<P>>& stack,
+                        const size_t handle,
+                        const std::string& calling_function_name = "Unknown")
   {
     std::shared_ptr<P> item_type_P;
     try

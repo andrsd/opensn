@@ -1,8 +1,7 @@
-#include "framework/console/console.h"
-
-#include "framework/lua.h"
-
-#include "framework/runtime.h"
+#include "lua/base/console.h"
+#include "lua/base/lua.h"
+#include "lua/framework/runtime.h"
+#include "framework/app.h"
 
 namespace chi::lua_utils
 {
@@ -25,7 +24,7 @@ chiExit(lua_State* L)
     return_code = lua_tointeger(L, 1);
   }
 
-  Chi::Exit(return_code);
+  opensn::App::Exit(return_code);
   return 0;
 }
 

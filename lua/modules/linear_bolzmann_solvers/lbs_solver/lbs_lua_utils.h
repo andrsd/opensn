@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 #include "framework/parameters/input_parameters.h"
 
 namespace lbs

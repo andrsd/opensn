@@ -5,7 +5,7 @@ namespace chi
 class InputParameters;
 }
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 namespace chi_physics::lua_utils
 {
 /**Generic lua routine for the creation of solvers.

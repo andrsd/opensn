@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 #include "modules/cfem_diffusion/cfem_diffusion_solver.h"
 
 namespace cfem_diffusion::cfem_diffusion_lua_utils

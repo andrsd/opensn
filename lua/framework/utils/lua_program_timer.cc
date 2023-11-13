@@ -1,6 +1,6 @@
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 
 #include "framework/runtime.h"
 #include "framework/utils/timer.h"

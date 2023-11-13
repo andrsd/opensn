@@ -1,6 +1,6 @@
 #include "framework/post_processors/post_processor.h"
 
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
@@ -34,28 +34,28 @@ GetSyntax_PostProcessorGetValue()
 ParameterBlock
 PostProcessorGetValue(const InputParameters& params)
 {
-  const auto& param = params.GetParam("arg0");
-  if (param.Type() == ParameterBlockType::STRING)
-  {
-    const auto pp_name = param.GetValue<std::string>();
-
-    for (const auto& pp_ptr : Chi::postprocessor_stack)
-      if (pp_ptr->Name() == pp_name) return pp_ptr->GetValue();
-
-    // If we haven't returned here
-    ChiInvalidArgument("Post-processor with name \"" + pp_name + "\" not found.");
-  }
-  else if (param.Type() == ParameterBlockType::INTEGER)
-  {
-    const auto pp_handle = param.GetValue<size_t>();
-    const auto& pp =
-      Chi::GetStackItem<PostProcessor>(Chi::postprocessor_stack, pp_handle, __FUNCTION__);
-
-    return pp.GetValue();
-  }
-  else
-    ChiInvalidArgument("Accepts only STRING or INTEGER for arg0.");
-
+  // const auto& param = params.GetParam("arg0");
+  // if (param.Type() == ParameterBlockType::STRING)
+  //{
+  //   const auto pp_name = param.GetValue<std::string>();
+  //
+  //   for (const auto& pp_ptr : Chi::postprocessor_stack)
+  //     if (pp_ptr->Name() == pp_name) return pp_ptr->GetValue();
+  //
+  //   // If we haven't returned here
+  //   ChiInvalidArgument("Post-processor with name \"" + pp_name + "\" not found.");
+  // }
+  // else if (param.Type() == ParameterBlockType::INTEGER)
+  //{
+  //   const auto pp_handle = param.GetValue<size_t>();
+  //   const auto& pp =
+  //     Chi::GetStackItem<PostProcessor>(Chi::postprocessor_stack, pp_handle, __FUNCTION__);
+  //
+  //   return pp.GetValue();
+  // }
+  // else
+  //   ChiInvalidArgument("Accepts only STRING or INTEGER for arg0.");
+  //
   return ParameterBlock{};
 }
 } // namespace chi

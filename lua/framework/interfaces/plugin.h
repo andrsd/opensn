@@ -1,5 +1,6 @@
 #pragma once
 
+#if 0
 #include "framework/object.h"
 
 namespace chi
@@ -19,3 +20,4 @@ protected:
 };
 
 } // namespace chi
+#endif

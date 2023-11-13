@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 
 /** Creates a mesh handler and sets it as "current".
  *

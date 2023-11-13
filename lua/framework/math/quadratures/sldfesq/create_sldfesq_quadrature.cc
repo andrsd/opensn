@@ -1,10 +1,7 @@
-#include "framework/lua.h"
-
+#include "lua/base/lua.h"
 #include "framework/runtime.h"
-
 #include "framework/math/quadratures/sldfesq/sldfe_sq.h"
-
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 #include "sldfe_lua.h"
 
 RegisterLuaFunctionAsIs(chiCreateSLDFESQAngularQuadrature);
@@ -17,15 +14,15 @@ chiCreateSLDFESQAngularQuadrature(lua_State* L)
 
   int init_refinement_level = lua_tonumber(L, 1);
 
-  auto sldfesq = new chi_math::SimplifiedLDFESQ::Quadrature;
-  sldfesq->GenerateInitialRefinement(init_refinement_level);
-
-  std::shared_ptr<chi_math::AngularQuadrature> new_ang_quad =
-    std::shared_ptr<chi_math::SimplifiedLDFESQ::Quadrature>(sldfesq);
-
-  Chi::angular_quadrature_stack.push_back(new_ang_quad);
-  const size_t index = Chi::angular_quadrature_stack.size() - 1;
-  lua_pushnumber(L, static_cast<lua_Number>(index));
+  // auto sldfesq = new chi_math::SimplifiedLDFESQ::Quadrature;
+  // sldfesq->GenerateInitialRefinement(init_refinement_level);
+  //
+  // std::shared_ptr<chi_math::AngularQuadrature> new_ang_quad =
+  //   std::shared_ptr<chi_math::SimplifiedLDFESQ::Quadrature>(sldfesq);
+  //
+  // Chi::angular_quadrature_stack.push_back(new_ang_quad);
+  // const size_t index = Chi::angular_quadrature_stack.size() - 1;
+  // lua_pushnumber(L, static_cast<lua_Number>(index));
 
   return 1;
 }

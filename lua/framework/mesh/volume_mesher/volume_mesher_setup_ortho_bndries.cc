@@ -1,8 +1,7 @@
-#include "framework/lua.h"
-
+#include "lua/base/lua.h"
 #include "framework/mesh/volume_mesher/volume_mesher.h"
 #include "volume_mesher_lua.h"
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 
 RegisterLuaFunctionAsIs(chiVolumeMesherSetupOrthogonalBoundaries);
 
@@ -16,6 +15,6 @@ RegisterLuaConstant(OrthoBoundaryID, ZMIN, chi_data_types::Varying(5));
 int
 chiVolumeMesherSetupOrthogonalBoundaries(lua_State* L)
 {
-  chi_mesh::VolumeMesher::SetupOrthogonalBoundaries();
+  // chi_mesh::VolumeMesher::SetupOrthogonalBoundaries();
   return 0;
 }

@@ -1,9 +1,6 @@
-#include "framework/lua.h"
-
+#include "lua/base/lua.h"
 #include "framework/mesh/mesh_generator/mesh_generator.h"
-
-#include "framework/console/console.h"
-
+#include "lua/base/console.h"
 #include "framework/runtime.h"
 
 namespace chi_mesh::lua_utils
@@ -23,10 +20,10 @@ chiMeshGeneratorExecute(lua_State* L)
   LuaCheckNilValue(fname, L, 1);
   LuaCheckIntegerValue(fname, L, 1);
 
-  const size_t handle = lua_tointeger(L, 1);
-
-  auto& generator = Chi::GetStackItem<MeshGenerator>(Chi::object_stack, handle, fname);
-  generator.Execute();
+  // const size_t handle = lua_tointeger(L, 1);
+  //
+  // auto& generator = Chi::GetStackItem<MeshGenerator>(Chi::object_stack, handle, fname);
+  // generator.Execute();
 
   return 0;
 }

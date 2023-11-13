@@ -1,10 +1,7 @@
 #include "lua_mesh_modifiers.h"
-
 #include "framework/runtime.h"
-
 #include "framework/mesh/mesh_modifiers/mesh_modifier.h"
-
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 
 namespace chi_mesh::lua_utils
 {
@@ -33,12 +30,13 @@ MeshModifiersApply(const chi::InputParameters& params)
   const std::string fname = __FUNCTION__;
   const std::vector<size_t> handles = params.GetParamVectorValue<size_t>("arg0");
 
-  for (const size_t handle : handles)
-  {
-    auto& modifier = Chi::GetStackItem<MeshModifier>(Chi::object_stack, handle, fname);
-
-    modifier.Apply();
-  }
+  // FIXME
+  // for (const size_t handle : handles)
+  // {
+  //   auto& modifier = Chi::GetStackItem<MeshModifier>(Chi::object_stack, handle, fname);
+  //
+  //   modifier.Apply();
+  // }
 
   return chi::ParameterBlock(); // Return empty param block
 }

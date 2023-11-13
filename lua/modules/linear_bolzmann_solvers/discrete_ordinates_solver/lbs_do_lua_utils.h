@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 
 namespace lbs::disc_ord_lua_utils
 {

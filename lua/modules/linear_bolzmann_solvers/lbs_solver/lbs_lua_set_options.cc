@@ -2,7 +2,7 @@
 
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
 
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 
@@ -34,18 +34,19 @@ GetSyntax_SetOptions()
 chi::ParameterBlock
 SetOptions(const chi::InputParameters& params)
 {
-  const std::string fname = __FUNCTION__;
-
-  params.RequireParameter("arg0");
-  params.RequireParameter("arg1");
-
-  const size_t handle = params.GetParamValue<size_t>("arg0");
-  auto& lbs_solver = Chi::GetStackItem<lbs::LBSSolver>(Chi::object_stack, handle, fname);
-
-  auto options_params = LBSSolver::OptionsBlock();
-  options_params.AssignParameters(params.GetParam("arg1"));
-
-  lbs_solver.SetOptions(options_params);
+  // FIXME
+  // const std::string fname = __FUNCTION__;
+  //
+  // params.RequireParameter("arg0");
+  // params.RequireParameter("arg1");
+  //
+  // const size_t handle = params.GetParamValue<size_t>("arg0");
+  // auto& lbs_solver = Chi::GetStackItem<lbs::LBSSolver>(Chi::object_stack, handle, fname);
+  //
+  // auto options_params = LBSSolver::OptionsBlock();
+  // options_params.AssignParameters(params.GetParam("arg1"));
+  //
+  // lbs_solver.SetOptions(options_params);
 
   return chi::ParameterBlock();
 }

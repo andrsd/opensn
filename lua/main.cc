@@ -1,6 +1,6 @@
 #include "lua/framework/init.h"
 #include "framework/runtime.h"
-#include "framework/console/console.h"
+#include "lua/base/console.h"
 #include "framework/logging/log.h"
 #include "framework/event_system/event.h"
 #include "modules/modules_lua.h"

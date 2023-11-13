@@ -13,7 +13,7 @@ private:
 public:
   static chi::InputParameters GetInputParameters();
 
-  explicit LuaDimAToDimB(const chi::InputParameters& params);
+  explicit LuaDimAToDimB(opensn::App& app, const chi::InputParameters& params);
 
   std::vector<double> Evaluate(const std::vector<double>& vals) const override;
 

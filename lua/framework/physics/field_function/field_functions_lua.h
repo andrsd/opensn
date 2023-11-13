@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework/lua.h"
+#include "lua/base/lua.h"
 
 /**Gets a field-function handle by name.
  * \param FFname string Name of the field function.
