@@ -74,7 +74,7 @@ CellVolumeIntegralPostProcessor::Initialize()
 }
 
 void
-CellVolumeIntegralPostProcessor::Execute(const Event& event_context)
+CellVolumeIntegralPostProcessor::Execute(const opensn::Event& event_context)
 {
   if (not initialized_) Initialize();
 
@@ -138,7 +138,7 @@ CellVolumeIntegralPostProcessor::Execute(const Event& event_context)
   }
 
   const int event_code = event_context.Code();
-  if (event_code == Event::SolverInitialized or event_code == Event::SolverAdvanced)
+  if (event_code == opensn::Event::SolverInitialized or event_code == opensn::Event::SolverAdvanced)
   {
     const auto& event_params = event_context.Parameters();
 

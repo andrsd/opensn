@@ -51,13 +51,13 @@ SolverInfoPostProcessor::SolverInfoPostProcessor(opensn::App& app, const InputPa
 }
 
 void
-SolverInfoPostProcessor::Execute(const Event& event_context)
+SolverInfoPostProcessor::Execute(const opensn::Event& event_context)
 {
   value_ = solver_->GetInfoWithPreCheck(info_);
   SetType(FigureTypeFromValue(value_));
 
   const int event_code = event_context.Code();
-  if (event_code == Event::SolverInitialized or event_code == Event::SolverAdvanced)
+  if (event_code == opensn::Event::SolverInitialized or event_code == opensn::Event::SolverAdvanced)
   {
     TimeHistoryEntry entry{
       solver_->GetTimeStepper().TimeStepIndex(), solver_->GetTimeStepper().Time(), value_};

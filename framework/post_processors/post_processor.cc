@@ -1,9 +1,8 @@
 #include "framework/post_processors/post_processor.h"
 #include "framework/app.h"
-#include "framework/physics/physics_event_publisher.h"
+#include "framework/event_system/physics_event_publisher.h"
 #include "framework/event_system/event_subscriber.h"
 #include "framework/event_system/event.h"
-
 #include "framework/logging/log.h"
 #include "framework/object_factory.h"
 #include <inttypes.h>
@@ -127,17 +126,16 @@ PostProcessor::PushOntoStack(std::shared_ptr<ChiObject>& new_object)
   App().PostprocessorStack().push_back(pp_ptr);
   new_object->SetStackID(App().PostprocessorStack().size() - 1);
 
-  auto new_subscriber = std::dynamic_pointer_cast<chi::EventSubscriber>(pp_ptr);
+  auto new_subscriber = std::dynamic_pointer_cast<opensn::EventSubscriber>(pp_ptr);
 
-  ChiLogicalErrorIf(not new_subscriber,
-                    "Failure to cast chi::PostProcessor to chi::EventSubscriber");
+  ChiLogicalErrorIf(not new_subscriber, "Failure to cast chi::PostProcessor to EventSubscriber");
 
   auto& publisher = App().PhysicsEventPublisher();
   publisher.AddSubscriber(new_subscriber);
 }
 
 void
-PostProcessor::ReceiveEventUpdate(const Event& event)
+PostProcessor::ReceiveEventUpdate(const opensn::Event& event)
 {
   auto it = std::find(
     subscribed_events_for_execution_.begin(), subscribed_events_for_execution_.end(), event.Name());

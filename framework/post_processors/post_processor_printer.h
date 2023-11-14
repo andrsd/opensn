@@ -20,12 +20,12 @@ class ParameterBlock;
 /**
  * A helper object to allow the printer to subscribe to events.
  */
-class PPPrinterSubscribeHelper : public EventSubscriber
+class PPPrinterSubscribeHelper : public opensn::EventSubscriber
 {
 public:
   explicit PPPrinterSubscribeHelper(PostProcessorPrinter& printer_ref);
 
-  void ReceiveEventUpdate(const Event& event) override;
+  void ReceiveEventUpdate(const opensn::Event& event) override;
 
 private:
   PostProcessorPrinter& printer_ref_;
@@ -38,7 +38,7 @@ enum class ScalarPPTableFormat : int
 };
 
 /**
- * A singleton responsible for printing post-processors.
+ * Class for printing post-processors.
  */
 class PostProcessorPrinter
 {
@@ -49,9 +49,7 @@ public:
 
   opensn::App& App() const { return app_; }
 
-  void ReceiveEventUpdate(const Event& event);
-
-  static char SubscribeToSystemWideEventPublisher();
+  void ReceiveEventUpdate(const opensn::Event& event);
 
   void SetScalarPPTableFormat(ScalarPPTableFormat format);
   void SetEventsOnWhichPrintPPs(const std::vector<std::string>& events);
@@ -73,11 +71,11 @@ public:
   std::string GetPrintedPostProcessors(const std::vector<const PostProcessor*>& pp_list) const;
 
 private:
-  void PrintPostProcessors(const Event& event) const;
+  void PrintPostProcessors(const opensn::Event& event) const;
 
   void PrintPPsLatestValuesOnly(const std::string& pps_typename,
                                 const std::vector<const PostProcessor*>& pp_list,
-                                const Event& event) const;
+                                const opensn::Event& event) const;
 
   static std::string PrintPPsHorizontal(
     const std::vector<std::pair<std::string, std::string>>& scalar_ppnames_and_vals, int);
@@ -87,13 +85,13 @@ private:
 
   void PrintPPsTimeHistory(const std::string& pps_typename,
                            const std::vector<const PostProcessor*>& pp_list,
-                           const Event& event,
+                           const opensn::Event& event,
                            bool per_column_sizes = false) const;
 
   static std::string
   PrintPPsSubTimeHistory(const std::vector<std::vector<std::string>>& sub_history);
 
-  void PrintCSVFile(const Event& event) const;
+  void PrintCSVFile(const opensn::Event& event) const;
   static void PrintScalarPPsToCSV(std::ofstream& csvfile,
                                   const std::vector<const PostProcessor*>& pp_list);
   static void PrintVectorPPsToCSV(std::ofstream& csvfile,
@@ -101,11 +99,12 @@ private:
   static void PrintArbitraryPPsToCSV(std::ofstream& csvfile,
                                      const std::vector<const PostProcessor*>& pp_list);
 
-  std::vector<const PostProcessor*> GetScalarPostProcessorsList(const Event& event) const;
+  std::vector<const PostProcessor*> GetScalarPostProcessorsList(const opensn::Event& event) const;
 
-  std::vector<const PostProcessor*> GetVectorPostProcessorsList(const Event& event) const;
+  std::vector<const PostProcessor*> GetVectorPostProcessorsList(const opensn::Event& event) const;
 
-  std::vector<const PostProcessor*> GetArbitraryPostProcessorsList(const Event& event) const;
+  std::vector<const PostProcessor*>
+  GetArbitraryPostProcessorsList(const opensn::Event& event) const;
 
   static std::vector<std::vector<std::string>>
   BuildPPHistoryMatrix(size_t timehistsize,

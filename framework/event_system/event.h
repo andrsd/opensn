@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace chi
+namespace opensn
 {
 
 class Event
@@ -26,10 +26,10 @@ public:
   };
 
   Event(const std::string& name);
-  Event(const std::string& name, const ParameterBlock& parameter_block);
+  Event(const std::string& name, const chi::ParameterBlock& parameter_block);
   const std::string& Name() const;
   EventCode Code() const;
-  const ParameterBlock& Parameters() const;
+  const chi::ParameterBlock& Parameters() const;
 
   virtual ~Event() = default;
 
@@ -42,7 +42,7 @@ public:
 protected:
   const std::string name_;
   const EventCode code_;
-  const ParameterBlock params_;
+  const chi::ParameterBlock params_;
 
 public:
   /**
@@ -55,4 +55,4 @@ public:
   static Event::EventCode GetStandardCode(const std::string& event_name);
 };
 
-} // namespace chi
+} // namespace opensn

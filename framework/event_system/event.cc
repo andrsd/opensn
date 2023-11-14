@@ -1,14 +1,14 @@
 #include "framework/event_system/event.h"
 #include <map>
 
-namespace chi
+namespace opensn
 {
 
 Event::Event(const std::string& name) : name_(name), code_(Event::GetStandardCode(name)), params_()
 {
 }
 
-Event::Event(const std::string& name, const ParameterBlock& parameter_block)
+Event::Event(const std::string& name, const chi::ParameterBlock& parameter_block)
   : name_(name), code_(Event::GetStandardCode(name)), params_(parameter_block)
 {
 }
@@ -25,7 +25,7 @@ Event::Code() const
   return code_;
 }
 
-const ParameterBlock&
+const chi::ParameterBlock&
 Event::Parameters() const
 {
   return params_;
@@ -59,4 +59,4 @@ Event::GetStandardCode(const std::string& event_name)
   return Event::Unknown;
 }
 
-} // namespace chi
+} // namespace opensn

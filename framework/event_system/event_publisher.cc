@@ -3,10 +3,9 @@
 #include "framework/event_system/event.h"
 #include "framework/event_system/event_subscriber.h"
 #include "framework/logging/log.h"
-
 #include <algorithm>
 
-namespace chi
+namespace opensn
 {
 
 EventPublisher::EventPublisher(opensn::App& app, const std::string& name)
@@ -15,7 +14,7 @@ EventPublisher::EventPublisher(opensn::App& app, const std::string& name)
 }
 
 void
-EventPublisher::PublishEvent(const chi::Event& event)
+EventPublisher::PublishEvent(const Event& event)
 {
   size_t subs = 0;
   for (auto& subscriber_wptr : subscribers_)
@@ -30,16 +29,16 @@ EventPublisher::PublishEvent(const chi::Event& event)
 }
 
 void
-EventPublisher::AddSubscriber(std::shared_ptr<chi::EventSubscriber>& subscriber_sptr)
+EventPublisher::AddSubscriber(std::shared_ptr<EventSubscriber>& subscriber_sptr)
 {
-  std::weak_ptr<chi::EventSubscriber> wptr = subscriber_sptr;
+  std::weak_ptr<EventSubscriber> wptr = subscriber_sptr;
 
   auto it = std::find_if(subscribers_.begin(),
                          subscribers_.end(),
-                         [&wptr](const std::weak_ptr<chi::EventSubscriber>& ptr1)
+                         [&wptr](const std::weak_ptr<EventSubscriber>& ptr1)
                          { return ptr1.lock() == wptr.lock(); });
 
   if (it == subscribers_.end()) subscribers_.push_back(std::move(wptr));
 }
 
-} // namespace chi
+} // namespace opensn

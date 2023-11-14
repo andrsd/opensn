@@ -3,10 +3,20 @@
 namespace opensn
 {
 
-App::App(MPI_Comm comm) : comm_(comm), log_(*this), factory_(*this), physics_event_publisher_(*this)
+App::App(MPI_Comm comm)
+  : comm_(comm),
+    log_(*this),
+    factory_(*this),
+    system_wide_event_publisher_(*this),
+    physics_event_publisher_(*this),
+    post_processor_printer_(*this)
 {
   MPI_Comm_rank(comm_, &location_id_);
   MPI_Comm_size(comm_, &proccess_count_);
+
+  auto helper_ptr = std::make_shared<chi::PPPrinterSubscribeHelper>(post_processor_printer_);
+  auto subscriber_ptr = std::dynamic_pointer_cast<EventSubscriber>(helper_ptr);
+  system_wide_event_publisher_.AddSubscriber(subscriber_ptr);
 }
 
 MPI_Comm
@@ -81,7 +91,13 @@ App::AngularQuadratureStack()
   return angular_quadrature_stack_;
 }
 
-chi_physics::PhysicsEventPublisher&
+SystemWideEventPublisher&
+App::SystemWideEventPublisher()
+{
+  return system_wide_event_publisher_;
+}
+
+opensn::PhysicsEventPublisher&
 App::PhysicsEventPublisher()
 {
   return physics_event_publisher_;

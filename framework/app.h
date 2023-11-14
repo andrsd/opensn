@@ -4,13 +4,15 @@
 #include "framework/object.h"
 #include "framework/object_factory.h"
 #include "framework/utils/timer.h"
+#include "framework/event_system/system_wide_event_publisher.h"
+#include "framework/event_system/physics_event_publisher.h"
 #include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/physics/physics_material/physics_material.h"
-#include "framework/physics/physics_event_publisher.h"
 #include "framework/physics/field_function/field_function.h"
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
 #include "framework/post_processors/post_processor.h"
+#include "framework/post_processors/post_processor_printer.h"
 #include <mpi.h>
 
 namespace opensn
@@ -34,7 +36,8 @@ public:
   std::vector<chi_physics::MultiGroupXSPtr>& MultigroupXSStack();
   std::vector<chi::PostProcessorPtr>& PostprocessorStack();
   std::vector<chi_math::AngularQuadraturePtr>& AngularQuadratureStack();
-  chi_physics::PhysicsEventPublisher& PhysicsEventPublisher();
+  SystemWideEventPublisher& SystemWideEventPublisher();
+  PhysicsEventPublisher& PhysicsEventPublisher();
 
   chi::Timer& ProgramTimer();
 
@@ -144,13 +147,17 @@ private:
   /// Angular quadratures
   std::vector<chi_math::AngularQuadraturePtr> angular_quadrature_stack_;
 
+  /// System-wide event publisher
+  opensn::SystemWideEventPublisher system_wide_event_publisher_;
   /// Pysics event publisher
-  chi_physics::PhysicsEventPublisher physics_event_publisher_;
+  opensn::PhysicsEventPublisher physics_event_publisher_;
 
   /// Program timer
   chi::Timer program_timer_;
 
   int current_mesh_handler_;
+
+  chi::PostProcessorPrinter post_processor_printer_;
 
 public:
   /** Exits the program appropriately.*/

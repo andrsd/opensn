@@ -23,7 +23,7 @@ enum class PPNumericFormat : int
 };
 
 /**Base class for all post-processors.*/
-class PostProcessor : public ChiObject, public EventSubscriber
+class PostProcessor : public ChiObject, public opensn::EventSubscriber
 {
 public:
   struct TimeHistoryEntry
@@ -48,9 +48,9 @@ public:
    * `chi_physics::PhysicsEventPublisher` singleton.*/
   void PushOntoStack(std::shared_ptr<ChiObject>& new_object) override;
 
-  void ReceiveEventUpdate(const Event& event) override;
+  void ReceiveEventUpdate(const opensn::Event& event) override;
 
-  virtual void Execute(const Event& event_context) = 0;
+  virtual void Execute(const opensn::Event& event_context) = 0;
 
   /**Gets the scalar value currently stored for the post-processor.*/
   virtual const ParameterBlock& GetValue() const;

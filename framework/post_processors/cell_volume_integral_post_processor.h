@@ -24,7 +24,7 @@ public:
   static InputParameters GetInputParameters();
   explicit CellVolumeIntegralPostProcessor(opensn::App& app, const InputParameters& params);
 
-  void Execute(const Event& event_context) override;
+  void Execute(const opensn::Event& event_context) override;
 
 protected:
   void Initialize();

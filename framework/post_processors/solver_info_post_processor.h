@@ -21,7 +21,7 @@ public:
   static InputParameters GetInputParameters();
   explicit SolverInfoPostProcessor(opensn::App& app, const InputParameters& params);
 
-  void Execute(const Event& event_context) override;
+  void Execute(const opensn::Event& event_context) override;
 
 private:
   std::shared_ptr<chi_physics::Solver> solver_;

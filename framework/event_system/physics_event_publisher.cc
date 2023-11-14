@@ -1,28 +1,26 @@
-#include "framework/physics/physics_event_publisher.h"
+#include "framework/event_system/physics_event_publisher.h"
+#include "framework/app.h"
 #include "framework/event_system/event.h"
 #include "framework/event_system/system_wide_event_publisher.h"
-
 #include "framework/physics/solver_base/solver.h"
 #include "framework/physics/time_steppers/time_stepper.h"
 
-namespace chi_physics
+namespace opensn
 {
 
-PhysicsEventPublisher::PhysicsEventPublisher(opensn::App& app) : chi::EventPublisher(app, "Physics")
+PhysicsEventPublisher::PhysicsEventPublisher(opensn::App& app) : EventPublisher(app, "Physics")
 {
 }
 
 void
-PhysicsEventPublisher::PublishEvent(const chi::Event& event)
+PhysicsEventPublisher::PublishEvent(const Event& event)
 {
-  chi::EventPublisher::PublishEvent(event);
-
-  // FIXME
-  // chi::SystemWideEventPublisher::GetInstance().PublishEvent(event);
+  EventPublisher::PublishEvent(event);
+  App().SystemWideEventPublisher().PublishEvent(event);
 }
 
 void
-PhysicsEventPublisher::SolverInitialize(Solver& solver)
+PhysicsEventPublisher::SolverInitialize(chi_physics::Solver& solver)
 {
   {
     const std::string event_name = "SolverPreInitialize";
@@ -30,7 +28,7 @@ PhysicsEventPublisher::SolverInitialize(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 
   solver.Initialize();
@@ -42,12 +40,12 @@ PhysicsEventPublisher::SolverInitialize(Solver& solver)
     params.AddParameter("solver_handle", solver.StackID());
     params.AddParameter("time", solver.GetTimeStepper().Time());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 }
 
 void
-PhysicsEventPublisher::SolverExecute(Solver& solver)
+PhysicsEventPublisher::SolverExecute(chi_physics::Solver& solver)
 {
   {
     const std::string event_name = "SolverPreExecution";
@@ -55,7 +53,7 @@ PhysicsEventPublisher::SolverExecute(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 
   solver.Execute();
@@ -66,12 +64,12 @@ PhysicsEventPublisher::SolverExecute(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 }
 
 void
-PhysicsEventPublisher::SolverStep(Solver& solver)
+PhysicsEventPublisher::SolverStep(chi_physics::Solver& solver)
 {
   {
     const std::string event_name = "SolverPreStep";
@@ -79,7 +77,7 @@ PhysicsEventPublisher::SolverStep(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 
   solver.Step();
@@ -90,12 +88,12 @@ PhysicsEventPublisher::SolverStep(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 }
 
 void
-PhysicsEventPublisher::SolverAdvance(Solver& solver)
+PhysicsEventPublisher::SolverAdvance(chi_physics::Solver& solver)
 {
   {
     const std::string event_name = "SolverPreAdvance";
@@ -103,7 +101,7 @@ PhysicsEventPublisher::SolverAdvance(Solver& solver)
     params.AddParameter("solver_name", solver.TextName());
     params.AddParameter("solver_handle", solver.StackID());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 
   solver.Advance();
@@ -116,8 +114,8 @@ PhysicsEventPublisher::SolverAdvance(Solver& solver)
     params.AddParameter("time", solver.GetTimeStepper().Time());
     params.AddParameter("timestep_index", solver.GetTimeStepper().TimeStepIndex());
 
-    PublishEvent(chi::Event(event_name, params));
+    PublishEvent(Event(event_name, params));
   }
 }
 
-} // namespace chi_physics
+} // namespace opensn
