@@ -93,7 +93,7 @@ App::ProgramTimer()
   return program_timer_;
 }
 
-ChiObjectFactory&
+ObjectFactory&
 App::Factory()
 {
   return factory_;

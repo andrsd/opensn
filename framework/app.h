@@ -38,7 +38,7 @@ public:
 
   chi::Timer& ProgramTimer();
 
-  ChiObjectFactory& Factory();
+  ObjectFactory& Factory();
 
   /**
    * Obtains a reference to the current mesh handler from the global stack.
@@ -125,7 +125,7 @@ private:
   chi::ChiLog log_;
 
   /// Factory for creating objects
-  ChiObjectFactory factory_;
+  ObjectFactory factory_;
 
   /// Objects
   std::vector<chi::ChiObjectPtr> object_stack_;

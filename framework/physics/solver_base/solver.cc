@@ -81,7 +81,7 @@ Solver::InitTimeStepper(opensn::App& app, const chi::InputParameters& params)
     auto& factory = app.Factory();
 
     const std::string obj_type = "chi_physics::ConstantTimeStepper";
-    auto valid_params = ChiObjectFactory::GetRegisteredObjectParameters(obj_type);
+    auto valid_params = factory.GetRegisteredObjectParameters(obj_type);
     chi::ParameterBlock custom_params;
 
     if (params.NumParameters() != 0)
