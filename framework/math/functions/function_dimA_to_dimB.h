@@ -16,7 +16,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit FunctionDimAToDimB(opensn::App& app, const chi::InputParameters& params);
+  explicit FunctionDimAToDimB(const chi::InputParameters& params);
 
   size_t InputDimension() const { return input_dimension_; }
   size_t OutputDimension() const { return output_dimension_; }

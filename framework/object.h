@@ -23,7 +23,7 @@ public:
   explicit ChiObject(opensn::App& app);
 
   /**Constructor with input parameters.*/
-  explicit ChiObject(opensn::App& app, const chi::InputParameters& params);
+  explicit ChiObject(const chi::InputParameters& params);
 
   // Setters
   /**Sets the stack id of the object. This allows this

@@ -41,8 +41,8 @@ MeshGenerator::GetInputParameters()
   return params;
 }
 
-MeshGenerator::MeshGenerator(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params),
+MeshGenerator::MeshGenerator(const chi::InputParameters& params)
+  : ChiObject(params),
     scale_(params.GetParamValue<double>("scale")),
     replicated_(params.GetParamValue<bool>("replicated_mesh"))
 {

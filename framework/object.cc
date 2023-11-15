@@ -19,8 +19,8 @@ ChiObject::ChiObject(opensn::App& app) : stack_id_(SIZE_T_INVALID), app_(app)
 {
 }
 
-ChiObject::ChiObject(opensn::App& app, const chi::InputParameters& params)
-  : stack_id_(SIZE_T_INVALID), app_(app)
+ChiObject::ChiObject(const chi::InputParameters& params)
+  : stack_id_(SIZE_T_INVALID), app_(params.App())
 {
 }
 

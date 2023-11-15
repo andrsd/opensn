@@ -122,11 +122,10 @@ lbs::LBSGroupset::GetInputParameters()
   return params;
 }
 
-lbs::LBSGroupset::LBSGroupset(opensn::App& app,
-                              const chi::InputParameters& params,
+lbs::LBSGroupset::LBSGroupset(const chi::InputParameters& params,
                               const int id,
                               const LBSSolver& lbs_solver)
-  : ChiObject(app, params), id_(id), psi_uk_man_(app)
+  : ChiObject(params), id_(id), psi_uk_man_(app)
 {
   const std::string fname = __FUNCTION__;
 

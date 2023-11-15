@@ -25,9 +25,8 @@ MaterialPropertyScalarFuncXYZTV::GetInputParameters()
 
 typedef chi_math::FunctionDimAToDimB SFXYZV;
 
-MaterialPropertyScalarFuncXYZTV::MaterialPropertyScalarFuncXYZTV(opensn::App& app,
-                                                                 const InputParameters& params)
-  : MaterialProperty(app, params),
+MaterialPropertyScalarFuncXYZTV::MaterialPropertyScalarFuncXYZTV(const InputParameters& params)
+  : MaterialProperty(params),
     function_(
       App().GetStackObject<SFXYZV>(params.GetParamValue<size_t>("function_handle"), __FUNCTION__)),
     dependent_variables_(params.GetParamVectorValue<std::string>("dependent_variables"))

@@ -104,6 +104,18 @@ InputParameters::operator+=(InputParameters other)
 }
 
 void
+InputParameters::SetApp(opensn::App* app)
+{
+  app_ = app;
+}
+
+opensn::App&
+InputParameters::App() const
+{
+  return *app_;
+}
+
+void
 InputParameters::SetObjectType(const std::string& obj_type)
 {
   class_name_ = obj_type;

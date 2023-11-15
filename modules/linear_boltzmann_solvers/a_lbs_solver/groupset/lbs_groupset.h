@@ -75,10 +75,7 @@ public:
   // lbs_groupset.cc
   static chi::InputParameters GetInputParameters();
   /**Input parameters based constructor.*/
-  explicit LBSGroupset(opensn::App& app,
-                       const chi::InputParameters& params,
-                       int id,
-                       const LBSSolver& lbs_solver);
+  explicit LBSGroupset(const chi::InputParameters& params, int id, const LBSSolver& lbs_solver);
   explicit LBSGroupset(opensn::App& app) : LBSGroupset(app, -1){};
   explicit LBSGroupset(opensn::App& app, int id) : chi::ChiObject(app), id_(id), psi_uk_man_(app) {}
 

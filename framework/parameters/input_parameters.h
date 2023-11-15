@@ -7,6 +7,11 @@
 
 #define MakeInpParamsForObj(x, y) chi::InputParameters::MakeForObject<x>(y)
 
+namespace opensn
+{
+class App;
+}
+
 namespace chi
 {
 
@@ -22,6 +27,7 @@ enum class InputParameterTag
 class InputParameters : public ParameterBlock
 {
 private:
+  opensn::App* app_;
   /**String to represent class name. If not provided a default will be
    * generated.*/
   std::string class_name_;
@@ -60,6 +66,13 @@ public:
   }
 
 public:
+  /**
+   * Set the application this object is part of
+   */
+  void SetApp(opensn::App* app);
+
+  opensn::App& App() const;
+
   /**Sets the object type string for more descriptive error messages.*/
   void SetObjectType(const std::string& obj_type);
   /**Returns the object type string.*/

@@ -71,7 +71,7 @@ public:
   static InputParameters GetInputParameters();
 
 protected:
-  explicit PostProcessor(opensn::App& app, const InputParameters& params, PPType type);
+  explicit PostProcessor(const InputParameters& params, PPType type);
 
   static PPType FigureTypeFromValue(const ParameterBlock& value);
 

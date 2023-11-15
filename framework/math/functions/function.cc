@@ -10,8 +10,7 @@ Function::GetInputParameters()
   return params;
 }
 
-Function::Function(opensn::App& app, const chi::InputParameters& params)
-  : chi::ChiObject(app, params)
+Function::Function(const chi::InputParameters& params) : chi::ChiObject(params)
 {
 }
 

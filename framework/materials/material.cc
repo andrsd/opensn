@@ -22,7 +22,7 @@ Material::GetInputParameters()
 }
 
 Material::Material(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params), name_(params.GetParamValue<std::string>("name"))
+  : ChiObject(params), name_(params.GetParamValue<std::string>("name"))
 {
 }
 

@@ -31,8 +31,8 @@ FieldFunction::GetInputParameters()
   return params;
 }
 
-FieldFunction::FieldFunction(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params),
+FieldFunction::FieldFunction(const chi::InputParameters& params)
+  : ChiObject(params),
     text_name_(params.GetParamValue<std::string>("name")),
     unknown_((params.GetParamValue<std::string>("unknown_type") == "Scalar")
                ? chi_math::Unknown(chi_math::UnknownType::SCALAR)

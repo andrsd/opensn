@@ -39,8 +39,8 @@ KBAGraphPartitioner::KBAGraphPartitioner(opensn::App& app) : GraphPartitioner(ap
 {
 }
 
-KBAGraphPartitioner::KBAGraphPartitioner(opensn::App& app, const InputParameters& params)
-  : GraphPartitioner(app, params),
+KBAGraphPartitioner::KBAGraphPartitioner(const InputParameters& params)
+  : GraphPartitioner(params),
     nx_(params.GetParamValue<size_t>("nx")),
     ny_(params.GetParamValue<size_t>("ny")),
     nz_(params.GetParamValue<size_t>("nz")),

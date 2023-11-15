@@ -17,8 +17,7 @@ TimeIntegration::GetInputParameters()
   return params;
 }
 
-TimeIntegration::TimeIntegration(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params)
+TimeIntegration::TimeIntegration(const chi::InputParameters& params) : ChiObject(params)
 {
   const int method_option = params.GetParamValue<int>("method");
   if (method_option == scint(SteppingMethod::EXPLICIT_EULER))

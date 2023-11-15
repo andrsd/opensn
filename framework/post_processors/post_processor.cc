@@ -60,8 +60,8 @@ PostProcessor::GetInputParameters()
   return params;
 }
 
-PostProcessor::PostProcessor(opensn::App& app, const InputParameters& params, PPType type)
-  : ChiObject(app, params),
+PostProcessor::PostProcessor(const InputParameters& params, PPType type)
+  : ChiObject(params),
     name_(params.GetParamValue<std::string>("name")),
     subscribed_events_for_execution_(params.GetParamVectorValue<std::string>("execute_on")),
     subscribed_events_for_printing_(params.GetParamVectorValue<std::string>("print_on")),

@@ -20,7 +20,7 @@ public:
   static chi::InputParameters GetInputParameters();
 
 protected:
-  explicit Function(opensn::App& app, const chi::InputParameters& params);
+  explicit Function(const chi::InputParameters& params);
 };
 
 typedef std::shared_ptr<Function> FunctionPtr;

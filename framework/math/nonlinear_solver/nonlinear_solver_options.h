@@ -9,7 +9,7 @@ class NonLinearSolverOptions : public chi::ChiObject
 {
 public:
   static chi::InputParameters GetInputParameters();
-  explicit NonLinearSolverOptions(opensn::App& app, const chi::InputParameters& params);
+  explicit NonLinearSolverOptions(const chi::InputParameters& params);
 
   std::string nl_method_ = "JFNK";
   std::string l_method_ = "gmres";

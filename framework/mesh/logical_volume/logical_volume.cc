@@ -9,8 +9,7 @@ LogicalVolume::GetInputParameters()
   return ChiObject::GetInputParameters();
 }
 
-LogicalVolume::LogicalVolume(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params)
+LogicalVolume::LogicalVolume(const chi::InputParameters& params) : ChiObject(params)
 {
 }
 

@@ -24,7 +24,7 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**ObjectMaker based constructor.*/
-  explicit FieldFunction(opensn::App& app, const chi::InputParameters& params);
+  explicit FieldFunction(const chi::InputParameters& params);
 
   /**Conventional constructor.*/
   FieldFunction(opensn::App& app, const std::string& text_name, chi_math::Unknown unknown);

@@ -27,8 +27,8 @@ TimeStepper::GetInputParameters()
   return params;
 }
 
-TimeStepper::TimeStepper(opensn::App& app, const chi::InputParameters& params)
-  : ChiObject(app, params),
+TimeStepper::TimeStepper(const chi::InputParameters& params)
+  : ChiObject(params),
     dt_(params.GetParamValue<double>("dt")),
     time_(params.GetParamValue<double>("time")),
     t_index_(params.GetParamValue<size_t>("time_index")),

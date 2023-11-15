@@ -13,7 +13,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit MaterialProperty(opensn::App& app, const chi::InputParameters& params);
+  explicit MaterialProperty(const chi::InputParameters& params);
 
   const std::string& TextName() const;
 };

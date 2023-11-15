@@ -17,7 +17,7 @@ protected:
 
 public:
   static InputParameters GetInputParameters();
-  explicit MaterialPropertyScalarFuncXYZTV(opensn::App& app, const InputParameters& params);
+  explicit MaterialPropertyScalarFuncXYZTV(const InputParameters& params);
 
   double Evaluate(const std::vector<double>& vars);
 };

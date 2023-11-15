@@ -79,8 +79,8 @@ Quadrature::GetInputParameters()
   return params;
 }
 
-Quadrature::Quadrature(opensn::App& app, const chi::InputParameters& params)
-  : chi::ChiObject(app, params),
+Quadrature::Quadrature(const chi::InputParameters& params)
+  : chi::ChiObject(params),
     order_(static_cast<QuadratureOrder>(params.GetParamValue<int>("order"))),
     verbose_(params.GetParamValue<bool>("verbose"))
 {

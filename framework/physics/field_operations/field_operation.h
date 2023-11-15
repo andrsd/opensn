@@ -13,7 +13,7 @@ public:
   static chi::InputParameters GetInputParameters();
 
   /**Constructor.*/
-  explicit FieldOperation(opensn::App& app, const chi::InputParameters& params);
+  explicit FieldOperation(const chi::InputParameters& params);
 
   virtual void Execute() = 0;
 

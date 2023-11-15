@@ -70,7 +70,7 @@ public:
 
 protected:
   static chi::InputParameters GetInputParameters();
-  explicit TimeStepper(opensn::App& app, const chi::InputParameters& params);
+  explicit TimeStepper(const chi::InputParameters& params);
 
   double dt_;
   double time_;

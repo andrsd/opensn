@@ -41,7 +41,7 @@ public:
   virtual void Execute();
 
   static chi::InputParameters GetInputParameters();
-  explicit MeshGenerator(opensn::App& app, const chi::InputParameters& params);
+  explicit MeshGenerator(const chi::InputParameters& params);
 
   /**
    * Virtual method to generate the unpartitioned mesh for the next step.

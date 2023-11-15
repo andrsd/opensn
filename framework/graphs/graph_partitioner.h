@@ -22,7 +22,7 @@ public:
 protected:
   static InputParameters GetInputParameters();
   explicit GraphPartitioner(opensn::App& app);
-  explicit GraphPartitioner(opensn::App& app, const InputParameters& params);
+  explicit GraphPartitioner(const InputParameters& params);
 };
 
 } // namespace chi

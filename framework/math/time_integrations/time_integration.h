@@ -13,7 +13,7 @@ private:
 
 public:
   static chi::InputParameters GetInputParameters();
-  explicit TimeIntegration(opensn::App& app, const chi::InputParameters& params);
+  explicit TimeIntegration(const chi::InputParameters& params);
 
   SteppingMethod Method() const;
 

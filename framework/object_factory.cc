@@ -74,7 +74,9 @@ ObjectFactory::GetRegisteredObjectParameters(const std::string& type)
 {
   auto registry = opensn::Registry::Instance();
   auto entry = registry.Find(type);
-  return entry.get_in_params_func();
+  auto params = entry.get_in_params_func();
+  params.SetApp(&app_);
+  return params;
 }
 
 } // namespace opensn

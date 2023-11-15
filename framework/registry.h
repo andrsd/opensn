@@ -127,9 +127,9 @@ private:
    * Utility redirection to call an object's constructor with a specified list of input parameters.
    */
   template <typename T, typename base_T>
-  static std::shared_ptr<base_T> CallObjectConstructor(App& app, const chi::InputParameters& params)
+  static std::shared_ptr<base_T> CallObjectConstructor(const chi::InputParameters& params)
   {
-    return std::make_shared<T>(app, params);
+    return std::make_shared<T>(params);
   }
 
   /**
