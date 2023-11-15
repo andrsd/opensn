@@ -17,6 +17,7 @@ namespace chi_math
 {
 class SpatialDiscretization;
 typedef std::shared_ptr<SpatialDiscretization> SDMPtr;
+class ScalarMaterialFunction;
 } // namespace chi_math
 
 namespace fv_diffusion
@@ -53,22 +54,13 @@ public:
   void Initialize() override;
   void Execute() override;
 
-  // FIXME
-#if 0
-  /**Calls a lua function with xyz coordinates.
-   * \param L The lua state.
-   * \param lua_func_name The name used to define this lua function in the lua
-   *                      state.
-   * \param imat The material ID of the cell
-   * \param xyz The xyz coordinates of the point where the function is called.
-   *
-   * \return The function evaluation.*/
-  static double
-  CallLua_iXYZFunction(lua_State* L, const std::string&, int, const chi_mesh::Vector3&);
-#endif
-
   /**Updates the field functions with the latest data.*/
   void UpdateFieldFunctions();
+
+private:
+  std::shared_ptr<chi_math::ScalarMaterialFunction> d_coef_function_;
+  std::shared_ptr<chi_math::ScalarMaterialFunction> sigma_a_function_;
+  std::shared_ptr<chi_math::ScalarMaterialFunction> q_ext_function_;
 };
 
 } // namespace fv_diffusion

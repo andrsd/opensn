@@ -3,6 +3,7 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/spatial_discretization/finite_element/quadrature_point_data.h"
 #include "framework/math/spatial_discretization/spatial_discretization.h"
+#include "framework/math/functions/scalar_function.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_structs.h"
 #include "framework/app.h"
 #include "framework/logging/log.h"
@@ -60,12 +61,11 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
   if (options.verbose)
     App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
-    // FIXME
-#if 0
-  lua_State* L = Chi::console.GetConsoleState();
-#endif
-  const auto& source_function = options.source_lua_function;
-  const auto& solution_function = options.ref_solution_lua_function;
+  // FIXME: set this from `options`
+  //  const auto& source_function = options.source_lua_function;
+  //  const auto& solution_function = options.ref_solution_lua_function;
+  std::shared_ptr<chi_math::ScalarFunction> source_function;
+  std::shared_ptr<chi_math::ScalarFunction> ref_solution_function;
 
   const size_t num_groups = uk_man_.unknowns_.front().num_components_;
 
@@ -109,21 +109,18 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
             entry_aij +=
               sigr_g * qp_data.ShapeValue(i, qp) * qp_data.ShapeValue(j, qp) * qp_data.JxW(qp);
 
-            if (source_function.empty())
+            if (source_function)
               entry_rhs_i +=
                 qg[j] * qp_data.ShapeValue(i, qp) * qp_data.ShapeValue(j, qp) * qp_data.JxW(qp);
           } // for qp
           MatSetValue(A_, imap, jmap, entry_aij, ADD_VALUES);
         } // for j
 
-        if (not source_function.empty())
+        if (not source_function)
         {
-          // FIXME
-#if 0
           for (size_t qp : qp_data.QuadraturePointIndices())
-            entry_rhs_i += CallLuaXYZFunction(L, source_function, qp_data.QPointXYZ(qp)) *
+            entry_rhs_i += source_function->Evaluate(qp_data.QPointXYZ(qp)) *
                            qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
-#endif
         }
 
         VecSetValue(rhs_, imap, entry_rhs_i, ADD_VALUES);
@@ -273,16 +270,13 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
                          fqp_data.JxW(qp);
                 double aij_bc_value = aij * bc_value;
 
-                if (not solution_function.empty())
+                if (ref_solution_function)
                 {
-                  // FIXME
-#if 0
                   aij_bc_value = 0.0;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     aij_bc_value +=
-                      kappa * CallLuaXYZFunction(L, solution_function, fqp_data.QPointXYZ(qp)) *
+                      kappa * ref_solution_function->Evaluate(fqp_data.QPointXYZ(qp)) *
                       fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) * fqp_data.JxW(qp);
-#endif
                 }
 
                 MatSetValue(A_, imap, jmmap, aij, ADD_VALUES);
@@ -312,18 +306,15 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 
                 double aij_bc_value = aij * bc_value;
 
-                if (not solution_function.empty())
+                if (ref_solution_function)
                 {
-                  // FIXME
-#if 0
                   chi_mesh::Vector3 vec_aij_mms;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     vec_aij_mms +=
-                      CallLuaXYZFunction(L, solution_function, fqp_data.QPointXYZ(qp)) *
+                      ref_solution_function->Evaluate(fqp_data.QPointXYZ(qp)) *
                       (fqp_data.ShapeValue(j, qp) * fqp_data.ShapeGrad(i, qp) * fqp_data.JxW(qp) +
                        fqp_data.ShapeValue(i, qp) * fqp_data.ShapeGrad(j, qp) * fqp_data.JxW(qp));
                   aij_bc_value = -Dg * n_f.Dot(vec_aij_mms);
-#endif
                 }
 
                 MatSetValue(A_, imap, jmap, aij, ADD_VALUES);
@@ -412,12 +403,11 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
   if (options.verbose)
     App().Log().Log() << App().ProgramTimer().GetTimeString() << " Starting assembly";
 
-    // FIXME
-#if 0
-  lua_State* L = Chi::console.GetConsoleState();
-#endif
-  const auto& source_function = options.source_lua_function;
-  const auto& solution_function = options.ref_solution_lua_function;
+  // FIXME: set this from `options`
+  // const auto& source_function = options.source_lua_function;
+  // const auto& solution_function = options.ref_solution_lua_function;
+  std::shared_ptr<chi_math::ScalarFunction> source_function;
+  std::shared_ptr<chi_math::ScalarFunction> ref_solution_function;
 
   VecSet(rhs_, 0.0);
 
@@ -446,7 +436,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
       {
         const int64_t imap = sdm_.MapDOF(cell, i, uk_man_, 0, g);
         double entry_rhs_i = 0.0; // entry may accumulate over j
-        if (source_function.empty())
+        if (source_function)
           for (size_t j = 0; j < num_nodes; j++)
           {
             for (size_t qp : qp_data.QuadraturePointIndices())
@@ -457,12 +447,9 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
           }   // for j
         else
         {
-          // FIXME
-#if 0
           for (size_t qp : qp_data.QuadraturePointIndices())
-            entry_rhs_i += CallLuaXYZFunction(L, source_function, qp_data.QPointXYZ(qp)) *
+            entry_rhs_i += source_function->Evaluate(qp_data.QPointXYZ(qp)) *
                            qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
-#endif
         }
 
         VecSetValue(rhs_, imap, entry_rhs_i, ADD_VALUES);
@@ -512,16 +499,13 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
                          fqp_data.JxW(qp);
                 double aij_bc_value = aij * bc_value;
 
-                if (not solution_function.empty())
+                if (ref_solution_function)
                 {
                   aij_bc_value = 0.0;
-                  // FIXME
-#if 0
                   for (size_t qp : fqp_data.QuadraturePointIndices())
-                    aij_bc_value +=
-                      kappa * CallLuaXYZFunction(L, solution_function, fqp_data.QPointXYZ(qp)) *
-                      fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) * fqp_data.JxW(qp);
-#endif
+                    aij_bc_value += kappa * source_function->Evaluate(fqp_data.QPointXYZ(qp)) *
+                                    fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) *
+                                    fqp_data.JxW(qp);
                 }
 
                 VecSetValue(rhs_, imap, aij_bc_value, ADD_VALUES);
@@ -548,18 +532,15 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
 
                 double aij_bc_value = aij * bc_value;
 
-                if (not solution_function.empty())
+                if (ref_solution_function)
                 {
-                  // FIXME
-#if 0
                   chi_mesh::Vector3 vec_aij_mms;
                   for (size_t qp : fqp_data.QuadraturePointIndices())
                     vec_aij_mms +=
-                      CallLuaXYZFunction(L, solution_function, fqp_data.QPointXYZ(qp)) *
+                      ref_solution_function->Evaluate(fqp_data.QPointXYZ(qp)) *
                       (fqp_data.ShapeValue(j, qp) * fqp_data.ShapeGrad(i, qp) * fqp_data.JxW(qp) +
                        fqp_data.ShapeValue(i, qp) * fqp_data.ShapeGrad(j, qp) * fqp_data.JxW(qp));
                   aij_bc_value = -Dg * n_f.Dot(vec_aij_mms);
-#endif
                 }
 
                 VecSetValue(rhs_, imap, aij_bc_value, ADD_VALUES);

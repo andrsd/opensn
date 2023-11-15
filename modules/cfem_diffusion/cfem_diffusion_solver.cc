@@ -2,6 +2,7 @@
 #include "framework/app.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
+#include "framework/math/functions/scalar_material_function.h"
 #include "framework/mesh/mesh_handler/mesh_handler.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "modules/cfem_diffusion/cfem_diffusion_bndry.h"
@@ -15,6 +16,7 @@ Solver::Solver(opensn::App& app, const std::string& in_solver_name)
   : chi_physics::Solver(
       app, in_solver_name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
 {
+  // TODO: set `d_coef_function_`, `sigma_a_function_`, and `q_ext_function_`
 }
 
 Solver::~Solver()
@@ -160,11 +162,6 @@ Solver::Execute()
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-  // FIXME
-#if 0
-  lua_State* L = Chi::console.GetConsoleState();
-#endif
-
   // Assemble the system
   App().Log().Log() << "Assembling system: ";
   for (const auto& cell : grid.local_cells)
@@ -177,8 +174,6 @@ Solver::Execute()
     MatDbl Acell(num_nodes, VecDbl(num_nodes, 0.0));
     VecDbl cell_rhs(num_nodes, 0.0);
 
-    // FIXME
-#if 0
     for (size_t i = 0; i < num_nodes; ++i)
     {
       for (size_t j = 0; j < num_nodes; ++j)
@@ -186,19 +181,18 @@ Solver::Execute()
         double entry_aij = 0.0;
         for (size_t qp : qp_data.QuadraturePointIndices())
         {
-          entry_aij += (CallLua_iXYZFunction(L, "D_coef", imat, qp_data.QPointXYZ(qp)) *
+          entry_aij += (d_coef_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                           qp_data.ShapeGrad(i, qp).Dot(qp_data.ShapeGrad(j, qp)) +
-                        CallLua_iXYZFunction(L, "Sigma_a", imat, qp_data.QPointXYZ(qp)) *
+                        sigma_a_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                           qp_data.ShapeValue(i, qp) * qp_data.ShapeValue(j, qp)) *
                        qp_data.JxW(qp);
         } // for qp
         Acell[i][j] = entry_aij;
       } // for j
       for (size_t qp : qp_data.QuadraturePointIndices())
-        cell_rhs[i] += CallLua_iXYZFunction(L, "Q_ext", imat, qp_data.QPointXYZ(qp)) *
+        cell_rhs[i] += q_ext_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                        qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
     } // for i
-#endif
 
     // Flag nodes for being on a boundary
     std::vector<int> dirichlet_count(num_nodes, 0);
@@ -333,47 +327,6 @@ Solver::Execute()
 
   App().Log().Log() << "Done solving";
 }
-
-#if 0
-double
-Solver::CallLua_iXYZFunction(lua_State* L,
-                             const std::string& lua_func_name,
-                             const int imat,
-                             const chi_mesh::Vector3& xyz)
-{
-  // Load lua function
-  lua_getglobal(L, lua_func_name.c_str());
-
-  // Error check lua function
-  if (not lua_isfunction(L, -1))
-    throw std::logic_error("CallLua_iXYZFunction attempted to access lua-function, " +
-                           lua_func_name +
-                           ", but it seems the function"
-                           " could not be retrieved.");
-
-  // Push arguments
-  lua_pushinteger(L, imat);
-  lua_pushnumber(L, xyz.x);
-  lua_pushnumber(L, xyz.y);
-  lua_pushnumber(L, xyz.z);
-
-  // Call lua function
-  // 4 arguments, 1 result (double), 0=original error object
-  double lua_return;
-  if (lua_pcall(L, 4, 1, 0) == 0)
-  {
-    LuaCheckNumberValue("CallLua_iXYZFunction", L, -1);
-    lua_return = lua_tonumber(L, -1);
-  }
-  else
-    throw std::logic_error("CallLua_iXYZFunction attempted to call lua-function, " + lua_func_name +
-                           ", but the call failed." + xyz.PrintStr());
-
-  lua_pop(L, 1); // pop the double, or error code
-
-  return lua_return;
-}
-#endif
 
 void
 Solver::UpdateFieldFunctions()

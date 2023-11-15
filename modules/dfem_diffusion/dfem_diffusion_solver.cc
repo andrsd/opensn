@@ -7,6 +7,7 @@
 #include "modules/dfem_diffusion/dfem_diffusion_bndry.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
 #include "framework/math/spatial_discretization/finite_element/piecewise_linear/piecewise_linear_discontinuous.h"
+#include "framework/math/functions/scalar_material_function.h"
 
 #define scdouble static_cast<double>
 
@@ -172,11 +173,6 @@ Solver::Execute()
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-// FIXME
-#if 0
-  lua_State* L = Chi::console.GetConsoleState();
-#endif
-
   // Assemble the system
   // is this needed?
   VecSet(b_, 0.0);
@@ -195,8 +191,6 @@ Solver::Execute()
     VecDbl cell_rhs(num_nodes, 0.0);
 
     // Assemble volumetric terms
-    // FIXME
-#if 0
     for (size_t i = 0; i < num_nodes; ++i)
     {
       const int64_t imap = sdm.MapDOF(cell, i);
@@ -207,9 +201,9 @@ Solver::Execute()
         double entry_aij = 0.0;
         for (size_t qp : qp_data.QuadraturePointIndices())
         {
-          entry_aij += (CallLua_iXYZFunction(L, "D_coef", imat, qp_data.QPointXYZ(qp)) *
+          entry_aij += (d_coef_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                           qp_data.ShapeGrad(i, qp).Dot(qp_data.ShapeGrad(j, qp)) +
-                        CallLua_iXYZFunction(L, "Sigma_a", imat, qp_data.QPointXYZ(qp)) *
+                        sigma_a_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                           qp_data.ShapeValue(i, qp) * qp_data.ShapeValue(j, qp)) *
                        qp_data.JxW(qp);
         } // for qp
@@ -217,11 +211,10 @@ Solver::Execute()
       } // for j
       double entry_rhs_i = 0.0;
       for (size_t qp : qp_data.QuadraturePointIndices())
-        entry_rhs_i += CallLua_iXYZFunction(L, "Q_ext", imat, qp_data.QPointXYZ(qp)) *
+        entry_rhs_i += q_ext_function_->Evaluate(imat, qp_data.QPointXYZ(qp)) *
                        qp_data.ShapeValue(i, qp) * qp_data.JxW(qp);
       VecSetValue(b_, imap, entry_rhs_i, ADD_VALUES);
     } // for i
-#endif
 
     // Assemble face terms
     const size_t num_faces = cell.faces_.size();
@@ -253,9 +246,7 @@ Solver::Execute()
         if (cell.Type() == chi_mesh::CellType::POLYGON) Ckappa = 2.0;
         if (cell.Type() == chi_mesh::CellType::POLYHEDRON) Ckappa = 4.0;
 
-          // Assembly penalty terms
-          // FIMXE
-#if 0
+        // Assembly penalty terms
         for (size_t fi = 0; fi < num_face_nodes; ++fi)
         {
           const int i = cell_mapping.MapFaceNode(f, fi);
@@ -272,28 +263,25 @@ Solver::Execute()
 
             double aij = 0.0;
             for (size_t qp : fqp_data.QuadraturePointIndices())
-              aij +=
-                Ckappa *
-                (CallLua_iXYZFunction(L, "D_coef", imat, fqp_data.QPointXYZ(qp)) / hm +
-                 CallLua_iXYZFunction(L, "D_coef", imat_neigh, fqp_data.QPointXYZ(qp)) / hp_neigh) /
-                2. * fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) * fqp_data.JxW(qp);
+              aij += Ckappa *
+                     (d_coef_function_->Evaluate(imat, fqp_data.QPointXYZ(qp)) / hm +
+                      d_coef_function_->Evaluate(imat_neigh, fqp_data.QPointXYZ(qp)) / hp_neigh) /
+                     2. * fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) *
+                     fqp_data.JxW(qp);
 
             MatSetValue(A_, imap, jmmap, aij, ADD_VALUES);
             MatSetValue(A_, imap, jpmap, -aij, ADD_VALUES);
           } // for fj
         }   // for fi
-#endif
 
-          // Assemble gradient terms
-          // For the following comments we use the notation:
-          // Dk = 0.5* n dot nabla bk
+        // Assemble gradient terms
+        // For the following comments we use the notation:
+        // Dk = 0.5* n dot nabla bk
 
-          // {{D d_n b_i}}[[Phi]]
-          // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
+        // {{D d_n b_i}}[[Phi]]
+        // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
 
-          // loop over node of current cell (gradient of b_i)
-          // FIXME
-#if 0
+        // loop over node of current cell (gradient of b_i)
         for (int i = 0; i < num_nodes; ++i)
         {
           const int64_t imap = sdm.MapDOF(cell, i);
@@ -309,7 +297,7 @@ Solver::Execute()
 
             chi_mesh::Vector3 vec_aij;
             for (size_t qp : fqp_data.QuadraturePointIndices())
-              vec_aij += CallLua_iXYZFunction(L, "D_coef", imat, fqp_data.QPointXYZ(qp)) *
+              vec_aij += d_coef_function_->Evaluate(imat, fqp_data.QPointXYZ(qp)) *
                          fqp_data.ShapeValue(jm, qp) * fqp_data.ShapeGrad(i, qp) * fqp_data.JxW(qp);
             const double aij = -0.5 * n_f.Dot(vec_aij);
 
@@ -334,7 +322,7 @@ Solver::Execute()
 
             chi_mesh::Vector3 vec_aij;
             for (size_t qp : fqp_data.QuadraturePointIndices())
-              vec_aij += CallLua_iXYZFunction(L, "D_coef", imat, fqp_data.QPointXYZ(qp)) *
+              vec_aij += d_coef_function_->Evaluate(imat, fqp_data.QPointXYZ(qp)) *
                          fqp_data.ShapeValue(im, qp) * fqp_data.ShapeGrad(j, qp) * fqp_data.JxW(qp);
             const double aij = -0.5 * n_f.Dot(vec_aij);
 
@@ -342,7 +330,6 @@ Solver::Execute()
             MatSetValue(A_, ipmap, jmap, -aij, ADD_VALUES);
           } // for j
         }   // for fi
-#endif
 
       } // internal face
       else
@@ -405,9 +392,7 @@ Solver::Execute()
           if (cell.Type() == chi_mesh::CellType::POLYGON) Ckappa = 4.0;
           if (cell.Type() == chi_mesh::CellType::POLYHEDRON) Ckappa = 8.0;
 
-            // Assembly penalty terms
-            // FIXME
-#if 0
+          // Assembly penalty terms
           for (size_t fi = 0; fi < num_face_nodes; ++fi)
           {
             const uint i = cell_mapping.MapFaceNode(f, fi);
@@ -420,24 +405,20 @@ Solver::Execute()
 
               double aij = 0.0;
               for (size_t qp : fqp_data.QuadraturePointIndices())
-                aij += Ckappa * CallLua_iXYZFunction(L, "D_coef", imat, fqp_data.QPointXYZ(qp)) /
-                       hm * fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) *
-                       fqp_data.JxW(qp);
+                aij += Ckappa * d_coef_function_->Evaluate(imat, fqp_data.QPointXYZ(qp)) / hm *
+                       fqp_data.ShapeValue(i, qp) * fqp_data.ShapeValue(jm, qp) * fqp_data.JxW(qp);
               double aij_bc_value = aij * bc_value;
 
               MatSetValue(A_, imap, jmmap, aij, ADD_VALUES);
               VecSetValue(b_, imap, aij_bc_value, ADD_VALUES);
             } // for fj
           }   // for fi
-#endif
 
-            // Assemble gradient terms
-            // For the following comments we use the notation:
-            // Dk = 0.5* n dot nabla bk
+          // Assemble gradient terms
+          // For the following comments we use the notation:
+          // Dk = 0.5* n dot nabla bk
 
-            // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
-// FIXME
-#if 0
+          // 0.5*D* n dot (b_j^+ - b_j^-)*nabla b_i^-
           for (size_t i = 0; i < num_nodes; i++)
           {
             const int64_t imap = sdm.MapDOF(cell, i);
@@ -451,16 +432,15 @@ Solver::Execute()
                 vec_aij += (fqp_data.ShapeValue(j, qp) * fqp_data.ShapeGrad(i, qp) +
                             fqp_data.ShapeValue(i, qp) * fqp_data.ShapeGrad(j, qp)) *
                            fqp_data.JxW(qp) *
-                           CallLua_iXYZFunction(L, "D_coef", imat, fqp_data.QPointXYZ(qp));
+                           d_coef_function_->Evaluate(imat, fqp_data.QPointXYZ(qp));
 
               const double aij = -n_f.Dot(vec_aij);
               double aij_bc_value = aij * bc_value;
 
               MatSetValue(A_, imap, jmap, aij, ADD_VALUES);
               VecSetValue(b_, imap, aij_bc_value, ADD_VALUES);
-            } // for fj
-          }   // for i
-#endif
+            }   // for fj
+          }     // for i
         }       // Dirichlet BC
         else {} // else BC
       }         // boundary face
@@ -597,47 +577,6 @@ Solver::MapFaceNodeDisc(const chi_mesh::Cell& cur_cell,
 
   throw std::logic_error("Solver::MapFaceNodeDisc: Mapping failure.");
 }
-
-#if 0
-double
-Solver::CallLua_iXYZFunction(lua_State* L,
-                             const std::string& lua_func_name,
-                             const int imat,
-                             const chi_mesh::Vector3& xyz)
-{
-  // Load lua function
-  lua_getglobal(L, lua_func_name.c_str());
-
-  // Error check lua function
-  if (not lua_isfunction(L, -1))
-    throw std::logic_error("CallLua_iXYZFunction attempted to access lua-function, " +
-                           lua_func_name +
-                           ", but it seems the function"
-                           " could not be retrieved.");
-
-  // Push arguments
-  lua_pushinteger(L, imat);
-  lua_pushnumber(L, xyz.x);
-  lua_pushnumber(L, xyz.y);
-  lua_pushnumber(L, xyz.z);
-
-  // Call lua function
-  // 4 arguments, 1 result (double), 0=original error object
-  double lua_return;
-  if (lua_pcall(L, 4, 1, 0) == 0)
-  {
-    LuaCheckNumberValue("CallLua_iXYZFunction", L, -1);
-    lua_return = lua_tonumber(L, -1);
-  }
-  else
-    throw std::logic_error("CallLua_iXYZFunction attempted to call lua-function, " + lua_func_name +
-                           ", but the call failed." + xyz.PrintStr());
-
-  lua_pop(L, 1); // pop the double, or error code
-
-  return lua_return;
-}
-#endif
 
 void
 Solver::UpdateFieldFunctions()

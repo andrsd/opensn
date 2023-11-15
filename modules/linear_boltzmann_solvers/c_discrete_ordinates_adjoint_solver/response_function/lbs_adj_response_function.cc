@@ -1,9 +1,4 @@
-// FIXME
-#if 0
 #include "modules/linear_boltzmann_solvers/c_discrete_ordinates_adjoint_solver/response_function/lbs_adj_response_function.h"
-#include "framework/lua.h"
-#include "framework/runtime.h"
-#include "framework/console/console.h"
 #include "framework/logging/log.h"
 
 std::vector<double>
@@ -14,6 +9,8 @@ lbs::ResponseFunctionDesignation::GetMGResponse(const chi_mesh::Cell& cell,
 
   std::vector<double> response(num_groups, 0.0);
 
+  // FIXME
+#if 0
   // Utility lambdas
   auto PushVector3AsTable = [](lua_State* L, const chi_mesh::Vector3& vec)
   {
@@ -85,7 +82,7 @@ lbs::ResponseFunctionDesignation::GetMGResponse(const chi_mesh::Cell& cell,
 
   for (size_t g = 0; g < num_groups; ++g)
     response[g] = lua_return[g];
+#endif
 
   return response;
 }
-#endif

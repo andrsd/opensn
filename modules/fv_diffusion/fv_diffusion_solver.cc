@@ -7,6 +7,7 @@
 #include "modules/fv_diffusion/fv_diffusion_bndry.h"
 #include "framework/physics/field_function/field_function_grid_based.h"
 #include "framework/math/spatial_discretization/finite_volume/finite_volume.h"
+#include "framework/math/functions/scalar_material_function.h"
 
 fv_diffusion::Solver::Solver(opensn::App& app, const std::string& in_solver_name)
   : chi_physics::Solver(
@@ -159,11 +160,6 @@ fv_diffusion::Solver::Execute()
   const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-  // FIXME
-#if 0
-  lua_State* L = Chi::console.GetConsoleState();
-#endif
-
   // Assemble the system
   // P ~ Present cell
   // N ~ Neighbor cell
@@ -176,11 +172,9 @@ fv_diffusion::Solver::Execute()
 
     const auto imat = cell_P.material_id_;
 
-    // FIXME
-#if 0
-    const double sigma_a = CallLua_iXYZFunction(L, "Sigma_a", imat, x_cc_P);
-    const double q_ext = CallLua_iXYZFunction(L, "Q_ext", imat, x_cc_P);
-    const double D_P = CallLua_iXYZFunction(L, "D_coef", imat, x_cc_P);
+    const double sigma_a = sigma_a_function_->Evaluate(imat, x_cc_P);
+    const double q_ext = q_ext_function_->Evaluate(imat, x_cc_P);
+    const double D_P = d_coef_function_->Evaluate(imat, x_cc_P);
 
     const int64_t imap = sdm.MapDOF(cell_P, 0);
     MatSetValue(A_, imap, imap, sigma_a * volume_P, ADD_VALUES);
@@ -201,7 +195,7 @@ fv_diffusion::Solver::Execute()
         const auto& x_cc_N = cell_N.centroid_;
         const auto x_PN = x_cc_N - x_cc_P;
 
-        const double D_N = CallLua_iXYZFunction(L, "D_coef", jmat, x_cc_N);
+        const double D_N = d_coef_function_->Evaluate(jmat, x_cc_N);
 
         const double w = x_PF.Norm() / x_PN.Norm();
         const double D_f = 1.0 / (w / D_P + (1.0 - w) / D_N);
@@ -245,8 +239,7 @@ fv_diffusion::Solver::Execute()
         } // if Dirichlet
       }   // bndry face
     }     // for f
-#endif
-  } // for cell
+  }       // for cell
 
   App().Log().Log() << "Global assembly";
 
@@ -273,4 +266,11 @@ fv_diffusion::Solver::Execute()
   UpdateFieldFunctions();
 
   App().Log().Log() << "Done solving";
+}
+
+void
+fv_diffusion::Solver::UpdateFieldFunctions()
+{
+  auto& ff = *field_functions_.front();
+  ff.UpdateFieldVector(x_);
 }

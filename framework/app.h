@@ -13,6 +13,7 @@
 #include "framework/physics/physics_material/multi_group_xs/multi_group_xs.h"
 #include "framework/post_processors/post_processor.h"
 #include "framework/post_processors/post_processor_printer.h"
+#include "framework/math/functions/function.h"
 #include <mpi.h>
 
 namespace opensn
@@ -36,6 +37,7 @@ public:
   std::vector<chi_physics::MultiGroupXSPtr>& MultigroupXSStack();
   std::vector<chi::PostProcessorPtr>& PostprocessorStack();
   std::vector<chi_math::AngularQuadraturePtr>& AngularQuadratureStack();
+  std::vector<chi_math::FunctionPtr>& FunctionStack();
   SystemWideEventPublisher& SystemWideEventPublisher();
   PhysicsEventPublisher& PhysicsEventPublisher();
 
@@ -92,6 +94,12 @@ public:
       angular_quadrature_stack_, handle, calling_function_name);
   }
 
+  chi_math::FunctionPtr GetFunction(size_t handle,
+                                    const std::string& calling_function_name = "Unknown")
+  {
+    return GetStackItem<chi_math::Function>(function_stack_, handle, calling_function_name);
+  }
+
   void Barrier() const;
 
 protected:
@@ -146,6 +154,8 @@ private:
   std::vector<chi::PostProcessorPtr> postprocessor_stack_;
   /// Angular quadratures
   std::vector<chi_math::AngularQuadraturePtr> angular_quadrature_stack_;
+  /// Functions
+  std::vector<chi_math::FunctionPtr> function_stack_;
 
   /// System-wide event publisher
   opensn::SystemWideEventPublisher system_wide_event_publisher_;

@@ -91,6 +91,12 @@ App::AngularQuadratureStack()
   return angular_quadrature_stack_;
 }
 
+std::vector<chi_math::FunctionPtr>&
+App::FunctionStack()
+{
+  return function_stack_;
+}
+
 SystemWideEventPublisher&
 App::SystemWideEventPublisher()
 {
