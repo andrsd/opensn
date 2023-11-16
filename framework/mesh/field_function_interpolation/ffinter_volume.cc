@@ -8,7 +8,7 @@
 #include "framework/logging/log.h"
 #include "framework/console/console.h"
 
-namespace chi_mesh
+namespace opensn
 {
 
 void
@@ -43,7 +43,6 @@ FieldFunctionInterpolationVolume::Execute()
   const auto uid = 0;
   const auto cid = ref_component_;
 
-  using namespace ff_interpolation;
   const auto field_data = ref_ff.GetGhostedFieldVector();
 
   double local_volume = 0.0;
@@ -138,4 +137,4 @@ FieldFunctionInterpolationVolume::CallLuaFunction(double ff_value, int mat_id) c
 }
 #endif
 
-} // namespace chi_mesh
+} // namespace opensn
