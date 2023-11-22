@@ -1678,7 +1678,7 @@ namespace LUAAA_NS
         template <typename TCLASS, int TAG>
         inline LuaModule& def(const char* name, const luaaa::LuaClass<TCLASS, TAG>&, const TCLASS* obj = nullptr, void(*deleter)(TCLASS*) = nullptr)
         {
-            LuaClass<TCLASS, TAG>::UserDataDetail userData;
+            typename LuaClass<TCLASS, TAG>::UserDataDetail userData;
             if (obj)
             {
                 userData.obj = const_cast<TCLASS*>(obj);
@@ -1687,7 +1687,7 @@ namespace LUAAA_NS
                     struct HelperClass
                     {
                         typedef decltype(deleter) DELETERFTYPE;
-                        static int f_dtor(LuaClass<TCLASS, TAG>::UserDataDetail* uData) {
+                        static int f_dtor(typename LuaClass<TCLASS, TAG>::UserDataDetail* uData) {
                             if (uData && uData->obj && uData->free_func)
                             {
                                 ((DELETERFTYPE)(uData->free_func))(uData->obj);
@@ -1710,7 +1710,7 @@ namespace LUAAA_NS
             {
                 struct HelperClass
                 {
-                    static int f_dtor(LuaClass<TCLASS, TAG>::UserDataDetail* uData)
+                    static int f_dtor(typename LuaClass<TCLASS, TAG>::UserDataDetail* uData)
                     {
                         if (uData && uData->obj)
                         {
@@ -1732,7 +1732,7 @@ namespace LUAAA_NS
                 lua_pop(m_state, 1);
                 lua_newtable(m_state);
             }
-            auto uData = (LuaClass<TCLASS, TAG>::UserDataDetail*)lua_newuserdata(m_state, sizeof(LuaClass<TCLASS, TAG>::UserDataDetail));
+            auto uData = (typename LuaClass<TCLASS, TAG>::UserDataDetail*)lua_newuserdata(m_state, sizeof(LuaClass<TCLASS, TAG>::UserDataDetail));
 #if LUAAA_WITHOUT_CPP_STDLIB
             luaL_argcheck(m_state, uData != nullptr, 1, "faild to alloc mem to store object");
 #else
@@ -2330,4 +2330,3 @@ namespace LUAAA_NS
 #endif //#if !LUAAA_WITHOUT_CPP_STDLIB
 
 #endif
-

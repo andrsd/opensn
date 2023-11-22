@@ -1,16 +1,24 @@
--- Setup mesh
-nodes={}
-N=10
-L=2
-xmin = -L/2
-dx = L/N
-for i=1,(N+1) do
-    k=i-1
-    nodes[i] = xmin + k*dx
-end
- 
-meshgen1 = opensn.OrthogonalMeshGenerator.new({ node_sets = {nodes,nodes} })
-meshgen1:Execute()
+dog = Dog.Create({breed="lua"})
+dog:Bark()
+
+simple_dog = Dog.new()
+simple_dog:Bark()
+
+-- -- Setup mesh
+-- nodes={}
+-- N=10
+-- L=2
+-- xmin = -L/2
+-- dx = L/N
+-- for i=1,(N+1) do
+--     k=i-1
+--     nodes[i] = xmin + k*dx
+-- end
+--
+-- meshgen1 = opensn.A.OrthogonalMeshGenerator.new({ node_sets = {nodes,nodes} })
+
+-- meshgen1 = opensn.OrthogonalMeshGenerator.new({ node_sets = {nodes,nodes} })
+-- meshgen1:Execute()
  
 -- -- Set Material IDs
 -- opensn.VolumeMesherSetMatIDToAll(0)

@@ -20,7 +20,8 @@
 #define OpenSnRegisterObject(namespace_name, object_name)                                          \
   static char OpenSnObjectFactoryJoinWordsB(unique_var_name_object_##object_name##_,               \
                                             __COUNTER__) =                                         \
-    opensn::ObjectFactory::AddObjectToRegistry<object_name, Object>(#namespace_name, #object_name)
+    opensn::ObjectFactory::AddObjectToRegistry<object_name, opensn::Object>(#namespace_name,       \
+                                                                            #object_name)
 
 /**Macro for registering an object (parameters only) within the
  * ObjectFactory singleton.
