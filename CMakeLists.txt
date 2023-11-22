@@ -109,6 +109,7 @@ endif()
 
 if(OPENSN_WITH_LUA)
     add_subdirectory(lua)
+    add_subdirectory(lua-ng)
     add_subdirectory(test)
 endif()
 
