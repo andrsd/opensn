@@ -39,7 +39,9 @@ chiCreateLineQuadrature(lua_State* L)
   {
     opensn::log.Log() << "Creating Gauss-Legendre Quadrature\n";
 
-    const size_t handle = obj_factory.MakeRegisteredObjectOfType("QuadratureGaussLegendre", params);
+    auto quadrature = obj_factory.MakeRegisteredObjectOfType("QuadratureGaussLegendre", params);
+    object_stack.push_back(quadrature);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;
@@ -48,8 +50,10 @@ chiCreateLineQuadrature(lua_State* L)
   {
     opensn::log.Log() << "Creating Gauss-Chebyshev Quadrature\n";
 
-    const size_t handle =
+    auto quadrature =
       obj_factory.MakeRegisteredObjectOfType("chi_math::QuadratureGaussChebyshev", params);
+    object_stack.push_back(quadrature);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;

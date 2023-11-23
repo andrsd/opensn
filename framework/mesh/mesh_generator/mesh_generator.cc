@@ -63,8 +63,10 @@ MeshGenerator::MeshGenerator(const InputParameters& params)
   {
     auto& factory = ObjectFactory::GetInstance();
     auto valid_params = PETScGraphPartitioner::GetInputParameters();
-    partitioner_handle =
+    auto partitioner =
       factory.MakeRegisteredObjectOfType("chi::PETScGraphPartitioner", ParameterBlock());
+    object_stack.push_back(partitioner);
+    partitioner_handle = object_stack.size() - 1;
   }
   partitioner_ = &GetStackItem<GraphPartitioner>(object_stack, partitioner_handle, __FUNCTION__);
 }

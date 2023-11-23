@@ -95,7 +95,6 @@ Solver::InitTimeStepper(const InputParameters& params)
 
     auto stepper = std::make_shared<ConstantTimeStepper>(valid_params);
     object_stack.push_back(stepper);
-    stepper->SetStackID(object_stack.size() - 1);
 
     return stepper;
   }

@@ -51,6 +51,7 @@ FieldFunction::FieldFunction(const std::string& text_name, opensn::Unknown unkno
 {
 }
 
+/*
 void
 FieldFunction::PushOntoStack(std::shared_ptr<Object>& new_object)
 {
@@ -61,5 +62,6 @@ FieldFunction::PushOntoStack(std::shared_ptr<Object>& new_object)
   field_function_stack.push_back(ff_ptr);
   new_object->SetStackID(field_function_stack.size() - 1);
 }
+*/
 
 } // namespace opensn

@@ -138,10 +138,11 @@ public:
   /**Makes an object with the given parameters and places on the global
    * object stack. Returns a handle to the object. The object type is
    * obtained from a string parameter name `obj_type`.*/
-  size_t MakeRegisteredObject(const ParameterBlock& params) const;
+  std::shared_ptr<Object> MakeRegisteredObject(const ParameterBlock& params) const;
   /**Makes an object with the given parameters and places on the global
    * object stack. Returns a handle to the object.*/
-  size_t MakeRegisteredObjectOfType(const std::string& type, const ParameterBlock& params) const;
+  std::shared_ptr<Object> MakeRegisteredObjectOfType(const std::string& type,
+                                                     const ParameterBlock& params) const;
 
   /**Returns the input parameters of a registered object.*/
   InputParameters GetRegisteredObjectParameters(const std::string& type) const;

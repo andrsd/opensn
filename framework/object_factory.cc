@@ -24,7 +24,7 @@ ObjectFactory::RegistryHasKey(const std::string& key) const
   return object_registry_.count(key) > 0;
 }
 
-size_t
+std::shared_ptr<Object>
 ObjectFactory::MakeRegisteredObject(const ParameterBlock& params) const
 {
   if (log.GetVerbosity() >= 2) log.Log() << "Making object with type from parameters";
@@ -41,7 +41,7 @@ ObjectFactory::MakeRegisteredObject(const ParameterBlock& params) const
   return MakeRegisteredObjectOfType(type, params);
 }
 
-size_t
+std::shared_ptr<Object>
 ObjectFactory::MakeRegisteredObjectOfType(const std::string& type,
                                           const ParameterBlock& params) const
 {
@@ -73,12 +73,9 @@ ObjectFactory::MakeRegisteredObjectOfType(const std::string& type,
 
   auto new_object = object_entry.constructor_func(input_params);
 
-  new_object->PushOntoStack(new_object);
+  if (log.GetVerbosity() >= 2) log.Log() << "Done making object type " << type << ".";
 
-  if (log.GetVerbosity() >= 2)
-    log.Log() << "Done making object type " << type << " with handle " << new_object->StackID();
-
-  return new_object->StackID();
+  return new_object;
 }
 
 InputParameters

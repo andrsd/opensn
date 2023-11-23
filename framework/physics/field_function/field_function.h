@@ -36,10 +36,6 @@ public:
    * spatial discretizations.*/
   const UnknownManager& GetUnknownManager() const { return unknown_manager_; }
 
-  /**\brief Overrides the stack placement so that FieldFunctions go
-   * to the field function stack.*/
-  void PushOntoStack(std::shared_ptr<Object>& new_object) override;
-
   virtual double Evaluate(const Cell& cell, const Vector3& position, unsigned int component) const
   {
     return 0.0;

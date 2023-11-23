@@ -116,6 +116,7 @@ PostProcessor::NumericPrecision() const
   return print_precision_;
 }
 
+/*
 void
 PostProcessor::PushOntoStack(std::shared_ptr<Object>& new_object)
 {
@@ -133,6 +134,7 @@ PostProcessor::PushOntoStack(std::shared_ptr<Object>& new_object)
   auto& publisher = PhysicsEventPublisher::GetInstance();
   publisher.AddSubscriber(new_subscriber);
 }
+*/
 
 void
 PostProcessor::ReceiveEventUpdate(const Event& event)

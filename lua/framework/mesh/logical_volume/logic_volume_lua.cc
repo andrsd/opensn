@@ -71,8 +71,10 @@ chiLogicalVolumeCreate(lua_State* L)
     ParameterBlock params;
     params.AddParameter("r", r);
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::SphereLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;
@@ -104,8 +106,10 @@ chiLogicalVolumeCreate(lua_State* L)
     params.AddParameter("y", y);
     params.AddParameter("z", z);
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::SphereLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;
@@ -141,8 +145,10 @@ chiLogicalVolumeCreate(lua_State* L)
     params.AddParameter("zmin", zmin);
     params.AddParameter("zmax", zmax);
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::RPPLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;
@@ -181,8 +187,10 @@ chiLogicalVolumeCreate(lua_State* L)
     params.AddParameter("vz", vz);
     params.AddParameter("r", r);
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::RCCLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     opensn::log.Log0Verbose1() << "Created RCC Logical volume with x0,y0,z0,vx,vy,vz,r = " << x0
                                << " " << y0 << " " << z0 << " " << vx << " " << vy << " " << vz
@@ -210,8 +218,10 @@ chiLogicalVolumeCreate(lua_State* L)
     ParameterBlock params;
     params.AddParameter("surface_mesh_handle", surf_mesh_hndle);
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::SurfaceMeshLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;
@@ -329,8 +339,10 @@ chiLogicalVolumeCreate(lua_State* L)
     }
     params.ChangeToArray();
 
-    const size_t handle =
+    auto logical_volume =
       object_maker.MakeRegisteredObjectOfType("chi_mesh::BooleanLogicalVolume", params);
+    object_stack.push_back(logical_volume);
+    auto handle = object_stack.size() - 1;
 
     lua_pushinteger(L, static_cast<lua_Integer>(handle));
     return 1;

@@ -33,7 +33,9 @@ chiMakeObject(lua_State* L)
   const auto params = TableParserAsParameterBlock::ParseTable(L, 1);
 
   const auto& object_maker = opensn::ObjectFactory::GetInstance();
-  const size_t handle = object_maker.MakeRegisteredObject(params);
+  auto object = object_maker.MakeRegisteredObject(params);
+  opensn::object_stack.push_back(object);
+  const size_t handle = opensn::object_stack.size() - 1;
 
   const std::string type = params.GetParamValue<std::string>("obj_type");
 
@@ -55,7 +57,9 @@ chiMakeObjectType(lua_State* L)
   const auto params = TableParserAsParameterBlock::ParseTable(L, 2);
 
   const auto& object_maker = opensn::ObjectFactory::GetInstance();
-  const size_t handle = object_maker.MakeRegisteredObjectOfType(type, params);
+  auto object = object_maker.MakeRegisteredObjectOfType(type, params);
+  opensn::object_stack.push_back(object);
+  auto handle = opensn::object_stack.size() - 1;
 
   lua_pushinteger(L, static_cast<lua_Integer>(handle));
   return 1;
