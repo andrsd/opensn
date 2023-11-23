@@ -13,13 +13,6 @@
 
 #include <iomanip>
 
-//#define CheckContext(x)                                                                            \
-//  if (not x)                                                                                       \
-//  throw std::runtime_error(std::string(__PRETTY_FUNCTION__) + ": context casting failure")
-//#define GetNLKAGSContextPtr(x)                                                                     \
-//  std::dynamic_pointer_cast<NLKEigenAGSContext>(x);                                                \
-//  CheckContext(x)
-
 namespace opensn
 {
 namespace lbs
