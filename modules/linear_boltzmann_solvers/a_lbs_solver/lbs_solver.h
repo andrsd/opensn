@@ -32,7 +32,6 @@ class LBSSolver : public opensn::Solver
 {
 public:
   typedef std::shared_ptr<AGSLinearSolver> AGSLinSolverPtr;
-  typedef std::shared_ptr<LinearSolver> LinSolvePtr;
 
 public:
   explicit LBSSolver(const std::string& text_name);
@@ -247,7 +246,7 @@ public:
 
   AGSLinSolverPtr GetPrimaryAGSSolver();
 
-  std::vector<LinSolvePtr>& GetWGSSolvers();
+  std::vector<std::shared_ptr<LinearSolver>>& GetWGSSolvers();
 
   WGSContext& GetWGSContext(int groupset_id);
 
@@ -528,7 +527,7 @@ protected:
   SetSourceFunction active_set_source_function_;
 
   std::vector<AGSLinSolverPtr> ags_solvers_;
-  std::vector<LinSolvePtr> wgs_solvers_;
+  std::vector<std::shared_ptr<LinearSolver>> wgs_solvers_;
   AGSLinSolverPtr primary_ags_solver_;
 
   std::map<std::pair<size_t, size_t>, size_t> phi_field_functions_local_map_;
