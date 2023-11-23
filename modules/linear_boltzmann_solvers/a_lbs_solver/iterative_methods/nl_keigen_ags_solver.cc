@@ -29,11 +29,12 @@ namespace
 {
 
 std::shared_ptr<NLKEigenAGSContext>
-GetNLKAGSContextPtr(const NonLinearSolver::NLSolverContextPtr& x, const std::string& func_name)
+GetNLKAGSContextPtr(const NonLinearSolver::NLSolverContextPtr& context,
+                    const std::string& func_name)
 {
-  auto a = std::dynamic_pointer_cast<NLKEigenAGSContext>(x);
-  if (not a) throw std::runtime_error(func_name + ": context casting failure");
-  return a;
+  auto nlk_ags_context = std::dynamic_pointer_cast<NLKEigenAGSContext>(context);
+  if (not nlk_ags_context) throw std::runtime_error(func_name + ": context casting failure");
+  return nlk_ags_context;
 }
 
 } // namespace
