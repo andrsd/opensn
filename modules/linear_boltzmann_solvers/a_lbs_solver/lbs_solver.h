@@ -504,7 +504,7 @@ protected:
   std::map<int, IsotropicSrcPtr> matid_to_src_map_;
 
   std::shared_ptr<opensn::SpatialDiscretization> discretization_ = nullptr;
-  MeshContinuumPtr grid_ptr_;
+  std::shared_ptr<MeshContinuum> grid_ptr_;
 
   std::vector<CellFaceNodalMapping> grid_nodal_mappings_;
   std::shared_ptr<MPICommunicatorSet> grid_local_comm_set_ = nullptr;
