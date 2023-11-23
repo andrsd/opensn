@@ -827,7 +827,7 @@ LBSSolver::InitMaterials()
   matid_to_src_map_.clear();
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Process materials found
-  const size_t num_physics_mats = Chi::material_stack.size();
+  const size_t num_physics_mats = material_stack.size();
 
   for (const int& mat_id : unique_material_ids)
   {
@@ -842,7 +842,7 @@ LBSSolver::InitMaterials()
                                      " matches no material in physics material "
                                      "library.");
 
-    auto current_material = Chi::GetStackItemPtr(Chi::material_stack, mat_id, fname);
+    auto current_material = GetStackItemPtr(material_stack, mat_id, fname);
 
     // Extract properties
     using MatProperty = PropertyType;
@@ -1351,7 +1351,7 @@ LBSSolver::InitializeFieldFunctions()
       auto group_ff = std::make_shared<FieldFunctionGridBased>(
         text_name, discretization_, Unknown(UnknownType::SCALAR));
 
-      Chi::field_function_stack.push_back(group_ff);
+      field_function_stack.push_back(group_ff);
       field_functions_.push_back(group_ff);
 
       phi_field_functions_local_map_[{g, m}] = field_functions_.size() - 1;
@@ -1372,7 +1372,7 @@ LBSSolver::InitializeFieldFunctions()
     auto power_ff = std::make_shared<FieldFunctionGridBased>(
       prefix + "power_generation", discretization_, Unknown(UnknownType::SCALAR));
 
-    Chi::field_function_stack.push_back(power_ff);
+    field_function_stack.push_back(power_ff);
     field_functions_.push_back(power_ff);
 
     power_gen_fieldfunc_local_handle_ = field_functions_.size() - 1;

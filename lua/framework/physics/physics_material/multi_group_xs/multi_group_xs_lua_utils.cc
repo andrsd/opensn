@@ -207,9 +207,9 @@ chiPhysicsTransportXSCreate(lua_State* L)
 {
   auto xs = std::make_shared<SingleStateMGXS>();
 
-  opensn::Chi::multigroup_xs_stack.push_back(xs);
+  opensn::multigroup_xs_stack.push_back(xs);
 
-  const size_t index = opensn::Chi::multigroup_xs_stack.size() - 1;
+  const size_t index = opensn::multigroup_xs_stack.size() - 1;
 
   lua_pushinteger(L, static_cast<lua_Integer>(index));
   return 1;
@@ -236,7 +236,7 @@ chiPhysicsTransportXSSet(lua_State* L)
   try
   {
     xs = std::dynamic_pointer_cast<SingleStateMGXS>(
-      opensn::Chi::GetStackItemPtr(opensn::Chi::multigroup_xs_stack, handle));
+      opensn::GetStackItemPtr(opensn::multigroup_xs_stack, handle));
   }
   catch (const std::out_of_range& o)
   {
@@ -302,7 +302,7 @@ chiPhysicsTransportXSGet(lua_State* L)
   try
   {
     xs = std::dynamic_pointer_cast<SingleStateMGXS>(
-      opensn::Chi::GetStackItemPtr(opensn::Chi::multigroup_xs_stack, handle));
+      opensn::GetStackItemPtr(opensn::multigroup_xs_stack, handle));
   }
   catch (const std::out_of_range& o)
   {
@@ -376,8 +376,8 @@ chiPhysicsTransportXSMakeCombined(lua_State* L)
 
   new_xs->MakeCombined(combinations);
 
-  opensn::Chi::multigroup_xs_stack.push_back(new_xs);
-  lua_pushinteger(L, static_cast<lua_Integer>(opensn::Chi::multigroup_xs_stack.size()) - 1);
+  opensn::multigroup_xs_stack.push_back(new_xs);
+  lua_pushinteger(L, static_cast<lua_Integer>(opensn::multigroup_xs_stack.size()) - 1);
 
   return 1;
 }
@@ -404,7 +404,7 @@ chiPhysicsTransportXSSetCombined(lua_State* L)
   try
   {
     xs = std::dynamic_pointer_cast<SingleStateMGXS>(
-      opensn::Chi::GetStackItemPtr(opensn::Chi::multigroup_xs_stack, xs_handle));
+      opensn::GetStackItemPtr(opensn::multigroup_xs_stack, xs_handle));
   }
   catch (const std::out_of_range& o)
   {
@@ -476,7 +476,7 @@ chiPhysicsTransportXSExportToChiTechFormat(lua_State* L)
   std::shared_ptr<MultiGroupXS> xs;
   try
   {
-    xs = opensn::Chi::GetStackItemPtr(opensn::Chi::multigroup_xs_stack, handle);
+    xs = opensn::GetStackItemPtr(opensn::multigroup_xs_stack, handle);
   }
   catch (const std::out_of_range& o)
   {
