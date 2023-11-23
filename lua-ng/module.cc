@@ -1,43 +1,44 @@
 #include "lua-ng/module.h"
 #include "lua-ng/framework.h"
 #include "config.h"
-
 #include "framework/object.h"
 #include "framework/object_factory.h"
+#include "framework/mesh/logical_volume/rpp_logical_volume.h"
 
 using namespace luaaa;
+using namespace opensn;
 
 namespace opensnluang
 {
 
-class Dog : public opensn::Object
-{
-public:
-  Dog() : breed_("simple") {}
-
-  Dog(const opensn::InputParameters& params)
-    : opensn::Object(params), breed_(params.GetParamValue<std::string>("breed"))
-  {
-  }
-
-  void Bark() { std::cout << breed_ << ": bark" << std::endl; }
-
-private:
-  std::string breed_;
-
-public:
-  static opensn::InputParameters GetInputParameters();
-};
-
-opensn::InputParameters
-Dog::GetInputParameters()
-{
-  auto params = opensn::Object::GetInputParameters();
-  params.AddOptionalParameter<std::string>("breed", "asdf", "");
-  return params;
-}
-
-OpenSnRegisterObject(opensn, Dog);
+// class Dog : public opensn::Object
+//{
+// public:
+//   Dog() : breed_("simple") {}
+//
+//   Dog(const opensn::InputParameters& params)
+//     : opensn::Object(params), breed_(params.GetParamValue<std::string>("breed"))
+//   {
+//   }
+//
+//   void Bark() { std::cout << breed_ << ": bark" << std::endl; }
+//
+// private:
+//   std::string breed_;
+//
+// public:
+//   static opensn::InputParameters GetInputParameters();
+// };
+//
+// opensn::InputParameters
+// Dog::GetInputParameters()
+//{
+//   auto params = opensn::Object::GetInputParameters();
+//   params.AddOptionalParameter<std::string>("breed", "asdf", "");
+//   return params;
+// }
+//
+// OpenSnRegisterObject(opensn, Dog);
 
 // opensn lua module
 std::shared_ptr<LuaModule> module;
@@ -48,15 +49,21 @@ Bind(lua_State* state)
   module = std::make_shared<LuaModule>(state, "opensn");
   module->def("version", PROJECT_VERSION);
 
-  //  BindFramework(state);
+  //  LuaClass<Dog> l_dog(state, "Dog");
+  //  l_dog.ctor();
+  //  l_dog.ctor<const opensn::InputParameters&>("Create");
+  //  l_dog.fun("Bark", &Dog::Bark);
 
-  LuaClass<Dog> l_dog(state, "Dog");
-  l_dog.ctor();
-  l_dog.ctor<const opensn::InputParameters&>("Create");
-  l_dog.fun("Bark", &Dog::Bark);
+  LuaClass<RPPLogicalVolume> l_rpp(state, "RPPLogicalVolume");
+  l_rpp.ctor2("Create");
+  l_rpp.fun("Inside", &RPPLogicalVolume::Inside);
+
+  BindFramework(state);
 }
 
 //
+
+void ParseTableKeys(lua_State* L, int idx, opensn::ParameterBlock& block);
 
 void
 ParseTableValues(lua_State* L, opensn::ParameterBlock& block, const std::string& key)
