@@ -201,7 +201,7 @@ LBSSolver::PointSources() const
   return point_sources_;
 }
 
-const std::map<int, XSPtr>&
+const std::map<int, std::shared_ptr<MultiGroupXS>>&
 LBSSolver::GetMatID2XSMap() const
 {
   return matid_to_xs_map_;
