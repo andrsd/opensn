@@ -132,7 +132,7 @@ public:
   /**
    * Returns a reference to the map of material ids to Isotropic Srcs.
    */
-  const std::map<int, IsotropicSrcPtr>& GetMatID2IsoSrcMap() const;
+  const std::map<int, std::shared_ptr<IsotropicMultiGrpSource>>& GetMatID2IsoSrcMap() const;
 
   /**
    * Obtains a reference to the spatial discretization.
@@ -494,7 +494,7 @@ protected:
   std::vector<PointSource> point_sources_;
 
   std::map<int, std::shared_ptr<MultiGroupXS>> matid_to_xs_map_;
-  std::map<int, IsotropicSrcPtr> matid_to_src_map_;
+  std::map<int, std::shared_ptr<IsotropicMultiGrpSource>> matid_to_src_map_;
 
   std::shared_ptr<opensn::SpatialDiscretization> discretization_ = nullptr;
   std::shared_ptr<MeshContinuum> grid_ptr_;
