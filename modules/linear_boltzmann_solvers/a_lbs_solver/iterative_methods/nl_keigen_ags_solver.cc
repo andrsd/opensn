@@ -13,22 +13,35 @@
 
 #include <iomanip>
 
-#define CheckContext(x)                                                                            \
-  if (not x)                                                                                       \
-  throw std::runtime_error(std::string(__PRETTY_FUNCTION__) + ": context casting failure")
-#define GetNLKAGSContextPtr(x)                                                                     \
-  std::dynamic_pointer_cast<NLKEigenAGSContext>(x);                                                \
-  CheckContext(x)
+//#define CheckContext(x)                                                                            \
+//  if (not x)                                                                                       \
+//  throw std::runtime_error(std::string(__PRETTY_FUNCTION__) + ": context casting failure")
+//#define GetNLKAGSContextPtr(x)                                                                     \
+//  std::dynamic_pointer_cast<NLKEigenAGSContext>(x);                                                \
+//  CheckContext(x)
 
 namespace opensn
 {
 namespace lbs
 {
 
+namespace
+{
+
+std::shared_ptr<NLKEigenAGSContext>
+GetNLKAGSContextPtr(const NonLinearSolver::NLSolverContextPtr& x, const std::string& func_name)
+{
+  auto a = std::dynamic_pointer_cast<NLKEigenAGSContext>(x);
+  if (not a) throw std::runtime_error(func_name + ": context casting failure");
+  return a;
+}
+
+} // namespace
+
 void
 NLKEigenvalueAGSSolver::PreSetupCallback()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   auto& lbs_solver = nl_context_ptr->lbs_solver_;
   for (auto& groupset : lbs_solver.Groupsets())
@@ -38,7 +51,7 @@ NLKEigenvalueAGSSolver::PreSetupCallback()
 void
 NLKEigenvalueAGSSolver::SetMonitor()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   auto& lbs_solver = nl_context_ptr->lbs_solver_;
   if (lbs_solver.Options().verbose_outer_iterations)
@@ -55,7 +68,7 @@ NLKEigenvalueAGSSolver::SetMonitor()
 void
 NLKEigenvalueAGSSolver::SetSystemSize()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   auto& lbs_solver = nl_context_ptr->lbs_solver_;
   auto sizes = lbs_solver.GetNumPhiIterativeUnknowns();
@@ -75,7 +88,7 @@ NLKEigenvalueAGSSolver::SetSystem()
 void
 NLKEigenvalueAGSSolver::SetFunction()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   SNESSetFunction(nl_solver_, r_, NLKEigenResidualFunction, &nl_context_ptr->kresid_func_context_);
 }
@@ -90,7 +103,7 @@ NLKEigenvalueAGSSolver::SetJacobian()
 void
 NLKEigenvalueAGSSolver::SetInitialGuess()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   auto& lbs_solver = nl_context_ptr->lbs_solver_;
   const auto& groupset_ids = nl_context_ptr->groupset_ids;
@@ -101,7 +114,7 @@ NLKEigenvalueAGSSolver::SetInitialGuess()
 void
 NLKEigenvalueAGSSolver::PostSolveCallback()
 {
-  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_);
+  auto nl_context_ptr = GetNLKAGSContextPtr(context_ptr_, __PRETTY_FUNCTION__);
 
   auto& lbs_solver = nl_context_ptr->lbs_solver_;
 
