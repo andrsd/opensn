@@ -20,11 +20,13 @@ namespace
 {
 
 std::shared_ptr<NLKEigenDiffContext>
-GetNLKDiffContextPtr(opensn::NonLinearSolver::NLSolverContextPtr x, const std::string& func_name)
+GetNLKDiffContextPtr(const NonLinearSolver::NLSolverContextPtr& context,
+                     const std::string& func_name)
 {
-  auto a = std::dynamic_pointer_cast<NLKEigenDiffContext>(x);
-  if (not a) throw std::runtime_error(std::string(func_name) + ": context casting failure");
-  return a;
+  auto nlk_eigen_diff_context = std::dynamic_pointer_cast<NLKEigenDiffContext>(context);
+  if (not nlk_eigen_diff_context)
+    throw std::runtime_error(std::string(func_name) + ": context casting failure");
+  return nlk_eigen_diff_context;
 }
 
 } // namespace
