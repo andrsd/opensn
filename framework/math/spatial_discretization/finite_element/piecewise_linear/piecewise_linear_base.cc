@@ -62,7 +62,8 @@ PieceWiseLinearBase::CreateCellMappings()
         break;
       }
       default:
-        throw std::invalid_argument(fname + ": Unsupported cell type encountered. type_id=" +
+        throw std::invalid_argument(std::string(fname) +
+                                    ": Unsupported cell type encountered. type_id=" +
                                     std::to_string(static_cast<int>(cell.Type())));
     }
     return mapping;
