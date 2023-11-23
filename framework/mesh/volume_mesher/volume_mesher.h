@@ -39,7 +39,7 @@ enum VolumeMesherProperty
 class VolumeMesher
 {
 private:
-  MeshContinuumPtr grid_ptr_;
+  std::shared_ptr<MeshContinuum> grid_ptr_;
   const VolumeMesherType type_;
 
 public:
@@ -70,12 +70,12 @@ public:
   /**
    * Sets the grid member of the volume mesher.
    */
-  void SetContinuum(MeshContinuumPtr& grid);
+  void SetContinuum(std::shared_ptr<MeshContinuum>& grid);
 
   /**
    * Gets the smart-pointer for the grid.
    */
-  MeshContinuumPtr& GetContinuum();
+  std::shared_ptr<MeshContinuum>& GetContinuum();
 
   /**
    * Sets grid attributes. This is normally a private member of the grid but this class is a friend.
@@ -103,7 +103,8 @@ public:
   /**
    * Creates 2D polygon cells for each face of an unpartitioned mesh.
    */
-  static void CreatePolygonCells(const UnpartitionedMesh& umesh, MeshContinuumPtr& grid);
+  static void CreatePolygonCells(const UnpartitionedMesh& umesh,
+                                 std::shared_ptr<MeshContinuum>& grid);
   /**
    * Sets material id's using a logical volume.
    */
