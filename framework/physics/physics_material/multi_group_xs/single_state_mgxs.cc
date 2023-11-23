@@ -171,10 +171,10 @@ SingleStateMGXS::MakeCombined(std::vector<std::pair<int, double>>& combinations)
   sigma_a_.assign(n_grps, 0.0);
 
   // init transfer matrices only if at least one exists
-  using XSPtr = std::shared_ptr<MultiGroupXS>;
   if (std::any_of(xsecs.begin(),
                   xsecs.end(),
-                  [](const XSPtr& x) { return not x->TransferMatrices().empty(); }))
+                  [](const std::shared_ptr<MultiGroupXS>& x)
+                  { return not x->TransferMatrices().empty(); }))
     transfer_matrices_.assign(scattering_order_ + 1, SparseMatrix(num_groups_, num_groups_));
 
   // init fission data
