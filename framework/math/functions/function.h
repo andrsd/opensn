@@ -18,6 +18,6 @@ protected:
   explicit Function(const InputParameters& params);
 };
 
-typedef std::shared_ptr<Function> FunctionPtr;
+typedef std::shared_ptr<Function> std::shared_ptr<Function>;
 
 } // namespace opensn
