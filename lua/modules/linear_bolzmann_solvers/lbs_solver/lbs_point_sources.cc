@@ -24,8 +24,8 @@ chiLBSAddPointSource(lua_State* L)
 
   // Get pointer to solver
   const int solver_handle = lua_tonumber(L, 1);
-  auto& lbs_solver = opensn::Chi::GetStackItem<opensn::lbs::LBSSolver>(
-    opensn::Chi::object_stack, solver_handle, fname);
+  auto& lbs_solver =
+    opensn::GetStackItem<opensn::lbs::LBSSolver>(opensn::object_stack, solver_handle, fname);
 
   // Get other arguments
   const double x = lua_tonumber(L, 2);
@@ -57,8 +57,8 @@ chiLBSClearPointSources(lua_State* L)
 
   // Get pointer to solver
   const int solver_handle = lua_tonumber(L, 1);
-  auto& lbs_solver = opensn::Chi::GetStackItem<opensn::lbs::LBSSolver>(
-    opensn::Chi::object_stack, solver_handle, fname);
+  auto& lbs_solver =
+    opensn::GetStackItem<opensn::lbs::LBSSolver>(opensn::object_stack, solver_handle, fname);
 
   lbs_solver.ClearPointSources();
 
@@ -78,8 +78,8 @@ chiLBSInitializePointSources(lua_State* L)
 
   // Get pointer to solver
   const int solver_handle = lua_tonumber(L, 1);
-  auto& lbs_solver = opensn::Chi::GetStackItem<opensn::lbs::LBSSolver>(
-    opensn::Chi::object_stack, solver_handle, fname);
+  auto& lbs_solver =
+    opensn::GetStackItem<opensn::lbs::LBSSolver>(opensn::object_stack, solver_handle, fname);
 
   lbs_solver.InitializePointSources();
 

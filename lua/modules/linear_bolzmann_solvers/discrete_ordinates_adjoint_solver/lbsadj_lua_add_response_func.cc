@@ -57,13 +57,13 @@ chiAdjointSolverAddResponseFunction(lua_State* L)
   }
 
   auto response_function = CreateResponseFunction(lua_function);
-  opensn::Chi::function_stack.push_back(response_function);
+  opensn::function_stack.push_back(response_function);
 
-  auto& solver = opensn::Chi::GetStackItem<opensn::lbs::DiscreteOrdinatesAdjointSolver>(
-    opensn::Chi::object_stack, solver_handle, fname);
+  auto& solver = opensn::GetStackItem<opensn::lbs::DiscreteOrdinatesAdjointSolver>(
+    opensn::object_stack, solver_handle, fname);
 
   auto p_logical_volume = std::dynamic_pointer_cast<LogicalVolume>(
-    opensn::Chi::GetStackItemPtr(opensn::Chi::object_stack, logvol_handle, fname));
+    opensn::GetStackItemPtr(opensn::object_stack, logvol_handle, fname));
 
   size_t qoi_index = solver.AddResponseFunction(qoi_name, p_logical_volume, response_function);
   lua_pushinteger(L, static_cast<lua_Integer>(qoi_index));

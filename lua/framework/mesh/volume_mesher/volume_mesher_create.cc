@@ -60,7 +60,7 @@ chiVolumeMesherCreate(lua_State* L)
     if (template_type == (int)UNPART_MESH_TEMPLATE)
     {
       auto p_umesh =
-        opensn::Chi::GetStackItemPtr(opensn::Chi::unpartitionedmesh_stack, template_handle, fname);
+        opensn::GetStackItemPtr(opensn::unpartitionedmesh_stack, template_handle, fname);
 
       new_mesher = std::make_shared<opensn::VolumeMesherExtruder>(p_umesh);
     }
@@ -84,8 +84,7 @@ chiVolumeMesherCreate(lua_State* L)
     LuaCheckNilValue(fname, L, 2);
     const int template_handle = lua_tonumber(L, 2);
 
-    auto p_umesh =
-      opensn::Chi::GetStackItemPtr(opensn::Chi::unpartitionedmesh_stack, template_handle, fname);
+    auto p_umesh = opensn::GetStackItemPtr(opensn::unpartitionedmesh_stack, template_handle, fname);
 
     new_mesher = std::make_shared<opensn::VolumeMesherPredefinedUnpartitioned>(p_umesh);
   }
