@@ -6,7 +6,6 @@
 #include "framework/utils/timer.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-#include "framework/mpi/mpi.h"
 #include "framework/memory_usage.h"
 #include <iostream>
 
@@ -112,14 +111,14 @@ VolumeMesherExtruder::Execute()
 
   // Create extruded item_id
   log.Log() << "VolumeMesherExtruder: Extruding cells" << std::endl;
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   ExtrudeCells(*temp_grid, *grid);
 
   size_t total_local_cells = grid->local_cells.size();
   size_t total_global_cells = 0;
 
   MPI_Allreduce(
-    &total_local_cells, &total_global_cells, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, mpi.comm);
+    &total_local_cells, &total_global_cells, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, mpi_comm);
 
   log.Log() << "VolumeMesherExtruder: Cells extruded = " << total_global_cells << std::endl;
 
@@ -135,9 +134,9 @@ VolumeMesherExtruder::Execute()
   {
     int p_tot = options.partition_x * options.partition_y * options.partition_z;
 
-    if (opensn::mpi.process_count != p_tot)
+    if (opensn::mpi_comm.size() != p_tot)
     {
-      log.LogAllError() << "ERROR: Number of processors available (" << opensn::mpi.process_count
+      log.LogAllError() << "ERROR: Number of processors available (" << opensn::mpi_comm.size()
                         << ") does not match amount of processors "
                         << "required by surface mesher partitioning parameters (" << p_tot << ").";
       Exit(EXIT_FAILURE);
@@ -147,13 +146,13 @@ VolumeMesherExtruder::Execute()
   log.LogAllVerbose1() << "Building local cell indices";
 
   // Print info
-  log.LogAllVerbose1() << "### LOCATION[" << opensn::mpi.location_id
+  log.LogAllVerbose1() << "### LOCATION[" << opensn::mpi_comm.rank()
                        << "] amount of local cells=" << grid->local_cells.size();
 
   log.Log() << "VolumeMesherExtruder: Number of cells in region = " << total_global_cells
             << std::endl;
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 }
 
 void
@@ -282,7 +281,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
     auto& centroid = template_cell.centroid_;
     auto projected_centroid = ProjectCentroidToLevel(centroid, z_level);
     int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-    if (pid == opensn::mpi.location_id) return true;
+    if (pid == opensn::mpi_comm.rank()) return true;
   }
 
   const size_t last_z_level = vertex_layers_.size() - 1;
@@ -311,7 +310,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
       {
         auto projected_centroid = ProjectCentroidToLevel(cc_centroid, z);
         int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-        if (pid == opensn::mpi.location_id) return true;
+        if (pid == opensn::mpi_comm.rank()) return true;
       }
     } // for cid
 
@@ -322,7 +321,7 @@ VolumeMesherExtruder::HasLocalScope(const Cell& template_cell,
 
     auto projected_centroid = ProjectCentroidToLevel(template_cell.centroid_, z);
     int pid = GetCellKBAPartitionIDFromCentroid(projected_centroid);
-    if (pid == opensn::mpi.location_id) return true;
+    if (pid == opensn::mpi_comm.rank()) return true;
   } // for z
 
   return false;

@@ -7,7 +7,6 @@
 #include "framework/utils/timer.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-#include "framework/mpi/mpi.h"
 
 namespace opensn
 {
@@ -45,7 +44,7 @@ VolumeMesher::GetCellXYPartitionID(Cell* cell)
 {
   std::pair<int, int> ij_id(0, 0);
 
-  if (opensn::mpi.process_count == 1) { return ij_id; }
+  if (opensn::mpi_comm.size() == 1) { return ij_id; }
 
   // Get the current handler
   auto& mesh_handler = GetCurrentHandler();
@@ -118,7 +117,7 @@ VolumeMesher::GetCellXYZPartitionID(Cell* cell)
   std::tuple<int, int, int> ijk_id(0, 0, 0);
   bool found_partition = false;
 
-  if (opensn::mpi.process_count == 1) { return ijk_id; }
+  if (opensn::mpi_comm.size() == 1) { return ijk_id; }
 
   // Get ij indices
   std::pair<int, int> ij_id = GetCellXYPartitionID(cell);
@@ -274,7 +273,7 @@ VolumeMesher::CreatePolygonCells(const UnpartitionedMesh& umesh,
 
     cell->global_id_ = num_cells;
     cell->local_id_ = num_cells;
-    cell->partition_id_ = opensn::mpi.location_id;
+    cell->partition_id_ = opensn::mpi_comm.rank();
 
     cell->centroid_ = raw_cell->centroid;
     cell->material_id_ = raw_cell->material_id;
@@ -338,7 +337,7 @@ VolumeMesher::SetMatIDFromLogical(const LogicalVolume& log_vol, bool sense, int 
   }
 
   int global_num_cells_modified;
-  MPI_Allreduce(&num_cells_modified, &global_num_cells_modified, 1, MPI_INT, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&num_cells_modified, &global_num_cells_modified, 1, MPI_INT, MPI_SUM, mpi_comm);
 
   log.Log0Verbose1() << program_timer.GetTimeString()
                      << " Done setting material id from logical volume. "
@@ -377,7 +376,7 @@ VolumeMesher::SetBndryIDFromLogical(const LogicalVolume& log_vol,
   }
 
   int global_num_faces_modified;
-  MPI_Allreduce(&num_faces_modified, &global_num_faces_modified, 1, MPI_INT, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&num_faces_modified, &global_num_faces_modified, 1, MPI_INT, MPI_SUM, mpi_comm);
 
   if (global_num_faces_modified > 0 and grid_bndry_id_map.count(bndry_id) == 0)
     grid_bndry_id_map[bndry_id] = bndry_name;
@@ -405,7 +404,7 @@ VolumeMesher::SetMatIDToAll(int mat_id)
   for (uint64_t ghost_id : ghost_ids)
     vol_cont->cells[ghost_id].material_id_ = mat_id;
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   log.Log() << program_timer.GetTimeString() << " Done setting material id " << mat_id
             << " to all cells";
 }
@@ -451,7 +450,7 @@ VolumeMesher::SetupOrthogonalBoundaries()
         vol_cont->GetBoundaryIDMap()[bndry_id] = boundary_name;
       } // if bndry
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   log.Log() << program_timer.GetTimeString() << " Done setting orthogonal boundaries.";
 }
 

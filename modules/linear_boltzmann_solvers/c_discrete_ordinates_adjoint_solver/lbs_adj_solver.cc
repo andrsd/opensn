@@ -9,7 +9,6 @@
 #include "framework/math/math_vector_nx.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-#include "framework/mpi/mpi.h"
 #include <utility>
 #include <fstream>
 
@@ -125,7 +124,7 @@ DiscreteOrdinatesAdjointSolver::InitQOIs()
     size_t num_local_subs = qoi_cell_subscription.size();
     size_t num_globl_subs = 0;
 
-    MPI_Allreduce(&num_local_subs, &num_globl_subs, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, mpi.comm);
+    MPI_Allreduce(&num_local_subs, &num_globl_subs, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, mpi_comm);
 
     log.Log() << "LBAdjointSolver: Number of cells subscribed to " << qoi_designation.name << " = "
               << num_globl_subs;
@@ -281,7 +280,7 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
 
   const auto locJ_io_flags = std::ofstream::binary | std::ofstream::out;
   const auto loc0_io_flags = locJ_io_flags | std::ofstream::trunc;
-  const bool is_home = (opensn::mpi.location_id == 0);
+  const bool is_home = (opensn::mpi_comm.rank() == 0);
 
   // Build header
   std::string header_info = "Chi-Tech LinearBoltzmann: Importance map file\n"
@@ -309,11 +308,11 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
 
   // Process each location
   uint64_t num_global_cells = grid_ptr_->GetGlobalNumberOfCells();
-  for (int locationJ = 0; locationJ < opensn::mpi.process_count; ++locationJ)
+  for (int locationJ = 0; locationJ < opensn::mpi_comm.size(); ++locationJ)
   {
     log.LogAll() << "  Barrier at " << locationJ;
-    opensn::mpi.Barrier();
-    if (opensn::mpi.location_id != locationJ) continue;
+    opensn::mpi_comm.barrier();
+    if (opensn::mpi_comm.rank() != locationJ) continue;
 
     log.LogAll() << "  Location " << locationJ << " appending data.";
 
@@ -323,7 +322,7 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
     {
       std::stringstream outstr;
 
-      outstr << fname << ": Location " << opensn::mpi.location_id << ", failed to open file "
+      outstr << fname << ": Location " << opensn::mpi_comm.rank() << ", failed to open file "
              << file_name;
       throw std::logic_error(outstr.str());
     }
@@ -363,7 +362,7 @@ DiscreteOrdinatesAdjointSolver::ExportImportanceMap(const std::string& file_name
   } // for location
 
   log.LogAll() << "Done exporting importance map to binary file " << file_name;
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 }
 
 double
@@ -435,7 +434,7 @@ DiscreteOrdinatesAdjointSolver::ComputeInnerProduct()
 
   double global_integral = 0.0;
 
-  MPI_Allreduce(&local_integral, &global_integral, 1, MPI_DOUBLE, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&local_integral, &global_integral, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
 
   return global_integral;
 }

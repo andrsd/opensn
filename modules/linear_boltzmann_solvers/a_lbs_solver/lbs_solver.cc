@@ -1,7 +1,6 @@
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/lbs_solver.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-#include "framework/mpi/mpi.h"
 #include "framework/memory_usage.h"
 #include "framework/object_factory.h"
 #include "modules/linear_boltzmann_solvers/a_lbs_solver/iterative_methods/wgs_context.h"
@@ -692,7 +691,7 @@ LBSSolver::Initialize()
   PerformInputChecks(); // a assigns num_groups and grid
   PrintSimHeader();     // b
 
-  MPI_Barrier(mpi.comm);
+  MPI_Barrier(mpi_comm);
 
   InitMaterials();                   // c
   InitializeSpatialDiscretization(); // d
@@ -761,7 +760,7 @@ LBSSolver::PerformInputChecks()
 void
 LBSSolver::PrintSimHeader()
 {
-  if (opensn::mpi.location_id == 0)
+  if (opensn::mpi_comm.rank() == 0)
   {
     std::stringstream outstr;
     outstr << "\nInitializing LBS SteadyStateSolver with name: " << TextName() << "\n\n"
@@ -944,7 +943,7 @@ LBSSolver::InitMaterials()
 
   log.Log0Verbose1() << "Materials Initialized:\n" << materials_list.str() << "\n";
 
-  MPI_Barrier(mpi.comm);
+  MPI_Barrier(mpi_comm);
 }
 
 void
@@ -1087,9 +1086,9 @@ LBSSolver::ComputeUnitIntegrals()
                                           unit_ghost_cell_matrices_.size()};
   std::array<size_t, 2> num_globl_ucms = {0, 0};
 
-  MPI_Allreduce(num_local_ucms.data(), num_globl_ucms.data(), 2, MPIU_SIZE_T, MPI_SUM, mpi.comm);
+  MPI_Allreduce(num_local_ucms.data(), num_globl_ucms.data(), 2, MPIU_SIZE_T, MPI_SUM, mpi_comm);
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   log.Log() << "Ghost cell unit cell-matrix ratio: "
             << (double)num_globl_ucms[1] * 100 / (double)num_globl_ucms[0] << "%";
   log.Log() << "Cell matrices computed.                   Process memory = " << std::setprecision(3)
@@ -1188,7 +1187,7 @@ LBSSolver::InitializeParrays()
   // Read Restart data
   if (options_.read_restart_data)
     ReadRestartData(options_.read_restart_folder_name, options_.read_restart_file_base);
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 
   // Initialize transport views
   // Transport views act as a data structure to store information
@@ -1225,7 +1224,7 @@ LBSSolver::InitializeParrays()
 
     const size_t num_faces = cell.faces_.size();
     std::vector<bool> face_local_flags(num_faces, true);
-    std::vector<int> face_locality(num_faces, opensn::mpi.location_id);
+    std::vector<int> face_locality(num_faces, opensn::mpi_comm.rank());
     std::vector<const Cell*> neighbor_cell_ptrs(num_faces, nullptr);
     bool cell_on_boundary = false;
     int f = 0;
@@ -1257,7 +1256,7 @@ LBSSolver::InitializeParrays()
       else
       {
         const int neighbor_partition = face.GetNeighborPartitionID(*grid_ptr_);
-        face_local_flags[f] = (neighbor_partition == opensn::mpi.location_id);
+        face_local_flags[f] = (neighbor_partition == opensn::mpi_comm.rank());
         face_locality[f] = neighbor_partition;
         neighbor_cell_ptrs[f] = &grid_ptr_->cells[face.neighbor_id_];
       }
@@ -1317,7 +1316,7 @@ LBSSolver::InitializeParrays()
   // Initialize Field Functions
   InitializeFieldFunctions();
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   log.Log() << "Done with parallel arrays.                Process memory = " << std::setprecision(3)
             << GetMemoryUsageInMB() << " MB" << std::endl;
 }
@@ -1394,14 +1393,14 @@ LBSSolver::InitializeBoundaries()
     std::vector<uint64_t> local_unique_bids(local_unique_bids_set.begin(),
                                             local_unique_bids_set.end());
     const int local_num_unique_bids = static_cast<int>(local_unique_bids.size());
-    std::vector<int> recvcounts(opensn::mpi.process_count, 0);
+    std::vector<int> recvcounts(opensn::mpi_comm.size(), 0);
 
-    MPI_Allgather(&local_num_unique_bids, 1, MPI_INT, recvcounts.data(), 1, MPI_INT, mpi.comm);
+    MPI_Allgather(&local_num_unique_bids, 1, MPI_INT, recvcounts.data(), 1, MPI_INT, mpi_comm);
 
-    std::vector<int> recvdispls(opensn::mpi.process_count, 0);
+    std::vector<int> recvdispls(opensn::mpi_comm.size(), 0);
 
     int running_displacement = 0;
-    for (int locI = 0; locI < opensn::mpi.process_count; ++locI)
+    for (int locI = 0; locI < opensn::mpi_comm.size(); ++locI)
     {
       recvdispls[locI] = running_displacement;
       running_displacement += recvcounts[locI];
@@ -1416,7 +1415,7 @@ LBSSolver::InitializeBoundaries()
                    recvcounts.data(),
                    recvdispls.data(),
                    MPI_UINT64_T,
-                   mpi.comm);
+                   mpi_comm);
 
     globl_unique_bids_set = local_unique_bids_set; // give it a head start
 
@@ -1475,15 +1474,15 @@ LBSSolver::InitializeBoundaries()
         const int local_has_bid = n_ptr != nullptr ? 1 : 0;
         const Vec3 local_normal = local_has_bid ? *n_ptr : Vec3(0.0, 0.0, 0.0);
 
-        std::vector<int> locJ_has_bid(opensn::mpi.process_count, 1);
-        std::vector<double> locJ_n_val(opensn::mpi.process_count * 3, 0.0);
+        std::vector<int> locJ_has_bid(opensn::mpi_comm.size(), 1);
+        std::vector<double> locJ_n_val(opensn::mpi_comm.size() * 3, 0.0);
 
-        MPI_Allgather(&local_has_bid, 1, MPI_INT, locJ_has_bid.data(), 1, MPI_INT, mpi.comm);
+        MPI_Allgather(&local_has_bid, 1, MPI_INT, locJ_has_bid.data(), 1, MPI_INT, mpi_comm);
 
-        MPI_Allgather(&local_normal, 3, MPI_DOUBLE, locJ_n_val.data(), 3, MPI_DOUBLE, mpi.comm);
+        MPI_Allgather(&local_normal, 3, MPI_DOUBLE, locJ_n_val.data(), 3, MPI_DOUBLE, mpi_comm);
 
         Vec3 global_normal;
-        for (int j = 0; j < opensn::mpi.process_count; ++j)
+        for (int j = 0; j < opensn::mpi_comm.size(); ++j)
         {
           if (locJ_has_bid[j])
           {
@@ -1947,7 +1946,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   Stat st;
 
   // Make sure folder exists
-  if (opensn::mpi.location_id == 0)
+  if (opensn::mpi_comm.rank() == 0)
   {
     if (stat(folder_name.c_str(), &st) != 0) // if not exist, make it
       if ((mkdir(folder_name.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) != 0) and (errno != EEXIST))
@@ -1957,7 +1956,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
       }
   }
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 
   // Create files
   // This step might fail for specific locations and
@@ -1966,7 +1965,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   // the process as whole succeeded.
   bool location_succeeded = true;
   char location_cstr[20];
-  snprintf(location_cstr, 20, "%d.r", opensn::mpi.location_id);
+  snprintf(location_cstr, 20, "%d.r", opensn::mpi_comm.rank());
 
   std::string file_name = folder_name + std::string("/") + file_base + std::string(location_cstr);
 
@@ -1990,9 +1989,9 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   }
 
   // Wait for all processes then check success status
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi.comm);
+  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi_comm);
 
   // Write status message
   if (global_succeeded)
@@ -2006,7 +2005,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
 void
 LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& file_base)
 {
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 
   // Open files
   // This step might fail for specific locations and
@@ -2015,7 +2014,7 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
   // the process as whole succeeded.
   bool location_succeeded = true;
   char location_cstr[20];
-  snprintf(location_cstr, 20, "%d.r", opensn::mpi.location_id);
+  snprintf(location_cstr, 20, "%d.r", opensn::mpi_comm.rank());
 
   std::string file_name = folder_name + std::string("/") + file_base + std::string(location_cstr);
 
@@ -2061,9 +2060,9 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
   }
 
   // Wait for all processes then check success status
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi.comm);
+  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi_comm);
 
   // Write status message
   if (global_succeeded) log.Log() << "Successfully read restart data";
@@ -2075,7 +2074,7 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
 void
 LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset, const std::string& file_base)
 {
-  std::string file_name = file_base + std::to_string(opensn::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(opensn::mpi_comm.rank()) + ".data";
 
   // Open file
   std::ofstream file(file_name,
@@ -2161,7 +2160,7 @@ close_file:
 void
 LBSSolver::ReadGroupsetAngularFluxes(LBSGroupset& groupset, const std::string& file_base)
 {
-  std::string file_name = file_base + std::to_string(opensn::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(opensn::mpi_comm.rank()) + ".data";
 
   // Open file
   std::ifstream file(file_name,
@@ -2270,7 +2269,7 @@ LBSSolver::MakeSourceMomentsFromPhi()
 void
 LBSSolver::WriteFluxMoments(const std::string& file_base, const std::vector<double>& flux_moments)
 {
-  std::string file_name = file_base + std::to_string(opensn::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(opensn::mpi_comm.rank()) + ".data";
 
   // Open file
   log.Log() << "Writing flux-moments to files with base-name " << file_base
@@ -2382,7 +2381,7 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
                            std::vector<double>& flux_moments,
                            bool single_file)
 {
-  std::string file_name = file_base + std::to_string(opensn::mpi.location_id) + ".data";
+  std::string file_name = file_base + std::to_string(opensn::mpi_comm.rank()) + ".data";
   if (single_file) file_name = file_base + ".data";
 
   // Open file
@@ -2649,7 +2648,7 @@ LBSSolver::UpdateFieldFunctions()
     if (options_.power_normalization > 0.0)
     {
       double globl_total_power;
-      MPI_Allreduce(&local_total_power, &globl_total_power, 1, MPI_DOUBLE, MPI_SUM, mpi.comm);
+      MPI_Allreduce(&local_total_power, &globl_total_power, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
 
       Scale(data_vector_local, options_.power_normalization / globl_total_power);
     }
@@ -2749,7 +2748,7 @@ LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_production = 0.0;
-  MPI_Allreduce(&local_production, &global_production, 1, MPI_DOUBLE, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&local_production, &global_production, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
 
   return global_production;
 }
@@ -2789,7 +2788,7 @@ LBSSolver::ComputeFissionRate(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_fission_rate = 0.0;
-  MPI_Allreduce(&local_fission_rate, &global_fission_rate, 1, MPI_DOUBLE, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&local_fission_rate, &global_fission_rate, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
 
   return global_fission_rate;
 }

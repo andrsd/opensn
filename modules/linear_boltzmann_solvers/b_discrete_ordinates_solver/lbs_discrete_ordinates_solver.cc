@@ -22,7 +22,6 @@
 #include "modules/linear_boltzmann_solvers/b_discrete_ordinates_solver/sweep_chunks/cbc_sweep_chunk.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-#include "framework/mpi/mpi.h"
 #include "framework/utils/timer.h"
 #include "framework/utils/utils.h"
 #include "framework/logging/log_exceptions.h"
@@ -496,7 +495,7 @@ DiscreteOrdinatesSolver::ZeroOutflowBalanceVars(LBSGroupset& groupset)
 void
 DiscreteOrdinatesSolver::ComputeBalance()
 {
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
   log.Log() << "\n********** Computing balance\n";
 
   // Get material source
@@ -604,7 +603,7 @@ DiscreteOrdinatesSolver::ComputeBalance()
                 table_size,
                 MPI_DOUBLE,
                 MPI_SUM,
-                mpi.comm);
+                mpi_comm);
 
   double globl_absorption = globl_balance_table.at(0);
   double globl_production = globl_balance_table.at(1);
@@ -625,7 +624,7 @@ DiscreteOrdinatesSolver::ComputeBalance()
 
   log.Log() << "\n********** Done computing balance\n";
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 }
 
 std::vector<double>
@@ -696,7 +695,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const int groupset_id, const uint64_t bo
 
   std::vector<double> global_leakage(gs_num_groups, 0.0);
   MPI_Allreduce(
-    local_leakage.data(), global_leakage.data(), gs_num_groups, MPI_DOUBLE, MPI_SUM, mpi.comm);
+    local_leakage.data(), global_leakage.data(), gs_num_groups, MPI_DOUBLE, MPI_SUM, mpi_comm);
 
   return global_leakage;
 }
@@ -719,8 +718,7 @@ DiscreteOrdinatesSolver::InitializeSweepDataStructures()
 
       bool is_1D_geometry = options_.geometry_type == GeometryType::ONED_SLAB;
 
-      if (no_cycles_parmetis_partitioning and not is_1D_geometry and
-          (opensn::mpi.process_count > 1))
+      if (no_cycles_parmetis_partitioning and not is_1D_geometry and (opensn::mpi_comm.size() > 1))
         throw std::logic_error("When using PARMETIS type partitioning then groupset iterative "
                                "method must be NPT_CLASSICRICHARDSON_CYCLES or NPT_GMRES_CYCLES");
     } // for groupset
@@ -1071,7 +1069,7 @@ DiscreteOrdinatesSolver::InitFluxDataStructures(LBSGroupset& groupset)
               << "         Process memory = " << std::setprecision(3) << GetMemoryUsageInMB()
               << " MB.";
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 }
 
 void
@@ -1081,7 +1079,7 @@ DiscreteOrdinatesSolver::ResetSweepOrderings(LBSGroupset& groupset)
 
   groupset.angle_agg_->angle_set_groups.clear();
 
-  opensn::mpi.Barrier();
+  opensn::mpi_comm.barrier();
 
   log.Log() << "SPDS and FLUDS reset complete.            Process memory = " << std::setprecision(3)
             << GetMemoryUsageInMB() << " MB";
@@ -1089,9 +1087,9 @@ DiscreteOrdinatesSolver::ResetSweepOrderings(LBSGroupset& groupset)
   double local_app_memory =
     log.ProcessEvent(Logger::StdTags::MAX_MEMORY_USAGE, Logger::EventOperation::MAX_VALUE);
   double total_app_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &total_app_memory, 1, MPI_DOUBLE, MPI_SUM, mpi.comm);
+  MPI_Allreduce(&local_app_memory, &total_app_memory, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
   double max_proc_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &max_proc_memory, 1, MPI_DOUBLE, MPI_MAX, mpi.comm);
+  MPI_Allreduce(&local_app_memory, &max_proc_memory, 1, MPI_DOUBLE, MPI_MAX, mpi_comm);
 
   log.Log() << "\n"
             << std::setprecision(3)
