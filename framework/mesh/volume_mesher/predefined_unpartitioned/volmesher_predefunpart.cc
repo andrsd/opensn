@@ -177,8 +177,7 @@ VolumeMesherPredefinedUnpartitioned::Execute()
   size_t total_local_cells = grid->local_cells.size();
   size_t total_global_cells = 0;
 
-  MPI_Allreduce(
-    &total_local_cells, &total_global_cells, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(total_local_cells, total_global_cells, mpi::op::sum<size_t>());
 
   log.Log() << "VolumeMesherPredefinedUnpartitioned: Cells created = " << total_global_cells
             << std::endl;

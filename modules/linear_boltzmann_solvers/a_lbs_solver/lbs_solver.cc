@@ -1086,7 +1086,7 @@ LBSSolver::ComputeUnitIntegrals()
                                           unit_ghost_cell_matrices_.size()};
   std::array<size_t, 2> num_globl_ucms = {0, 0};
 
-  MPI_Allreduce(num_local_ucms.data(), num_globl_ucms.data(), 2, MPIU_SIZE_T, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(num_local_ucms.data(), 2, num_globl_ucms.data(), mpi::op::sum<size_t>());
 
   opensn::mpi_comm.barrier();
   log.Log() << "Ghost cell unit cell-matrix ratio: "
@@ -1991,7 +1991,7 @@ LBSSolver::WriteRestartData(const std::string& folder_name, const std::string& f
   // Wait for all processes then check success status
   opensn::mpi_comm.barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi_comm);
+  mpi_comm.all_reduce(location_succeeded, global_succeeded, mpi::op::logical_and<bool>());
 
   // Write status message
   if (global_succeeded)
@@ -2062,7 +2062,7 @@ LBSSolver::ReadRestartData(const std::string& folder_name, const std::string& fi
   // Wait for all processes then check success status
   opensn::mpi_comm.barrier();
   bool global_succeeded = true;
-  MPI_Allreduce(&location_succeeded, &global_succeeded, 1, MPI_CXX_BOOL, MPI_LAND, mpi_comm);
+  mpi_comm.all_reduce(location_succeeded, global_succeeded, mpi::op::logical_and<bool>());
 
   // Write status message
   if (global_succeeded) log.Log() << "Successfully read restart data";
@@ -2648,7 +2648,7 @@ LBSSolver::UpdateFieldFunctions()
     if (options_.power_normalization > 0.0)
     {
       double globl_total_power;
-      MPI_Allreduce(&local_total_power, &globl_total_power, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
+      mpi_comm.all_reduce(local_total_power, globl_total_power, mpi::op::sum<double>());
 
       Scale(data_vector_local, options_.power_normalization / globl_total_power);
     }
@@ -2748,7 +2748,7 @@ LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_production = 0.0;
-  MPI_Allreduce(&local_production, &global_production, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(local_production, global_production, mpi::op::sum<double>());
 
   return global_production;
 }
@@ -2788,7 +2788,7 @@ LBSSolver::ComputeFissionRate(const std::vector<double>& phi)
 
   // Allreduce global production
   double global_fission_rate = 0.0;
-  MPI_Allreduce(&local_fission_rate, &global_fission_rate, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(local_fission_rate, global_fission_rate, mpi::op::sum<double>());
 
   return global_fission_rate;
 }
