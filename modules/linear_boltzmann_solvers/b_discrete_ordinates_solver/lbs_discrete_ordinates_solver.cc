@@ -598,12 +598,8 @@ DiscreteOrdinatesSolver::ComputeBalance()
 
   std::vector<double> globl_balance_table(table_size, 0.0);
 
-  MPI_Allreduce(local_balance_table.data(),
-                globl_balance_table.data(),
-                table_size,
-                MPI_DOUBLE,
-                MPI_SUM,
-                mpi_comm);
+  mpi_comm.all_reduce(
+    local_balance_table.data(), table_size, globl_balance_table.data(), mpi::op::sum<double>());
 
   double globl_absorption = globl_balance_table.at(0);
   double globl_production = globl_balance_table.at(1);
@@ -694,8 +690,8 @@ DiscreteOrdinatesSolver::ComputeLeakage(const int groupset_id, const uint64_t bo
   }   // for cell
 
   std::vector<double> global_leakage(gs_num_groups, 0.0);
-  MPI_Allreduce(
-    local_leakage.data(), global_leakage.data(), gs_num_groups, MPI_DOUBLE, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(
+    local_leakage.data(), gs_num_groups, global_leakage.data(), mpi::op::sum<double>());
 
   return global_leakage;
 }
@@ -1087,9 +1083,9 @@ DiscreteOrdinatesSolver::ResetSweepOrderings(LBSGroupset& groupset)
   double local_app_memory =
     log.ProcessEvent(Logger::StdTags::MAX_MEMORY_USAGE, Logger::EventOperation::MAX_VALUE);
   double total_app_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &total_app_memory, 1, MPI_DOUBLE, MPI_SUM, mpi_comm);
+  mpi_comm.all_reduce(local_app_memory, total_app_memory, mpi::op::sum<double>());
   double max_proc_memory = 0.0;
-  MPI_Allreduce(&local_app_memory, &max_proc_memory, 1, MPI_DOUBLE, MPI_MAX, mpi_comm);
+  mpi_comm.all_reduce(local_app_memory, max_proc_memory, mpi::op::sum<double>());
 
   log.Log() << "\n"
             << std::setprecision(3)
