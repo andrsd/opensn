@@ -14,7 +14,7 @@
 
 using namespace opensn;
 
-RegisterLuaFunctionAsIs(chiVolumeMesherCreate);
+RegisterLuaFunctionAsIs(VolumeMesherCreate);
 RegisterLuaConstantAsIs(VOLUMEMESHER_EXTRUDER, Varying(4));
 RegisterLuaConstantAsIs(VOLUMEMESHER_UNPARTITIONED, Varying(6));
 
@@ -22,7 +22,7 @@ RegisterLuaConstant(ExtruderTemplateType, SURFACE_MESH, Varying(1));
 RegisterLuaConstant(ExtruderTemplateType, UNPARTITIONED_MESH, Varying(2));
 
 int
-chiVolumeMesherCreate(lua_State* L)
+VolumeMesherCreate(lua_State* L)
 {
   const std::string fname = __FUNCTION__;
 
@@ -91,7 +91,7 @@ chiVolumeMesherCreate(lua_State* L)
   else
   {
     opensn::log.Log0Error() << "Invalid Volume mesher type in function "
-                               "chiVolumeMesherCreate. Allowed options are"
+                               "VolumeMesherCreate. Allowed options are"
                                "VOLUMEMESHER_EXTRUDER or "
                                "VOLUMEMESHER_UNPARTITIONED";
     opensn::Exit(EXIT_FAILURE);
@@ -100,7 +100,7 @@ chiVolumeMesherCreate(lua_State* L)
   auto& cur_hndlr = opensn::GetCurrentHandler();
   cur_hndlr.SetVolumeMesher(new_mesher);
 
-  opensn::log.LogAllVerbose2() << "chiVolumeMesherCreate: Volume mesher created." << std::endl;
+  opensn::log.LogAllVerbose2() << "VolumeMesherCreate: Volume mesher created." << std::endl;
 
   return 0;
 }
