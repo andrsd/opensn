@@ -25,5 +25,5 @@ int LBSComputeBalance(lua_State* L);
  * \ingroup LBSLuaFunctions
  * \author Jan
  */
-int chiLBSComputeLeakage(lua_State* L);
+int LBSComputeLeakage(lua_State* L);
 } // namespace opensnlua::lbs
