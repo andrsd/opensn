@@ -747,7 +747,7 @@ int LBSAddPointSource(lua_State* L);
  *
  *  \ingroup LBSLuaFunctions
  */
-int chiLBSClearPointSources(lua_State* L);
+int LBSClearPointSources(lua_State* L);
 
 /**Initializes the point sources. This is mostly
  * useful for adjoint response calculations.
