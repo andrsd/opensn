@@ -13,7 +13,7 @@
  *  Makes no modification to the region surfaces.\n\n
  *
  * \code
- * chiSurfaceMesherCreate(SURFACEMESHER_PREDEFINED)
+ * SurfaceMesherCreate(SURFACEMESHER_PREDEFINED)
  * \endcode
  *
  * ## _
@@ -21,14 +21,14 @@
  * \ingroup LuaSurfaceMesher
  * \author Jan
  */
-int chiSurfaceMesherCreate(lua_State* L);
+int SurfaceMesherCreate(lua_State* L);
 
 /** Executes the surface meshing pipeline.
  *
  * \ingroup LuaSurfaceMesher
  * \author Jan
  */
-int chiSurfaceMesherExecute(lua_State* L);
+int SurfaceMesherExecute(lua_State* L);
 
 /** Sets a property of a surface mesher.
  *
@@ -41,5 +41,5 @@ int chiSurfaceMesherExecute(lua_State* L);
  * \ingroup LuaSurfaceMesher
  * \author Jan
  */
-int chiSurfaceMesherSetProperty(lua_State* L);
-// int chiSurfaceMesherExportToObj(lua_State* L);
+int SurfaceMesherSetProperty(lua_State* L);
+// int SurfaceMesherExportToObj(lua_State* L);

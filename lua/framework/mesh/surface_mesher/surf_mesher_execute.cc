@@ -10,17 +10,17 @@
 
 using namespace opensn;
 
-RegisterLuaFunctionAsIs(chiSurfaceMesherExecute);
+RegisterLuaFunctionAsIs(SurfaceMesherExecute);
 
 int
-chiSurfaceMesherExecute(lua_State* L)
+SurfaceMesherExecute(lua_State* L)
 {
   auto& cur_hndlr = GetCurrentHandler();
   opensn::log.LogAllVerbose2() << "Executing surface mesher\n";
 
   cur_hndlr.GetSurfaceMesher().Execute();
 
-  opensn::log.LogAllVerbose2() << "chiSurfaceMesherExecute: Surface mesher execution completed."
+  opensn::log.LogAllVerbose2() << "SurfaceMesherExecute: Surface mesher execution completed."
                                << std::endl;
 
   return 0;
