@@ -125,9 +125,9 @@ tvol0 = NewRPP({xmin=2.3333,xmax=2.6666,ymin=4.16666,ymax=4.33333,infz=true})
 tvol1 = NewRPP({xmin=0.5   ,xmax=0.8333,ymin=4.16666,ymax=4.33333,infz=true})
 
 --############################################### Get field functions
-ff_m0 = chiGetFieldFunctionHandleByName("phi_g000_m00")
-ff_m1 = chiGetFieldFunctionHandleByName("phi_g000_m01")
-ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
+ff_m0 = GetFieldFunctionHandleByName("phi_g000_m00")
+ff_m1 = GetFieldFunctionHandleByName("phi_g000_m01")
+ff_m2 = GetFieldFunctionHandleByName("phi_g000_m02")
 
 
 --############################################### Slice plot
