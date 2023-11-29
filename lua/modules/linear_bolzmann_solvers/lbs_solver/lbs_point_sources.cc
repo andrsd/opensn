@@ -10,9 +10,9 @@ namespace opensnlua::lbs
 {
 
 int
-chiLBSAddPointSource(lua_State* L)
+LBSAddPointSource(lua_State* L)
 {
-  const std::string fname = "chiLBSAddPointSource";
+  const std::string fname = "LBSAddPointSource";
   const int num_args = lua_gettop(L);
   if (num_args != 5) LuaPostArgAmountError(fname, 5, num_args);
 
