@@ -93,10 +93,10 @@ RegisterLuaEntities(lua_State* L)
   RegisterFunction(LBSReadFluxMoments);
 
   RegisterFunction(chiLBSComputeFissionRate);
-  RegisterFunction(chiLBSInitializeMaterials);
+  RegisterFunction(LBSInitializeMaterials);
 
   RegisterFunction(LBSAddPointSource);
   RegisterFunction(chiLBSClearPointSources);
-  RegisterFunction(chiLBSInitializePointSources);
+  RegisterFunction(LBSInitializePointSources);
 }
 } // namespace opensnlua::lbs
