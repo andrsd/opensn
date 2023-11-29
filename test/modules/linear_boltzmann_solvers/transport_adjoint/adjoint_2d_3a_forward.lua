@@ -128,9 +128,9 @@ tvol1 = NewRPP({xmin=0.5   ,xmax=0.8333,ymin=4.16666,ymax=4.33333,infz=true})
 
 
 --############################################### Get field functions
-ff_m0 = chiGetFieldFunctionHandleByName("phi_g000_m00")
-ff_m1 = chiGetFieldFunctionHandleByName("phi_g000_m01")
-ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
+ff_m0 = GetFieldFunctionHandleByName("phi_g000_m00")
+ff_m1 = GetFieldFunctionHandleByName("phi_g000_m01")
+ff_m2 = GetFieldFunctionHandleByName("phi_g000_m02")
 
 
 --############################################### Slice plot
@@ -138,7 +138,7 @@ ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
 --############################################### Volume integrations
 QOI_value_sum = 0.0
 for g=0,num_groups-1 do
-    ff = chiGetFieldFunctionHandleByName("phi_g"..
+    ff = GetFieldFunctionHandleByName("phi_g"..
             string.format("%03d",g).."_m"..string.format("%02d",0))
     ffi1 = FFInterpolationCreate(VOLUME)
     curffi = ffi1

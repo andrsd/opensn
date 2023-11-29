@@ -131,9 +131,9 @@ SolverExecute(ss_solver)
 chiLBSWriteFluxMoments(phys1, "Adjoint2D_1b_adjoint")
 
 --############################################### Get field functions
-ff_m0 = chiGetFieldFunctionHandleByName("phi_g000_m00")
-ff_m1 = chiGetFieldFunctionHandleByName("phi_g000_m01")
-ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
+ff_m0 = GetFieldFunctionHandleByName("phi_g000_m00")
+ff_m1 = GetFieldFunctionHandleByName("phi_g000_m01")
+ff_m2 = GetFieldFunctionHandleByName("phi_g000_m02")
 
 
 --############################################### Slice plot
