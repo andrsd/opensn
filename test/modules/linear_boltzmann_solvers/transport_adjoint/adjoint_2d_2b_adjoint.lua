@@ -113,7 +113,7 @@ chiSolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
 
 SolverInitialize(ss_solver)
-chiSolverExecute(ss_solver)
+SolverExecute(ss_solver)
 
 chiLBSWriteFluxMoments(phys1, "Adjoint2D_2b_adjoint")
 

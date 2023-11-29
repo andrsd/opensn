@@ -119,7 +119,7 @@ LBSAddPointSource(phys1, 1.25 - 0.5*ds, 1.5*ds, 0.0, src)
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
 
 SolverInitialize(ss_solver)
-chiSolverExecute(ss_solver)
+SolverExecute(ss_solver)
 
 --############################################### Create QOIs
 tvol0 = NewRPP({xmin=2.3333,xmax=2.6666,ymin=4.16666,ymax=4.33333,infz=true})
