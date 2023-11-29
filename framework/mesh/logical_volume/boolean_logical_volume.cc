@@ -7,10 +7,10 @@ namespace opensn
 
 InputParameters BooleanLogicalVolumeArgumentPair();
 
-OpenSnRegisterObject(mesh, BooleanLogicalVolume);
-OpenSnRegisterSyntaxBlock(mesh,
-                          BooleanLogicalVolumeArgumentPair,
-                          BooleanLogicalVolumeArgumentPair);
+OpenSnRegisterObjectNamespace(mesh, BooleanLogicalVolume);
+OpenSnRegisterSyntaxBlockNamespace(mesh,
+                                   BooleanLogicalVolumeArgumentPair,
+                                   BooleanLogicalVolumeArgumentPair);
 
 InputParameters
 BooleanLogicalVolume::GetInputParameters()

@@ -5,7 +5,7 @@
 namespace opensn
 {
 
-OpenSnRegisterObject(physics, ConstantTimeStepper);
+OpenSnRegisterObjectNamespace(physics, ConstantTimeStepper);
 
 InputParameters
 ConstantTimeStepper::GetInputParameters()

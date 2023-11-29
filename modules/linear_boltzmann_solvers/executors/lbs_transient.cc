@@ -9,7 +9,7 @@ namespace opensn
 namespace lbs
 {
 
-OpenSnRegisterObject(lbs, TransientSolver);
+OpenSnRegisterObjectNamespace(lbs, TransientSolver);
 
 InputParameters
 TransientSolver::GetInputParameters()

@@ -8,7 +8,7 @@
 namespace unit_tests
 {
 
-OpenSnRegisterObject(unit_testsB, TestObject);
+OpenSnRegisterObjectNamespace(unit_testsB, TestObject);
 
 InputParameters
 TestObject::GetInputParameters()
@@ -66,7 +66,7 @@ TestObject::TestObject(const InputParameters& params)
                     << "solver_type=" << solver_type_;
 }
 
-OpenSnRegisterObject(unit_testsB, TestSubObject);
+OpenSnRegisterObjectNamespace(unit_testsB, TestSubObject);
 
 InputParameters
 TestSubObject::GetInputParameters()
@@ -92,7 +92,7 @@ TestSubObject::TestSubObject(const InputParameters& params)
                     << "num_groups=" << num_groups_;
 }
 
-OpenSnRegisterObject(unit_testsB, ChildTestObject);
+OpenSnRegisterObjectNamespace(unit_testsB, ChildTestObject);
 
 InputParameters
 ChildTestObject::GetInputParameters()

@@ -32,7 +32,7 @@ namespace opensn
 namespace lbs
 {
 
-OpenSnRegisterObject(lbs, DiscreteOrdinatesSolver);
+OpenSnRegisterObjectNamespace(lbs, DiscreteOrdinatesSolver);
 
 DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(const std::string& text_name)
   : LBSSolver(text_name)
