@@ -118,7 +118,7 @@ end
 
 chiAdjointSolverAddResponseFunction(phys1,"QOI0",tvol0,"ResponseFunction")
 chiAdjointSolverAddResponseFunction(phys1,"QOI1",tvol1,"ResponseFunction")
-chiSolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
+SolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
 

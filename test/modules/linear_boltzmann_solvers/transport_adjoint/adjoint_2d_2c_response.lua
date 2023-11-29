@@ -106,7 +106,7 @@ lbs.SetOptions(phys1, lbs_options)
 --
 --chiAdjointSolverAddResponseFunction(phys1,"QOI0",tvol0)
 --chiAdjointSolverAddResponseFunction(phys1,"QOI1",tvol1)
---chiSolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
+--SolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 --############################################### Add point source
 LBSAddPointSource(phys1, 1.25 - 0.5*ds, 1.5*ds, 0.0, src)
