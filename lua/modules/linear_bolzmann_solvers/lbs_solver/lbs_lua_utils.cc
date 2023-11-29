@@ -96,7 +96,7 @@ RegisterLuaEntities(lua_State* L)
   RegisterFunction(LBSInitializeMaterials);
 
   RegisterFunction(LBSAddPointSource);
-  RegisterFunction(chiLBSClearPointSources);
+  RegisterFunction(LBSClearPointSources);
   RegisterFunction(LBSInitializePointSources);
 }
 } // namespace opensnlua::lbs

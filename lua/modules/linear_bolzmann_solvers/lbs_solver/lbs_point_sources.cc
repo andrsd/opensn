@@ -47,9 +47,9 @@ LBSAddPointSource(lua_State* L)
 }
 
 int
-chiLBSClearPointSources(lua_State* L)
+LBSClearPointSources(lua_State* L)
 {
-  const std::string fname = "chiLBSClearPointSources";
+  const std::string fname = "LBSClearPointSources";
   const int num_args = lua_gettop(L);
   if (num_args != 1) LuaPostArgAmountError(fname, 1, num_args);
 
