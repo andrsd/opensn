@@ -27,12 +27,12 @@ CreateResponseFunction(const std::string& function_name)
 
 } // namespace
 
-RegisterLuaFunctionAsIs(chiAdjointSolverAddResponseFunction);
+RegisterLuaFunctionAsIs(AdjointSolverAddResponseFunction);
 
 int
-chiAdjointSolverAddResponseFunction(lua_State* L)
+AdjointSolverAddResponseFunction(lua_State* L)
 {
-  const std::string fname = "chiAdjointSolverAddResponseFunction";
+  const std::string fname = "AdjointSolverAddResponseFunction";
   const int num_args = lua_gettop(L);
   if (num_args < 3) LuaPostArgAmountError(fname, 3, num_args);
 

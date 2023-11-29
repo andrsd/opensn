@@ -116,8 +116,8 @@ function ResponseFunction(cell_centroid, material_id)
     return response
 end
 
-chiAdjointSolverAddResponseFunction(phys1,"QOI0",tvol0,"ResponseFunction")
-chiAdjointSolverAddResponseFunction(phys1,"QOI1",tvol1,"ResponseFunction")
+AdjointSolverAddResponseFunction(phys1,"QOI0",tvol0,"ResponseFunction")
+AdjointSolverAddResponseFunction(phys1,"QOI1",tvol1,"ResponseFunction")
 SolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
