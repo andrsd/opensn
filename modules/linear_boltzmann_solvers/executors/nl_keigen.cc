@@ -10,7 +10,7 @@ namespace opensn
 namespace lbs
 {
 
-OpenSnRegisterObject(lbs, XXNonLinearKEigen);
+OpenSnRegisterObjectNamespace(lbs, XXNonLinearKEigen);
 
 InputParameters
 XXNonLinearKEigen::GetInputParameters()

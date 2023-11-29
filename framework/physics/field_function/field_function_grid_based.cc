@@ -20,7 +20,7 @@
 namespace opensn
 {
 
-OpenSnRegisterObject(physics, FieldFunctionGridBased);
+OpenSnRegisterObjectNamespace(physics, FieldFunctionGridBased);
 
 InputParameters
 FieldFunctionGridBased::GetInputParameters()

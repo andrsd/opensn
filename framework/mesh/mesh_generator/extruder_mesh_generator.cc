@@ -7,9 +7,9 @@
 namespace opensn
 {
 
-OpenSnRegisterObject(mesh, ExtruderMeshGenerator);
+OpenSnRegisterObjectNamespace(mesh, ExtruderMeshGenerator);
 
-OpenSnRegisterObjectParametersOnly(mesh, ExtrusionLayer);
+OpenSnRegisterObjectParametersOnlyNamespace(mesh, ExtrusionLayer);
 
 InputParameters
 ExtrusionLayer::GetInputParameters()

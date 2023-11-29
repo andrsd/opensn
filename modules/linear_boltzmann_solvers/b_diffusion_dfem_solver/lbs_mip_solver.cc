@@ -12,7 +12,7 @@ namespace opensn
 namespace lbs
 {
 
-OpenSnRegisterObject(lbs, DiffusionDFEMSolver);
+OpenSnRegisterObjectNamespace(lbs, DiffusionDFEMSolver);
 
 InputParameters
 DiffusionDFEMSolver::GetInputParameters()

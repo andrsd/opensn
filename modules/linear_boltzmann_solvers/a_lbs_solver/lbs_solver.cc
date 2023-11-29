@@ -29,11 +29,11 @@ namespace opensn
 {
 namespace lbs
 {
-// OpenSnRegisterObject(lbs, LBSSolver); Should not be constructible
+// OpenSnRegisterObjectNamespace(lbs, LBSSolver); Should not be constructible
 
-OpenSnRegisterSyntaxBlock(lbs, OptionsBlock, LBSSolver::OptionsBlock);
+OpenSnRegisterSyntaxBlockNamespace(lbs, OptionsBlock, LBSSolver::OptionsBlock);
 
-OpenSnRegisterSyntaxBlock(lbs, BoundaryOptionsBlock, LBSSolver::BoundaryOptionsBlock);
+OpenSnRegisterSyntaxBlockNamespace(lbs, BoundaryOptionsBlock, LBSSolver::BoundaryOptionsBlock);
 
 LBSSolver::LBSSolver(const std::string& text_name) : Solver(text_name)
 {
