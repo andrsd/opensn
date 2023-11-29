@@ -125,7 +125,7 @@ ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
 SolverInitialize(ss_solver)
 SolverExecute(ss_solver)
 
-chiLBSWriteFluxMoments(phys1, "Adjoint2D_3b_adjoint")
+LBSWriteFluxMoments(phys1, "Adjoint2D_3b_adjoint")
 
 --############################################### Get field functions
 ff_m0 = GetFieldFunctionHandleByName("phi_g000_m00")
