@@ -31,16 +31,16 @@ mesh.MeshGenerator.Execute(meshgen1)
 NewRPP = mesh.RPPLogicalVolume.Create
 vol0 = NewRPP({infx=true, infy=true, infz=true})
 vol1 = NewRPP({ymin=0.0,ymax=0.8*L,infx=true,infz=true})
-chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol0,0)
-chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol1,1)
+VolumeMesherSetProperty(MATID_FROMLOGICAL,vol0,0)
+VolumeMesherSetProperty(MATID_FROMLOGICAL,vol1,1)
 
 
 
 ----############################################### Set Material IDs
 vol0b = NewRPP({xmin=-0.166666+2.5,xmax=0.166666+2.5,infy=true,infz=true})
 vol1b = NewRPP({xmin=-1+2.5,xmax=1+2.5,ymin=0.9*L,ymax=L,infz=true})
-chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol0b,0)
-chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol1b,1)
+VolumeMesherSetProperty(MATID_FROMLOGICAL,vol0b,0)
+VolumeMesherSetProperty(MATID_FROMLOGICAL,vol1b,1)
 
 
 --############################################### Add materials
