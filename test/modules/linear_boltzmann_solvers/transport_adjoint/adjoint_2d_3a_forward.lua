@@ -35,11 +35,11 @@ xmin=0.0
 for i=0,N do
     nodes[i+1] = xmin + i*ds
 end
-meshgen1 = chi_mesh.OrthogonalMeshGenerator.Create({ node_sets = {nodes,nodes} })
-chi_mesh.MeshGenerator.Execute(meshgen1)
+meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = {nodes,nodes} })
+mesh.MeshGenerator.Execute(meshgen1)
 
 ----############################################### Set Material IDs
-NewRPP = chi_mesh.RPPLogicalVolume.Create
+NewRPP = mesh.RPPLogicalVolume.Create
 vol0 = NewRPP({infx=true, infy=true, infz=true})
 vol1 = NewRPP({ymin=0.0,ymax=0.8*L,infx=true,infz=true})
 chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol0,0)
