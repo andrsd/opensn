@@ -128,7 +128,7 @@ ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
 
 --############################################### Exports
 if master_export == nil then
-    chiExportMultiFieldFunctionToVTK({ff_m0, ff_m1, ff_m2},"ZPhi_LBAdjointResponse")
+    ExportMultiFieldFunctionToVTK({ff_m0, ff_m1, ff_m2},"ZPhi_LBAdjointResponse")
 end
 
 
