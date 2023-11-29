@@ -140,15 +140,15 @@ QOI_value_sum = 0.0
 for g=0,num_groups-1 do
     ff = chiGetFieldFunctionHandleByName("phi_g"..
             string.format("%03d",g).."_m"..string.format("%02d",0))
-    ffi1 = chiFFInterpolationCreate(VOLUME)
+    ffi1 = FFInterpolationCreate(VOLUME)
     curffi = ffi1
-    chiFFInterpolationSetProperty(curffi,OPERATION,OP_SUM)
-    chiFFInterpolationSetProperty(curffi,LOGICAL_VOLUME,tvol1)
-    chiFFInterpolationSetProperty(curffi,ADD_FIELDFUNCTION,ff)
+    FFInterpolationSetProperty(curffi,OPERATION,OP_SUM)
+    FFInterpolationSetProperty(curffi,LOGICAL_VOLUME,tvol1)
+    FFInterpolationSetProperty(curffi,ADD_FIELDFUNCTION,ff)
 
-    chiFFInterpolationInitialize(curffi)
-    chiFFInterpolationExecute(curffi)
-    QOI_value = chiFFInterpolationGetValue(curffi)
+    FFInterpolationInitialize(curffi)
+    FFInterpolationExecute(curffi)
+    QOI_value = FFInterpolationGetValue(curffi)
 
     chiLog(LOG_0,string.format("QOI-value["..tostring(g).."]= %.5e", QOI_value))
 

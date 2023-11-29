@@ -133,15 +133,15 @@ ff_m2 = chiGetFieldFunctionHandleByName("phi_g000_m02")
 --############################################### Slice plot
 
 --############################################### Volume integrations
-ffi1 = chiFFInterpolationCreate(VOLUME)
+ffi1 = FFInterpolationCreate(VOLUME)
 curffi = ffi1
-chiFFInterpolationSetProperty(curffi,OPERATION,OP_SUM)
-chiFFInterpolationSetProperty(curffi,LOGICAL_VOLUME,tvol1)
-chiFFInterpolationSetProperty(curffi,ADD_FIELDFUNCTION,ff_m0)
+FFInterpolationSetProperty(curffi,OPERATION,OP_SUM)
+FFInterpolationSetProperty(curffi,LOGICAL_VOLUME,tvol1)
+FFInterpolationSetProperty(curffi,ADD_FIELDFUNCTION,ff_m0)
 
-chiFFInterpolationInitialize(curffi)
-chiFFInterpolationExecute(curffi)
-QOI_value = chiFFInterpolationGetValue(curffi)
+FFInterpolationInitialize(curffi)
+FFInterpolationExecute(curffi)
+QOI_value = FFInterpolationGetValue(curffi)
 
 chiLog(LOG_0,string.format("QOI-value=%.5e", QOI_value))
 
