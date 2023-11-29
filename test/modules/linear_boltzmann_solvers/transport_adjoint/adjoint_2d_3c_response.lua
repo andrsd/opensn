@@ -111,7 +111,7 @@ SolverInitialize(ss_solver)
 --SolverExecute(ss_solver)
 
 chiLBSReadFluxMoments(phys1, "Adjoint2D_3b_adjoint")
-value = chiAdjointSolverComputeInnerProduct(phys1)
+value = AdjointSolverComputeInnerProduct(phys1)
 chiLog(LOG_0,string.format("Inner-product=%.5e", value))
 
 --############################################### Get field functions

@@ -104,8 +104,8 @@ lbs.SetOptions(phys1, lbs_options)
 
 --############################################### Create QOIs
 --
---chiAdjointSolverAddResponseFunction(phys1,"QOI0",tvol0)
---chiAdjointSolverAddResponseFunction(phys1,"QOI1",tvol1)
+--AdjointSolverAddResponseFunction(phys1,"QOI0",tvol0)
+--AdjointSolverAddResponseFunction(phys1,"QOI1",tvol1)
 --SolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 --############################################### Add point source
@@ -117,7 +117,7 @@ SolverInitialize(ss_solver)
 --SolverExecute(ss_solver)
 
 chiLBSReadFluxMoments(phys1, "Adjoint2D_2b_adjoint")
-value = chiAdjointSolverComputeInnerProduct(phys1)
+value = AdjointSolverComputeInnerProduct(phys1)
 chiLog(LOG_0,string.format("Inner-product=%.5e", value))
 
 --############################################### Get field functions

@@ -119,8 +119,8 @@ lbs.SetOptions(phys1, lbs_options)
 tvol0 = NewRPP({xmin=2.3333,xmax=2.6666,ymin=4.16666,ymax=4.33333,infz=true})
 tvol1 = NewRPP({xmin=0.5   ,xmax=0.8333,ymin=4.16666,ymax=4.33333,infz=true})
 
-chiAdjointSolverAddResponseFunction(phys1,"QOI0",tvol0)
-chiAdjointSolverAddResponseFunction(phys1,"QOI1",tvol1)
+AdjointSolverAddResponseFunction(phys1,"QOI0",tvol0)
+AdjointSolverAddResponseFunction(phys1,"QOI1",tvol1)
 SolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
