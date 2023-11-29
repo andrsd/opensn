@@ -109,7 +109,7 @@ lbs.SetOptions(phys1, lbs_options)
 --chiSolverSetBasicOption(phys1, "REFERENCE_RF", "QOI1")
 
 --############################################### Add point source
-chiLBSAddPointSource(phys1, 1.25 - 0.5*ds, 1.5*ds, 0.0, src)
+LBSAddPointSource(phys1, 1.25 - 0.5*ds, 1.5*ds, 0.0, src)
 
 ss_solver = lbs.SteadyStateSolver.Create({lbs_solver_handle = phys1})
 
