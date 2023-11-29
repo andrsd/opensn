@@ -54,13 +54,13 @@ materials[1] = PhysicsAddMaterial("Test Material");
 materials[2] = PhysicsAddMaterial("Test Material2");
 materials[3] = PhysicsAddMaterial("Test Material3");
 
-chiPhysicsMaterialAddProperty(materials[1],TRANSPORT_XSECTIONS)
-chiPhysicsMaterialAddProperty(materials[2],TRANSPORT_XSECTIONS)
-chiPhysicsMaterialAddProperty(materials[3],TRANSPORT_XSECTIONS)
+PhysicsMaterialAddProperty(materials[1],TRANSPORT_XSECTIONS)
+PhysicsMaterialAddProperty(materials[2],TRANSPORT_XSECTIONS)
+PhysicsMaterialAddProperty(materials[3],TRANSPORT_XSECTIONS)
 
-chiPhysicsMaterialAddProperty(materials[1],ISOTROPIC_MG_SOURCE)
-chiPhysicsMaterialAddProperty(materials[2],ISOTROPIC_MG_SOURCE)
-chiPhysicsMaterialAddProperty(materials[3],ISOTROPIC_MG_SOURCE)
+PhysicsMaterialAddProperty(materials[1],ISOTROPIC_MG_SOURCE)
+PhysicsMaterialAddProperty(materials[2],ISOTROPIC_MG_SOURCE)
+PhysicsMaterialAddProperty(materials[3],ISOTROPIC_MG_SOURCE)
 
 
 num_groups = 1
