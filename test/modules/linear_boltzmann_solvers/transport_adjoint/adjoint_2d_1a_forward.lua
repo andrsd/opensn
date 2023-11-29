@@ -64,13 +64,13 @@ PhysicsMaterialAddProperty(materials[3],ISOTROPIC_MG_SOURCE)
 
 
 num_groups = 1
-chiPhysicsMaterialSetProperty(materials[1],
+PhysicsMaterialSetProperty(materials[1],
   TRANSPORT_XSECTIONS,
   SIMPLEXS1,1,0.01,0.01)
-chiPhysicsMaterialSetProperty(materials[2],
+PhysicsMaterialSetProperty(materials[2],
   TRANSPORT_XSECTIONS,
   SIMPLEXS1,1,0.1*20,0.8)
-chiPhysicsMaterialSetProperty(materials[3],
+PhysicsMaterialSetProperty(materials[3],
   TRANSPORT_XSECTIONS,
   SIMPLEXS1,1,0.3*20,0.0)
 
@@ -79,11 +79,11 @@ for g=1,num_groups do
   src[g] = 0.0
 end
 src[1] = 0.0
-chiPhysicsMaterialSetProperty(materials[1],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
+PhysicsMaterialSetProperty(materials[1],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
 src[1] = 0.0
-chiPhysicsMaterialSetProperty(materials[2],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
+PhysicsMaterialSetProperty(materials[2],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
 src[1] = 3.0
-chiPhysicsMaterialSetProperty(materials[3],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
+PhysicsMaterialSetProperty(materials[3],ISOTROPIC_MG_SOURCE,FROM_ARRAY,src)
 
 
 --############################################### Setup Physics

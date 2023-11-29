@@ -46,9 +46,9 @@ source = sigmat * (1 - ratioc)
 material0 = PhysicsAddMaterial("Material_0");
 PhysicsMaterialAddProperty(material0,TRANSPORT_XSECTIONS)
 PhysicsMaterialAddProperty(material0,ISOTROPIC_MG_SOURCE)
-chiPhysicsMaterialSetProperty(material0, TRANSPORT_XSECTIONS,
+PhysicsMaterialSetProperty(material0, TRANSPORT_XSECTIONS,
                               SIMPLEXS1, ngrp, sigmat, ratioc)
-chiPhysicsMaterialSetProperty(material0, ISOTROPIC_MG_SOURCE,
+PhysicsMaterialSetProperty(material0, ISOTROPIC_MG_SOURCE,
                               SINGLE_VALUE, source)
 
 --############################################### Setup Physics
