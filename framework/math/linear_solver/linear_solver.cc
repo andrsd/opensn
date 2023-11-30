@@ -1,4 +1,5 @@
 #include "framework/math/linear_solver/linear_solver.h"
+#include "framework/runtime.h"
 
 namespace opensn
 {
@@ -76,7 +77,7 @@ LinearSolver::Setup()
   if (IsSystemSet()) return;
   PreSetupCallback();
 
-  KSPCreate(PETSC_COMM_WORLD, &ksp_);
+  KSPCreate(opensn::mpi_comm, &ksp_);
   KSPSetType(ksp_, iterative_method_.c_str());
 
   ApplyToleranceOptions();
