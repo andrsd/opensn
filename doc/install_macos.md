@@ -1,88 +1,81 @@
-# Compiling on MacOS
+## Compiling on macOS
+___
+### Compiling with the Apple Toolchain
+___
 
-The following instructions assume that all the prerequisite software packages
-will be installed by hand.  These packages may also be installed via Homebrew
-or MacPorts.
+The following instructions assume that all of the prerequisite software packages
+will be installed by hand.  These packages may also be installed via **Brew** or
+**MacPorts**.
 
-## Step 1 - Install GCC
+#### Step 1 - Install gcc
 ```shell
 brew install gcc
 ```
 
-This will generally install most recent version of `gcc` to `/usr/local/bin`.
-In this directory, there will be links such as `gcc-13`, `g++-13`, and
-`gfortran-13` pointing to the Homebrew installation.
+<u>NOTE:</u> If you ever tried to install gcc directly from source on MacOS you
+will likely find that this is hard to do. This is especially hard on M1
+processors.
 
-Note: `gfortran` will be needed by PETSc to build its dependencies.
+#### Step 2 - Install MPI
 
-## Step 2 - Install MPICH
+Install either **OpenMPI** or **MPICH**.  **MPICH** is recommended for
+better performance and stability.
 
-Download a suitable version of [MPICH 4+](https://www.mpich.org/static/downloads).
-Versions above 4.0 are recommended.
-Unpack the source into `/path/to/mpich`. Assuming MPICH will be built in
-`/path/to/mpich/build` and installed in `/path/to/mpich/install`, execute the
-following to configure, build, and install MPICH:
 ```shell
-mkdir -p /path/to/mpich/build
-cd /path/to/mpich/build
-
-/path/to/mpich/configure \
---prefix=/path/to/mpich/install \
-CC=gcc-13 CXX=g++-13 FC=gfortran-13 F77=gfortran-13 \
-FCFLAGS=-fallow-argument-mismatch FFLAGS=-fallow-argument-mismatch
-
-make -j<N>
-make install
+brew install mpich
 ```
-It is recommended by MPICH that the build and install directories be outside
-the source tree `/path/to/mpich`.
 
-Check the installation:
+Once the installation is complete, add the MPI binaries directory to your path:
 ```shell
-/path/to/mpich/install/bin/mpicc --version
+$ export PATH=<path-to-mpi>/bin:$PATH
 ```
-If the installation was successful, a message similar to
-```
-gcc-13 (Homebrew GCC 13.2.0) 13.2.0
-Copyright (C) 2023 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-```
-should appear. Ensure that the message displays the desired compilers.
-If successful, set the following environment variables in the `~/.bashrc` or
-`~/.bash_profile` script:
-```shell
-export MPI_DIR="/path/to/mpich/install"
-export PATH="${MPI_DIR}/bin:${PATH}"
+<u>NOTE:</u> *You may want to permanently add this and the other `export ...`
+commands below to your bash profile file, so that you don't have to execute these
+commands every time you open a new terminal. This is typically done by adding
+these commands to the file `.profile` or `.bash_profile` in your home directory.*
 
-export CC="${MPI_DIR}/mpicc"
-export CXX="${MPI_DIR}/mpicxx"
-export FC="${MPI_DIR}/mpifort"
-export F77="${MPI_DIR}/mpif77"
+To check that the install was successful, execute one of the compiler wrappers:
+```console
+    $ mpicxx -v
+    mpicxx for MPICH version 3.3
+    Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+    Target: x86_64-apple-darwin18.7.0
+    Thread model: posix
+    InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 ```
 
-## Step 3 - Install PETSc
+#### Step 3 - Install PETSc
 
-Download a suitable version of
-[PETSc](https://web.cels.anl.gov/projects/petsc/download/release-snapshots/).
 The current supported version is
-[PETSc 3.17.0](https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-3.17.0.tar.gz).
-Unpack the source code into `/path/to/petsc`.
-Configure PETSc with the appropriate dependencies:
-```shell
-cd /path/to/petsc
+[petsc version 3.17.0](https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.17.0.tar.gz).
+
+
+Return to your *projects* folder (or whatever you chose to place stuff). Do
+the following. Download and extract the archive file to a folder of your choice
+then navigate into the directory containing the "configure" script.
+
+```bash
+wget https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.17.0.tar.gz
+tar -zxf petsc-3.17.0.tar.gz
+cd petsc-3.17.0
+```
+
+and execute the following:
+
+```bash
 ./configure  \
---prefix=/path/to/petsc/install \
---with-shared-libraries=1  \
+--prefix=$PWD/../petsc-3.17.0-install  \
+--download-hypre=1  \
 --with-ssl=0  \
 --with-debugging=0  \
 --with-pic=1  \
---with-64-bit-indices=1 \
---download-hypre=1  \
+--with-shared-libraries=1  \
 --download-fblaslapack=1  \
 --download-metis=1  \
 --download-parmetis=1  \
 --download-superlu_dist=1  \
+--with-cxx-dialect=C++11  \
+--with-64-bit-indices \
 CC=$CC CXX=$CXX FC=$FC \
 CFLAGS='-fPIC -fopenmp'  \
 CXXFLAGS='-fPIC -fopenmp'  \
@@ -95,150 +88,138 @@ CXXOPTFLAGS='-O3 -march=native -mtune=native'  \
 FOPTFLAGS='-O3 -march=native -mtune=native'  \
 PETSC_DIR=$PWD
 ```
+
 If the configuration fails then consult PETSc's user documentation.
 
 Upon completion of the configure step, PETSc will provide the make command
-that you should use. The addition of the build option `OMAKE_PRINTDIR=make`
-may be required in some circumstances with GNU compilers.
+that you should use. Execute this command.
 
-After a successful build, PETSc will provide instructions for installing and
-checking the installations. Follow these instructions.
+After a successful make PETSc should indicate the command used to install
+the header files and libraries. Execute the associated command as well.
 
-After a successful install, add the following environment variables to the
-`~/.bashrc` or `~/.bash_profile` script:
-```shell
-export PETSC_ROOT="/path/to/petsc/install"
-export CMAKE_PREFIX_PATH="${PETSC_ROOT}:${CMAKE_PREFIX_PATH}"
+To test whether the system has been installed correctly execute:
+
+```bash
+make test
 ```
 
-## Step 4 - Install the Visualization Tool Kit
+The final step is to generate the environment variable for the install
+directory of PETSc:
 
-Download [VTK 9.1.0]( https://www.vtk.org/files/release/9.1/VTK-9.1.0.tar.gz) or
-[VTK 9.3.0](https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz)
-into a suitable location and upack it into `/path/to/vtk`. Assuming VTK will
-be built in `/path/to/vtk/build` and installed in `/path/to/vtk/install`, execute
-the following to configure, build, and install VTK:
-```shell
-mkdir -p /path/to/vtk/build
-cd /path/to/vtk/build
-
-cmake \
--DCMAKE_INSTALL_PREFIX=/path/to/vtk/install \
--DBUILD_SHARED_LIBS=ON \
--DVTK_USE_MPI=ON \
--DVTK_GROUP_ENABLE_StandAlone=WANT \
--DVTK_GROUP_ENABLE_Rendering=DONT_WANT \
--DVTK_GROUP_ENABLE_Imaging=DONT_WANT \
--DVTK_GROUP_ENABLE_Web=DONT_WANT \
--DVTK_GROUP_ENABLE_Qt=DONT_WANT \
--DCMAKE_BUILD_TYPE=Release \
-/path/to/vtk
-
-make -j<N>
-make install
+```bash
+export PETSC_ROOT=$PWD/install
 ```
 
-After a successful install, set the following environment variables in the
-`~/.bashrc` or `~/.bash_profile` script:
-```shell
-export VTK_DIR="/path/to/vtk/install"
-export CMAKE_PREFIX_PATH="${VTK_DIR}:${CMAKE_PREFIX_PATH}"
-```
+Again, this is also something you'd like to add to your bash profile.
 
-## Step 5 - Install Lua
+#### Step 4 - Install the Visualization Tool Kit
 
-Lua requires the
-[readline](ftp://ftp.gnu.org/gnu/readline/readline-8.0.tar.gz) and
-[ncurses](https://invisible-mirror.net/archives/ncurses/ncurses-6.1.tar.gz)
-packages. If these are not installed, either install them from source or
-using Homebrew with:
-```shell
-brew install readline ncurses
-```
-Once installed, set the following environment variables in the `~/.bashrc`
-or `~/.bash_profile` script:
-```shell
-export LIBRARY_PATH="/path/to/readline/install/lib:${LIBRARY_PATH}"
-export LIBRARY_PATH="/path/to/ncurses/install/lib:${LIBRARY_PATH}"
-export CPATH="/path/to/readline/install/include:${CPATH}"
-export CPATH="/path/to/ncurses/install/include:${CPATH}"
-```
+In your projects folder install VTK using the following commands:
 
-Download [Lua 5.4+](https://www.lua.org/ftp/) into a suitable location and
-unpack it into `path/to/lua`.
-[Lua 5.4.6](https://www.lua.org/ftp/lua-5.4.6.tar.gz) is recommended.
-Execute the following to build and install Lua:
-```shell
-cd /path/to/lua
-make macosx CC=gcc-<version> MYCFLAGS=-fPIC MYLIBS=-lncurses -j<N>
-make install INSTALL_TOP=/path/to/lua/install
-```
-where `<version>` is the GCC version installed via Homebrew.
-
-After a successful installation, set the following environment variables in
-the `~/.bashrc` or `~/.bash_profile` script:
-```shell
-export LUA_ROOT="/path/to/lua/install"
-export CMAKE_PREFIX_PATH="${LUA_ROOT}:${CMAKE_PREFIX_PATH}"
-```
-
-## Step 6 - Configure and Build OpenSn
-
-Note:  If you want to contribute to OpenSn, it is strongly recommended
-to first fork the OpenSn repository into your own Git account and then to
-clone your fork.
-
-Clone the OpenSn repository or a fork:
-```shell
-git clone https://github.com/Open-Sn/opensn.git /path/to/opensn
-````
-or
-```shell
-git clone https://github.com/<username>/opensn.git /path/to/opensn
-```
-OpenSn is configured within a build directory with
-```shell
-cd /path/to/opensn
+```bash
+mkdir VTK
+cd VTK
+wget https://www.vtk.org/files/release/9.1/VTK-9.1.0.tar.gz
+tar -zxf VTK-9.1.0.tar.gz
+cd VTK-9.1.0
 mkdir build
 cd build
-cmake ..
-```
-This will configure the project for building it.
-In general, the build directory will be within the source tree.
-OpenSn can then be built within the build directory via
-```shell
-make -j<N>
+cmake -DCMAKE_INSTALL_PREFIX=$PWD/../install  + \
+-DBUILD_SHARED_LIBS:BOOL=ON  + \
+-DVTK_Group_MPI:BOOL=ON  + \
+-DVTK_GROUP_ENABLE_Qt=NO  + \
+-DVTK_GROUP_ENABLE_Rendering=NO  + \
+-DVTK_GROUP_ENABLE_Imaging=NO  + \
+-DVTK_GROUP_ENABLE_StandAlone=WANT  + \
+-DVTK_GROUP_ENABLE_Web=NO  + \
+-DVTK_BUILD_TESTING:BOOL=OFF  + \
+-DCMAKE_BUILD_TYPE=Release  + \
+-DCMAKE_CXX_FLAGS=-std=c++11  + \
+ ../
 ```
 
-Note: OpenSn may need to be reconfigured with dependency changes, the addition
-of new files, etc. When this occurs, clear the `build` directory and repeat
-the configuration process above.
+This will take a while after which you need to execute:
 
-## Step 6 - Run Regression Tests
+```bash
+make -j4 && make install
+```
+
+This will also take a while. Finally, export the *VTK_DIR* variable:
+
+```bash
+export VTK_DIR=$PWD/install
+```
+
+Again, this is also something you'd like to add to your bash profile.
+
+#### Step 5 - Install Lua
+
+Download and extract **Lua** from https://www.lua.org.  v5.3.5+ is recommended.
+Before installing **Lua** edit the Makefile and set INSTALL_TOP to your desired
+install location.  Install **Lua** as follows:
+```console
+    $ make macosx
+    $ make install
+```
+If the install complains about missing **readline** includes or libraries, it may
+be necessary to install **readline** first.
+
+Set the LUA_ROOT environment variable to the **Lua** install location:
+```console
+    $export LUA_ROOT=/Path/to/Lua
+```
+
+#### Step 6 - Configure and Build Chi-Tech
+
+Clone the **Chi-Tech** repository:
+```console
+    $ git clone https://github.com/chi-tech/chi-tech
+```
+
+Run the configure script:
+```console
+    $ cd chi-tech
+    $ ./configure.sh
+```
+The configure script will generate the CMake build scripts.
+
+Once configure.sh has completed, build **Chi-Tech** with:
+```console
+    $ make
+```
+
+### Step 6 - Run regression tests
 
 To check if the code compiled correctly execute the test scripts:
-```shell
-cd /path/to/opensn
-test/run_tests -j<N>
+
+```bash
+    $ test/run_tests -d test/ -j8
 ```
 
-## Step 8 - OpenSn Documentation
 
-The documentation can be found [online](https://xxx.io), or
-generated locally. To generate the documentation locally, first make sure
-doxygen and LaTeX are installed:
-```shell
+### Step 8 - Chi-Tech documentation
+
+You can either access the documentation online [here](https://chi-tech.github.io), or generate it locally.
+
+To generate the documentation from your local working copy, first make sure
+Doxygen and LaTeX are installed:
+
+```bash
 sudo apt-get install doxygen texlive
 ```
 
-The documentation is contained in the `doc` directory of the OpenSn source
-tree and can be generated with
-```shell
+The documentation is contained in the *doc* folder and can be generated
+using a script provided in that folder:
+
+```bash
+cd doc/
 ./YReGenerateDocumentation.sh
 ```
-from within the `doc` directory. Once finished, the generated documentation
-can be viewed with
-```shell
+
+Once finished, you can view the generated documentation by opening
+
+```bash
 doc/HTMLdocs/html/index.html
 ```
-in a web browser.
+
+in your favorite browser.
