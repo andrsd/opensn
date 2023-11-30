@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy install on MacOS Machines &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Easy install on Ubuntu Machines" href="install_ubuntu_easy.html" />
+    <link rel="prev" title="Compiling on macOS" href="install_macos.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Easy install on MacOS Machines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-0">Step 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-installing-gcc-gfortran-and-the-basic-environment">Step 1 - Installing GCC, GFortran and the basic environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-mpich">Step 2 - MPICH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-clone-chi-tech">Step 3 - Clone Chi-Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-configure-environment">Step 4 - Configure environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-build-chi-tech">Step 5 - Build Chi-Tech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-6-run-regression-tests">Step 6 - Run regression tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-8-chi-tech-documentation">Step 8 - Chi-Tech documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start_user_tutorials.html">User Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Easy install on MacOS Machines</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="easy-install-on-macos-machines">
+<h1>Easy install on MacOS Machines<a class="headerlink" href="#easy-install-on-macos-machines" title="Link to this heading"></a></h1>
+<p>The following instructions were tested on MacOS Monterey (= version 12).</p>
+<section id="step-0">
+<h2>Step 0<a class="headerlink" href="#step-0" title="Link to this heading"></a></h2>
+<p>Install <code class="docutils literal notranslate"><span class="pre">Homebrew</span></code> (Mac ports could be an alternative).</p>
+</section>
+<section id="step-1-installing-gcc-gfortran-and-the-basic-environment">
+<h2>Step 1 - Installing GCC, GFortran and the basic environment<a class="headerlink" href="#step-1-installing-gcc-gfortran-and-the-basic-environment" title="Link to this heading"></a></h2>
+<p>Then, you may need to install, using brew, the following:</p>
+<ul class="simple">
+<li><p>make</p></li>
+<li><p>cmake</p></li>
+<li><p>gcc</p></li>
+<li><p>wget</p></li>
+</ul>
+<p>Each time, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>*package_name*
+</pre></div>
+</div>
+<p>I created a <code class="docutils literal notranslate"><span class="pre">/Users/USERNAME/local/bin/</span></code> directory where I symbolically linked
+<code class="docutils literal notranslate"><span class="pre">gcc</span></code>, <code class="docutils literal notranslate"><span class="pre">g++</span></code>, <code class="docutils literal notranslate"><span class="pre">gfortran</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Users/USERNAME/local/bin/
+ln<span class="w"> </span>-s<span class="w"> </span>/Users/USERNAME/local/homebrew/Cellar/gcc/12.2.0/bin/gcc-12<span class="w"> </span>gcc
+ln<span class="w"> </span>-s<span class="w"> </span>/Users/USERNAME/local/homebrew/Cellar/gcc/12.2.0/bin/gfortran-12<span class="w"> </span>gfortran
+ln<span class="w"> </span>-s<span class="w"> </span>/Users/USERNAME/local/homebrew/Cellar/gcc/12.2.0/bin/g++-12<span class="w"> </span>g++
+</pre></div>
+</div>
+<p>In your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file (or <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code>), add these lines_</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/Users/jean.ragusa/local/bin/:<span class="nv">$PATH</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>/Users/USERNAME/local/local/bin/gcc
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/Users/USERNAME/local/local/bin/g++
+<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>/Users/USERNAME/local/local/bin/gfortran
+</pre></div>
+</div>
+<p>Source your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> to take into accounts those updates:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<p>Make sure the following environment variables have been properly set</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CC</span><span class="w"> </span>--version
+<span class="nv">$CXX</span><span class="w"> </span>--version
+<span class="nv">$FC</span><span class="w"> </span>--version
+</pre></div>
+</div>
+</section>
+<section id="step-2-mpich">
+<h2>Step 2 - MPICH<a class="headerlink" href="#step-2-mpich" title="Link to this heading"></a></h2>
+<p>Download <code class="docutils literal notranslate"><span class="pre">MPICH</span></code> from the web locally to your drive. Untar the ball.</p>
+<p>Configure and install as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure<span class="w"> </span>--prefix<span class="o">=</span><span class="nv">$PWD</span>/build<span class="w"> </span><span class="nv">FFLAGS</span><span class="o">=</span>-fallow-argument-mismatch<span class="w"> </span><span class="nv">FCFLAGS</span><span class="o">=</span>-fallow-argument-mismatch
+make
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>Check that everything went fine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpicc<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>Now, update your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin:<span class="nv">$PATH</span>
+<span class="w"> </span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpicc
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpicxx
+<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpifort
+</pre></div>
+</div>
+<p>which means that, from now on, the C, C++, and Fortran compilers are the ones from MPICH.</p>
+<p>Make sure to <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code>) to take into accounts those updates.</p>
+</section>
+<section id="step-3-clone-chi-tech">
+<h2>Step 3 - Clone Chi-Tech<a class="headerlink" href="#step-3-clone-chi-tech" title="Link to this heading"></a></h2>
+<p><strong>Note:</strong> From now on, the rest of the instructions are identical to the ones from the
+<span class="xref myst">Easy Linux instructions</span></p>
+<p><strong>Important:</strong>  If you want to contribute to <strong>Chi-Tech</strong>, it is strongly recommended to first fork the <strong>Chi-Tech</strong> repository into your own Git account and then to clone your fork.</p>
+<p>Clone the <strong>Chi-Tech</strong> repository.  Go the folder where you want to keep Chi-Tech relevant stuff:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/chi-tech/chi-tech
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/YOUR-NAME/chi-tech
+</pre></div>
+</div>
+<p><strong>Important:</strong> We recommend building all the dependencies into a separate folder. For instance_,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>mkdir<span class="w"> </span>dependencies
+</pre></div>
+</div>
+<p>Before building the dependencies, you need to export a few variables for the PETSc install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>mpicc
+<span class="w">    </span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpicxx
+<span class="w">    </span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpifort
+</pre></div>
+</div>
+<p>Go to the chi-tech folder you have just cloned and type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>chi-tech
+<span class="w">    </span>$<span class="w"> </span>python3<span class="w"> </span>resources/configure_dependencies.py<span class="w"> </span>-d<span class="w"> </span>../dependencies
+</pre></div>
+</div>
+<p>The configure script will attempt to download and install all the necessary
+dependencies <strong>and may take a long time</strong></p>
+</section>
+<section id="step-4-configure-environment">
+<h2>Step 4 - Configure environment<a class="headerlink" href="#step-4-configure-environment" title="Link to this heading"></a></h2>
+<p>The next step in this process is to setup the environment variables for compiling
+Chi-Tech.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nv">$source</span><span class="w"> </span>../dependencies/configure_deproots.sh
+</pre></div>
+</div>
+<p><strong>Note:</strong> You can replace <code class="docutils literal notranslate"><span class="pre">$source</span> </code> in the above with <code class="docutils literal notranslate"><span class="pre">$.</span> </code></p>
+</section>
+<section id="step-5-build-chi-tech">
+<h2>Step 5 - Build Chi-Tech<a class="headerlink" href="#step-5-build-chi-tech" title="Link to this heading"></a></h2>
+<p>To compile Chi-Tech now just execute:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>./configure.sh
+</pre></div>
+</div>
+<p>The configure script will generate the CMake build scripts.</p>
+<p>In the main directory (i.e. <em>chi-tech/</em>), execute:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>make<span class="w"> </span>-j4
+</pre></div>
+</div>
+<p>You can also use -j8 even if you don’t have 8 processors, the make command
+will use threading where possible.</p>
+<p>Whenever recompilation is needed or the configuration has changed,
+you can run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>./configure.sh<span class="w"> </span>clean
+<span class="w">    </span>$<span class="w"> </span>./configure.sh
+<span class="w">    </span>$<span class="w"> </span>make<span class="w"> </span>-j4
+</pre></div>
+</div>
+</section>
+<section id="step-6-run-regression-tests">
+<h2>Step 6 - Run regression tests<a class="headerlink" href="#step-6-run-regression-tests" title="Link to this heading"></a></h2>
+<p>To check if the code compiled correctly, execute the test scripts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>$<span class="w"> </span>test/run_tests<span class="w"> </span>-d<span class="w"> </span>test/<span class="w"> </span>-j8
+</pre></div>
+</div>
+</section>
+<section id="step-8-chi-tech-documentation">
+<h2>Step 8 - Chi-Tech documentation<a class="headerlink" href="#step-8-chi-tech-documentation" title="Link to this heading"></a></h2>
+<p>You can either access the documentation online <a class="reference external" href="https://chi-tech.github.io">here</a>, or generate it locally.</p>
+<p>To generate the documentation from your local working copy, first make sure
+Doxygen and LaTeX are installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>doxygen<span class="w"> </span>texlive
+</pre></div>
+</div>
+<p>The documentation is contained in the <em>doc</em> folder and can be generated
+using a script provided in that folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>doc/
+./YReGenerateDocumentation.sh
+</pre></div>
+</div>
+<p>Once finished, you can view the generated documentation by opening</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>doc/HTMLdocs/html/index.html
+</pre></div>
+</div>
+<p>in your favorite browser.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install_macos.html" class="btn btn-neutral float-left" title="Compiling on macOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install_ubuntu_easy.html" class="btn btn-neutral float-right" title="Easy install on Ubuntu Machines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

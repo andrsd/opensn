@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh Tutorial 7: A 3D Extruded Mesh &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BooleanLogicalVolume" href="../framework/boolean_logical_volume.html" />
+    <link rel="prev" title="Mesh Tutorial 6: A 2D Unstructured Mesh" href="2d_triangle_python.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Tutorial 2: Other Forms of Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_transport_simulation.html">Tutorial 3: Basic Transport Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1d_mesh.html">Mesh Tutorial 1: Simple 1D Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2d_ortho_mesh.html">Mesh Tutorial 2: A 2D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3d_ortho_mesh.html">Mesh Tutorial 3: A 3D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predef_2d.html">Mesh Tutorial 4: Predefined 2D Mesh Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gmsh_tutorial.html">Mesh Tutorial 5: Example using gmsh to create a structured mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2d_triangle_python.html">Mesh Tutorial 6: A 2D Unstructured Mesh</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mesh Tutorial 7: A 3D Extruded Mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-2d-mesh">The 2D mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-extrusion-process">The extrusion process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#completing-the-3d-mesh">Completing the 3D mesh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lv-of-pre-defined-type">LV of pre-defined type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lv-defined-as-read-in-surfaces">LV defined as read-in surfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lv-using-a-lua-function">LV using a Lua function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mesh Tutorial 7: A 3D Extruded Mesh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="mesh-tutorial-7-a-3d-extruded-mesh">
+<h1>Mesh Tutorial 7: A 3D Extruded Mesh<a class="headerlink" href="#mesh-tutorial-7-a-3d-extruded-mesh" title="Link to this heading"></a></h1>
+<p>The idea behind extruded meshes is that the 3D complex geometrical features
+can be reasonably well projected into a 2D plane. This 2D geometry is then meshed
+(it is expected that this 2D mesh is unstructured).</p>
+<p>Then, the 2D meshes is extruded and appropriate material IDs/boundary IDs
+in 3D are provided to complete the 3D mesh.</p>
+<p>Thus, in order to obtain a 3D extruded mesh, you need</p>
+<ol class="arabic simple">
+<li><p>A 2D mesh</p></li>
+<li><p>Extrusion data</p></li>
+</ol>
+<section id="the-2d-mesh">
+<h2>The 2D mesh<a class="headerlink" href="#the-2d-mesh" title="Link to this heading"></a></h2>
+<p>Currently, Chi-Tech can read in VTU and OBJ files. In the case of VTU files, you
+may provide an additional field such as 2D material IDs (i.e., material IDs that
+correspond to the 2D geometry).</p>
+<p>You may create your 2D mesh with our favorite mesh generator. To convert that mesh
+into an object readable by Chi-Tech, you want need to use mesh converters (in Python,
+there is meshio but there are other possibilities).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MeshHandlerCreate</span><span class="p">()</span>
+
+<span class="n">mesh2d_file</span> <span class="o">=</span> <span class="s2">&quot;your_mesh.obj&quot;</span>
+<span class="n">umesh</span> <span class="o">=</span> <span class="n">UnpartitionedMeshFromWavefrontOBJ</span><span class="p">(</span><span class="n">mesh2d_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MeshHandlerCreate</span><span class="p">()</span>
+
+<span class="n">mesh2d_file</span> <span class="o">=</span> <span class="s2">&quot;your_mesh.vtu&quot;</span>
+<span class="n">umesh</span> <span class="o">=</span> <span class="n">UnpartitionedMeshFromVTU</span><span class="p">(</span><span class="n">mesh2d_file</span><span class="p">,</span> <span class="s2">&quot;attribute&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="the-extrusion-process">
+<h2>The extrusion process<a class="headerlink" href="#the-extrusion-process" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SurfaceMesherCreate</span><span class="p">(</span><span class="n">SURFACEMESHER_PREDEFINED</span><span class="p">)</span>
+<span class="n">VolumeMesherCreate</span><span class="p">(</span><span class="n">VOLUMEMESHER_UNPARTITIONED</span><span class="p">,</span> <span class="n">umesh</span><span class="p">)</span>
+<span class="n">VolumeMesherCreate</span><span class="p">(</span><span class="n">VOLUMEMESHER_EXTRUDER</span><span class="p">,</span>
+                     <span class="n">ExtruderTemplateType</span><span class="o">.</span><span class="n">UNPARTITIONED_MESH</span><span class="p">,</span>
+                     <span class="n">umesh</span><span class="p">);</span>
+
+<span class="n">nbr_planes_in_layer</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">height</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">EXTRUSION_LAYER</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">nbr_planes_in_layer</span><span class="p">,</span><span class="s2">&quot;Charlie&quot;</span><span class="p">);</span>
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">EXTRUSION_LAYER</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">nbr_planes_in_layer</span><span class="p">,</span><span class="s2">&quot;Chuck&quot;</span><span class="p">);</span>
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">EXTRUSION_LAYER</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">nbr_planes_in_layer</span><span class="p">,</span><span class="s2">&quot;Bob&quot;</span><span class="p">);</span>
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">EXTRUSION_LAYER</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">nbr_planes_in_layer</span><span class="p">,</span><span class="s2">&quot;SarahConner&quot;</span><span class="p">);</span>
+
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">PARTITION_TYPE</span><span class="p">,</span><span class="n">KBA_STYLE_XYZ</span><span class="p">)</span>
+<span class="n">VolumeMesherSetKBAPartitioningPxPyPz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">SurfaceMesherExecute</span><span class="p">();</span>
+<span class="n">VolumeMesherExecute</span><span class="p">();</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;export_mesh_without_IDs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="completing-the-3d-mesh">
+<h2>Completing the 3D mesh<a class="headerlink" href="#completing-the-3d-mesh" title="Link to this heading"></a></h2>
+<p>To complete the 3D mesh, we need to provide material IDs and boundary IDs.
+We use the concept of a logical volume (LV). For each material zone, we will assign
+a material ID for cells (identified by their centroids) that are included in the LV.</p>
+<p>We have several ways of defining a Logical Volume, LV:</p>
+<ol class="arabic simple">
+<li><p>Using pre-defined volumes, such as RPP (rectangular paralleliped)and  RCC (right circular cylinder),</p></li>
+<li><p>Using a surface mesh read in as an<code class="docutils literal notranslate"><span class="pre">.obj</span></code> file,</p></li>
+<li><p>Using lua functions to describe the  surface mesh of the LV.</p></li>
+</ol>
+<p>This should be repeated as many times as necessary to assign all 3D material IDs.</p>
+<section id="lv-of-pre-defined-type">
+<h3>LV of pre-defined type<a class="headerlink" href="#lv-of-pre-defined-type" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Logical</span> <span class="n">Volumes</span>
+<span class="n">my_LV</span> <span class="o">=</span> <span class="n">LogicalVolumeCreate</span><span class="p">(</span><span class="n">RCC</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">MATID_FROMLOGICAL</span><span class="p">,</span> <span class="n">Air</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;export_mesh_with_IDs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="lv-defined-as-read-in-surfaces">
+<h3>LV defined as read-in surfaces<a class="headerlink" href="#lv-defined-as-read-in-surfaces" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">surf_LV</span> <span class="o">=</span> <span class="n">SurfaceMeshCreate</span><span class="p">()</span>
+<span class="n">SurfaceMeshImportFromOBJFile</span><span class="p">(</span><span class="n">surf_LV</span><span class="p">,</span> <span class="s2">&quot;LV_file.obj&quot;</span><span class="p">,</span> <span class="n">false</span><span class="p">)</span>
+<span class="n">my_LV</span> <span class="o">=</span> <span class="n">LogicalVolumeCreate</span><span class="p">(</span><span class="n">SURFACE</span><span class="p">,</span> <span class="n">surf_LV</span><span class="p">)</span>
+
+<span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">MATID_FROMLOGICAL</span><span class="p">,</span> <span class="n">Air</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;export_mesh_with_IDs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="lv-using-a-lua-function">
+<h3>LV using a Lua function<a class="headerlink" href="#lv-using-a-lua-function" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VolumeMesherSetProperty</span><span class="p">(</span><span class="n">MATID_FROM_LUA_FUNCTION</span><span class="p">,</span> <span class="s2">&quot;my_LV_func.lua&quot;</span><span class="p">)</span>
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;export_mesh_with_IDs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the Lua function was previously defined, e.g.,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aaa</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="2d_triangle_python.html" class="btn btn-neutral float-left" title="Mesh Tutorial 6: A 2D Unstructured Mesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../framework/boolean_logical_volume.html" class="btn btn-neutral float-right" title="BooleanLogicalVolume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

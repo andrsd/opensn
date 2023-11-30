@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh Tutorial 5: Example using gmsh to create a structured mesh &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mesh Tutorial 6: A 2D Unstructured Mesh" href="2d_triangle_python.html" />
+    <link rel="prev" title="Mesh Tutorial 4: Predefined 2D Mesh Setup" href="predef_2d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Tutorial 2: Other Forms of Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_transport_simulation.html">Tutorial 3: Basic Transport Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1d_mesh.html">Mesh Tutorial 1: Simple 1D Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2d_ortho_mesh.html">Mesh Tutorial 2: A 2D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3d_ortho_mesh.html">Mesh Tutorial 3: A 3D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predef_2d.html">Mesh Tutorial 4: Predefined 2D Mesh Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mesh Tutorial 5: Example using gmsh to create a structured mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2d_triangle_python.html">Mesh Tutorial 6: A 2D Unstructured Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3d_extruded_mesh.html">Mesh Tutorial 7: A 3D Extruded Mesh</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mesh Tutorial 5: Example using gmsh to create a structured mesh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="mesh-tutorial-5-example-using-gmsh-to-create-a-structured-mesh">
+<h1>Mesh Tutorial 5: Example using gmsh to create a structured mesh<a class="headerlink" href="#mesh-tutorial-5-example-using-gmsh-to-create-a-structured-mesh" title="Link to this heading"></a></h1>
+<p>This tutorial demonstrates creating a structured mesh using gmsh: https://gmsh.info/</p>
+<p>The geometry to be created and meshed with a structured mesh is shown below. The tutorial will describe how to build the geometry in steps.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/mesh.png"><img alt="../_images/mesh.png" src="../_images/mesh.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">The geometry to be created and meshed with a structured mesh</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Gmsh can be used soley from the terminal or it can be used through the gmsh graphical user interface (GUI). In this tutorial, the mesh will be created by entering text into a file and then having the GUI read the file and display the mesh. Instead of manually adding text to the input file, the GUI can also be used to create the mesh, although that is not done here. First, create a new file and open it with the gui so that text can be entered. The sample file in this tutorial will be called structured_ex.geo Note that the kernel option “Built-in” is used for this tutorial. If a different kernel is used, the general idea of this tutorial will still apply, but some details may be different. Additionally, gmsh version 4.0.6 is being used. Other versions of gmsh should also be usable with this tutorial, but some details may not apply.</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/new_file.gif"><img alt="../_images/new_file.gif" src="../_images/new_file.gif" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Create a new file</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The first step in creating a mesh is to create some shape that will be meshed. The shape to be meshed will be created by specifying points and then connecting these points with lines. For this tutorial, a square shape is first created. To create the square, four points are speficied and these are connected by four lines. The gmsh input is shown below and this is the first text to put into the structured_ex.geo file. Notice the points are specified with the syntax Point(i)={x,y,z} where “i” is the tag that identifies that point and “{x,y,z}”. The tag identifying each point must be unique and tags must not be 0. For simplicity, sequentially increasing integers are used as tags in this tutorial. There is a fourth optional argument that can be used when building a point “Point(i)={x,y,z,d}” where “d” specifies how fine the mesh should be at that point. A lower number will result in a finer mesh. This optional argument is not used in this tutorial. In the input file, you can also define variables and use some common functions defined in gmsh. This is demonstrated below where variables pitch, circle_r, and bottom_left_cirle are deinfed and will be used later. In later input, the function Cos(x) is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pitch</span> <span class="o">=</span> <span class="mf">0.0126</span><span class="p">;</span>
+<span class="n">circle_r</span> <span class="o">=</span> <span class="mf">0.0108</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">bottom_left_circle</span> <span class="o">=</span> <span class="n">pitch</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="o">//</span>
+<span class="o">//</span> <span class="n">Outer</span> <span class="n">Box</span> <span class="n">domain</span>
+<span class="o">//</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/first_square.gif"><img alt="../_images/first_square.gif" src="../_images/first_square.gif" style="width: 1200px;" /></a>
+<figcaption>
+<p><span class="caption-text">Add the text shown above to your input text file, save, and then click “Reload script” after which gmsh will read your input and display the result.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>At this point, gmsh does not know that the four lines defined form a closed surface. In fact, we will not use the square directly, but instead break it into multiple several shapes. Next, a circle is created in the middle of the existing square. The variables defined previously as well as the Cos function is used in the example below. Point(5) is the center of the circle. The next 4 points are evenly spaced along the perimeter of the circle. The reason for the points being placed at locations that intersect the diagonals of the bounding square will be apparent in the next step.</p>
+<p>Note the new syntax “Line Loop(1) = {-5,-6,-7,-8};” and “Surface(1) = {1};” which specifies to gmsh that the four lines 5,6,7,8 are meant to be connected into a loop and that this loop, given tag 1, defines a surface, also given the tag 1. The tag does not need to be the same, but in this case the surface and line loops are seperate entities and so can have the same tag. Note that when defining the line loops, some of the line tags start with negative numbers. The line loop must have a certain orientation. That is, the points which make up the lines and thus the line loop must be ordered. All loops are clockwise in this tutorial. You can mouse over the lines in the GUI to see the ording of the points. For example, Line Loop(1) consists of lines made up of points (6,7); (7,8); (8,9); (9,6). But this is backward with respect to clockwise orientation. The negative sign flips ordering of the points making up the line thus to be (6,7) becomes (7,6) etc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Points</span> <span class="n">that</span> <span class="n">make</span> <span class="n">up</span> <span class="n">the</span> <span class="n">circle</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">bottom_left_circle</span><span class="p">,</span><span class="n">bottom_left_circle</span><span class="p">,</span><span class="mf">0.0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">bottom_left_circle</span><span class="o">-</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="n">bottom_left_circle</span><span class="o">+</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">bottom_left_circle</span><span class="o">-</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="n">bottom_left_circle</span><span class="o">-</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">bottom_left_circle</span><span class="o">+</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="n">bottom_left_circle</span><span class="o">-</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">bottom_left_circle</span><span class="o">+</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="n">bottom_left_circle</span><span class="o">+</span><span class="n">circle_r</span><span class="o">*</span><span class="n">Cos</span><span class="p">(</span><span class="n">Pi</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.0</span><span class="p">};</span>
+
+<span class="o">//</span> <span class="n">Curves</span> <span class="n">that</span> <span class="n">connect</span> <span class="n">points</span> <span class="n">defining</span> <span class="n">circle</span>
+<span class="n">Circle</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">};</span>
+<span class="n">Circle</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
+<span class="n">Circle</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">};</span>
+<span class="n">Circle</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">};</span>
+<span class="o">//</span> <span class="n">specify</span> <span class="n">closed</span> <span class="n">loop</span> <span class="n">to</span> <span class="n">make</span> <span class="n">surface</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/circle_in_square.png"><img alt="../_images/circle_in_square.png" src="../_images/circle_in_square.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Add a circular surface to the center of the square</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>To make a structured mesh in gmsh, shapes with four sides are needed. At this point, the circular shape can be meshed with a structured algorithm, but the region outside of the circle can’t. This region is next broken into four sided shapes as shown in the input below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="k">break</span> <span class="n">area</span> <span class="n">outside</span> <span class="n">circle</span> <span class="n">into</span> <span class="n">four</span> <span class="n">surfaces</span>
+<span class="o">//</span> <span class="n">First</span> <span class="n">define</span> <span class="n">lines</span><span class="p">,</span> <span class="n">the</span> <span class="n">line</span> <span class="n">loops</span><span class="p">,</span> <span class="n">then</span> <span class="n">the</span>
+<span class="o">//</span> <span class="n">surfaces</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">9</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
+
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">};</span>
+
+<span class="n">Surface</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">5</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6</span><span class="p">};</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../_images/cell1.png"><img alt="../_images/cell1.png" src="../_images/cell1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Add a circular surface to the center of the square</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The single cell now created is copied four times and translated. The input for this is shown below. The variable “pitch” defined at the top of the file is used. Notice the “Coherence;” commant. This command removes repeated items such as repeated points and line. Some of the copied eneties overlap and without this command (test this out), several lines and points will overlap. The image below shows how to use the gui to see the new lines and points created by the duplication process. The tags for these new lines are needed for the next steps. It is possible that a different gmsh version may lead to different numbering, so the input in this tutorial may need to be adjusted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">1</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">1</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">1</span><span class="p">};}</span>  <span class="p">}</span>
+
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">2</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">2</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">2</span><span class="p">};}</span>  <span class="p">}</span>
+
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">3</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">3</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">3</span><span class="p">};}</span>  <span class="p">}</span>
+
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">4</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">4</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">4</span><span class="p">};}</span>  <span class="p">}</span>
+
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">5</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">5</span><span class="p">};}</span>  <span class="p">}</span>
+<span class="n">Translate</span><span class="p">{</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">}</span> <span class="p">{</span> <span class="n">Duplicata</span><span class="p">{</span><span class="n">Surface</span><span class="p">{</span><span class="mi">5</span><span class="p">};}</span>  <span class="p">}</span>
+
+<span class="n">Coherence</span><span class="p">;</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/visibility.gif"><img alt="../_images/visibility.gif" src="../_images/visibility.gif" style="width: 1200px;" /></a>
+<figcaption>
+<p><span class="caption-text">Copy some repeated geometry and use the gui to see the tags for the new lines and surfaces.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Next, the additional four sided shapes are created as shown in the first image at the top of the page. These five surfaces will be specified as being one physical surface in later input.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Point</span><span class="p">(</span><span class="mi">104</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">105</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">106</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">107</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+
+<span class="n">Point</span><span class="p">(</span><span class="mi">108</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="o">*</span><span class="n">pitch</span> <span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">109</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="o">*</span><span class="n">pitch</span> <span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="n">Point</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="o">*</span><span class="n">pitch</span> <span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+
+
+<span class="n">Line</span><span class="p">(</span><span class="mi">77</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">78</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">104</span><span class="p">,</span><span class="mi">105</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">79</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">105</span><span class="p">,</span><span class="mi">81</span><span class="p">};</span>
+
+<span class="n">Line</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">105</span><span class="p">,</span><span class="mi">106</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">81</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">106</span><span class="p">,</span><span class="mi">92</span><span class="p">};</span>
+
+<span class="n">Line</span><span class="p">(</span><span class="mi">82</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">106</span><span class="p">,</span><span class="mi">107</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">83</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">107</span><span class="p">,</span><span class="mi">108</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">84</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">108</span><span class="p">,</span><span class="mi">92</span><span class="p">};</span>
+
+<span class="n">Line</span><span class="p">(</span><span class="mi">85</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">108</span><span class="p">,</span><span class="mi">109</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">86</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">109</span><span class="p">,</span><span class="mi">70</span><span class="p">};</span>
+
+<span class="n">Line</span><span class="p">(</span><span class="mi">87</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">109</span><span class="p">,</span><span class="mi">110</span><span class="p">};</span>
+<span class="n">Line</span><span class="p">(</span><span class="mi">88</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">110</span><span class="p">,</span><span class="mi">59</span><span class="p">};</span>
+
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">77</span><span class="p">,</span><span class="mi">78</span><span class="p">,</span><span class="mi">79</span><span class="p">,</span><span class="o">-</span><span class="mi">65</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">81</span><span class="p">,</span><span class="o">-</span><span class="mi">70</span><span class="p">,</span><span class="o">-</span><span class="mi">79</span><span class="p">,</span><span class="mi">80</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">102</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">82</span><span class="p">,</span><span class="mi">83</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="o">-</span><span class="mi">81</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">103</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">85</span><span class="p">,</span><span class="mi">86</span><span class="p">,</span><span class="o">-</span><span class="mi">56</span><span class="p">,</span><span class="o">-</span><span class="mi">84</span><span class="p">};</span>
+<span class="n">Curve</span> <span class="n">Loop</span><span class="p">(</span><span class="mi">104</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">87</span><span class="p">,</span><span class="mi">88</span><span class="p">,</span><span class="o">-</span><span class="mi">46</span><span class="p">,</span><span class="o">-</span><span class="mi">86</span><span class="p">};</span>
+
+<span class="n">Surface</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">100</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">101</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">102</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">102</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">103</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">103</span><span class="p">};</span>
+<span class="n">Surface</span><span class="p">(</span><span class="mi">104</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">104</span><span class="p">};</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../_images/full_geo.png"><img alt="../_images/full_geo.png" src="../_images/full_geo.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">All of the four sided shapes are completed</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The surfaces created thus far are for construction purposes. We now specify the surfaces and lines that are physical. The physical lines are those defining a problem boundary. There are two types of surfaces in this mesh being created, those inside a cylinder and those outside a cylinder. Currently, the physical surface tags must start at 0 and increase sequentially to be used with chi-tech. The physical surface tag will serve as an array index for the stack of materials defined in a chi-tech input.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Physical</span> <span class="n">Line</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">88</span><span class="p">};</span>
+<span class="n">Physical</span> <span class="n">Line</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">87</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">83</span><span class="p">};</span>
+<span class="n">Physical</span> <span class="n">Line</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">78</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">82</span><span class="p">};</span>
+<span class="n">Physical</span> <span class="n">Line</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">76</span><span class="p">,</span><span class="mi">77</span><span class="p">};</span>
+<span class="n">Physical</span> <span class="n">Surface</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">23</span><span class="p">};</span>
+<span class="n">Physical</span> <span class="n">Surface</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">57</span><span class="p">,</span><span class="mi">71</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">52</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>Next, a structured mesh will be defined. The “Transfinite Line” command is used. This command specifies opposing faces of the four sided shapes we will apply a structured mesh to and also how many grid points will be used when drawing mesh lines between the two defined faces. “Using Progression 1” indicates that the structured mesh should have uniform grading. Note that in the outer region of the geometry, “Using Progression 0.85” is used. This causes the meshing to be graded. Also note the input “Transfinite Line {-77, 79}” where the negative sign ensures that both lines have the same orientation which is required when using a grading. Test the input without this and see that the grading is flipped on one side.</p>
+<p>After the transfinite lines are specified, each surface is specified to be mesh with a structured mesh by the syntax “Transfinite Surface {i}”. Lastly, “Recombine Surface “*”;” is included to specify that the mesh be made up of quadrilaterials. If this input is not included, then gmsh will create a mesh of structured triangles.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">bottom</span> <span class="n">left</span> <span class="n">cell</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">2</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">4</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">5</span><span class="p">};</span>
+
+
+<span class="o">//</span> <span class="n">bottom</span> <span class="n">right</span> <span class="n">cell</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">29</span><span class="p">,</span> <span class="mi">31</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">17</span><span class="p">,</span> <span class="mi">32</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">31</span><span class="p">,</span> <span class="mi">45</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">16</span><span class="p">,</span> <span class="mi">46</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">15</span><span class="p">,</span> <span class="mi">41</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">60</span><span class="p">,</span> <span class="mi">29</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">14</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">28</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">42</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">57</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">71</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">13</span><span class="p">};</span>
+
+<span class="o">//</span> <span class="n">top</span> <span class="n">right</span> <span class="n">cell</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">24</span><span class="p">,</span> <span class="mi">26</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">25</span><span class="p">,</span> <span class="mi">27</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">38</span><span class="p">,</span> <span class="mi">40</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">27</span><span class="p">,</span> <span class="mi">41</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">40</span><span class="p">,</span> <span class="mi">55</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">26</span><span class="p">,</span> <span class="mi">56</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">55</span><span class="p">,</span> <span class="mi">69</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">25</span><span class="p">,</span> <span class="mi">70</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">69</span><span class="p">,</span> <span class="mi">38</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">51</span><span class="p">,</span> <span class="mi">24</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">37</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">52</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">66</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">77</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">23</span><span class="p">};</span>
+
+<span class="o">//</span> <span class="n">top</span> <span class="n">left</span> <span class="n">cell</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="mi">36</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">22</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">36</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">21</span><span class="p">,</span> <span class="mi">51</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">50</span><span class="p">,</span> <span class="mi">64</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">20</span><span class="p">,</span> <span class="mi">65</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">64</span><span class="p">,</span> <span class="mi">34</span><span class="p">}</span> <span class="o">=</span> <span class="mi">15</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">19</span><span class="p">,</span> <span class="mi">76</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">33</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">47</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">61</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">72</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">18</span><span class="p">};</span>
+
+
+<span class="o">//</span><span class="n">outside</span> <span class="n">region</span>
+
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">65</span><span class="p">,</span> <span class="mi">78</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="o">-</span><span class="mi">77</span><span class="p">,</span> <span class="mi">79</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">79</span><span class="p">,</span> <span class="mi">81</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">81</span><span class="p">,</span> <span class="mi">83</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="o">-</span><span class="mi">82</span><span class="p">,</span> <span class="mi">84</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">84</span><span class="p">,</span> <span class="mi">86</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">56</span><span class="p">,</span> <span class="mi">85</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">//</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">86</span><span class="p">,</span> <span class="mi">88</span><span class="p">}</span> <span class="o">=</span> <span class="mi">20</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mf">0.85</span><span class="p">;</span>
+<span class="n">Transfinite</span> <span class="n">Line</span> <span class="p">{</span><span class="mi">46</span><span class="p">,</span> <span class="mi">87</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span> <span class="n">Using</span> <span class="n">Progression</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">100</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">101</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">102</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">103</span><span class="p">};</span>
+<span class="n">Transfinite</span> <span class="n">Surface</span> <span class="p">{</span><span class="mi">104</span><span class="p">};</span>
+
+<span class="n">Recombine</span> <span class="n">Surface</span> <span class="s2">&quot;*&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Note that currently only msh file format 2.2 in asci format is read by chi-tech.</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../_images/meshing.gif"><img alt="../_images/meshing.gif" src="../_images/meshing.gif" style="width: 1200px;" /></a>
+<figcaption>
+<p><span class="caption-text">Use the gui to create the mesh, examine it, and save the msh file.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="predef_2d.html" class="btn btn-neutral float-left" title="Mesh Tutorial 4: Predefined 2D Mesh Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2d_triangle_python.html" class="btn btn-neutral float-right" title="Mesh Tutorial 6: A 2D Unstructured Mesh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

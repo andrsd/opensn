@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Tutorials &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Tutorials" href="start_user_tutorials.html" />
+    <link rel="prev" title="Documentation" href="start_source_code_doc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lua-for-developers">Lua for developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorials">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-fully-detailed-example">A fully-detailed example:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-0">Step-0:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1">Step-1:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2">Step-2:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3">Step-3:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4">Step-4:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5">Step-5:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="start_user_tutorials.html">User Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Developer Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="developer-tutorials">
+<h1>Developer Tutorials<a class="headerlink" href="#developer-tutorials" title="Link to this heading"></a></h1>
+<section id="lua-for-developers">
+<h2>Lua for developers<a class="headerlink" href="#lua-for-developers" title="Link to this heading"></a></h2>
+<p>When developing a new application using Chi-Tech, you need to register some objects to be
+accessible from the lua console. We consider two situations:</p>
+<ol class="arabic simple">
+<li><p>you are using Chi-Tech as a library</p></li>
+<li><p>you are developing directly in <code class="docutils literal notranslate"><span class="pre">modules</span></code></p></li>
+</ol>
+</section>
+<section id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h2>
+<p>The developer tutorials are accessible on the documentation, by clicking on the left column under
+<a class="reference external" href="https://chi-tech.github.io/d7/db6/_programmer_manual.html">Developer’s manual</a>.</p>
+</section>
+<section id="a-fully-detailed-example">
+<h2>A fully-detailed example:<a class="headerlink" href="#a-fully-detailed-example" title="Link to this heading"></a></h2>
+<p>This is taken from my <a class="reference external" href="https://github.com/ragusa/chi-ip">chi-ip</a>, where I added
+IP for DFEM diffusion in Chi-Tech.</p>
+<section id="step-0">
+<h3>Step-0:<a class="headerlink" href="#step-0" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create empty repo on github</p></li>
+<li><p>git clone (with token, if you want)</p></li>
+<li><p>Open new project in CLion and point to repo that was jsut cloned</p></li>
+</ol>
+</section>
+<section id="step-1">
+<h3>Step-1:<a class="headerlink" href="#step-1" title="Link to this heading"></a></h3>
+<p>Follow the instructions in the developer’s manual <a class="reference external" href="https://chi-tech.github.io/d8/d99/_dev_man_using_lib.html">Using Chi-Tech as a library</a>.</p>
+<p>Specifically,</p>
+<ul class="simple">
+<li><p>create the CMakeLists.txt file and populate</p></li>
+<li><p>create the main .cc file (<code class="docutils literal notranslate"><span class="pre">testIP.cc</span></code>, in my example) and populate</p></li>
+<li><p>Go to CLion’s Cmake setting and add the ENV variable for where the amin chi-tech sources are
+(for me, <code class="docutils literal notranslate"><span class="pre">CHI_TECH_DIR=/Users/jean.ragusa/repo/chi-tech</span></code>)</p>
+<ul>
+<li><p>however, this was not sufficient when I compile from a terminal outside of CLion. I had to export that env
+variable also in that terminal</p></li>
+</ul>
+</li>
+<li><p>check in the CMake terminal that everything went fine (that Downstream.cmake was found, that MPI was found, …)</p></li>
+</ul>
+</section>
+<section id="step-2">
+<h3>Step-2:<a class="headerlink" href="#step-2" title="Link to this heading"></a></h3>
+<p>Start adding source files.</p>
+<ul>
+<li><p>I created a new folder (<code class="docutils literal notranslate"><span class="pre">DFEMDIffusionSolver</span></code>), added source code there.</p></li>
+<li><p>I had to update the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file at the upper level by adding <code class="docutils literal notranslate"><span class="pre">add_subdirectory(&quot;${PROJECT_SOURCE_DIR}/DFEMDiffusionSolver/&quot;)</span></code></p></li>
+<li><p>I created a new <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file in the new folder and included the following lines_:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>file<span class="w"> </span><span class="o">(</span>GLOB_RECURSE<span class="w"> </span>MORE_SOURCES<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span><span class="s2">/*.cc&quot;</span><span class="o">)</span>
+set<span class="o">(</span>SOURCES<span class="w"> </span><span class="si">${</span><span class="nv">SOURCES</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MORE_SOURCES</span><span class="si">}</span><span class="w"> </span>PARENT_SCOPE<span class="o">)</span><span class="w"> </span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="step-3">
+<h3>Step-3:<a class="headerlink" href="#step-3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>I developed new code in the new folder <code class="docutils literal notranslate"><span class="pre">DFEMDIffusionSolver</span></code>.</p></li>
+<li><p>I add a subfolder there, called <code class="docutils literal notranslate"><span class="pre">lua</span></code> where the lua wrappers are found. The wrappers allow to call the functions
+from the lua console (i.e., the input file)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_solver.cc</span></code>, the solver itself</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setBCproperty.cc</span></code>, the BC conditions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disc_ord_steady_state_lua_utils.h</span></code>, the header</p></li>
+</ul>
+</li>
+<li><p>the main code file, <code class="docutils literal notranslate"><span class="pre">testIP.cc</span></code>, needs to register the lua functions</p></li>
+</ul>
+<p>Later, when the code gets folded into the main chi-tech, a few changes will need to take place. We describe those later.</p>
+</section>
+<section id="step-4">
+<h3>Step-4:<a class="headerlink" href="#step-4" title="Link to this heading"></a></h3>
+<p>I wanted to create a simulation test that uses the new solver, but also contains a new function (the L2 error norm)
+that I do not want to be in the main solver.</p>
+<ul>
+<li><p>I created a new folder structure that mimics the Chi-Tech simulation test folder structure: <code class="docutils literal notranslate"><span class="pre">framework\LuaTest\</span> </code></p></li>
+<li><p>There, I added <code class="docutils literal notranslate"><span class="pre">sim_IP_MMS_L2error.cc</span></code>, that basically calls my original solver, but also contains the L2 error
+computation. This file is actually the lua wrapper, same functionality as above.</p></li>
+<li><p>I also added a header file, <code class="docutils literal notranslate"><span class="pre">unit_tests.h</span></code>.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">CmakeLists.txt</span></code> file needs to be added there</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>file<span class="w"> </span><span class="o">(</span>GLOB_RECURSE<span class="w"> </span>MORE_SOURCES<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span><span class="s2">/*.cc&quot;</span><span class="o">)</span>
+set<span class="o">(</span>SOURCES<span class="w"> </span><span class="si">${</span><span class="nv">SOURCES</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MORE_SOURCES</span><span class="si">}</span><span class="w"> </span>PARENT_SCOPE<span class="o">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>In the main code test, <code class="docutils literal notranslate"><span class="pre">testIP.cc</span></code>, the new lua function needs to be registered.</p></li>
+<li><p>In the main <code class="docutils literal notranslate"><span class="pre">CmakeLists.txt</span></code> file, the new subfolder needs to be added <code class="docutils literal notranslate"><span class="pre">add_subdirectory(&quot;${PROJECT_SOURCE_DIR}/framework/LuaTest/&quot;)</span> </code></p></li>
+</ul>
+</section>
+<section id="step-5">
+<h3>Step-5:<a class="headerlink" href="#step-5" title="Link to this heading"></a></h3>
+<p>When bringing the code into the main chi-tech repository,
+the following changes need to happen:</p>
+<ul>
+<li><p>The folder <code class="docutils literal notranslate"><span class="pre">DFEMDIffusionSolver</span></code> gets placed in
+<code class="docutils literal notranslate"><span class="pre">modules</span></code> and the <code class="docutils literal notranslate"><span class="pre">disc_ord_steady_state_lua_utils.h</span></code> in that subfolder
+receives an update: we add <code class="docutils literal notranslate"><span class="pre">RegisterLuaEntities()</span></code> inside a namespace</p></li>
+<li><p>We add</p>
+<ul class="simple">
+<li><p>this line <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;DFEMDiffusion/lua/ip_lua_utils.h&quot;</span> </code></p></li>
+<li><p>and this line <code class="docutils literal notranslate"><span class="pre">dfem_diffusion::dfem_diffusion_lua_utils::RegisterLuaEntities(L)</span></code></p></li>
+</ul>
+<p>in <code class="docutils literal notranslate"><span class="pre">modules\lua\chi_modules_lua.cc</span></code></p>
+</li>
+<li><p>Add the proper subfolder in the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file
+located in <code class="docutils literal notranslate"><span class="pre">modules</span></code> (i.e., add this line <code class="docutils literal notranslate"><span class="pre">add_subdirectory(&quot;DFEMDiffusion&quot;)</span></code>)</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">lua_test.cc</span></code> to register the sim test</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="start_source_code_doc.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="start_user_tutorials.html" class="btn btn-neutral float-right" title="User Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

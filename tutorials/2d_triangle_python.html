@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh Tutorial 6: A 2D Unstructured Mesh &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mesh Tutorial 7: A 3D Extruded Mesh" href="3d_extruded_mesh.html" />
+    <link rel="prev" title="Mesh Tutorial 5: Example using gmsh to create a structured mesh" href="gmsh_tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Tutorial 2: Other Forms of Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_transport_simulation.html">Tutorial 3: Basic Transport Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1d_mesh.html">Mesh Tutorial 1: Simple 1D Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2d_ortho_mesh.html">Mesh Tutorial 2: A 2D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3d_ortho_mesh.html">Mesh Tutorial 3: A 3D Orthogonal Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predef_2d.html">Mesh Tutorial 4: Predefined 2D Mesh Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gmsh_tutorial.html">Mesh Tutorial 5: Example using gmsh to create a structured mesh</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mesh Tutorial 6: A 2D Unstructured Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3d_extruded_mesh.html">Mesh Tutorial 7: A 3D Extruded Mesh</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mesh Tutorial 6: A 2D Unstructured Mesh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="mesh-tutorial-6-a-2d-unstructured-mesh">
+<h1>Mesh Tutorial 6: A 2D Unstructured Mesh<a class="headerlink" href="#mesh-tutorial-6-a-2d-unstructured-mesh" title="Link to this heading"></a></h1>
+<p>Here we provide an example of a 2D unstructured mesh generated using the
+2D <code class="docutils literal notranslate"><span class="pre">Triangle</span></code> mesh generator, with is available in Python via the <code class="docutils literal notranslate"><span class="pre">MeshPy</span></code> module.
+We export the resulting mesh using <code class="docutils literal notranslate"><span class="pre">meshio</span></code> in both <code class="docutils literal notranslate"><span class="pre">.obj</span></code> and <code class="docutils literal notranslate"><span class="pre">.vtu</span></code>
+formats. Note that only the export as VTU contains material IDs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">meshpy.triangle</span> <span class="k">as</span> <span class="nn">triangle</span>
+<span class="kn">import</span> <span class="nn">meshio</span>
+
+<span class="n">n_circumferential_points</span> <span class="o">=</span><span class="mi">20</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Define the vertices of the square domain (centered on 0)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>  <span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>  <span class="p">(</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">),]</span>
+<span class="c1"># Create a list of points for the circle (centered on 0)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_circumferential_points</span><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">n_circumferential_points</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)))</span>
+
+<span class="c1"># Define the segments of the square domain</span>
+<span class="n">segments</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+<span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">Nbeg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">markers</span><span class="p">)</span>
+<span class="c1"># Define the segments for the circle</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nbeg</span><span class="p">,</span><span class="n">n_circumferential_points</span><span class="o">+</span><span class="n">Nbeg</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">==</span> <span class="n">n_circumferential_points</span><span class="o">+</span><span class="n">Nbeg</span><span class="p">:</span>
+        <span class="n">ip1</span> <span class="o">=</span> <span class="n">Nbeg</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">segments</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="n">ip1</span><span class="p">)])</span>
+    <span class="n">markers</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Create a mesh info object</span>
+<span class="n">mesh_info</span> <span class="o">=</span> <span class="n">triangle</span><span class="o">.</span><span class="n">MeshInfo</span><span class="p">()</span>
+<span class="c1"># Add points</span>
+<span class="n">mesh_info</span><span class="o">.</span><span class="n">set_points</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="c1"># Add facets</span>
+<span class="n">mesh_info</span><span class="o">.</span><span class="n">set_facets</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">facet_markers</span><span class="o">=</span><span class="n">markers</span><span class="p">)</span>
+<span class="c1"># Add regions</span>
+<span class="n">mesh_info</span><span class="o">.</span><span class="n">regions</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># inside circle region</span>
+<span class="n">mesh_info</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span> <span class="c1"># 2d pt + ID + max_vol</span>
+<span class="c1"># outside circle region</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">mesh_info</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">eps</span><span class="p">,</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">eps</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span> <span class="c1"># 2d pt + ID + max_vol</span>
+
+<span class="c1"># Refine the mesh</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">triangle</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mesh_info</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_volume</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">min_angle</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                      <span class="n">attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generate_faces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Add a third dimension to the points</span>
+<span class="n">points_3d</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">]</span>
+
+<span class="n">directory</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;pin_01&quot;</span>
+<span class="n">meshio</span><span class="o">.</span><span class="n">write_points_cells</span><span class="p">(</span><span class="n">directory</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.obj&quot;</span><span class="p">,</span>
+                          <span class="n">points_3d</span><span class="p">,</span>
+                          <span class="p">{</span><span class="s2">&quot;triangle&quot;</span><span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">})</span>
+
+<span class="c1"># Save the mesh to an .vtk file</span>
+<span class="n">meshio</span><span class="o">.</span><span class="n">write_points_cells</span><span class="p">(</span><span class="n">directory</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.vtu&quot;</span><span class="p">,</span>
+                          <span class="n">points_3d</span><span class="p">,</span>
+                          <span class="p">{</span><span class="s2">&quot;triangle&quot;</span><span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="p">},</span>
+                          <span class="n">cell_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">element_attributes</span><span class="p">]})</span>
+
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gmsh_tutorial.html" class="btn btn-neutral float-left" title="Mesh Tutorial 5: Example using gmsh to create a structured mesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="3d_extruded_mesh.html" class="btn btn-neutral float-right" title="Mesh Tutorial 7: A 3D Extruded Mesh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
