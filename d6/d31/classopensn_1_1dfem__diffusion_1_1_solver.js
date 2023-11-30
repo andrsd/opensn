@@ -1,0 +1,28 @@
+var classopensn_1_1dfem__diffusion_1_1_solver =
+[
+    [ "BoundaryInfo", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ae6a1a1f1ff1dbb1459635cc398c90208", null ],
+    [ "BoundaryPreferences", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a3646c5eb8ebfb9fd1f2fcc8d36ff4a0f", null ],
+    [ "Solver", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ad7c1c0497ae695d357671798f164dbfa", null ],
+    [ "~Solver", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a1423292c81260d43a51ffa1bea64184b", null ],
+    [ "Execute", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a2acda834453bdef02312989b26b64293", null ],
+    [ "HPerpendicular", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ab7e647f24ef309556dfd55934428b58f", null ],
+    [ "Initialize", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a19a9bea9dd76cb8222d4d53c719fa962", null ],
+    [ "MapFaceNodeDisc", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a833eb4f32301c3805eb784c5df6143f7", null ],
+    [ "SetDCoefFunction", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#af43a405c7aa6ab2fe1d199850f8fa7e7", null ],
+    [ "SetQExtFunction", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ada41accf006a12339da1fa9a2996d86d", null ],
+    [ "SetSigmaAFunction", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a9b4a932470673b50323066a14fac1ffa", null ],
+    [ "UpdateFieldFunctions", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#aea2e92f367f1de283d23818276988217", null ],
+    [ "A_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ae2253ea819e8041b89b9f856376fa733", null ],
+    [ "b_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a0dcd504cd5ae81e8c3bdf0ba144acd3e", null ],
+    [ "boundaries_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a526435281a9554f83dbb3ef0f8d37ae7", null ],
+    [ "boundary_preferences_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a6d3f9e4e635653f8c1fd3990167fc7ec", null ],
+    [ "d_coef_function_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#abfcd2cd1de1e33cda51981a79067eccb", null ],
+    [ "field_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a14d24e1d461fdf21c99c1f34c8bc0300", null ],
+    [ "grid_ptr_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a69676bd611320276fd5d87c7635ecee7", null ],
+    [ "num_globl_dofs_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a39a8f6198f93b3ec31f9663af9b88845", null ],
+    [ "num_local_dofs_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ac4bdd3033ab0f6a650b435201af0fff2", null ],
+    [ "q_ext_function_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#ab8940e370c059bce251e16ae8a8ed427", null ],
+    [ "sdm_ptr_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a859dece17c348ed255cfea9ff05ade94", null ],
+    [ "sigma_a_function_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#aec6526f0b39bc61d4d003fc0a55d9f4d", null ],
+    [ "x_", "d6/d31/classopensn_1_1dfem__diffusion_1_1_solver.html#a9ea449bd65783c131b7f9cd5dad83c1a", null ]
+];

@@ -1,0 +1,25 @@
+var classopensn_1_1cfem__diffusion_1_1_solver =
+[
+    [ "BoundaryInfo", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#acc16110b332edecbfba1cc14f2e1493a", null ],
+    [ "BoundaryPreferences", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#aa0126668f36e3694bbe35f4113642f21", null ],
+    [ "Solver", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ae9f341632153ef2b84cbda836a459865", null ],
+    [ "~Solver", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ab646dd6cb95a3e3b26e07fbbff4c3b1b", null ],
+    [ "Execute", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a44e6a56d105b222482f8d89a55fbb6a1", null ],
+    [ "Initialize", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#aee9b4a16cd52d23efe3d90a6328fb483", null ],
+    [ "SetDCoefFunction", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#afba99c7aa628491ecdc14e6680f1aed5", null ],
+    [ "SetQExtFunction", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a875116acb1900700e59b7bd8ff205e70", null ],
+    [ "SetSigmaAFunction", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ae166a7234b01515efb298d3fc1cd590d", null ],
+    [ "UpdateFieldFunctions", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a655fd1122bee9870870858bd94240193", null ],
+    [ "A_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ac487525680cf395f87cf17aa6ae9fed9", null ],
+    [ "b_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#afbad2e51d6f0493271281fce0dbd44a4", null ],
+    [ "boundaries_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#abab4c0c0d050198d0596201c3a10e308", null ],
+    [ "boundary_preferences_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ade9fb6aefee649581c46bc0c4ab99983", null ],
+    [ "d_coef_function_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a29679c708410c7732728bbbdba615203", null ],
+    [ "grid_ptr_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#aa5b7bf6b0914922d5f1394b7d6537cd4", null ],
+    [ "num_globl_dofs_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a0e4fd17f13f2a7c59f104b6dd64fdcad", null ],
+    [ "num_local_dofs_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#afc7bee9ca04ff28d872abe33025ccd1b", null ],
+    [ "q_ext_function_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a7badda448b94d4ec452a57c1ebf93212", null ],
+    [ "sdm_ptr_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#ab9be19b7d4f962f302b0a0ef9dd1ac37", null ],
+    [ "sigma_a_function_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#aaad926837fb28e770c57daec5b6a839b", null ],
+    [ "x_", "d0/d47/classopensn_1_1cfem__diffusion_1_1_solver.html#a79aaa19886acf489ea1c21adba3bf809", null ]
+];

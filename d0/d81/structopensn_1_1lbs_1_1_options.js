@@ -1,0 +1,28 @@
+var structopensn_1_1lbs_1_1_options =
+[
+    [ "SDMType", "d0/d81/structopensn_1_1lbs_1_1_options.html#a09f62f4ddd0db2fa08009f09fb078c92", null ],
+    [ "Options", "d0/d81/structopensn_1_1lbs_1_1_options.html#ae331002a8c9e1f4fa6826e4dfadd8c5d", null ],
+    [ "ags_scheme", "d0/d81/structopensn_1_1lbs_1_1_options.html#aba39535b7e1ece540cc9f00efa813bc8", null ],
+    [ "field_function_prefix", "d0/d81/structopensn_1_1lbs_1_1_options.html#ac82cdd32b8254ad47fadbaecaa4bd95c", null ],
+    [ "field_function_prefix_option", "d0/d81/structopensn_1_1lbs_1_1_options.html#ab560848b2b5dfb7dcf3d7de0a863ae4d", null ],
+    [ "geometry_type", "d0/d81/structopensn_1_1lbs_1_1_options.html#a9283eb642854c2f0061cbc1e01e8782f", null ],
+    [ "power_default_kappa", "d0/d81/structopensn_1_1lbs_1_1_options.html#ad2538ae99d97e71ef302d401b03e1ffe", null ],
+    [ "power_field_function_on", "d0/d81/structopensn_1_1lbs_1_1_options.html#a26ca4feac70e2a60c25c7465dba314d6", null ],
+    [ "power_normalization", "d0/d81/structopensn_1_1lbs_1_1_options.html#a7518d9d0a755b6a7036356c094c420d0", null ],
+    [ "read_restart_data", "d0/d81/structopensn_1_1lbs_1_1_options.html#a93969c099f7b98564c72f0fd5f4b0225", null ],
+    [ "read_restart_file_base", "d0/d81/structopensn_1_1lbs_1_1_options.html#ae449f1517f415c3411f7a6f8f97063ee", null ],
+    [ "read_restart_folder_name", "d0/d81/structopensn_1_1lbs_1_1_options.html#a8bca260715ca423943492b869c9cbdd2", null ],
+    [ "save_angular_flux", "d0/d81/structopensn_1_1lbs_1_1_options.html#a6377d90808e6cc4e25a52d53d259483b", null ],
+    [ "scattering_order", "d0/d81/structopensn_1_1lbs_1_1_options.html#a3b16917501595c07af8b6c1073bf5f8f", null ],
+    [ "sd_type", "d0/d81/structopensn_1_1lbs_1_1_options.html#a4d0680a3cf451e8a7d7c13b8f02d7b3f", null ],
+    [ "sweep_eager_limit", "d0/d81/structopensn_1_1lbs_1_1_options.html#a7692c51830453482d0e2cb10675936d5", null ],
+    [ "use_precursors", "d0/d81/structopensn_1_1lbs_1_1_options.html#a8deee17fa18a71e75d24e39b8148bff1", null ],
+    [ "use_src_moments", "d0/d81/structopensn_1_1lbs_1_1_options.html#a0d62dba420b3cb629650ad01fab10a3b", null ],
+    [ "verbose_ags_iterations", "d0/d81/structopensn_1_1lbs_1_1_options.html#a8eeec57cdefac3e352d813e617e1a238", null ],
+    [ "verbose_inner_iterations", "d0/d81/structopensn_1_1lbs_1_1_options.html#a3d93b463d9de9d8dea5324bd8ea67eeb", null ],
+    [ "verbose_outer_iterations", "d0/d81/structopensn_1_1lbs_1_1_options.html#ab2b84cca726cd76d56deca9ff803f3ec", null ],
+    [ "write_restart_data", "d0/d81/structopensn_1_1lbs_1_1_options.html#aecda16ef927865279050dac10381aa68", null ],
+    [ "write_restart_file_base", "d0/d81/structopensn_1_1lbs_1_1_options.html#a8970f17779ae4995eca8631df78d9354", null ],
+    [ "write_restart_folder_name", "d0/d81/structopensn_1_1lbs_1_1_options.html#a6d7520d2c3a356ef5c6ab78e0ce2cd50", null ],
+    [ "write_restart_interval", "d0/d81/structopensn_1_1lbs_1_1_options.html#a834f24b0957abbc4f0af14c37ad25f0d", null ]
+];

@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['j_0',['j',['../d7/d51/structopensn_1_1_piece_wise_linear_polygon_mapping_1_1_f_eside__data2d.html#aff9fa7646e6bcb7603e8f1c478a92a9c',1,'opensn::PieceWiseLinearPolygonMapping::FEside_data2d::J'],['../dd/dbd/structopensn_1_1_piece_wise_linear_polyhedron_mapping_1_1_f_eside__data3d.html#acd9afffb55f70ac380d3cc4173a816b0',1,'opensn::PieceWiseLinearPolyhedronMapping::FEside_data3d::J'],['../dd/d46/classopensn_1_1_non_linear_function.html#aee2f9005fb3fd95805b1cef1ba858de7',1,'opensn::NonLinearFunction::J()'],['../db/de4/classopensn_1_1_world_x_y_z_to_natural_mapping_helper.html#a0158c054bb07d8bd769c04a926a83f68',1,'opensn::WorldXYZToNaturalMappingHelper::J()']]],
+  ['j_5f_1',['J_',['../df/de9/classopensn_1_1_non_linear_solver.html#a2351900708904b6768c5b748d347b7e6',1,'opensn::NonLinearSolver']]],
+  ['jfull_2',['JFULL',['../de/deb/namespaceopensn_1_1lbs.html#acc86cb2880fb2ab158b491b5f7f7ba25a5098a9ed68661584018903dca6d499f8',1,'opensn::lbs']]],
+  ['jinv_3',['jinv',['../dd/dbd/structopensn_1_1_piece_wise_linear_polyhedron_mapping_1_1_f_eside__data3d.html#a804e3388cee38f57f2136e8ffee64a57',1,'opensn::PieceWiseLinearPolyhedronMapping::FEside_data3d::Jinv'],['../d7/d51/structopensn_1_1_piece_wise_linear_polygon_mapping_1_1_f_eside__data2d.html#a692749bc187995115d665ceb02403a4b',1,'opensn::PieceWiseLinearPolygonMapping::FEside_data2d::Jinv']]],
+  ['joinwordsa_4',['JoinWordsA',['../dc/de9/post__processor__printer_8cc.html#a4f6f385d1d8e03d076980d5af086cc2a',1,'post_processor_printer.cc']]],
+  ['joinwordsb_5',['joinwordsb',['../de/df1/namespaceopensn.html#a433fff1c53433ec9371cfbf52012b996',1,'opensn::JoinWordsB()'],['../dc/de9/post__processor__printer_8cc.html#a9c17f90142f5eb29745dd36701d468f1',1,'JoinWordsB:&#160;post_processor_printer.cc']]],
+  ['jpartial_6',['JPARTIAL',['../de/deb/namespaceopensn_1_1lbs.html#acc86cb2880fb2ab158b491b5f7f7ba25a8e6810e931aac7a2f131c3413c3f3054',1,'opensn::lbs']]],
+  ['jtinv_7',['jtinv',['../d7/d51/structopensn_1_1_piece_wise_linear_polygon_mapping_1_1_f_eside__data2d.html#a045b2164b3b89b3b145817090c75695d',1,'opensn::PieceWiseLinearPolygonMapping::FEside_data2d::JTinv'],['../dd/dbd/structopensn_1_1_piece_wise_linear_polyhedron_mapping_1_1_f_eside__data3d.html#a60267f8a704d26ac03d2e125d1d228ee',1,'opensn::PieceWiseLinearPolyhedronMapping::FEside_data3d::JTinv']]],
+  ['jxw_8',['JxW',['../df/d82/classopensn_1_1_volumetric_quadrature_point_data.html#a7f13895398259a3d280ad8af2d0f9c99',1,'opensn::VolumetricQuadraturePointData']]],
+  ['jxw_5f_9',['JxW_',['../df/d82/classopensn_1_1_volumetric_quadrature_point_data.html#aca87452cbcd2af2afb31f719b427db38',1,'opensn::VolumetricQuadraturePointData']]],
+  ['jxw_5fvalues_10',['JxW_Values',['../df/d82/classopensn_1_1_volumetric_quadrature_point_data.html#a51aba50ee2382c8d0a84c040dad61556',1,'opensn::VolumetricQuadraturePointData']]]
+];

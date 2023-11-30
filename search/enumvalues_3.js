@@ -1,0 +1,16 @@
+var searchData=
+[
+  ['depth_5fof_5fgraph_0',['DEPTH_OF_GRAPH',['../de/df1/namespaceopensn.html#a8580507f73bb4598fb713a865b323026a51d47b2c9be19652409783fd56b64423',1,'opensn']]],
+  ['diffusion_5fcfem_1',['DIFFUSION_CFEM',['../de/deb/namespaceopensn_1_1lbs.html#a5f3b0f356e6a7a45d862911c841bd924a157c78d18654aad4e026722cfd7e4a9f',1,'opensn::lbs']]],
+  ['diffusion_5fdfem_2',['DIFFUSION_DFEM',['../de/deb/namespaceopensn_1_1lbs.html#a5f3b0f356e6a7a45d862911c841bd924ae4c7b01f9c10fa591f5035b122e57789',1,'opensn::lbs']]],
+  ['diffusion_5fmaterials_5ffrom_5ftransportxs_5fttf_3',['DIFFUSION_MATERIALS_FROM_TRANSPORTXS_TTF',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a5ba5fe3669c046ff341e315aa7f75399a328d860be9fde8930ba81f878c0b04f6',1,'opensn::diffusion::Solver']]],
+  ['diffusion_5fmaterials_5ffrom_5ftransportxs_5fttf_5fjfull_4',['DIFFUSION_MATERIALS_FROM_TRANSPORTXS_TTF_JFULL',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a5ba5fe3669c046ff341e315aa7f75399a1ff653647bd9736bcd648b1bf0936f1a',1,'opensn::diffusion::Solver']]],
+  ['diffusion_5fmaterials_5ffrom_5ftransportxs_5fttf_5fjpart_5',['DIFFUSION_MATERIALS_FROM_TRANSPORTXS_TTF_JPART',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a5ba5fe3669c046ff341e315aa7f75399a01f4e59dcbead96e2abe58861dde5df2',1,'opensn::diffusion::Solver']]],
+  ['diffusion_5fmaterials_5ffrom_5ftransportxs_5fttr_6',['DIFFUSION_MATERIALS_FROM_TRANSPORTXS_TTR',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a5ba5fe3669c046ff341e315aa7f75399ade1ceca6a2e25912121a3179f49b5a8c',1,'opensn::diffusion::Solver']]],
+  ['diffusion_5fmaterials_5fregular_7',['DIFFUSION_MATERIALS_REGULAR',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a5ba5fe3669c046ff341e315aa7f75399a8e03dd5f292dfd12744c2f73ed904fc2',1,'opensn::diffusion::Solver']]],
+  ['dimension_5f1_8',['DIMENSION_1',['../de/df1/namespaceopensn.html#a2987ea47b69ea6502fc8b0829360bce1acaac663f6344c180f5d7b2dc6ef182f2',1,'opensn']]],
+  ['dimension_5f2_9',['DIMENSION_2',['../de/df1/namespaceopensn.html#a2987ea47b69ea6502fc8b0829360bce1a899fc585b54542f4f0b47053b0d24e9d',1,'opensn']]],
+  ['dimension_5f3_10',['DIMENSION_3',['../de/df1/namespaceopensn.html#a2987ea47b69ea6502fc8b0829360bce1aeb3ace3cab5b68e309aeab087b456f1e',1,'opensn']]],
+  ['dirichlet_11',['dirichlet',['../de/deb/namespaceopensn_1_1lbs.html#a69e9dbef910a7ad5774e6f6571b65638ae151350b63efc6c3bbe2e3f0d27863ba',1,'opensn::lbs::DIRICHLET'],['../d6/d97/namespaceopensn_1_1cfem__diffusion.html#abf0c691f37a2672b67735c27a62a8199abac152b762896edff34ed668ae1a546f',1,'opensn::cfem_diffusion::Dirichlet'],['../d5/d02/namespaceopensn_1_1dfem__diffusion.html#aa6aa46eb47c7243fed49a5047a6e2d8cabac152b762896edff34ed668ae1a546f',1,'opensn::dfem_diffusion::Dirichlet'],['../d7/d51/namespaceopensn_1_1diffusion.html#acc22c042a8af311897253c93e4881645abac152b762896edff34ed668ae1a546f',1,'opensn::diffusion::Dirichlet'],['../db/dec/namespaceopensn_1_1fv__diffusion.html#a83b82c41c5fe65981a81a0af14fbf1c0abac152b762896edff34ed668ae1a546f',1,'opensn::fv_diffusion::Dirichlet']]],
+  ['discrete_5fordinates_12',['DISCRETE_ORDINATES',['../de/deb/namespaceopensn_1_1lbs.html#a5f3b0f356e6a7a45d862911c841bd924aadcd6eda1c7078c09d418d78fcba025b',1,'opensn::lbs']]]
+];

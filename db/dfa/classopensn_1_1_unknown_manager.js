@@ -1,0 +1,26 @@
+var classopensn_1_1_unknown_manager =
+[
+    [ "UnknownInfo", "db/dfa/classopensn_1_1_unknown_manager.html#afd73e0a7b7b39cd1fdc190eff7e33dac", null ],
+    [ "UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#a4e78265c928b8cdeb41c62930a99b1d6", null ],
+    [ "UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#adf129b37ae59a169a4676ad0ea71a485", null ],
+    [ "UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#a03a279cecded1df8caaf233a6b14bc7a", null ],
+    [ "UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#a7b7d03afd5e97ab812d035564124485a", null ],
+    [ "UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#a56060160b50eab576def61a1f0bbad87", null ],
+    [ "~UnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#aebdf366825246fab260ac4bfea46db91", null ],
+    [ "AddUnknown", "db/dfa/classopensn_1_1_unknown_manager.html#aa54248cc93fdf9cf78f3541e73b7bee6", null ],
+    [ "Clear", "db/dfa/classopensn_1_1_unknown_manager.html#a9008ff0b85ccc7fa7880d035aa60e2ab", null ],
+    [ "GetDOFStorageType", "db/dfa/classopensn_1_1_unknown_manager.html#acea596ffff5a797dcecb5c8fd39f8bfe", null ],
+    [ "GetTotalUnknownStructureSize", "db/dfa/classopensn_1_1_unknown_manager.html#a1a44ce652aea32fb99bd6862097f8733", null ],
+    [ "GetUnitaryUnknownManager", "db/dfa/classopensn_1_1_unknown_manager.html#a20befd20da9d707b99647a13d524b291", null ],
+    [ "GetUnknown", "db/dfa/classopensn_1_1_unknown_manager.html#a29811ec2fbed5d44a4fa39f0bb78e49d", null ],
+    [ "MapUnknown", "db/dfa/classopensn_1_1_unknown_manager.html#aadbbce6c8e4dddbac5488aa03bc70f67", null ],
+    [ "NumberOfUnknowns", "db/dfa/classopensn_1_1_unknown_manager.html#a488853b6129b976e34f7e1893a73611e", null ],
+    [ "operator=", "db/dfa/classopensn_1_1_unknown_manager.html#a42b4adb98954798459f839716f2e4eb6", null ],
+    [ "SetDOFStorageType", "db/dfa/classopensn_1_1_unknown_manager.html#ab6dcc6c71002ba85ea24ceea8d43f1c2", null ],
+    [ "SetUnknownComponentNumOffBlockConnections", "db/dfa/classopensn_1_1_unknown_manager.html#a64efda09bede336f44a99c842fb3c84b", null ],
+    [ "SetUnknownComponentTextName", "db/dfa/classopensn_1_1_unknown_manager.html#a6a9662c22696f0e26c66a6d0ae6d9d51", null ],
+    [ "SetUnknownNumOffBlockConnections", "db/dfa/classopensn_1_1_unknown_manager.html#a8fe8e28d5cc713d58f34ea8f9a4a082d", null ],
+    [ "SetUnknownTextName", "db/dfa/classopensn_1_1_unknown_manager.html#a17761e2db1d5490fbd6f9ea0991377be", null ],
+    [ "dof_storage_type_", "db/dfa/classopensn_1_1_unknown_manager.html#a80f1ee91cc3c0da408ccce9a94248140", null ],
+    [ "unknowns_", "db/dfa/classopensn_1_1_unknown_manager.html#a4b33fef9d3e36e38601b88c388ad86fc", null ]
+];

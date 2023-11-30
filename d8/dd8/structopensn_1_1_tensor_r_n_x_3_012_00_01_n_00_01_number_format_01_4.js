@@ -1,0 +1,25 @@
+var structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4 =
+[
+    [ "TensorRNX", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#ad1337c2e32e0f0f2f3eed8ff5b71b275", null ],
+    [ "TensorRNX", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#abd418aa881403e653ed47e75470cc360", null ],
+    [ "TensorRNX", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#af7190da043975f2f86f0f4962327b225", null ],
+    [ "Diag", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a35b4ef9514cfe673bef37526b55abcc6", null ],
+    [ "DiagSum", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#acfeb566610909b2690cae55889949d4a", null ],
+    [ "Dot", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#ad03b3a40944199b503004467a85c91a9", null ],
+    [ "operator()", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a6397d3a3a7ee781067ce7cfd032b08ea", null ],
+    [ "operator*", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a0270fb549e1349c0c55017fbcbd6a9e5", null ],
+    [ "operator*=", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#abf335a3f9a3779ea87db924d18e7ab4d", null ],
+    [ "operator+", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#af4710d39d9b285f986bd1786ce546e81", null ],
+    [ "operator+=", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#ace0dccb9c7ee158acbcf94857d33e7ba", null ],
+    [ "operator-", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#adf3b510abb2cc681cd800df0faabaf0f", null ],
+    [ "operator-=", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#ae9c3b19dcf8821931d2efef57892fd24", null ],
+    [ "operator/", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a41c84b54b064764442b5349a20f5fd54", null ],
+    [ "operator/=", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#ac844595313c044f410f92f03b323cb2f", null ],
+    [ "operator=", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a9b566bebd39d78b23217c234b906bcc6", null ],
+    [ "operator[]", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a1f89c7f56f62efdb12e1b012c45d9b3a", null ],
+    [ "PrintS", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#adf970e0843ca09ecf07b1ca2cba52dbc", null ],
+    [ "Transpose", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#aff3c1c305974b9441a2ab06b5121a428", null ],
+    [ "dimension", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a9dfbbf7cf91ac4520003433c27e1059a", null ],
+    [ "entries", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#af60633e5f6c4fbaabb3371b1c801e5ca", null ],
+    [ "rank", "d8/dd8/structopensn_1_1_tensor_r_n_x_3_012_00_01_n_00_01_number_format_01_4.html#a1ff81912c53c2465de4eb5216b9c5e39", null ]
+];

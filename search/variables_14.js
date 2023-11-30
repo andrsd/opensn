@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['uk_5fman_5f_0',['uk_man_',['../d4/d53/classopensn_1_1lbs_1_1_diffusion_solver.html#a4c3057760039cd3e9af213566f5e7ce0',1,'opensn::lbs::DiffusionSolver']]],
+  ['umesh_5fptr_5f_1',['umesh_ptr_',['../df/da0/classopensn_1_1_volume_mesher_predefined_unpartitioned.html#a4632836b1d3e8eeba21e25cbe9f6ad9c',1,'opensn::VolumeMesherPredefinedUnpartitioned']]],
+  ['unique_5fso_5fgroupings_5f_2',['unique_so_groupings_',['../d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset.html#a8a3f6a6b214d119227b4851e78bd4fa0',1,'opensn::lbs::LBSGroupset']]],
+  ['unit_5fcell_5fmatrices_5f_3',['unit_cell_matrices_',['../d4/d53/classopensn_1_1lbs_1_1_diffusion_solver.html#a4369f73213ba325bc8d1d11cb950b694',1,'opensn::lbs::DiffusionSolver::unit_cell_matrices_'],['../d7/d3f/classopensn_1_1lbs_1_1_l_b_s_solver.html#a1d804f1fed9a2264f5761f397203fada',1,'opensn::lbs::LBSSolver::unit_cell_matrices_'],['../d7/d36/classopensn_1_1lbs_1_1_sweep_chunk.html#a80ce66b631911927089383ab10f60fef',1,'opensn::lbs::SweepChunk::unit_cell_matrices_']]],
+  ['unit_5fghost_5fcell_5fmatrices_5f_4',['unit_ghost_cell_matrices_',['../d7/d3f/classopensn_1_1lbs_1_1_l_b_s_solver.html#afd91376887ebb27597ff8db356e080fb',1,'opensn::lbs::LBSSolver']]],
+  ['unit_5fintegrals_5f_5',['unit_integrals_',['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a3d58875137037a3cdfe21c730509b8d6',1,'opensn::diffusion::Solver']]],
+  ['unitary_5funknown_5fmanager_6',['UNITARY_UNKNOWN_MANAGER',['../d0/d6c/classopensn_1_1_spatial_discretization.html#ab12eca8a03872f367affb4e3359f4d74',1,'opensn::SpatialDiscretization']]],
+  ['unknown_5f_7',['unknown_',['../d3/d68/classopensn_1_1_field_function.html#ae722ac7bc7250f55010b3cd4e6aa9e21',1,'opensn::FieldFunction']]],
+  ['unknown_5fmanager_5f_8',['unknown_manager_',['../d3/d68/classopensn_1_1_field_function.html#a34ed611259befe6a212cdba28b56ee37',1,'opensn::FieldFunction::unknown_manager_'],['../d0/daf/classopensn_1_1diffusion_1_1_solver.html#a58c3a02c5d96e849dee6c7daa7904a79',1,'opensn::diffusion::Solver::unknown_manager_'],['../d0/d12/classopensn_1_1lbs_1_1_sweep_chunk_p_w_l_r_z.html#a27108f5408b1cea8ab708f49c5801d54',1,'opensn::lbs::SweepChunkPWLRZ::unknown_manager_']]],
+  ['unknowns_5f_9',['unknowns_',['../db/dfa/classopensn_1_1_unknown_manager.html#a4b33fef9d3e36e38601b88c388ad86fc',1,'opensn::UnknownManager']]],
+  ['unpartitionedmesh_5fstack_10',['unpartitionedmesh_stack',['../de/df1/namespaceopensn.html#a5bf628076905a35b5e214233df7c6026',1,'opensn']]],
+  ['upstream_5fdata_5finitialized_11',['upstream_data_initialized',['../d2/df2/classopensn_1_1_a_a_h___a_synchronous_communicator.html#ac886256bf7507393254de1659a0a9d34',1,'opensn::AAH_ASynchronousCommunicator']]],
+  ['upwind_5fdof_5fmapping_12',['upwind_dof_mapping',['../d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o.html#a52b5d50230378e7f2ce045c41fe24926',1,'opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO']]],
+  ['us_5fedge_13',['us_edge',['../d7/dff/structopensn_1_1_graph_vertex.html#a8ca2e64b1c4a7735ef22b80c466aa1c2',1,'opensn::GraphVertex']]],
+  ['us_5fweights_14',['us_weights',['../d7/dff/structopensn_1_1_graph_vertex.html#adff2fda4dda7bc50e43c907e04b409bc',1,'opensn::GraphVertex']]],
+  ['use_5fprecursors_15',['use_precursors',['../d0/d81/structopensn_1_1lbs_1_1_options.html#a8deee17fa18a71e75d24e39b8148bff1',1,'opensn::lbs::Options']]],
+  ['use_5fsrc_5fmoments_16',['use_src_moments',['../d0/d81/structopensn_1_1lbs_1_1_options.html#a0d62dba420b3cb629650ad01fab10a3b',1,'opensn::lbs::Options']]]
+];

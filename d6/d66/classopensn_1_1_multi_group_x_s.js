@@ -1,0 +1,27 @@
+var classopensn_1_1_multi_group_x_s =
+[
+    [ "Precursor", "d2/d13/structopensn_1_1_multi_group_x_s_1_1_precursor.html", "d2/d13/structopensn_1_1_multi_group_x_s_1_1_precursor" ],
+    [ "MultiGroupXS", "d6/d66/classopensn_1_1_multi_group_x_s.html#a710cbd368ba6fa39c79ec1094abd3d60", null ],
+    [ "DiffusionCoefficient", "d6/d66/classopensn_1_1_multi_group_x_s.html#a6c8c6990684e9dd8b20fab5f0ed2480b", null ],
+    [ "DiffusionInitialized", "d6/d66/classopensn_1_1_multi_group_x_s.html#ac91f2b5a50b352dda04ed05a7ea66653", null ],
+    [ "ExportToChiXSFile", "d6/d66/classopensn_1_1_multi_group_x_s.html#ac8bba14ced6d61d11249cff6471c02b1", null ],
+    [ "InverseVelocity", "d6/d66/classopensn_1_1_multi_group_x_s.html#acd06ce06acae2a84439de703f192952d", null ],
+    [ "IsFissionable", "d6/d66/classopensn_1_1_multi_group_x_s.html#abfc8f839d8da8372267f8d160187b52b", null ],
+    [ "NuDelayedSigmaF", "d6/d66/classopensn_1_1_multi_group_x_s.html#a9517d7478d981b51ef8e1c8dc07110b6", null ],
+    [ "NumGroups", "d6/d66/classopensn_1_1_multi_group_x_s.html#a66866447bbc5d981feb9e4b2c5f767c0", null ],
+    [ "NumPrecursors", "d6/d66/classopensn_1_1_multi_group_x_s.html#a154236b3f75c5e4e955baf648ece8842", null ],
+    [ "NuPromptSigmaF", "d6/d66/classopensn_1_1_multi_group_x_s.html#a7545786082e30db3f0582bc8aa92ccf2", null ],
+    [ "NuSigmaF", "d6/d66/classopensn_1_1_multi_group_x_s.html#a443cd3211f2af14095eb627cbc35aea5", null ],
+    [ "Precursors", "d6/d66/classopensn_1_1_multi_group_x_s.html#a8f0caf7251aa03f53029dd3c49bfb040", null ],
+    [ "ProductionMatrix", "d6/d66/classopensn_1_1_multi_group_x_s.html#a4d71d4cbdd7d1e286dd3aca7bd56de76", null ],
+    [ "ScatteringInitialized", "d6/d66/classopensn_1_1_multi_group_x_s.html#aba2795f6a1e0fede599901a0cff12dd9", null ],
+    [ "ScatteringOrder", "d6/d66/classopensn_1_1_multi_group_x_s.html#aaf77f73b74d8c44aba688128f90ad63d", null ],
+    [ "SigmaAbsorption", "d6/d66/classopensn_1_1_multi_group_x_s.html#abba04a8caf0f18ab1393365b54c163a0", null ],
+    [ "SigmaFission", "d6/d66/classopensn_1_1_multi_group_x_s.html#acc78c0f8d8cd138fd0530640703925c5", null ],
+    [ "SigmaRemoval", "d6/d66/classopensn_1_1_multi_group_x_s.html#a78e40bfa003ebfe36aae43c7c43f2bb6", null ],
+    [ "SigmaSGtoG", "d6/d66/classopensn_1_1_multi_group_x_s.html#a6c911f6b9d623d93af27e661d22fff04", null ],
+    [ "SigmaTotal", "d6/d66/classopensn_1_1_multi_group_x_s.html#a28eb0186dd411b3a3828d1e5a31c22a8", null ],
+    [ "SigmaTransport", "d6/d66/classopensn_1_1_multi_group_x_s.html#ab0bfafa8bfed025bf07f895a8785f899", null ],
+    [ "TransferMatrices", "d6/d66/classopensn_1_1_multi_group_x_s.html#a5177bd81e81608609d44798df739c5ef", null ],
+    [ "TransferMatrix", "d6/d66/classopensn_1_1_multi_group_x_s.html#a7fc14aee837f5a4b49c5f6017dee3daa", null ]
+];

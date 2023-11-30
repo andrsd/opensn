@@ -1,0 +1,55 @@
+var math_8h =
+[
+    [ "MatDbl", "df/db1/math_8h.html#a80801c4491f8f4ff54ed012d63d0d48b", null ],
+    [ "VecDbl", "df/db1/math_8h.html#acbe69520b2db91355c5ed8d97a218b94", null ],
+    [ "CoordinateSystemType", "df/db1/math_8h.html#aee07a4de7eacf61a31b56a1122fbdc96", [
+      [ "UNDEFINED", "df/db1/math_8h.html#aee07a4de7eacf61a31b56a1122fbdc96a0db45d2a4141101bdfe48e3314cfbca3", null ],
+      [ "CARTESIAN", "df/db1/math_8h.html#aee07a4de7eacf61a31b56a1122fbdc96ac02304094f2866a43251b12946a9a21b", null ],
+      [ "CYLINDRICAL", "df/db1/math_8h.html#aee07a4de7eacf61a31b56a1122fbdc96af6840fd287b44b1616267bd19305909a", null ],
+      [ "SPHERICAL", "df/db1/math_8h.html#aee07a4de7eacf61a31b56a1122fbdc96a7f7d7e3a21bf7decf99d6fd26848772d", null ]
+    ] ],
+    [ "NormType", "df/db1/math_8h.html#a2bc625d5a3bcad808cdb614d13f73457", [
+      [ "L1_NORM", "df/db1/math_8h.html#a2bc625d5a3bcad808cdb614d13f73457a68616ae21712c00705b962f4eff06eaa", null ],
+      [ "L2_NORM", "df/db1/math_8h.html#a2bc625d5a3bcad808cdb614d13f73457a80485e54c7a3c93a0f74637c6b918ce5", null ],
+      [ "LINF_NORM", "df/db1/math_8h.html#a2bc625d5a3bcad808cdb614d13f73457a888ba88e94f86b6b428f4a355a5d28b8", null ]
+    ] ],
+    [ "SpatialDiscretizationType", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3", [
+      [ "UNDEFINED", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3a0db45d2a4141101bdfe48e3314cfbca3", null ],
+      [ "FINITE_VOLUME", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3aec3041e97b53638eb474d4998174f9ee", null ],
+      [ "PIECEWISE_LINEAR_CONTINUOUS", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3a4024c7b08844e0df3143693b3ea32848", null ],
+      [ "PIECEWISE_LINEAR_DISCONTINUOUS", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3a7b8b9d3fac8d9bcf41f85cd912757f8b", null ],
+      [ "LAGRANGE_CONTINUOUS", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3a7efacede3be7ad02206c39bcc07a8ece", null ],
+      [ "LAGRANGE_DISCONTINUOUS", "df/db1/math_8h.html#a356b9456219fe48b0b5b49b7cbe37ef3ac1e6ab27ed1931f2bdf53b1fd8f18901", null ]
+    ] ],
+    [ "Determinant", "df/db1/math_8h.html#a54996263f8c6bbeee4c7d6ff98f3a8d1", null ],
+    [ "Dot", "df/db1/math_8h.html#a2e3b999dc2d32f309e9a9a5f2eba2d35", null ],
+    [ "Factorial", "df/db1/math_8h.html#a8dc1d02ad292313802bbb94169e288a6", null ],
+    [ "GaussElimination", "df/db1/math_8h.html#afd03f6e45c8019e06f307777e7e92cf0", null ],
+    [ "Inverse", "df/db1/math_8h.html#a0704ca13d28ac0441934008120d17e5c", null ],
+    [ "InverseGEPivoting", "df/db1/math_8h.html#a82a9e0c0feec1a7b03522a7cee2204db", null ],
+    [ "MatAdd", "df/db1/math_8h.html#a74ffc7540d2ff4c6ab13d28c1cba1736", null ],
+    [ "MatMul", "df/db1/math_8h.html#acb986c2efb2dd6898640f7bb36536702", null ],
+    [ "MatMul", "df/db1/math_8h.html#ae3c23cad7f9ef9370586c9f5b429afcb", null ],
+    [ "MatMul", "df/db1/math_8h.html#a105c6e6816b0d741fd052622d9c1e9e6", null ],
+    [ "MatSubtract", "df/db1/math_8h.html#a0afd484e5d49ce14300048851e024db5", null ],
+    [ "OmegaToPhiThetaSafe", "df/db1/math_8h.html#a07aba420cd3748e54b438bbd25d762f9", null ],
+    [ "operator+", "df/db1/math_8h.html#a2890f456d5a335c0c25e56b6963a1cdf", null ],
+    [ "operator-", "df/db1/math_8h.html#a678f43360313f817cd745b8c288d13a0", null ],
+    [ "PowerIteration", "df/db1/math_8h.html#a5c300ea2417d5ce15f81334ffd61de0c", null ],
+    [ "PrintMatrix", "df/db1/math_8h.html#ad2343cdd13061838d42bab2959b881a2", null ],
+    [ "PrintVector", "df/db1/math_8h.html#a861a222f48e71f88be2fb1c0792bebdd", null ],
+    [ "SampleCDF", "df/db1/math_8h.html#a66d063a5930d52b5e36dfb7571799817", null ],
+    [ "Scale", "df/db1/math_8h.html#a8ceb969a6099a84c4dfe9d93b905576c", null ],
+    [ "Scale", "df/db1/math_8h.html#a5c24cf60c5cb0d88b42648347f94bdb4", null ],
+    [ "Set", "df/db1/math_8h.html#a5849b0d9bbca9dca71a20f3095f15af7", null ],
+    [ "Set", "df/db1/math_8h.html#add4ee062549ae2f063a0732797055484", null ],
+    [ "SubMatrix", "df/db1/math_8h.html#a7ec938f7529a1830ae1f911d5e73c8f3", null ],
+    [ "SwapColumn", "df/db1/math_8h.html#ab9b85e20f25d9d68c69cf63da193072c", null ],
+    [ "SwapRow", "df/db1/math_8h.html#aa791f85c8b8bfa7a0f314e549d70af1e", null ],
+    [ "Transpose", "df/db1/math_8h.html#a4945cc4ba6182f1c75c432d5099c9514", null ],
+    [ "Vec1Norm", "df/db1/math_8h.html#a59063de9d2e49b5561d4d2a3da7b29ab", null ],
+    [ "Vec2Norm", "df/db1/math_8h.html#aaec4ef90a38056f5411db280f17baadf", null ],
+    [ "VecInfinityNorm", "df/db1/math_8h.html#ac30fd578dba68059d83173c90bee0cb1", null ],
+    [ "VecMul", "df/db1/math_8h.html#a4e433ae6c75551d1ed8fd6f73ed1e842", null ],
+    [ "VecPNorm", "df/db1/math_8h.html#a4d25b88b90e9ccc1c6927e79c931cf3d", null ]
+];

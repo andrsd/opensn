@@ -1,0 +1,92 @@
+\_form#0=69x15:$ \vec{w} = \vec{x} + \vec{y} $
+\_form#1=66x15:$ \vec{x} = \vec{x} + \vec{y} $
+\_form#2=69x15:$ \vec{w} = \vec{x} - \vec{y} $
+\_form#3=66x15:$ \vec{x} = \vec{x} - \vec{y} $
+\_form#4=51x12:$ \vec{w} = \vec{x} \alpha $
+\_form#5=48x12:$ \vec{x} = \vec{x} \alpha $
+\_form#6=51x18:$ w_i = \frac{x_i}{\alpha} $
+\_form#7=48x18:$ x_i = \frac{x_i}{\alpha} $
+\_form#8=62x11:$ w_i = x_i y_i $
+\_form#9=60x11:$ x_i = x_i y_i $
+\_form#10=51x20:$ w_i = \frac{x_i}{y_i} $
+\_form#11=48x20:$ x_i = \frac{x_i}{y_i} $
+\_form#12=65x15:$ \vec{w} = \vec{x} \bullet \vec{y} $
+\_form#13=110x15:$ cdf_{i-1} \ge \theta < cdf_i $
+\_form#14=95x42:\[
+\|\boldsymbol{x}\|_{1}=\sum_{i=1}^{n}\left|x_{i}\right|
+\]
+\_form#15=152x29:\[
+\|\boldsymbol{x}\|_{2}=\sqrt{x_{1}^{2}+\cdots+x_{n}^{2}}
+\]
+\_form#16=182x17:\[
+\|\mathbf{x}\|_{\infty}=\max \left(\left|x_{1}\right|,
+\ldots,\left|x_{n}\right|\right) \]
+\_form#17=144x51:\[
+\|\mathbf{x}\|_{p}=\left(\sum_{i=1}^{n}\left|x_{i}\right|^{p}\right)^{1 / p}
+\]
+\_form#18=95x42:\[
+\mathrm{a} \cdot \mathrm{b}=\sum_{i=1}^{n} a_{i} b_{i}
+\]
+\_form#19=80x23:$ \vec{\vec{W}} = \vec{\vec{X}} + \vec{\vec{Y}} $
+\_form#20=78x23:$ \vec{\vec{X}} = \vec{\vec{X}} + \vec{\vec{Y}} $
+\_form#21=80x21:$ \vec{\vec{W}} = \vec{\vec{X}} - \vec{\vec{Y}} $
+\_form#22=78x21:$ \vec{\vec{X}} = \vec{\vec{X}} - \vec{\vec{Y}} $
+\_form#23=59x21:$ \vec{\vec{W}} = \vec{\vec{X}}\alpha $
+\_form#24=59x21:$ \vec{\vec{X}} = \vec{\vec{X}}\alpha $
+\_form#25=60x26:$ \vec{\vec{W}} = \vec{\vec{X}}\frac{1}{\alpha} $
+\_form#26=59x26:$ \vec{\vec{X}} = \vec{\vec{X}}\frac{1}{\alpha} $
+\_form#27=63x17:$ W_{ij} = T_{ji} $
+\_form#28=69x14:$ \vec{w} = \vec{x} + \alpha $
+\_form#29=66x14:$ \vec{x} = \vec{x} + \alpha $
+\_form#30=69x15:$ \vec{w} = \vec{x} \times \vec{y} $
+\_form#31=54x21:$ w_i = \frac{1.0}{x_i} $
+\_form#32=66x17:$ ||b-Ax||_2 $
+\_form#33=29x17:$ ||b||_2 $
+\_form#34=6x8:$ \epsilon $
+\_form#35=96x38:\[
+ \frac{||b-Ax||_2}{||b||_2} < \epsilon
+\]
+\_form#36=9x11:$ p $
+\_form#37=44x17:$ \rho(x) x^{p} $
+\_form#38=60x17:$ \rho(x) := 1 $
+\_form#39=53x17:$ [-1;+1] $
+\_form#40=65x18:$ \vec{x} \in [0,2]^2 $
+\_form#41=6x15:$\hat{i}$
+\_form#42=8x18:$\hat{j}$
+\_form#43=8x15:$\hat{k}$
+\_form#44=11x12:$\hat{n}$
+\_form#45=8x14:$\hat{t}$
+\_form#46=6x15:$\hat{b}$
+\_form#47=62x15:$ \hat{t} = \hat{n} \times \hat{k} $
+\_form#48=60x15:$ \hat{b} = \hat{n} \times \hat{t} $
+\_form#49=51x12:$ \vec{w} = \alpha \vec{x}$
+\_form#50=54x17:$ x[z]=a $
+\_form#51=38x8:$ x=a$
+\_form#52=36x15:$ y=b $
+\_form#53=71x17:$ \vec{x}=[a,b,c] $
+\_form#54=78x17:$ \vec{x}=\{a,b,c\} $
+\_form#55=69x24:$ \vec{\vec{T}} = \vec{x} \otimes \vec{y} $
+\_form#56=66x21:$ \vec{w} = \vec{x} \bullet \vec{\vec{T}} $
+\_form#57=59x23:$ \vec{x} = \frac{\vec{x}}{||x||_2} $
+\_form#58=62x23:$ \vec{w} = \frac{\vec{x}}{||x||_2} $
+\_form#59=42x17:$ 1/k_{eff} $
+\_form#60=125x15:\[
+a \phi + b D \hat{n}\cdot \nabla \phi = f
+\]
+\_form#61=35x11:$ a=0$
+\_form#62=89x15:\[
+b D\hat{n}\cdot \nabla \phi = f
+\]
+\_form#63=36x20:$ a=\frac{1}{4} $
+\_form#64=35x20:$ b=\frac{1}{2} $
+\_form#65=36x15:$ f=0 $
+\_form#66=129x32:\[
+\frac{1}{4}\phi + \frac{1}{2}D\hat{n}\cdot \nabla \phi = 0
+\]
+\_form#67=101x33:\[
+a\phi + b \mathbf{n} \frac{\partial \phi}{\partial \mathbf{x}} = f
+\]
+\_form#68=8x8:$ a $
+\_form#69=6x12:$ b $
+\_form#70=9x15:$ f $
+\_form#71=212x20:$ r(\phi) = DL^{-1} (\frac{1}{k} F\phi + MS \phi) - \phi $

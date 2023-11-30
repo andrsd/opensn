@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['bctype_0',['BCType',['../de/deb/namespaceopensn_1_1lbs.html#a69e9dbef910a7ad5774e6f6571b65638',1,'opensn::lbs']]],
+  ['boundarytype_1',['boundarytype',['../de/df1/namespaceopensn.html#a89f4a5c72a01f4791372b3ba570b140b',1,'opensn::BoundaryType'],['../d6/d97/namespaceopensn_1_1cfem__diffusion.html#abf0c691f37a2672b67735c27a62a8199',1,'opensn::cfem_diffusion::BoundaryType'],['../d5/d02/namespaceopensn_1_1dfem__diffusion.html#aa6aa46eb47c7243fed49a5047a6e2d8c',1,'opensn::dfem_diffusion::BoundaryType'],['../d7/d51/namespaceopensn_1_1diffusion.html#acc22c042a8af311897253c93e4881645',1,'opensn::diffusion::BoundaryType'],['../db/dec/namespaceopensn_1_1fv__diffusion.html#a83b82c41c5fe65981a81a0af14fbf1c0',1,'opensn::fv_diffusion::BoundaryType'],['../de/deb/namespaceopensn_1_1lbs.html#a627e4cade4c6523dcc2703513101290e',1,'opensn::lbs::BoundaryType'],['../d8/d29/namespaceopensn_1_1mg__diffusion.html#acd85c8e7751885243f0fb75b8e6b7995',1,'opensn::mg_diffusion::BoundaryType']]]
+];

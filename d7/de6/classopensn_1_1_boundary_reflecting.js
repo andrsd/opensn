@@ -1,0 +1,26 @@
+var classopensn_1_1_boundary_reflecting =
+[
+    [ "AngVec", "d7/de6/classopensn_1_1_boundary_reflecting.html#a06b3e050fb13133c5af1bb42da2250f8", null ],
+    [ "CellVec", "d7/de6/classopensn_1_1_boundary_reflecting.html#a4be68c4a1c3db02e20ed2af09569fa4d", null ],
+    [ "DOFVec", "d7/de6/classopensn_1_1_boundary_reflecting.html#a94389b93c56d816db74bb912ea504339", null ],
+    [ "FaceVec", "d7/de6/classopensn_1_1_boundary_reflecting.html#a4f867ab41cb53d9a7f4164946ec2fa5b", null ],
+    [ "BoundaryReflecting", "d7/de6/classopensn_1_1_boundary_reflecting.html#aa4f55885ec5332e1d3d721931a8c9ab0", null ],
+    [ "CheckAnglesReadyStatus", "d7/de6/classopensn_1_1_boundary_reflecting.html#aa3e4df74681bf64f3d7102921bd9c19d", null ],
+    [ "GetAngleReadyFlags", "d7/de6/classopensn_1_1_boundary_reflecting.html#a9f619b293ca8b2a3669bfae7c868e0a4", null ],
+    [ "GetHeteroBoundaryFluxNew", "d7/de6/classopensn_1_1_boundary_reflecting.html#a21401914babe3547472ef95e79fcd59b", null ],
+    [ "GetHeteroBoundaryFluxOld", "d7/de6/classopensn_1_1_boundary_reflecting.html#a901729fb99efcea54a038ea2aedc0852", null ],
+    [ "GetReflectedAngleIndexMap", "d7/de6/classopensn_1_1_boundary_reflecting.html#ab3f9033f60a1d34021da3394176d930e", null ],
+    [ "HeterogeneousPsiIncoming", "d7/de6/classopensn_1_1_boundary_reflecting.html#a4cf40147b584b4ee129289a22b50ef66", null ],
+    [ "HeterogeneousPsiOutgoing", "d7/de6/classopensn_1_1_boundary_reflecting.html#a40592eebac230d6206de1e63f69dae26", null ],
+    [ "IsOpposingReflected", "d7/de6/classopensn_1_1_boundary_reflecting.html#a295ceba58fffdb78125ef39203f81dc6", null ],
+    [ "Normal", "d7/de6/classopensn_1_1_boundary_reflecting.html#a6be58396cd6f2fa06b7ac8811f0337cb", null ],
+    [ "ResetAnglesReadyStatus", "d7/de6/classopensn_1_1_boundary_reflecting.html#aa830fce5581cc23762d7c45d146a62bc", null ],
+    [ "SetOpposingReflected", "d7/de6/classopensn_1_1_boundary_reflecting.html#a42c1514e6db42eafa74f49d20b95f361", null ],
+    [ "UpdateAnglesReadyStatus", "d7/de6/classopensn_1_1_boundary_reflecting.html#a8f2a259b248bc46130643a08ad870246", null ],
+    [ "angle_readyflags_", "d7/de6/classopensn_1_1_boundary_reflecting.html#ad01b4d7bec774913c6037040fe90aacb", null ],
+    [ "hetero_boundary_flux_", "d7/de6/classopensn_1_1_boundary_reflecting.html#a91c37e8fff755aec7d1e98b701c3251c", null ],
+    [ "hetero_boundary_flux_old_", "d7/de6/classopensn_1_1_boundary_reflecting.html#a9bcea3537710314642787fa6537ae787", null ],
+    [ "normal_", "d7/de6/classopensn_1_1_boundary_reflecting.html#a78db844f0b3d4d911ffec7d0292dbb5b", null ],
+    [ "opposing_reflected_", "d7/de6/classopensn_1_1_boundary_reflecting.html#ada95729fc05e8d45f8717aad13223469", null ],
+    [ "reflected_anglenum_", "d7/de6/classopensn_1_1_boundary_reflecting.html#a67bf44c9eded4f73a9e02ae4334a0c11", null ]
+];

@@ -1,0 +1,28 @@
+var classopensn_1_1_angle_aggregation =
+[
+    [ "AngleAggregation", "d3/df1/classopensn_1_1_angle_aggregation.html#a50c56f39ba0cf0508bd55c8d22ef9f3a", null ],
+    [ "AppendNewDelayedAngularDOFsToArray", "d3/df1/classopensn_1_1_angle_aggregation.html#a29e1dfae26929dae02759501f834344e", null ],
+    [ "AppendOldDelayedAngularDOFsToArray", "d3/df1/classopensn_1_1_angle_aggregation.html#aedcab3a11c25284f1aa27f95f635f44c", null ],
+    [ "GetNewDelayedAngularDOFsAsSTLVector", "d3/df1/classopensn_1_1_angle_aggregation.html#a26a39313d7cb22ad8538a067a926506c", null ],
+    [ "GetNumDelayedAngularDOFs", "d3/df1/classopensn_1_1_angle_aggregation.html#a4f0419213a804d8f25bc0418120b072d", null ],
+    [ "GetOldDelayedAngularDOFsAsSTLVector", "d3/df1/classopensn_1_1_angle_aggregation.html#a9d6226478661728ed13169c30932ddfb", null ],
+    [ "InitializeReflectingBCs", "d3/df1/classopensn_1_1_angle_aggregation.html#a5abbb06463f929e0b866bf512aa0711a", null ],
+    [ "IsSetup", "d3/df1/classopensn_1_1_angle_aggregation.html#a9ad124ccb254c5046db1b9b090c5131a", null ],
+    [ "SetDelayedPsiNew2Old", "d3/df1/classopensn_1_1_angle_aggregation.html#ae4dd984818c272b8dd2ccbb1a9576e03", null ],
+    [ "SetDelayedPsiOld2New", "d3/df1/classopensn_1_1_angle_aggregation.html#ac41d4468f906051331957212dc8194f8", null ],
+    [ "SetNewDelayedAngularDOFsFromArray", "d3/df1/classopensn_1_1_angle_aggregation.html#ac1d0d8a247c31e08a7463b2808a93738", null ],
+    [ "SetNewDelayedAngularDOFsFromSTLVector", "d3/df1/classopensn_1_1_angle_aggregation.html#a9016cbb4c35983db5286e9c4b50e84e1", null ],
+    [ "SetOldDelayedAngularDOFsFromArray", "d3/df1/classopensn_1_1_angle_aggregation.html#a322da48c1cd06e0f762f30d76c5ba7c9", null ],
+    [ "SetOldDelayedAngularDOFsFromSTLVector", "d3/df1/classopensn_1_1_angle_aggregation.html#a4bf2120737fd2514232a0f94e9c5c42c", null ],
+    [ "ZeroIncomingDelayedPsi", "d3/df1/classopensn_1_1_angle_aggregation.html#ac9a9b24031eb44b95c98a04360033527", null ],
+    [ "ZeroOutgoingDelayedPsi", "d3/df1/classopensn_1_1_angle_aggregation.html#a5d3b68b846ed99b4ad7ec5343723f0cd", null ],
+    [ "angle_set_groups", "d3/df1/classopensn_1_1_angle_aggregation.html#a505eb595ad97f644ac2077efc2637946", null ],
+    [ "grid", "d3/df1/classopensn_1_1_angle_aggregation.html#a9a7e65c936806deeb0b1736b06e7f77b", null ],
+    [ "is_setup", "d3/df1/classopensn_1_1_angle_aggregation.html#af024aa12125e6d60d80de49c19902c30", null ],
+    [ "num_ang_unknowns_avail", "d3/df1/classopensn_1_1_angle_aggregation.html#a6f9f8b4790ab6deba3fed25201d9f6c9", null ],
+    [ "number_angular_unknowns", "d3/df1/classopensn_1_1_angle_aggregation.html#a65a26736b6549dcec9daa20cf7eef8ff", null ],
+    [ "number_of_group_subsets", "d3/df1/classopensn_1_1_angle_aggregation.html#ad17700bd84b721622c612c0063eb85e0", null ],
+    [ "number_of_groups", "d3/df1/classopensn_1_1_angle_aggregation.html#afff5e757fb21df5ff019b53918eb00f3", null ],
+    [ "quadrature", "d3/df1/classopensn_1_1_angle_aggregation.html#af81e8502bab907693f1f09cdd8fd6f04", null ],
+    [ "sim_boundaries", "d3/df1/classopensn_1_1_angle_aggregation.html#af8e52896e738fd25f32efd69eba4d183", null ]
+];

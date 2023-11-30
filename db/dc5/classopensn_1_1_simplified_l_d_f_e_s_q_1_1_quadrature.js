@@ -1,0 +1,35 @@
+var classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature =
+[
+    [ "QuadraturePointOptimization", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a05ab1849b8e8f82666fb42efc162658d", [
+      [ "CENTROID", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a05ab1849b8e8f82666fb42efc162658da04597115f4cfe4f00ab913b138f9737c", null ],
+      [ "EMPIRICAL", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a05ab1849b8e8f82666fb42efc162658daaded1d4ec069c2a5e90fb1ba36ddac7f", null ],
+      [ "ISOLATED", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a05ab1849b8e8f82666fb42efc162658da5c8781cb597c806ca9f578e950a4b49f", null ]
+    ] ],
+    [ "Quadrature", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#ab2a63031098ed1b3e33e5434b6f20928", null ],
+    [ "~Quadrature", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#ae734d2c4fd0926e7ebb209bc54864332", null ],
+    [ "ComputeSphericalQuadrilateralArea", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a897a6fe41ebdfa34de04cd377d429ba7", null ],
+    [ "CopyToAllOctants", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a197dd608ed6bad1dea474e73a49574df", null ],
+    [ "DevelopSQLDFEValues", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a870956933354bc24207b162e9b2e6787", null ],
+    [ "EmpiricalQPOptimization", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a61bab788db8e37a6577a2fda17853ceb", null ],
+    [ "GenerateDiagonalSpacings", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a3ae41aadd7f3ecef4df87052256ea8b2", null ],
+    [ "GenerateInitialRefinement", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a5e10bcf24263e854cccc4bf91caa52f6", null ],
+    [ "GenerateReferenceFaceVertices", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a8080f192a08f23998421d37b15b26c58", null ],
+    [ "IntegrateLDFEShapeFunctions", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a815bc6b808d901b4dde63b693a27a138", null ],
+    [ "IsolatedQPOptimization", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a276b4002ecbaa00d580fc94ea595ab5b", null ],
+    [ "LocallyRefine", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a407d35684786c6b270b3e248845b3b25", null ],
+    [ "PopulateQuadratureAbscissae", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a95ebe01b96f5323f45bf1a2fa4389e65", null ],
+    [ "PrintQuadratureToFile", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a4e16a114ac862b4ad7df403806d44c6d", null ],
+    [ "QuadratureSSIntegral", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a6fb05dd613688d99218abfcbb2caa01a", null ],
+    [ "RiemannIntegral", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#afb06eb94f3d936bba4b99ac6e99b6059", null ],
+    [ "SplitSQ", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#ab5c74d5e83990fb2b3338773f15859fc", null ],
+    [ "TestIntegration", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a561eccf51957202df48eedbef76ac12b", null ],
+    [ "FUNCTION_WEIGHT_FROM_RHO", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#aef3d6a3e636147f460cf6d825ac918b7", null ],
+    [ "a", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#ac2e9e0b571ae8c9ed3a2e192cd4fa014", null ],
+    [ "deployed_SQs_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a80cebfdb34aa406ea4395139998ad590", null ],
+    [ "deployed_SQs_history_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a9262ae3c70f688217af98afb29e8f4f0", null ],
+    [ "diagonal_vertices_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a20787b205fd090198b6768bfb8d501a1", null ],
+    [ "initial_level_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a6272954d7b82980d22fcb8502ec76787", null ],
+    [ "initial_octant_SQs_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a563779208c8f2a47fd00fa237ea6d90b", null ],
+    [ "output_filename_prefix_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#adc77a40f515462d0b5d2309bad9f0cde", null ],
+    [ "qp_optimization_type_", "db/dc5/classopensn_1_1_simplified_l_d_f_e_s_q_1_1_quadrature.html#a37190603ab254a3f1c76c4654f38f9c9", null ]
+];
