@@ -8,8 +8,11 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
 
     add_custom_target(doc DEPENDS ${PROJECT_BINARY_DIR}/html/index.html)
 
-    file(GLOB_RECURSE RST_FILES ${PROJECT_SOURCE_DIR}/doc/*.rst)
-    file(GLOB_RECURSE HEADER_FILES
+    file(GLOB_RECURSE CONFIGURE_DEPENDS RST_FILES
+        ${PROJECT_SOURCE_DIR}/doc/*.rst
+        ${PROJECT_SOURCE_DIR}/doc/*.md
+    )
+    file(GLOB_RECURSE CONFIGURE_DEPENDS HEADER_FILES
         ${PROJECT_SOURCE_DIR}/framework/*.h
         ${PROJECT_SOURCE_DIR}/modules/*.h
     )
