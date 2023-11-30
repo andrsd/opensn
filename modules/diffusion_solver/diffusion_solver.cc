@@ -337,7 +337,7 @@ Solver::Initialize(bool verbose)
             << ": Diffusion Solver initialization time " << t_init.GetTime() / 1000.0 << std::endl;
 
   // Initialize x and b
-  ierr_ = VecCreate(PETSC_COMM_WORLD, &x_);
+  ierr_ = VecCreate(opensn::mpi_comm, &x_);
   CHKERRQ(ierr_);
   ierr_ = PetscObjectSetName((PetscObject)x_, "Solution");
   CHKERRQ(ierr_);
@@ -353,7 +353,7 @@ Solver::Initialize(bool verbose)
   VecSet(b_, 0.0);
 
   // Create matrix
-  ierr_ = MatCreate(PETSC_COMM_WORLD, &A_);
+  ierr_ = MatCreate(opensn::mpi_comm, &A_);
   CHKERRQ(ierr_);
   ierr_ = MatSetSizes(A_,
                       static_cast<PetscInt>(local_dof_count_),
@@ -372,7 +372,7 @@ Solver::Initialize(bool verbose)
   MatSetUp(A_);
 
   // Set up solver
-  ierr_ = KSPCreate(PETSC_COMM_WORLD, &ksp_);
+  ierr_ = KSPCreate(opensn::mpi_comm, &ksp_);
   ierr_ = KSPSetOperators(ksp_, A_, A_);
   ierr_ = KSPSetType(ksp_, KSPCG);
 
