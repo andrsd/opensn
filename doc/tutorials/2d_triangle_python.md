@@ -1,11 +1,11 @@
-/** \page MeshTutorial_06 Mesh Tutorial 6: A 2D Unstructured Mesh
+# Mesh Tutorial 6: A 2D Unstructured Mesh
 
- Here we provide an example of a 2D unstructured mesh generated using the
- 2D ```Triangle``` mesh generator, with is available in Python via the ```MeshPy``` module.
- We export the resulting mesh using ```meshio``` in both ```.obj``` and ```.vtu```
- formats. Note that only the export as VTU contains material IDs.
+Here we provide an example of a 2D unstructured mesh generated using the
+2D ```Triangle``` mesh generator, with is available in Python via the ```MeshPy``` module.
+We export the resulting mesh using ```meshio``` in both ```.obj``` and ```.vtu```
+formats. Note that only the export as VTU contains material IDs.
 
-\code
+```
 import numpy as np
 import meshpy.triangle as triangle
 import meshio
@@ -68,7 +68,4 @@ meshio.write_points_cells(directory + filename + ".vtu",
                           {"triangle": mesh.elements},
                           cell_data={"attribute": [mesh.element_attributes]})
 
- \endcode
-
-
-*/
+```

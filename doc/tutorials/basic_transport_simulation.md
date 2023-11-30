@@ -1,23 +1,23 @@
-/** \page Tutorial03 Tutorial 3: Basic transport simulation
+# Tutorial 3: Basic Transport Simulation
 
-Let us tackle a basic transport simulation on a 3D mesh\n
+Let us tackle a basic transport simulation on a 3D mesh
 
-\f[
- \hat{\Omega} \nabla \Psi(\hat{\Omega}) + \sigma_t \Psi (\hat{\Omega}) =
- \int_{\hat{\Omega}} \sigma_s (\hat{\Omega}' \to \hat{\Omega})
- \Psi (\hat{\Omega}').d\hat{\Omega}' + q(\hat{\Omega})
-\f]
+$$
+\hat{\Omega} \nabla \Psi(\hat{\Omega}) + \sigma_t \Psi (\hat{\Omega}) =
+\int_{\hat{\Omega}} \sigma_s (\hat{\Omega}' \to \hat{\Omega})
+\Psi (\hat{\Omega}').d\hat{\Omega}' + q(\hat{\Omega})
+$$
 
 ## Step 1 - Create your input file, open it in a text editor
 
- As before, go to the directory of your
- choosing and make an input file of your choosing.
+As before, go to the directory of your
+choosing and make an input file of your choosing.
 
 ## Step 2 - Create a mesh
 
 As was done in Tutorials 1 and 2 we create the 3D mesh as follows:
 
-\code
+```
 chiMeshHandlerCreate()
 
 nodes={}
@@ -29,22 +29,22 @@ end
 surf_mesh,region1 = chiMeshCreateUnpartitioned3DOrthoMesh(nodes,nodes,nodes)
 
 chiVolumeMesherExecute();
-\endcode
+```
 
 Next we set the material IDs:
 
-\code
+```
 -- Set Material IDs
 vol0 = chiLogicalVolumeCreate(RPP,-1000,1000,-1000,1000,-1000,1000)
 chiVolumeMesherSetProperty(MATID_FROMLOGICAL,vol0,0)
-\endcode
+```
 
 ## Step 3 - Add a material with a transport cross-section
 
 Similar to the diffusion tutorial we have to create a material, then add a
- property to it, and then to set the property.
+property to it, and then to set the property.
 
-\code
+```
 material0 = chiPhysicsAddMaterial("Test Material");
 
 chiPhysicsMaterialAddProperty(material0,TRANSPORT_XSECTIONS)
@@ -55,16 +55,16 @@ chiPhysicsMaterialSetProperty(material0,
                               num_groups,     --Num grps
                               1.0,            --Sigma_t
                               0.2)            --Scattering ratio
-\endcode
+```
 
 The general material property TRANSPORT_XSECTIONS is used for
- non-fission transport materials. Simple cross-sections can be specified by
- using the operation SIMPLEXS1 which expects the number of groups,
- the total cross-section, and then the scattering ratio.
+non-fission transport materials. Simple cross-sections can be specified by
+using the operation SIMPLEXS1 which expects the number of groups,
+the total cross-section, and then the scattering ratio.
 
 ## Step 4 - Add Transport physics
 
-\code
+```
 --############################################### Setup Physics
 phys1 = chiLBSCreateSolver()
 chiSolverAddRegion(phys1,region1)
@@ -94,43 +94,43 @@ chiLBSSetProperty(phys1,BOUNDARY_CONDITION,
 --========== Solvers
 chiLBSSetProperty(phys1,DISCRETIZATION_METHOD,PWLD1D)
 chiLBSSetProperty(phys1,SCATTERING_ORDER,0)
-\endcode
+```
 
- A transport solver is invoked by using a call to chiLBSCreateSolver().
- This creates a derived object based on a base physics solver so the
- mesh region gets added to the
- solver using the generic call chiSolverAddRegion(). Past this point we need
- to create the single required group with chiLBSCreateGroup(), although we put
- this in a loop for in-case we want to increase the number of groups, and then a
- quadrature rule for integration of the angular fluxes. Since we are dealing
- with a 3D simulation we will be integrating over \f$ \theta \f$, the polar
- angle, and \f$ \varphi \f$, the azimuthal angle. A quadrature with favorable
- parallel properties is the Gauss-Legendre-Chebyshev quadrature. We create this
- quadrature with a call to
- chiCreateProductQuadrature() and specifying GAUSS_LEGENDRE_CHEBYSHEV as the rule
- and we then specify 2 azimuthal angles per octant and 2 polar angles per octant.
+A transport solver is invoked by using a call to chiLBSCreateSolver().
+This creates a derived object based on a base physics solver so the
+mesh region gets added to the
+solver using the generic call chiSolverAddRegion(). Past this point we need
+to create the single required group with chiLBSCreateGroup(), although we put
+this in a loop for in-case we want to increase the number of groups, and then a
+quadrature rule for integration of the angular fluxes. Since we are dealing
+with a 3D simulation we will be integrating over \f$ \theta \f$, the polar
+angle, and \f$ \varphi \f$, the azimuthal angle. A quadrature with favorable
+parallel properties is the Gauss-Legendre-Chebyshev quadrature. We create this
+quadrature with a call to
+chiCreateProductQuadrature() and specifying GAUSS_LEGENDRE_CHEBYSHEV as the rule
+and we then specify 2 azimuthal angles per octant and 2 polar angles per octant.
 
- The next step in the process is to assign a group-set. Group-sets are very
- useful aggregation features in higher dimension simulations but here we
- only have a single groupset. The group-set is created with a call to
- chiLBSCreateGroupset(). Next we add groups to the group-set using a range,
- however, since we only have one group here the range will be 0 to 0. The
- final piece of a groupset is to add a quadrature which is achieved with a
- call to chiLBSGroupsetSetQuadrature().
+The next step in the process is to assign a group-set. Group-sets are very
+useful aggregation features in higher dimension simulations but here we
+only have a single groupset. The group-set is created with a call to
+chiLBSCreateGroupset(). Next we add groups to the group-set using a range,
+however, since we only have one group here the range will be 0 to 0. The
+final piece of a groupset is to add a quadrature which is achieved with a
+call to chiLBSGroupsetSetQuadrature().
 
 
 ## Step 5 - Initialize and Execute
 
-\code
+```
 chiLBSInitialize(phys1)
 chiLBSExecute(phys1)
-\endcode
+```
 
 This should be intuitive.
 
 ## Step 6 - Add output
 
-\code
+```
 fflist,count = chiLBSGetScalarFieldFunctionList(phys1)
 
 cline = chiFFInterpolationCreate(LINE)
@@ -148,21 +148,25 @@ chiFFInterpolationExportPython(cline)
 if (chi_location_id == 0) then
     local handle = io.popen("python ZLFFI00.py")
 end
-\endcode
+```
 
 Instead of using a SLICE interpolator we instead opt to use a LINE interpolator.
- A line-interpolator needs two points as the initial and final point (i.e.
- LINE_FIRSTPOINT and LINE_SECONDPOINT) as well as the total number of
- points LINE_NUMBEROFPOINTS. Finally add the first available scalar field
- field function to the interpolator.
+A line-interpolator needs two points as the initial and final point (i.e.
+LINE_FIRSTPOINT and LINE_SECONDPOINT) as well as the total number of
+points LINE_NUMBEROFPOINTS. Finally add the first available scalar field
+field function to the interpolator.
 
- The output should look as follows:
+The output should look as follows:
 
-  \image html "Physics/Tut3Output.png"  "Figure 1 - Output of the 1D simulation" width=350px
+```{figure} /images/physics/tut_3_output.png
+:width: 350px
+
+Figure 1 - Output of the 1D simulation
+```
 
 ## Fully commented code
 
-\code
+```
 --############################################### Setup mesh
 chiMeshHandlerCreate()
 
@@ -250,7 +254,4 @@ chiExportFieldFunctionToVTK(fflist[1],"Tutorial3Output","Phi")
 if (chi_location_id == 0) then
     local handle = io.popen("python ZLFFI00.py")
 end
-\endcode
-
-
-*/
+```

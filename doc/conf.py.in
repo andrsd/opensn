@@ -22,3 +22,10 @@ extensions = [
 ]
 breathe_projects = {"openSn": "@PROJECT_BINARY_DIR@/doc/xml/"}
 breathe_default_project = "openSn"
+
+myst_enable_extensions = [
+    "attrs_inline",
+    "dollarmath",
+    "html_admonition",
+    "html_image",
+]

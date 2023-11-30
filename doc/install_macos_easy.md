@@ -15,7 +15,7 @@ Then, you may need to install, using brew, the following:
 - wget
 
 Each time, use:
-```bash 
+```bash
 brew install *package_name*
 ```
 
@@ -64,7 +64,7 @@ mpicc --version
 Now, update your ```.bashrc``` file
 ```bash
 export PATH=/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin:$PATH
- 
+
 export CC=/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpicc
 export CXX=/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpicxx
 export FC=/Users/USERNAME/local/MPICH/mpich-4.0.3/build/bin/mpifort

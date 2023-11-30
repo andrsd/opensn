@@ -1,18 +1,26 @@
-/** \page GmshExample_01 Mesh Tutorial 5: Example using gmsh to create a structured mesh
+# Mesh Tutorial 5: Example using gmsh to create a structured mesh
 
 This tutorial demonstrates creating a structured mesh using gmsh: https://gmsh.info/
 
 The geometry to be created and meshed with a structured mesh is shown below. The tutorial will describe how to build the geometry in steps.
 
- \image html Meshing/gmsh_tutorials/mesh.png "The geometry to be created and meshed with a structured mesh" width=600px
+```{figure} /images/meshing/gmsh_tutorials/mesh.png
+:width: 600px
+
+The geometry to be created and meshed with a structured mesh
+```
 
 Gmsh can be used soley from the terminal or it can be used through the gmsh graphical user interface (GUI). In this tutorial, the mesh will be created by entering text into a file and then having the GUI read the file and display the mesh. Instead of manually adding text to the input file, the GUI can also be used to create the mesh, although that is not done here. First, create a new file and open it with the gui so that text can be entered. The sample file in this tutorial will be called structured_ex.geo Note that the kernel option "Built-in" is used for this tutorial. If a different kernel is used, the general idea of this tutorial will still apply, but some details may be different. Additionally, gmsh version 4.0.6 is being used. Other versions of gmsh should also be usable with this tutorial, but some details may not apply.
 
-\image html Meshing/gmsh_tutorials/new_file.gif "Create a new file" width=800px
+```{figure} /images/meshing/gmsh_tutorials/new_file.gif
+:width: 800px
+
+Create a new file
+```
 
 The first step in creating a mesh is to create some shape that will be meshed. The shape to be meshed will be created by specifying points and then connecting these points with lines. For this tutorial, a square shape is first created. To create the square, four points are speficied and these are connected by four lines. The gmsh input is shown below and this is the first text to put into the structured_ex.geo file. Notice the points are specified with the syntax Point(i)={x,y,z} where "i" is the tag that identifies that point and "{x,y,z}". The tag identifying each point must be unique and tags must not be 0. For simplicity, sequentially increasing integers are used as tags in this tutorial. There is a fourth optional argument that can be used when building a point "Point(i)={x,y,z,d}" where "d" specifies how fine the mesh should be at that point. A lower number will result in a finer mesh. This optional argument is not used in this tutorial. In the input file, you can also define variables and use some common functions defined in gmsh. This is demonstrated below where variables pitch, circle_r, and bottom_left_cirle are deinfed and will be used later. In later input, the function Cos(x) is used.
 
- \verbatim
+```
 pitch = 0.0126;
 circle_r = 0.0108/2;
 bottom_left_circle = pitch/2;
@@ -28,15 +36,19 @@ Line(1) = {1, 2};
 Line(2) = {2, 3};
 Line(3) = {3, 4};
 Line(4) = {4, 1};
- \endverbatim
+```
 
-\image html Meshing/gmsh_tutorials/first_square.gif "Add the text shown above to your input text file, save, and then click \"Reload script\" after which gmsh will read your input and display the result." width=1200px
+```{figure} /images/meshing/gmsh_tutorials/first_square.gif
+:width: 1200px
+
+Add the text shown above to your input text file, save, and then click \"Reload script\" after which gmsh will read your input and display the result.
+```
 
 At this point, gmsh does not know that the four lines defined form a closed surface. In fact, we will not use the square directly, but instead break it into multiple several shapes. Next, a circle is created in the middle of the existing square. The variables defined previously as well as the Cos function is used in the example below. Point(5) is the center of the circle. The next 4 points are evenly spaced along the perimeter of the circle. The reason for the points being placed at locations that intersect the diagonals of the bounding square will be apparent in the next step.
 
 Note the new syntax "Line Loop(1) = {-5,-6,-7,-8};" and "Surface(1) = {1};" which specifies to gmsh that the four lines 5,6,7,8 are meant to be connected into a loop and that this loop, given tag 1, defines a surface, also given the tag 1. The tag does not need to be the same, but in this case the surface and line loops are seperate entities and so can have the same tag. Note that when defining the line loops, some of the line tags start with negative numbers. The line loop must have a certain orientation. That is, the points which make up the lines and thus the line loop must be ordered. All loops are clockwise in this tutorial. You can mouse over the lines in the GUI to see the ording of the points. For example, Line Loop(1) consists of lines made up of points (6,7); (7,8); (8,9); (9,6). But this is backward with respect to clockwise orientation. The negative sign flips ordering of the points making up the line thus to be (6,7) becomes (7,6) etc.
 
- \verbatim
+```
 // Points that make up the circle
 Point(5) = {bottom_left_circle,bottom_left_circle,0.0};
 Point(6) = {bottom_left_circle-circle_r*Cos(Pi/4.)/2.,bottom_left_circle+circle_r*Cos(Pi/4.)/2.,0.0};
@@ -52,13 +64,17 @@ Circle(8) = {9,5,6};
 // specify closed loop to make surface
 Curve Loop(1) = {-5,-8,-7,-6};
 Surface(1) = {1};
-\endverbatim
+```
 
-\image html Meshing/gmsh_tutorials/circle_in_square.png "Add a circular surface to the center of the square" width=600px
+```{figure} /images/meshing/gmsh_tutorials/circle_in_square.png
+:width: 600px
+
+Add a circular surface to the center of the square
+```
 
 To make a structured mesh in gmsh, shapes with four sides are needed. At this point, the circular shape can be meshed with a structured algorithm, but the region outside of the circle can't. This region is next broken into four sided shapes as shown in the input below.
 
- \verbatim
+```
 // break area outside circle into four surfaces
 // First define lines, the line loops, then the
 // surfaces
@@ -76,13 +92,17 @@ Surface(2) = {3};
 Surface(3) = {4};
 Surface(4) = {5};
 Surface(5) = {6};
- \endverbatim
+```
 
-\image html Meshing/gmsh_tutorials/cell1.png "Add a circular surface to the center of the square" width=600px
+```{figure} /images/meshing/gmsh_tutorials/cell1.png
+:width: 600px
+
+Add a circular surface to the center of the square
+```
 
 The single cell now created is copied four times and translated. The input for this is shown below. The variable "pitch" defined at the top of the file is used. Notice the "Coherence;" commant. This command removes repeated items such as repeated points and line. Some of the copied eneties overlap and without this command (test this out), several lines and points will overlap. The image below shows how to use the gui to see the new lines and points created by the duplication process. The tags for these new lines are needed for the next steps. It is possible that a different gmsh version may lead to different numbering, so the input in this tutorial may need to be adjusted.
 
-\verbatim
+```
 Translate{ pitch, 0.0, 0.0} { Duplicata{Surface{1};}  }
 Translate{ 0.0, pitch, 0.0} { Duplicata{Surface{1};}  }
 Translate{ pitch, pitch, 0.0} { Duplicata{Surface{1};}  }
@@ -104,13 +124,17 @@ Translate{ 0.0, pitch, 0.0} { Duplicata{Surface{5};}  }
 Translate{ pitch, pitch, 0.0} { Duplicata{Surface{5};}  }
 
 Coherence;
-\endverbatim
+```
 
-\image html Meshing/gmsh_tutorials/visibility.gif "Copy some repeated geometry and use the gui to see the tags for the new lines and surfaces." width=1200px
+```{figure} /images/meshing/gmsh_tutorials/visibility.gif
+:width: 1200px
+
+Copy some repeated geometry and use the gui to see the tags for the new lines and surfaces.
+```
 
 Next, the additional four sided shapes are created as shown in the first image at the top of the page. These five surfaces will be specified as being one physical surface in later input.
 
-\verbatim
+```
 Point(104) = {0, 4*pitch, 0};
 Point(105) = {pitch, 4*pitch, 0};
 Point(106) = {2*pitch, 4*pitch, 0};
@@ -149,26 +173,29 @@ Surface(101) = {101};
 Surface(102) = {102};
 Surface(103) = {103};
 Surface(104) = {104};
-\endverbatim
+```
 
-\image html Meshing/gmsh_tutorials/full_geo.png "All of the four sided shapes are completed" width=600
+```{figure} /images/meshing/gmsh_tutorials/full_geo.png
+:width: 600
 
+All of the four sided shapes are completed
+```
 The surfaces created thus far are for construction purposes. We now specify the surfaces and lines that are physical. The physical lines are those defining a problem boundary. There are two types of surfaces in this mesh being created, those inside a cylinder and those outside a cylinder. Currently, the physical surface tags must start at 0 and increase sequentially to be used with chi-tech. The physical surface tag will serve as an array index for the stack of materials defined in a chi-tech input.
 
- \verbatim
+```
 Physical Line(0) = {1,32,88};
 Physical Line(1) = {87,85,83};
 Physical Line(2) = {78,80,82};
 Physical Line(3) = {4,76,77};
 Physical Surface(0) = {1,13,18,23};
 Physical Surface(1) = {2,3,4,5,28,42,57,71,37,52,66,77,33,47,61,72,100,101,102,103,104};
-\endverbatim
+```
 
 Next, a structured mesh will be defined. The "Transfinite Line" command is used. This command specifies opposing faces of the four sided shapes we will apply a structured mesh to and also how many grid points will be used when drawing mesh lines between the two defined faces. "Using Progression 1" indicates that the structured mesh should have uniform grading. Note that in the outer region of the geometry, "Using Progression 0.85" is used. This causes the meshing to be graded. Also note the input "Transfinite Line {-77, 79}" where the negative sign ensures that both lines have the same orientation which is required when using a grading. Test the input without this and see that the grading is flipped on one side.
 
 After the transfinite lines are specified, each surface is specified to be mesh with a structured mesh by the syntax "Transfinite Surface {i}". Lastly, "Recombine Surface "*";" is included to specify that the mesh be made up of quadrilaterials. If this input is not included, then gmsh will create a mesh of structured triangles.
 
- \verbatim
+```
 // bottom left cell
 Transfinite Line {5, 7} = 10 Using Progression 1;
 Transfinite Line {6, 8} = 10 Using Progression 1;
@@ -283,10 +310,12 @@ Transfinite Surface {103};
 Transfinite Surface {104};
 
 Recombine Surface "*";
- \endverbatim
+```
 
 Note that currently only msh file format 2.2 in asci format is read by chi-tech.
 
-\image html Meshing/gmsh_tutorials/meshing.gif "Use the gui to create the mesh, examine it, and save the msh file." width=1200px
+```{figure} /images/meshing/gmsh_tutorials/meshing.gif
+:width: 1200px
 
-*/
+Use the gui to create the mesh, examine it, and save the msh file.
+```
