@@ -1,15 +1,15 @@
-[![Development Branch Regression Tests](https://github.com/Open-Sn/openSn/actions/workflows/Regression.yaml/badge.svg)](https://github.com/Open-Sn/openSn/actions/workflows/Regression.yaml)  
+[![Development Branch Regression Tests](https://github.com/Open-Sn/openSn/actions/workflows/Regression.yaml/badge.svg)](https://github.com/Open-Sn/openSn/actions/workflows/Regression.yaml)
 
 <p align="center">
-  <img src="doc/HTMLimages/CoolPics/banner.png" width="700">
+  <img src="doc/images/CoolPics/banner.png" width="700">
 </p>
 
 # openSn #
 
-openSn is a large-scale scientific simulation engine being developed at 
-Texas A&M University as part of a research study on massively parallel 
-algorithms for modeling and simulation. Currently, the main physics modules 
-of openSn deal with solving the linear Boltzmann equation and 
+openSn is a large-scale scientific simulation engine being developed at
+Texas A&M University as part of a research study on massively parallel
+algorithms for modeling and simulation. Currently, the main physics modules
+of openSn deal with solving the linear Boltzmann equation and
 diffusion-reaction physics.
 
 Please visit the links below where you will find:
