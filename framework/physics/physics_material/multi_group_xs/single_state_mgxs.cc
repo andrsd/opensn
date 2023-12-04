@@ -123,7 +123,7 @@ SingleStateMGXS::MakeCombined(std::vector<std::pair<int, double>>& combinations)
   {
     // get the cross section from the lua stack
     std::shared_ptr<MultiGroupXS> xs;
-    xs = Chi::GetStackItemPtr(Chi::multigroup_xs_stack, combo.first, std::string(__FUNCTION__));
+    xs = GetStackItemPtr(multigroup_xs_stack, combo.first, std::string(__FUNCTION__));
     xsecs.push_back(xs);
 
     // increment densities

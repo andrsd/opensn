@@ -69,8 +69,7 @@ chiFFInterpolationSetProperty(lua_State* L)
   // Get handle to field function
   const size_t ffihandle = lua_tonumber(L, 1);
 
-  auto p_ffi =
-    opensn::Chi::GetStackItemPtr(opensn::Chi::field_func_interpolation_stack, ffihandle, fname);
+  auto p_ffi = opensn::GetStackItemPtr(opensn::field_func_interpolation_stack, ffihandle, fname);
 
   // Process properties
   auto property = static_cast<Property>(lua_tonumber(L, 2));
@@ -97,8 +96,7 @@ chiFFInterpolationSetProperty(lua_State* L)
   if (property == Property::ADD_FIELD_FUNCTION)
   {
     int ffhandle = lua_tonumber(L, 3);
-    auto cur_ff_base =
-      opensn::Chi::GetStackItemPtr(opensn::Chi::field_function_stack, ffhandle, fname);
+    auto cur_ff_base = opensn::GetStackItemPtr(opensn::field_function_stack, ffhandle, fname);
     auto cur_ff = std::dynamic_pointer_cast<FieldFunctionGridBased>(cur_ff_base);
 
     p_ffi->GetFieldFunctions().push_back(cur_ff);
@@ -112,8 +110,7 @@ chiFFInterpolationSetProperty(lua_State* L)
     for (double handle_d : handle_array)
     {
       const auto ffhandle = static_cast<int>(handle_d);
-      auto cur_ff_base =
-        opensn::Chi::GetStackItemPtr(opensn::Chi::field_function_stack, ffhandle, fname);
+      auto cur_ff_base = opensn::GetStackItemPtr(opensn::field_function_stack, ffhandle, fname);
       auto cur_ff = std::dynamic_pointer_cast<FieldFunctionGridBased>(cur_ff_base);
 
       p_ffi->GetFieldFunctions().push_back(cur_ff);
@@ -262,7 +259,7 @@ chiFFInterpolationSetProperty(lua_State* L)
       if (numArgs != 4) LuaPostArgAmountError("chiFFInterpolationSetProperty", 4, numArgs);
       const char* func_name = lua_tostring(L, 4);
       auto operation_function = CreateFunction(func_name);
-      opensn::Chi::function_stack.push_back(operation_function);
+      opensn::function_stack.push_back(operation_function);
       cur_ffi_volume.SetOperationFunction(operation_function);
     }
 
@@ -275,7 +272,7 @@ chiFFInterpolationSetProperty(lua_State* L)
     int logvol_hndle = lua_tonumber(L, 3);
 
     auto p_logical_volume = std::dynamic_pointer_cast<LogicalVolume>(
-      opensn::Chi::GetStackItemPtr(opensn::Chi::object_stack, logvol_hndle, fname));
+      opensn::GetStackItemPtr(opensn::object_stack, logvol_hndle, fname));
 
     if (p_ffi->Type() != EType::VOLUME)
       throw std::logic_error("Volume property FFI_PROP_LOGICAL_VOLUME"
