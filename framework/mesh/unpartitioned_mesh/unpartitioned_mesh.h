@@ -3,10 +3,12 @@
 #include "framework/mesh/mesh.h"
 #include "framework/mesh/cell/cell.h"
 
+#ifdef OPENSN_WITH_VTK
 class vtkCell;
 class vtkUnstructuredGrid;
 template <class T>
 class vtkSmartPointer;
+#endif
 
 #include <map>
 #include <array>
@@ -77,6 +79,7 @@ protected:
   std::shared_ptr<BoundBox> bound_box_ = nullptr;
 
 protected:
+#ifdef OPENSN_WITH_VTK
   /**
    * Creates a raw polyhedron cell from a vtk-polyhedron.
    */
@@ -106,14 +109,15 @@ protected:
   void CopyUGridCellsAndPoints(vtkUnstructuredGrid& ugrid, double scale, int dimension_to_copy);
 
   /**
-   * Set material-ids from list.
-   */
-  void SetMaterialIDsFromList(const std::vector<int>& material_ids);
-
-  /**
    * Set boundary-ids from boundary grid_blocks.
    */
   void SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bndry_grid_blocks);
+#endif
+
+  /**
+   * Set material-ids from list.
+   */
+  void SetMaterialIDsFromList(const std::vector<int>& material_ids);
 
 public:
   const BoundBox& GetBoundBox() const { return *bound_box_; }

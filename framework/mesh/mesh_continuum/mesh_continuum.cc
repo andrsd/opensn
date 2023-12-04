@@ -9,6 +9,7 @@
 #include "framework/mesh/logical_volume/logical_volume.h"
 #include "framework/mesh/mesh_continuum/grid_face_histogram.h"
 #include "framework/data_types/ndarray.h"
+#ifdef OPENSN_WITH_VTK
 #include <vtkUnstructuredGrid.h>
 #include <vtkMultiBlockDataSet.h>
 #include <vtkInformation.h>
@@ -16,6 +17,7 @@
 #include <vtkExodusIIWriter.h>
 #include <vtkPointData.h>
 #include <vtkCellData.h>
+#endif
 #include <algorithm>
 
 namespace opensn
@@ -106,6 +108,7 @@ MeshContinuum::ExportCellsToExodus(const std::string& file_base_name,
                                    bool suppress_side_sets) const
 {
   const std::string fname = "MeshContinuum::ExportCellsToExodus";
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Exporting mesh to Exodus file with base " << file_base_name;
 
   if (opensn::mpi_comm.size() != 1)
@@ -413,6 +416,10 @@ MeshContinuum::ExportCellsToExodus(const std::string& file_base_name,
 
   log.Log() << "Done exporting mesh to exodus.";
   opensn::mpi_comm.barrier();
+#else
+  log.Log0Error() << fname + ": openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 void
@@ -602,6 +609,7 @@ MeshContinuum::ExportCellsToObj(const char* fileName, bool per_material, int opt
 void
 MeshContinuum::ExportCellsToVTK(const std::string& file_base_name) const
 {
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Exporting mesh to VTK files with base " << file_base_name;
 
   const auto& grid = *this;
@@ -611,6 +619,10 @@ MeshContinuum::ExportCellsToVTK(const std::string& file_base_name) const
   WritePVTUFiles(ugrid, file_base_name);
 
   log.Log() << "Done exporting mesh to VTK.";
+#else
+  log.Log0Error() << "MeshContinuum::ExportCellsToVTK: openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 std::vector<uint64_t>

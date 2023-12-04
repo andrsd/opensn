@@ -5,6 +5,7 @@
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/utils/utils.h"
+#ifdef OPENSN_WITH_VTK
 #include <vtkPolygon.h>
 #include <vtkLine.h>
 #include <vtkVertex.h>
@@ -18,12 +19,15 @@
 #include <vtkEnSightGoldBinaryReader.h>
 #include <vtkMultiBlockDataSet.h>
 #include <vtkExodusIIReader.h>
+#endif
 #include <algorithm>
 #include <fstream>
 #include <map>
 
 namespace opensn
 {
+
+#ifdef OPENSN_WITH_VTK
 
 namespace
 {
@@ -35,6 +39,8 @@ ErrorReadingFileStr(const std::string& file_name, const std::string& function_na
 }
 
 } // namespace
+
+#endif
 
 UnpartitionedMesh::~UnpartitionedMesh()
 {
@@ -349,6 +355,8 @@ UnpartitionedMesh::BuildMeshConnectivity()
 
   log.Log() << program_timer.GetTimeString() << " Done establishing cell connectivity.";
 }
+
+#ifdef OPENSN_WITH_VTK
 
 UnpartitionedMesh::LightWeightCell*
 UnpartitionedMesh::CreateCellFromVTKPolyhedron(vtkCell* vtk_cell)
@@ -769,6 +777,8 @@ UnpartitionedMesh::CopyUGridCellsAndPoints(vtkUnstructuredGrid& ugrid,
   log.Log() << fname + ": Done";
 }
 
+#endif
+
 void
 UnpartitionedMesh::SetMaterialIDsFromList(const std::vector<int>& material_ids)
 {
@@ -777,6 +787,8 @@ UnpartitionedMesh::SetMaterialIDsFromList(const std::vector<int>& material_ids)
   for (size_t c = 0; c < total_cell_count; ++c)
     raw_cells_[c]->material_id = material_ids[c];
 }
+
+#ifdef OPENSN_WITH_VTK
 
 void
 UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bndry_grid_blocks)
@@ -881,9 +893,12 @@ UnpartitionedMesh::SetBoundaryIDsFromBlocks(std::vector<vtkUGridPtrAndName>& bnd
   } // for boundary_block
 }
 
+#endif
+
 void
 UnpartitionedMesh::ReadFromVTU(const UnpartitionedMesh::Options& options)
 {
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Reading VTU file: " << options.file_name << ".";
 
   // Attempt to open file
@@ -951,11 +966,16 @@ UnpartitionedMesh::ReadFromVTU(const UnpartitionedMesh::Options& options)
   BuildMeshConnectivity();
 
   log.Log() << "Done reading VTU file: " << options.file_name << ".";
+#else
+  log.Log0Error() << "UnpartitionedMesh::ReadFromVTU: openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 void
 UnpartitionedMesh::ReadFromPVTU(const UnpartitionedMesh::Options& options)
 {
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Reading PVTU file: " << options.file_name << ".";
 
   // Attempt to open file
@@ -1023,11 +1043,16 @@ UnpartitionedMesh::ReadFromPVTU(const UnpartitionedMesh::Options& options)
   BuildMeshConnectivity();
 
   log.Log() << "Done reading PVTU file: " << options.file_name << ".";
+#else
+  log.Log0Error() << "UnpartitionedMesh::ReadFromPVTU: openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 void
 UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options)
 {
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Reading Ensight-Gold file: " << options.file_name << ".";
 
   // Attempt to open file
@@ -1116,6 +1141,11 @@ UnpartitionedMesh::ReadFromEnsightGold(const UnpartitionedMesh::Options& options
   SetBoundaryIDsFromBlocks(bndry_grid_blocks);
 
   log.Log() << "Done reading Ensight-Gold file: " << options.file_name << ".";
+#else
+  log.Log0Error()
+    << "UnpartitionedMesh::ReadFromEnsightGold: openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 void
@@ -1850,6 +1880,7 @@ UnpartitionedMesh::ReadFromMsh(const Options& options)
 void
 UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
 {
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Reading Exodus file: " << options.file_name << ".";
 
   // Attempt to open file
@@ -1963,6 +1994,10 @@ UnpartitionedMesh::ReadFromExodus(const UnpartitionedMesh::Options& options)
   SetBoundaryIDsFromBlocks(bndry_grid_blocks);
 
   log.Log() << "Done reading Exodus file: " << options.file_name << ".";
+#else
+  log.Log0Error() << "UnpartitionedMesh::ReadFromExodus: openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 void

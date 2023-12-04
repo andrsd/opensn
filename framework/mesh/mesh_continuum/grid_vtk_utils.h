@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef OPENSN_WITH_VTK
+
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -95,3 +97,5 @@ vtkNew<vtkUnstructuredGrid> PrepareVtkUnstructuredGrid(const MeshContinuum& grid
 void WritePVTUFiles(vtkNew<vtkUnstructuredGrid>& ugrid, const std::string& file_base_name);
 
 } // namespace opensn
+
+#endif

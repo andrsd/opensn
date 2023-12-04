@@ -12,10 +12,12 @@
 #include "framework/logging/log.h"
 #include "framework/runtime.h"
 #include <petsc.h>
+#ifdef OPENSN_WITH_VTK
 #include <vtkUnstructuredGrid.h>
 #include <vtkCellData.h>
 #include <vtkPointData.h>
 #include <vtkDoubleArray.h>
+#endif
 
 namespace opensn
 {
@@ -208,6 +210,7 @@ FieldFunctionGridBased::ExportMultipleToVTK(
   const std::vector<std::shared_ptr<const FieldFunctionGridBased>>& ff_list)
 {
   const std::string fname = "chi_physics::FieldFunction::ExportMultipleToVTK";
+#ifdef OPENSN_WITH_VTK
   log.Log() << "Exporting field functions to VTK with file base \"" << file_base_name << "\"";
 
   if (ff_list.empty())
@@ -300,6 +303,10 @@ FieldFunctionGridBased::ExportMultipleToVTK(
   WritePVTUFiles(ugrid, file_base_name);
 
   log.Log() << "Done exporting field functions to VTK.";
+#else
+  log.Log0Error() << fname + ": openSn was not built with VTK support.";
+  Exit(EXIT_FAILURE);
+#endif
 }
 
 std::vector<double>

@@ -1,3 +1,5 @@
+#ifdef OPENSN_WITH_VTK
+
 #include "framework/mesh/mesh_continuum/grid_vtk_utils.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/runtime.h"
@@ -599,3 +601,5 @@ WritePVTUFiles(vtkNew<vtkUnstructuredGrid>& ugrid, const std::string& file_base_
 }
 
 } // namespace opensn
+
+#endif

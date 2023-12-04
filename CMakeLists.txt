@@ -14,6 +14,7 @@ include(CheckTypeSize)
 include(CheckSymbolExists)
 
 option(OPENSN_WITH_LUA "Build with lua support" ON)
+option(OPENSN_WITH_VTK "Build with VTK support" ON)
 
 # dependencies
 find_package(MPI REQUIRED)
@@ -22,25 +23,27 @@ if(OPENSN_WITH_LUA)
     find_package(Lua 5.4 REQUIRED)
 endif()
 
-find_package(VTK QUIET)
-if(VTK_VERSION VERSION_LESS "8.90.0")
-    find_package(VTK COMPONENTS
-        vtkCommonCore vtkCommonDataModel
-        vtkIOLegacy vtkIOCore
-        vtkIOXML vtkParallelCore vtkIOParallelXML
-        vtkFiltersCore
-        vtkIOEnSight
-        vtkIOExodus
-        REQUIRED)
-else()
-    find_package(VTK COMPONENTS
-        CommonCore CommonDataModel
-        IOLegacy IOCore
-        IOXML ParallelCore IOParallelXML
-        FiltersCore
-        IOEnSight
-        IOExodus
-        REQUIRED)
+if(OPENSN_WITH_VTK)
+    find_package(VTK QUIET)
+    if(VTK_VERSION VERSION_LESS "8.90.0")
+        find_package(VTK COMPONENTS
+            vtkCommonCore vtkCommonDataModel
+            vtkIOLegacy vtkIOCore
+            vtkIOXML vtkParallelCore vtkIOParallelXML
+            vtkFiltersCore
+            vtkIOEnSight
+            vtkIOExodus
+            REQUIRED)
+    else()
+        find_package(VTK COMPONENTS
+            CommonCore CommonDataModel
+            IOLegacy IOCore
+            IOXML ParallelCore IOParallelXML
+            FiltersCore
+            IOEnSight
+            IOExodus
+            REQUIRED)
+    endif()
 endif()
 
 find_package(PETSc 3.17 REQUIRED)
@@ -93,12 +96,16 @@ target_include_directories(libopensn
 target_link_libraries(libopensn
     PRIVATE
     ${PETSC_LIBRARY}
-    ${VTK_LIBRARIES}
     MPI::MPI_CXX
 )
 if(OPENSN_WITH_LUA)
     target_link_libraries(libopensn PUBLIC ${LUA_LIBRARIES})
     target_compile_definitions(libopensn PUBLIC OPENSN_WITH_LUA)
+endif()
+
+if(OPENSN_WITH_VTK)
+    target_compile_definitions(libopensn PUBLIC ${OPENSN_WITH_VTK})
+    target_link_libraries(libopensn PUBLIC ${VTK_LIBRARIES})
 endif()
 
 target_compile_options(libopensn PRIVATE ${OPENSN_CXX_FLAGS})
