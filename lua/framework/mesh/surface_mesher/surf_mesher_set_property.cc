@@ -10,11 +10,11 @@
 
 using namespace opensn;
 
-RegisterLuaFunctionAsIs(chiSurfaceMesherSetProperty);
+RegisterLuaFunctionAsIs(SurfaceMesherSetProperty);
 RegisterLuaConstantAsIs(MAX_AREA, Varying(1));
 
 int
-chiSurfaceMesherSetProperty(lua_State* L)
+SurfaceMesherSetProperty(lua_State* L)
 {
   auto& cur_hndlr = opensn::GetCurrentHandler();
 
@@ -28,7 +28,7 @@ chiSurfaceMesherSetProperty(lua_State* L)
   {
     opensn::log.Log0Warning() << "Deprecated and removed feature"
                                  "property MAX_AREA in call"
-                                 " to chiSurfaceMesherSetProperty";
+                                 " to SurfaceMesherSetProperty";
   }
 
   return 0;

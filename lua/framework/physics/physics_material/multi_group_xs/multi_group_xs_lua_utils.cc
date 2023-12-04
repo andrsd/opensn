@@ -11,12 +11,12 @@
 
 using namespace opensn;
 
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSCreate);
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSSet);
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSMakeCombined);
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSSetCombined);
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSGet);
-RegisterLuaFunctionAsIs(chiPhysicsTransportXSExportToChiTechFormat);
+RegisterLuaFunctionAsIs(PhysicsTransportXSCreate);
+RegisterLuaFunctionAsIs(PhysicsTransportXSSet);
+RegisterLuaFunctionAsIs(PhysicsTransportXSMakeCombined);
+RegisterLuaFunctionAsIs(PhysicsTransportXSSetCombined);
+RegisterLuaFunctionAsIs(PhysicsTransportXSGet);
+RegisterLuaFunctionAsIs(PhysicsTransportXSExportToChiTechFormat);
 
 RegisterLuaConstantAsIs(SINGLE_VALUE, Varying(0));
 RegisterLuaConstantAsIs(FROM_ARRAY, Varying(1));
@@ -203,7 +203,7 @@ MultiGroupXSPushLuaTable(lua_State* L, std::shared_ptr<MultiGroupXS> xs)
 } // namespace
 
 int
-chiPhysicsTransportXSCreate(lua_State* L)
+PhysicsTransportXSCreate(lua_State* L)
 {
   auto xs = std::make_shared<SingleStateMGXS>();
 
@@ -216,18 +216,18 @@ chiPhysicsTransportXSCreate(lua_State* L)
 }
 
 int
-chiPhysicsTransportXSSet(lua_State* L)
+PhysicsTransportXSSet(lua_State* L)
 {
   int num_args = lua_gettop(L);
 
   if (num_args < 3)
   {
-    LuaPostArgAmountError("chiPhysicsTransportXSSet", 3, num_args);
+    LuaPostArgAmountError("PhysicsTransportXSSet", 3, num_args);
     opensn::Exit(EXIT_FAILURE);
   }
 
-  LuaCheckNilValue("chiPhysicsTransportXSSet", L, 1);
-  LuaCheckNilValue("chiPhysicsTransportXSSet", L, 2);
+  LuaCheckNilValue("PhysicsTransportXSSet", L, 1);
+  LuaCheckNilValue("PhysicsTransportXSSet", L, 2);
 
   int handle = lua_tonumber(L, 1);
   int operation_index = lua_tonumber(L, 2);
@@ -241,7 +241,7 @@ chiPhysicsTransportXSSet(lua_State* L)
   catch (const std::out_of_range& o)
   {
     opensn::log.LogAllError() << "ERROR: Invalid cross section handle"
-                              << " in call to chiPhysicsTransportXSSet." << std::endl;
+                              << " in call to PhysicsTransportXSSet." << std::endl;
     opensn::Exit(EXIT_FAILURE);
   }
 
@@ -249,7 +249,7 @@ chiPhysicsTransportXSSet(lua_State* L)
   using OpType = OperationType;
   if (operation_index == static_cast<int>(OpType::SIMPLEXS0))
   {
-    if (num_args != 4) LuaPostArgAmountError("chiPhysicsTransportXSSet", 4, num_args);
+    if (num_args != 4) LuaPostArgAmountError("PhysicsTransportXSSet", 4, num_args);
 
     int G = lua_tonumber(L, 3);
     double sigma_t = lua_tonumber(L, 4);
@@ -258,7 +258,7 @@ chiPhysicsTransportXSSet(lua_State* L)
   }
   else if (operation_index == static_cast<int>(OpType::SIMPLEXS1))
   {
-    if (num_args != 5) LuaPostArgAmountError("chiPhysicsTransportXSSet", 5, num_args);
+    if (num_args != 5) LuaPostArgAmountError("PhysicsTransportXSSet", 5, num_args);
 
     int G = lua_tonumber(L, 3);
     double sigma_t = lua_tonumber(L, 4);
@@ -268,7 +268,7 @@ chiPhysicsTransportXSSet(lua_State* L)
   }
   else if (operation_index == static_cast<int>(OpType::CHI_XSFILE))
   {
-    if (num_args != 3) LuaPostArgAmountError("chiPhysicsTransportXSSet", 3, num_args);
+    if (num_args != 3) LuaPostArgAmountError("PhysicsTransportXSSet", 3, num_args);
 
     const char* file_name_c = lua_tostring(L, 3);
 
@@ -277,14 +277,14 @@ chiPhysicsTransportXSSet(lua_State* L)
   else
   {
     opensn::log.LogAllError() << "Unsupported operation in "
-                              << "chiPhysicsTransportXSSet. " << operation_index << std::endl;
+                              << "PhysicsTransportXSSet. " << operation_index << std::endl;
     opensn::Exit(EXIT_FAILURE);
   }
   return 0;
 }
 
 int
-chiPhysicsTransportXSGet(lua_State* L)
+PhysicsTransportXSGet(lua_State* L)
 {
   int num_args = lua_gettop(L);
 
@@ -317,14 +317,14 @@ chiPhysicsTransportXSGet(lua_State* L)
 }
 
 int
-chiPhysicsTransportXSMakeCombined(lua_State* L)
+PhysicsTransportXSMakeCombined(lua_State* L)
 {
   int num_args = lua_gettop(L);
-  if (num_args != 1) LuaPostArgAmountError("chiPhysicsMakeCombinedTransportXS", 1, num_args);
+  if (num_args != 1) LuaPostArgAmountError("PhysicsMakeCombinedTransportXS", 1, num_args);
 
   if (!lua_istable(L, 1))
   {
-    opensn::log.LogAllError() << "In call to chiPhysicsMakeCombinedTransportXS: "
+    opensn::log.LogAllError() << "In call to PhysicsMakeCombinedTransportXS: "
                               << "Argument must be a lua table.";
     opensn::Exit(EXIT_FAILURE);
   }
@@ -342,7 +342,7 @@ chiPhysicsTransportXSMakeCombined(lua_State* L)
 
     if (!lua_istable(L, -1))
     {
-      opensn::log.LogAllError() << "In call to chiPhysicsMakeCombinedTransportXS: "
+      opensn::log.LogAllError() << "In call to PhysicsMakeCombinedTransportXS: "
                                 << "The elements of the supplied table must themselves also"
                                    "be lua tables of the xs handle and its scalar multiplier.";
       opensn::Exit(EXIT_FAILURE);
@@ -350,14 +350,14 @@ chiPhysicsTransportXSMakeCombined(lua_State* L)
 
     lua_pushinteger(L, 1);
     lua_gettable(L, -2);
-    LuaCheckNilValue("chiPhysicsMakeCombinedTransportXS:A1:E1", L, -1);
+    LuaCheckNilValue("PhysicsMakeCombinedTransportXS:A1:E1", L, -1);
 
     int handle = lua_tonumber(L, -1);
     lua_pop(L, 1);
 
     lua_pushinteger(L, 2);
     lua_gettable(L, -2);
-    LuaCheckNilValue("chiPhysicsMakeCombinedTransportXS:A1:E2", L, -1);
+    LuaCheckNilValue("PhysicsMakeCombinedTransportXS:A1:E2", L, -1);
 
     double scalar = lua_tonumber(L, -1);
     lua_pop(L, 1);
@@ -383,7 +383,7 @@ chiPhysicsTransportXSMakeCombined(lua_State* L)
 }
 
 int
-chiPhysicsTransportXSSetCombined(lua_State* L)
+PhysicsTransportXSSetCombined(lua_State* L)
 {
   int num_args = lua_gettop(L);
 
@@ -461,7 +461,7 @@ chiPhysicsTransportXSSetCombined(lua_State* L)
 }
 
 int
-chiPhysicsTransportXSExportToChiTechFormat(lua_State* L)
+PhysicsTransportXSExportToChiTechFormat(lua_State* L)
 {
   int num_args = lua_gettop(L);
 

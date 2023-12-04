@@ -11,16 +11,16 @@
 
 using namespace opensn;
 
-RegisterLuaFunctionAsIs(chiSurfaceMesherCreate);
+RegisterLuaFunctionAsIs(SurfaceMesherCreate);
 RegisterLuaConstantAsIs(SURFACEMESHER_PREDEFINED, Varying(1));
 
 int
-chiSurfaceMesherCreate(lua_State* L)
+SurfaceMesherCreate(lua_State* L)
 {
   auto& cur_hndlr = opensn::GetCurrentHandler();
 
   // Get argument
-  LuaCheckNilValue("chiSurfaceMesherCreate", L, 1);
+  LuaCheckNilValue("SurfaceMesherCreate", L, 1);
   int type = lua_tonumber(L, 1);
 
   // Create the surface mesher
@@ -32,14 +32,14 @@ chiSurfaceMesherCreate(lua_State* L)
   else
   {
     std::cerr << "ERROR: Illegal surface mesher specified"
-                 "in chiSurfaceMesherCreate"
+                 "in SurfaceMesherCreate"
               << std::endl;
     opensn::Exit(EXIT_FAILURE);
   }
 
   cur_hndlr.SetSurfaceMesher(new_mesher);
 
-  opensn::log.LogAllVerbose2() << "chiSurfaceMesherCreate: Surface remesher created." << std::endl;
+  opensn::log.LogAllVerbose2() << "SurfaceMesherCreate: Surface remesher created." << std::endl;
 
   return 0;
 }
