@@ -3,24 +3,26 @@ file(GLOB_RECURSE LIBOPENSN_LUA_SRCS *.cc)
 add_library(libopensnlua SHARED ${LIBOPENSN_LUA_SRCS})
 
 target_include_directories(libopensnlua
+    PUBLIC
+    ${LUA_INCLUDE_DIR}
     PRIVATE
     $<INSTALL_INTERFACE:include/opensn>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/external
-    ${LUA_INCLUDE_DIR}
 )
 
 target_link_libraries(libopensnlua
-    PRIVATE
+    PUBLIC
     ${LUA_LIBRARIES}
+    PRIVATE
     ${PETSC_LIBRARY}
     MPI::MPI_CXX
     libopensn
 )
 
-target_compile_definitions(libopensnlua PRIVATE OPENSN_WITH_LUA)
+target_compile_definitions(libopensnlua PUBLIC OPENSN_WITH_LUA)
 
 target_compile_options(libopensnlua PRIVATE ${OPENSN_CXX_FLAGS})
 
@@ -41,13 +43,14 @@ target_include_directories(opensn
 )
 
 target_link_libraries(opensn
-    PRIVATE
+    PUBLIC
     ${LUA_LIBRARIES}
+    PRIVATE
     libopensn
     libopensnlua
     MPI::MPI_CXX
 )
 
-target_compile_definitions(opensn PRIVATE OPENSN_WITH_LUA)
+target_compile_definitions(opensn PUBLIC OPENSN_WITH_LUA)
 
 target_compile_options(opensn PRIVATE ${OPENSN_CXX_FLAGS})

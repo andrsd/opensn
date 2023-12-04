@@ -97,8 +97,8 @@ target_link_libraries(libopensn
     MPI::MPI_CXX
 )
 if(OPENSN_WITH_LUA)
-    target_link_libraries(libopensn PRIVATE ${LUA_LIBRARIES})
-    target_compile_definitions(libopensn PRIVATE OPENSN_WITH_LUA)
+    target_link_libraries(libopensn PUBLIC ${LUA_LIBRARIES})
+    target_compile_definitions(libopensn PUBLIC OPENSN_WITH_LUA)
 endif()
 
 target_compile_options(libopensn PRIVATE ${OPENSN_CXX_FLAGS})
