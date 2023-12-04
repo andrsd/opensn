@@ -89,7 +89,7 @@ DiscreteOrdinatesAdjointSolver::MakeAdjointXSs()
   using AdjXS = AdjointMGXS;
 
   // define the actual cross-sections
-  std::map<int, XSPtr> matid_to_adj_xs_map;
+  std::map<int, std::shared_ptr<MultiGroupXS>> matid_to_adj_xs_map;
   for (const auto& matid_xs_pair : matid_to_xs_map_)
   {
     const auto matid = matid_xs_pair.first;

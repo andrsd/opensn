@@ -201,13 +201,13 @@ LBSSolver::PointSources() const
   return point_sources_;
 }
 
-const std::map<int, XSPtr>&
+const std::map<int, std::shared_ptr<MultiGroupXS>>&
 LBSSolver::GetMatID2XSMap() const
 {
   return matid_to_xs_map_;
 }
 
-const std::map<int, IsotropicSrcPtr>&
+const std::map<int, std::shared_ptr<IsotropicMultiGrpSource>>&
 LBSSolver::GetMatID2IsoSrcMap() const
 {
   return matid_to_src_map_;
@@ -339,13 +339,13 @@ LBSSolver::GetActiveSetSourceFunction() const
   return active_set_source_function_;
 }
 
-LBSSolver::AGSLinSolverPtr
+std::shared_ptr<AGSLinearSolver>
 LBSSolver::GetPrimaryAGSSolver()
 {
   return primary_ags_solver_;
 }
 
-std::vector<LBSSolver::LinSolvePtr>&
+std::vector<std::shared_ptr<LinearSolver>>&
 LBSSolver::GetWGSSolvers()
 {
   return wgs_solvers_;
