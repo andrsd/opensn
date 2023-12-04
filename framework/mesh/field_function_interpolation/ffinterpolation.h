@@ -55,6 +55,7 @@ protected:
 
 public:
   explicit FieldFunctionInterpolation(EType type) : type_(type) {}
+  virtual ~FieldFunctionInterpolation() = default;
 
   std::vector<std::shared_ptr<FieldFunctionGridBased>>& GetFieldFunctions()
   {
