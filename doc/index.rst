@@ -32,6 +32,13 @@ Welcome to openSn documentation.
    tutorials/3d_extruded_mesh.md
 
 .. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Examples
+
+   tutorials/lbs/first/first_example.md
+
+.. toctree::
    :maxdepth: 1
    :hidden:
    :caption: User's guide
