@@ -34,6 +34,7 @@ Welcome to openSn documentation.
    :caption: User's guide
 
    framework/boolean_logical_volume.md
+   framework/mesh_generators.md
 
 .. toctree::
    :maxdepth: 1
