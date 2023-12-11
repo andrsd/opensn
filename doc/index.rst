@@ -49,10 +49,13 @@ Welcome to openSn documentation.
    :maxdepth: 1
    :hidden:
    :caption: Developer's guide
+   :glob:
 
    start_source_code_doc.md
    start_developer_tutorials.md
    start_user_tutorials.md
+   developer/namespace_opensn.rst
+   developer/class_index.rst
 
 
 Tutorials
