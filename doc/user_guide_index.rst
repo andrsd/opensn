@@ -22,6 +22,7 @@ Framework
 - :doc:`/framework/mesh_modifiers`
 - :doc:`/framework/mgxs`
 - :doc:`/framework/mpi`
+- :doc:`/framework/physics`
 
 
 .. toctree::
@@ -50,3 +51,4 @@ Framework
    framework/mesh_modifiers
    framework/mgxs
    framework/mpi
+   framework/physics
