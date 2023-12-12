@@ -19,6 +19,7 @@ Framework
 - :doc:`/framework/mesh_generators`
 - :doc:`/framework/mesh_handler`
 - :doc:`/framework/mesh_macros`
+- :doc:`/framework/mesh_modifiers`
 - :doc:`/framework/mpi`
 
 
@@ -45,4 +46,5 @@ Framework
    framework/mesh_generators
    framework/mesh_handler
    framework/mesh_macros
+   framework/mesh_modifiers
    framework/mpi
