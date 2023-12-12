@@ -33,7 +33,7 @@ Welcome to openSn documentation.
    :hidden:
    :caption: User's guide
 
-   user_guide_index
+   framework/index
 
 .. toctree::
    :maxdepth: 1
