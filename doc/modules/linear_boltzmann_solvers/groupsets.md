@@ -1,8 +1,9 @@
-/** \defgroup LuaLBSGroupsets Groupsets
+ # Groupsets
+
 
 The code below is an example of a complete specification of a groupset.
 
-\code
+```
 --===================================== Setup physics
 phys1 = chiLBSCreateSolver()
 chiSolverAddRegion(phys1,region1)
@@ -34,11 +35,9 @@ chiLBSGroupsetSetMaxIterations(phys1,cur_gs,300)
 chiLBSGroupsetSetGMRESRestartIntvl(phys1,cur_gs,30)
 chiLBSGroupsetSetWGDSA(phys1,cur_gs,30,1.0e-4,false," ")
 chiLBSGroupsetSetTGDSA(phys1,cur_gs,30,1.0e-4,false," ")
-\endcode
+```
 
 Groupsets segregate the code into pieces arranged by the number of groups
 it contains. A great deal of care must be taken with intergroupset transfer
 since the order in which the groupsets are executed determine what information
 will be available to them.
-
-\ingroup LBSUtilities*/
