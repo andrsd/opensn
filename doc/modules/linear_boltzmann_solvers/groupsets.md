@@ -1,8 +1,9 @@
-/** \defgroup LuaLBSGroupsets Groupsets
+ # Groupsets
+
 
 The code below is an example of a complete specification of a groupset.
 
-\code
+```
 --===================================== Setup physics
 phys1 = LBSCreateSolver()
 SolverAddRegion(phys1,region1)
@@ -13,7 +14,7 @@ LBSSetProperty(phys1,SCATTERING_ORDER,1)
 --========== Groups
 grp = {}
 for g=1,num_groups do
-    grp[g] = LBSCreateGroup(phys1)
+    grpg = LBSCreateGroup(phys1)
 end
 
 --========== ProdQuad
@@ -34,11 +35,13 @@ LBSGroupsetSetMaxIterations(phys1,cur_gs,300)
 LBSGroupsetSetGMRESRestartIntvl(phys1,cur_gs,30)
 LBSGroupsetSetWGDSA(phys1,cur_gs,30,1.0e-4,false," ")
 LBSGroupsetSetTGDSA(phys1,cur_gs,30,1.0e-4,false," ")
-\endcode
+```
+
+
 
 Groupsets segregate the code into pieces arranged by the number of groups
 it contains. A great deal of care must be taken with intergroupset transfer
 since the order in which the groupsets are executed determine what information
 will be available to them.
 
-\ingroup LBSUtilities*/
+
