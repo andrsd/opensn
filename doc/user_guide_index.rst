@@ -5,6 +5,7 @@ Framework
 - :doc:`/framework/cell_mappings`
 - :doc:`/framework/chi_format_xs`
 - :doc:`/framework/event_system`
+- :doc:`/framework/experimental`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -20,6 +21,7 @@ Framework
    framework/cell_mappings
    framework/chi_format_xs
    framework/event_system
+   framework/experimental
    framework/log
    framework/math
    framework/mesh_generators
