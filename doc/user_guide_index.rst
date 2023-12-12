@@ -32,6 +32,7 @@ Framework
 - :doc:`/framework/spatial_discretization`
 - :doc:`/framework/surface_mesher`
 - :doc:`/framework/time_integration`
+- :doc:`/framework/time_steppers`
 
 
 .. toctree::
@@ -70,3 +71,4 @@ Framework
    framework/spatial_discretization
    framework/surface_mesher
    framework/time_integration
+   framework/time_steppers
