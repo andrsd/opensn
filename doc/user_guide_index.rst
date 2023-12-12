@@ -7,6 +7,7 @@ Framework
 - :doc:`/framework/event_system`
 - :doc:`/framework/experimental`
 - :doc:`/framework/ffi`
+- :doc:`/framework/field_function`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -24,6 +25,7 @@ Framework
    framework/event_system
    framework/experimental
    framework/ffi
+   framework/field_function
    framework/log
    framework/math
    framework/mesh_generators
