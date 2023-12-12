@@ -26,6 +26,7 @@ Framework
 - :doc:`/framework/physics_material`
 - :doc:`/framework/physics_solver`
 - :doc:`/framework/post_processors`
+- :doc:`/framework/pp_utils`
 
 
 .. toctree::
@@ -58,3 +59,4 @@ Framework
    framework/physics_material
    framework/physics_solver
    framework/post_processors
+   framework/pp_utils
