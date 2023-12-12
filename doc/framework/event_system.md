@@ -1,25 +1,26 @@
-/**\defgroup doc_EventSystem I Event System
+# I Event System
 
-# ChiTech's event system
-We have some elements in ChiTech that follow the `Publisher/Subscriber` design
+
+# openSn's event system
+We have some elements in openSn that follow the `Publisher/Subscriber` design
 pattern. The basic functionality is captured with the base classes
-`chi::EventPublisher` and `chi::EventSubscriber`, where multiple subscribers are
+`EventPublisher` and `EventSubscriber`, where multiple subscribers are
 assigned to a publisher.
 
-\image html "EventSystem0.drawio.png" width=700px
+![](/images/EventSystem0.drawio.png)
 
 ## Events
-Events are implemented as, a conceptually simple, data class `chi::Event` and
+Events are implemented as, a conceptually simple, data class `Event` and
 has the following members:
-- `chi::Event::Name()`
-- `chi::Event::Code()`
-- `chi::Event::Parameters()`
+- `Event::Name()`
+- `Event::Code()`
+- `Event::Parameters()`
 
-The latter member is a `chi::ParameterBlock` supporting anything from simple
+The latter member is a `ParameterBlock` supporting anything from simple
 scalar quantities all the way through to complex hierarchies of data.
 
 ## System events
-Systems events are posted via the `chi::SystemWideEventPublisher` singleton
+Systems events are posted via the `SystemWideEventPublisher` singleton
 and serves the purpose of being the central publisher where all events end up,
 although, some publishers can attempt to handle events before this handler.
 Events originating from this publisher are:
@@ -27,7 +28,7 @@ Events originating from this publisher are:
 - `"ProgramExecuted"`
 
 ## Physics events
-Physics events are handled via the `chi_physics::PhysicsEventPublisher`
+Physics events are handled via the `PhysicsEventPublisher`
 singleton and has the following basic events (although this list will be
 extended in future):
 - `"SolverPreInitialize"`
@@ -46,7 +47,4 @@ hierarchy with the `SystemWideEventPublisher` as the base. Any event published
 by a leaf publisher will ultimately get forwarded to the
 `SystemWideEventPublisher`. An example flow of events is shown below:
 
-\image html "EventSystem1.drawio.png" width=700px
-
-
-* */
+![](/images/EventSystem1.drawio.png)
