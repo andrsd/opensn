@@ -17,6 +17,7 @@ Framework
 - :doc:`/framework/logical_volume`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
+- :doc:`/framework/mesh_handler`
 - :doc:`/framework/mesh_macros`
 - :doc:`/framework/mpi`
 
@@ -42,5 +43,6 @@ Framework
    framework/logical_volume
    framework/math
    framework/mesh_generators
+   framework/mesh_handler
    framework/mesh_macros
    framework/mpi
