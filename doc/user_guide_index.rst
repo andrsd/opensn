@@ -24,6 +24,7 @@ Framework
 - :doc:`/framework/mpi`
 - :doc:`/framework/physics`
 - :doc:`/framework/physics_material`
+- :doc:`/framework/physics_solver`
 
 
 .. toctree::
@@ -54,3 +55,4 @@ Framework
    framework/mpi
    framework/physics
    framework/physics_material
+   framework/physics_solver
