@@ -7,6 +7,7 @@ Framework
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
+- :doc:`/framework/mpi`
 
 
 .. toctree::
@@ -20,3 +21,4 @@ Framework
    framework/log
    framework/math
    framework/mesh_generators
+   framework/mpi
