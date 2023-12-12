@@ -16,6 +16,7 @@ Framework
 - :doc:`/framework/log`
 - :doc:`/framework/logical_volume`
 - :doc:`/framework/math`
+- :doc:`/framework/mesh`
 - :doc:`/framework/mesh_generators`
 - :doc:`/framework/mesh_handler`
 - :doc:`/framework/mesh_macros`
@@ -57,6 +58,7 @@ Framework
    framework/log
    framework/logical_volume
    framework/math
+   framework/mesh
    framework/mesh_generators
    framework/mesh_handler
    framework/mesh_macros
