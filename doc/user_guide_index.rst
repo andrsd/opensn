@@ -30,6 +30,7 @@ Framework
 - :doc:`/framework/quadrature`
 - :doc:`/framework/rcc_logical_volume`
 - :doc:`/framework/spatial_discretization`
+- :doc:`/framework/surface_mesher`
 
 
 .. toctree::
@@ -66,3 +67,4 @@ Framework
    framework/quadrature
    framework/rcc_logical_volume
    framework/spatial_discretization
+   framework/surface_mesher
