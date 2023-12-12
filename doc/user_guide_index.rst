@@ -27,6 +27,7 @@ Framework
 - :doc:`/framework/physics_solver`
 - :doc:`/framework/post_processors`
 - :doc:`/framework/pp_utils`
+- :doc:`/framework/quadrature`
 
 
 .. toctree::
@@ -60,3 +61,4 @@ Framework
    framework/physics_solver
    framework/post_processors
    framework/pp_utils
+   framework/quadrature
