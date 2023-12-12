@@ -33,6 +33,7 @@ Framework
 - :doc:`/framework/surface_mesher`
 - :doc:`/framework/time_integration`
 - :doc:`/framework/time_steppers`
+- :doc:`/framework/unpartitioned_mesh`
 
 
 .. toctree::
@@ -72,3 +73,4 @@ Framework
    framework/surface_mesher
    framework/time_integration
    framework/time_steppers
+   framework/unpartitioned_mesh
