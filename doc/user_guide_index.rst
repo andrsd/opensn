@@ -34,6 +34,7 @@ Framework
 - :doc:`/framework/time_integration`
 - :doc:`/framework/time_steppers`
 - :doc:`/framework/unpartitioned_mesh`
+- :doc:`/framework/volume_mesher`
 
 
 .. toctree::
@@ -74,3 +75,4 @@ Framework
    framework/time_integration
    framework/time_steppers
    framework/unpartitioned_mesh
+   framework/volume_mesher
