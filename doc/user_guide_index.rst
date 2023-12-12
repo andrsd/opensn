@@ -29,6 +29,7 @@ Framework
 - :doc:`/framework/pp_utils`
 - :doc:`/framework/quadrature`
 - :doc:`/framework/rcc_logical_volume`
+- :doc:`/framework/spatial_discretization`
 
 
 .. toctree::
@@ -64,3 +65,4 @@ Framework
    framework/pp_utils
    framework/quadrature
    framework/rcc_logical_volume
+   framework/spatial_discretization
