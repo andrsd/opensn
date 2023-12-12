@@ -12,6 +12,7 @@ Framework
 - :doc:`/framework/from_file_mesh_generator`
 - :doc:`/framework/functions`
 - :doc:`/framework/graphs`
+- :doc:`/framework/interfaces`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -34,6 +35,7 @@ Framework
    framework/from_file_mesh_generator
    framework/functions
    framework/graphs
+   framework/interfaces
    framework/log
    framework/math
    framework/mesh_generators
