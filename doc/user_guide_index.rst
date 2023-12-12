@@ -20,6 +20,7 @@ Framework
 - :doc:`/framework/mesh_handler`
 - :doc:`/framework/mesh_macros`
 - :doc:`/framework/mesh_modifiers`
+- :doc:`/framework/mgxs`
 - :doc:`/framework/mpi`
 
 
@@ -47,4 +48,5 @@ Framework
    framework/mesh_handler
    framework/mesh_macros
    framework/mesh_modifiers
+   framework/mgxs
    framework/mpi
