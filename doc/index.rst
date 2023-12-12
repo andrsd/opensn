@@ -34,6 +34,7 @@ Welcome to openSn documentation.
    :caption: User's guide
 
    framework/index
+   modules/index
 
 .. toctree::
    :maxdepth: 1
