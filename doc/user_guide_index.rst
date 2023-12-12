@@ -30,6 +30,7 @@ Framework
 - :doc:`/framework/pp_utils`
 - :doc:`/framework/quadrature`
 - :doc:`/framework/rcc_logical_volume`
+- :doc:`/framework/sldfesq`
 - :doc:`/framework/spatial_discretization`
 - :doc:`/framework/surface_mesher`
 - :doc:`/framework/time_integration`
@@ -72,6 +73,7 @@ Framework
    framework/pp_utils
    framework/quadrature
    framework/rcc_logical_volume
+   framework/sldfesq
    framework/spatial_discretization
    framework/surface_mesher
    framework/time_integration
