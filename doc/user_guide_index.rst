@@ -6,6 +6,7 @@ Framework
 - :doc:`/framework/chi_format_xs`
 - :doc:`/framework/event_system`
 - :doc:`/framework/experimental`
+- :doc:`/framework/ffi`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -22,6 +23,7 @@ Framework
    framework/chi_format_xs
    framework/event_system
    framework/experimental
+   framework/ffi
    framework/log
    framework/math
    framework/mesh_generators
