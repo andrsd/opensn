@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Varying &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Vector3" href="vector3.html" />
+    <link rel="prev" title="UnpartitionedMesh" href="unpartitioned_mesh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Varying</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn7VaryingE"><code class="docutils literal notranslate"><span class="pre">Varying</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">Varying</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="varying">
+<h1>Varying<a class="headerlink" href="#varying" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7VaryingE">
+<span id="_CPPv3N6opensn7VaryingE"></span><span id="_CPPv2N6opensn7VaryingE"></span><span id="opensn::Varying"></span><span class="target" id="df/d8e/classopensn_1_1_varying"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><a class="headerlink" href="#_CPPv4N6opensn7VaryingE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying10StringTypeE">
+<span id="_CPPv3I0EN6opensn7Varying10StringTypeE"></span><span id="_CPPv2I0EN6opensn7Varying10StringTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1aba3331e7abc4e5f291f0d4e9ecffb2ad"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8IsStringE" title="opensn::Varying::IsString"><span class="n"><span class="pre">IsString</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying10StringTypeE" title="opensn::Varying::StringType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying10StringTypeE" title="opensn::Varying::StringType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying10StringTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying17SignedIntegerTypeE">
+<span id="_CPPv3I0EN6opensn7Varying17SignedIntegerTypeE"></span><span id="_CPPv2I0EN6opensn7Varying17SignedIntegerTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1aa9a35efd967fb79cb4a369e35ca71a3b"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SignedIntegerType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15IsSignedIntegerE" title="opensn::Varying::IsSignedInteger"><span class="n"><span class="pre">IsSignedInteger</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17SignedIntegerTypeE" title="opensn::Varying::SignedIntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17SignedIntegerTypeE" title="opensn::Varying::SignedIntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying17SignedIntegerTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying19UnsignedIntegerTypeE">
+<span id="_CPPv3I0EN6opensn7Varying19UnsignedIntegerTypeE"></span><span id="_CPPv2I0EN6opensn7Varying19UnsignedIntegerTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1aab6fc3231d934ad82a47ff57db44b8d2"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UnsignedIntegerType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE" title="opensn::Varying::IsUnsignedInteger"><span class="n"><span class="pre">IsUnsignedInteger</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying19UnsignedIntegerTypeE" title="opensn::Varying::UnsignedIntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying19UnsignedIntegerTypeE" title="opensn::Varying::UnsignedIntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying19UnsignedIntegerTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying7VaryingERK1T">
+<span id="_CPPv3I0EN6opensn7Varying7VaryingERK1T"></span><span id="_CPPv2I0EN6opensn7Varying7VaryingERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a865b7606ff269ed91d68fd6e96c4ed87"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying7VaryingERK1T" title="opensn::Varying::Varying::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying7VaryingERK1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Generalized constructor for bool, integral- and float-types. This constructor has been specialized for std::string and std::vector&lt;std::byte&gt;. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7VaryingERKNSt6vectorINSt4byteEEE">
+<span id="_CPPv3N6opensn7Varying7VaryingERKNSt6vectorINSt4byteEEE"></span><span id="_CPPv2N6opensn7Varying7VaryingERKNSt6vectorINSt4byteEEE"></span><span id="opensn::Varying::Varying__std::vector:std::byte:CR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1aef77a630ffc8f225ea5ca70ba4dbfb94"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying7VaryingERKNSt6vectorINSt4byteEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor for an arbitrary sequence of bytes value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7VaryingERKNSt6stringE">
+<span id="_CPPv3N6opensn7Varying7VaryingERKNSt6stringE"></span><span id="_CPPv2N6opensn7Varying7VaryingERKNSt6stringE"></span><span id="opensn::Varying::Varying__ssCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1aaec01d01dd9df19506661bde90e37dd0"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying7VaryingERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor for a string value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7VaryingEPKc">
+<span id="_CPPv3N6opensn7Varying7VaryingEPKc"></span><span id="_CPPv2N6opensn7Varying7VaryingEPKc"></span><span id="opensn::Varying::Varying__cCP"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a1aa816e977f859ff6a959fe1b6379396"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying7VaryingEPKc" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor for a string literal value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7VaryingERK7Varying">
+<span id="_CPPv3N6opensn7Varying7VaryingERK7Varying"></span><span id="_CPPv2N6opensn7Varying7VaryingERK7Varying"></span><span id="opensn::Varying::Varying__VaryingCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1ad35f7f8fc9e06a5c34e3c9914aa6d2ec"></span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying7VaryingERK7Varying" title="opensn::Varying::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying7VaryingERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Copy constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7VaryingERR7Varying">
+<span id="_CPPv3N6opensn7Varying7VaryingERR7Varying"></span><span id="_CPPv2N6opensn7Varying7VaryingERR7Varying"></span><span id="opensn::Varying::Varying__VaryingRR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a5d1389b5482b1148d6714287527bcffe"></span><span class="sig-name descname"><span class="n"><span class="pre">Varying</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn7Varying7VaryingERR7Varying" title="opensn::Varying::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying7VaryingERR7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Move constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7VaryingaSERK7Varying">
+<span id="_CPPv3N6opensn7VaryingaSERK7Varying"></span><span id="_CPPv2N6opensn7VaryingaSERK7Varying"></span><span id="opensn::Varying::assign-operator__VaryingCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a808b7217a6dfc7826e5ced584de55dd1"></span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7VaryingaSERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Assignment operator. i.e., type_A = type_B </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7VaryingaSERKNSt6vectorINSt4byteEEE">
+<span id="_CPPv3N6opensn7VaryingaSERKNSt6vectorINSt4byteEEE"></span><span id="_CPPv2N6opensn7VaryingaSERKNSt6vectorINSt4byteEEE"></span><span id="opensn::Varying::assign-operator__std::vector:std::byte:CR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a4b19319fa43d71a74a682493a7d11441"></span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7VaryingaSERKNSt6vectorINSt4byteEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Assigns an arbitrary sequence of bytes value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7VaryingaSERKNSt6stringE">
+<span id="_CPPv3N6opensn7VaryingaSERKNSt6stringE"></span><span id="_CPPv2N6opensn7VaryingaSERKNSt6stringE"></span><span id="opensn::Varying::assign-operator__ssCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1aa60eba5f490c49d3e6d323c87b089c94"></span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7VaryingaSERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Assigns a string value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T">
+<span id="_CPPv3I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span id="_CPPv2I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying6IsBoolE" title="opensn::Varying::IsBool"><span class="n"><span class="pre">IsBool</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a6cc91d1bc1eb90614ecfa7bf3517a3b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0_NSt11enable_if_tIN6IsBoolI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Assigns a bool value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T">
+<span id="_CPPv3I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span id="_CPPv2I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="opensn::Varying::IsInteger"><span class="n"><span class="pre">IsInteger</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a6cc91d1bc1eb90614ecfa7bf3517a3b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0_NSt11enable_if_tIN9IsIntegerI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Assigns an integer value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T">
+<span id="_CPPv3I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span id="_CPPv2I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying7IsFloatE" title="opensn::Varying::IsFloat"><span class="n"><span class="pre">IsFloat</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a6cc91d1bc1eb90614ecfa7bf3517a3b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="opensn::Varying::operator=::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0_NSt11enable_if_tIN7IsFloatI1TE5valueEbEEEN6opensn7VaryingaSER7VaryingRK1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Assign a floating point value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryingeqERK7Varying">
+<span id="_CPPv3NK6opensn7VaryingeqERK7Varying"></span><span id="_CPPv2NK6opensn7VaryingeqERK7Varying"></span><span id="opensn::Varying::eq-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a51c000cdd1ff64019c362b49c7eea696"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryingeqERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Equality operator </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryingneERK7Varying">
+<span id="_CPPv3NK6opensn7VaryingneERK7Varying"></span><span id="_CPPv2NK6opensn7VaryingneERK7Varying"></span><span id="opensn::Varying::neq-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1acd9c4226e2c2dea3d6675b84effab018"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryingneERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Inequality operator </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryinggtERK7Varying">
+<span id="_CPPv3NK6opensn7VaryinggtERK7Varying"></span><span id="_CPPv2NK6opensn7VaryinggtERK7Varying"></span><span id="opensn::Varying::gt-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1ab47974a90737e8e250163090c5175a5d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryinggtERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Relation operators </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryinggeERK7Varying">
+<span id="_CPPv3NK6opensn7VaryinggeERK7Varying"></span><span id="_CPPv2NK6opensn7VaryinggeERK7Varying"></span><span id="opensn::Varying::gte-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a1024f891cbaaf1d72c4f75078ed6b216"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryinggeERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Relation operators </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryingltERK7Varying">
+<span id="_CPPv3NK6opensn7VaryingltERK7Varying"></span><span id="_CPPv2NK6opensn7VaryingltERK7Varying"></span><span id="opensn::Varying::lt-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1aeb227f0d2d5817ae9e7d68b129b5dfdd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryingltERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Relation operators </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7VaryingleERK7Varying">
+<span id="_CPPv3NK6opensn7VaryingleERK7Varying"></span><span id="_CPPv2NK6opensn7VaryingleERK7Varying"></span><span id="opensn::Varying::lte-operator__VaryingCRC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a004398596c5a42bfcc632c2753d78374"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7VaryingleERK7Varying" title="Link to this definition"></a><br /></dt>
+<dd><p>Relation operators </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK6opensn7Varying8GetValueE8BoolTypeI1TEv">
+<span id="_CPPv3I0ENK6opensn7Varying8GetValueEv"></span><span id="_CPPv2I0ENK6opensn7Varying8GetValueEv"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1ac8f1d4f17b074cd0f0219e2056d873c6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8BoolTypeE" title="opensn::Varying::BoolType"><span class="n"><span class="pre">BoolType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK6opensn7Varying8GetValueE8BoolTypeI1TEv" title="opensn::Varying::GetValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK6opensn7Varying8GetValueE8BoolTypeI1TEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns values of type bool if able. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK6opensn7Varying8GetValueE9FloatTypeI1TEv">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a91780c7431d518fc8caec7ef3761d9c9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9FloatTypeE" title="opensn::Varying::FloatType"><span class="n"><span class="pre">FloatType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK6opensn7Varying8GetValueE9FloatTypeI1TEv" title="opensn::Varying::GetValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK6opensn7Varying8GetValueE9FloatTypeI1TEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns floating point values if able. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK6opensn7Varying8GetValueE10StringTypeI1TEv">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a76544ae8c946422ea46ff041bce446c2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying10StringTypeE" title="opensn::Varying::StringType"><span class="n"><span class="pre">StringType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK6opensn7Varying8GetValueE10StringTypeI1TEv" title="opensn::Varying::GetValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK6opensn7Varying8GetValueE10StringTypeI1TEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a string if able. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK6opensn7Varying8GetValueE17SignedIntegerTypeI1TEv">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a2361f7e345fb62b58cf5df2869a6b923"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17SignedIntegerTypeE" title="opensn::Varying::SignedIntegerType"><span class="n"><span class="pre">SignedIntegerType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK6opensn7Varying8GetValueE17SignedIntegerTypeI1TEv" title="opensn::Varying::GetValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK6opensn7Varying8GetValueE17SignedIntegerTypeI1TEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a signed integer if able. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK6opensn7Varying8GetValueE19UnsignedIntegerTypeI1TEv">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1ac4632fb6e50560efcbacb669b0f3ea10"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying19UnsignedIntegerTypeE" title="opensn::Varying::UnsignedIntegerType"><span class="n"><span class="pre">UnsignedIntegerType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK6opensn7Varying8GetValueE19UnsignedIntegerTypeI1TEv" title="opensn::Varying::GetValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK6opensn7Varying8GetValueE19UnsignedIntegerTypeI1TEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns an unsigned integer if able. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11StringValueEv">
+<span id="_CPPv3NK6opensn7Varying11StringValueEv"></span><span id="_CPPv2NK6opensn7Varying11StringValueEv"></span><span id="opensn::Varying::StringValueC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a9569d7fe8491be8a59ba40daef59f79b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11StringValueEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the string value if valid. Otherwise throws std::logic_error. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying9BoolValueEv">
+<span id="_CPPv3NK6opensn7Varying9BoolValueEv"></span><span id="_CPPv2NK6opensn7Varying9BoolValueEv"></span><span id="opensn::Varying::BoolValueC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a712885348e658a35b86cc823d518f8d1"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying9BoolValueEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the bool value if valid. Otherwise throws std::logic_error. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying12IntegerValueEv">
+<span id="_CPPv3NK6opensn7Varying12IntegerValueEv"></span><span id="_CPPv2NK6opensn7Varying12IntegerValueEv"></span><span id="opensn::Varying::IntegerValueC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1abfafb9485c256113841d357df5b75c29"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying12IntegerValueEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the integer value if valid. Otherwise throws std::logic_error. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying10FloatValueEv">
+<span id="_CPPv3NK6opensn7Varying10FloatValueEv"></span><span id="_CPPv2NK6opensn7Varying10FloatValueEv"></span><span id="opensn::Varying::FloatValueC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a68d889d56f330a785828696e767b9b15"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying10FloatValueEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the float value if valid. Otherwise throws std::logic_error. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying8ByteSizeEv">
+<span id="_CPPv3NK6opensn7Varying8ByteSizeEv"></span><span id="_CPPv2NK6opensn7Varying8ByteSizeEv"></span><span id="opensn::Varying::ByteSizeC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1ab53a528ca21540e0eef0af3a8da2e36d"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ByteSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying8ByteSizeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the raw byte size associated with the type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying4TypeEv">
+<span id="_CPPv3NK6opensn7Varying4TypeEv"></span><span id="_CPPv2NK6opensn7Varying4TypeEv"></span><span id="opensn::Varying::TypeC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a747dcb72ef472c79aac615ee39ca36dd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying4TypeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the current-type of the variable. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying8TypeNameEv">
+<span id="_CPPv3NK6opensn7Varying8TypeNameEv"></span><span id="_CPPv2NK6opensn7Varying8TypeNameEv"></span><span id="opensn::Varying::TypeNameC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a141e31985455f73b2d916d80587eb6b8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TypeName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying8TypeNameEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the string type name of the type. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying8PrintStrEb">
+<span id="_CPPv3NK6opensn7Varying8PrintStrEb"></span><span id="_CPPv2NK6opensn7Varying8PrintStrEb"></span><span id="opensn::Varying::PrintStr__bC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a6d5ea755febbd7d88eaaf384b33a9eef"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintStr</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying8PrintStrEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a string value for the value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7VaryingD0Ev">
+<span id="_CPPv3N6opensn7VaryingD0Ev"></span><span id="_CPPv2N6opensn7VaryingD0Ev"></span><span id="opensn::Varying::~Varying"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1ab799bdb5661da1a59f2a6fd3fdd629a5"></span><span class="sig-name descname"><span class="n"><span class="pre">~Varying</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6opensn7VaryingD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying6HelperERKb">
+<span id="_CPPv3N6opensn7Varying6HelperERKb"></span><span id="_CPPv2N6opensn7Varying6HelperERKb"></span><span id="opensn::Varying::Helper__bCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a74afac49e526e82d0ec4a94a110940ee"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Helper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying6HelperERKb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying6HelperERK7int64_t">
+<span id="_CPPv3N6opensn7Varying6HelperERK7int64_t"></span><span id="_CPPv2N6opensn7Varying6HelperERK7int64_t"></span><span id="opensn::Varying::Helper__int64_tCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a1afc36e98e1467f249faa2fedf7f725d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Helper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying6HelperERK7int64_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying6HelperERKd">
+<span id="_CPPv3N6opensn7Varying6HelperERKd"></span><span id="_CPPv2N6opensn7Varying6HelperERKd"></span><span id="opensn::Varying::Helper__doubleCR"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a6b238042c4d2e72fd2b3ae05cc081e26"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Helper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying6HelperERKd" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying12DefaultValueE1Tv">
+<span id="_CPPv3I0EN6opensn7Varying12DefaultValueEv"></span><span id="_CPPv2I0EN6opensn7Varying12DefaultValueEv"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1af83e07e613eed46cab3d5dd114d07642"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying12DefaultValueE1Tv" title="opensn::Varying::DefaultValue::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DefaultValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying12DefaultValueE1Tv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a default value for the type required. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-types">Private Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying8BoolTypeE">
+<span id="_CPPv3I0EN6opensn7Varying8BoolTypeE"></span><span id="_CPPv2I0EN6opensn7Varying8BoolTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a5862c9c0b01767f77f8c8bdb5ae1f73c"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying6IsBoolE" title="opensn::Varying::IsBool"><span class="n"><span class="pre">IsBool</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8BoolTypeE" title="opensn::Varying::BoolType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8BoolTypeE" title="opensn::Varying::BoolType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying8BoolTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying9FloatTypeE">
+<span id="_CPPv3I0EN6opensn7Varying9FloatTypeE"></span><span id="_CPPv2I0EN6opensn7Varying9FloatTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a6c54e5355afe2202306bbc90c64afb3c"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying7IsFloatE" title="opensn::Varying::IsFloat"><span class="n"><span class="pre">IsFloat</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9FloatTypeE" title="opensn::Varying::FloatType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9FloatTypeE" title="opensn::Varying::FloatType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying9FloatTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying11IntegerTypeE">
+<span id="_CPPv3I0EN6opensn7Varying11IntegerTypeE"></span><span id="_CPPv2I0EN6opensn7Varying11IntegerTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a72161d7a635556619ba92a54916de11f"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="opensn::Varying::IsInteger"><span class="n"><span class="pre">IsInteger</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying11IntegerTypeE" title="opensn::Varying::IntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying11IntegerTypeE" title="opensn::Varying::IntegerType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying11IntegerTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying15BoolStorageTypeE">
+<span id="_CPPv3I0EN6opensn7Varying15BoolStorageTypeE"></span><span id="_CPPv2I0EN6opensn7Varying15BoolStorageTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a316b002d1062ceca2b38c1affb34af2e"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolStorageType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying6IsBoolE" title="opensn::Varying::IsBool"><span class="n"><span class="pre">IsBool</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15BoolStorageTypeE" title="opensn::Varying::BoolStorageType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying15BoolStorageTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying16FloatStorageTypeE">
+<span id="_CPPv3I0EN6opensn7Varying16FloatStorageTypeE"></span><span id="_CPPv2I0EN6opensn7Varying16FloatStorageTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a9466ca8b06d446e1958526eeb2bb1b17"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatStorageType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying7IsFloatE" title="opensn::Varying::IsFloat"><span class="n"><span class="pre">IsFloat</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying16FloatStorageTypeE" title="opensn::Varying::FloatStorageType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying16FloatStorageTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying18IntegerStorageTypeE">
+<span id="_CPPv3I0EN6opensn7Varying18IntegerStorageTypeE"></span><span id="_CPPv2I0EN6opensn7Varying18IntegerStorageTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a9740556cbf60564b3bf53070b6660c63"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerStorageType</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">enable_if_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="opensn::Varying::IsInteger"><span class="n"><span class="pre">IsInteger</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying18IntegerStorageTypeE" title="opensn::Varying::IntegerStorageType::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying18IntegerStorageTypeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying9CastValueE15BoolStorageTypeI1TERK1T">
+<span id="_CPPv3I0EN6opensn7Varying9CastValueERK1T"></span><span id="_CPPv2I0EN6opensn7Varying9CastValueERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1aa6a0126a2c1d0819d542035b9e13c7a8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15BoolStorageTypeE" title="opensn::Varying::BoolStorageType"><span class="n"><span class="pre">BoolStorageType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE15BoolStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CastValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE15BoolStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying9CastValueE15BoolStorageTypeI1TERK1T" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying9CastValueE16FloatStorageTypeI1TERK1T">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1aee367293ebe2e80683e14c084a1e2f3e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying16FloatStorageTypeE" title="opensn::Varying::FloatStorageType"><span class="n"><span class="pre">FloatStorageType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE16FloatStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CastValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE16FloatStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying9CastValueE16FloatStorageTypeI1TERK1T" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying9CastValueE18IntegerStorageTypeI1TERK1T">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d8e/classopensn_1_1_varying_1a27c4ef7aec990c6a8f9cfcabd9b98980"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying18IntegerStorageTypeE" title="opensn::Varying::IntegerStorageType"><span class="n"><span class="pre">IntegerStorageType</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE18IntegerStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CastValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9CastValueE18IntegerStorageTypeI1TERK1T" title="opensn::Varying::CastValue::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying9CastValueE18IntegerStorageTypeI1TERK1T" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying14CheckTypeMatchE15VaryingDataType15VaryingDataType">
+<span id="_CPPv3NK6opensn7Varying14CheckTypeMatchE15VaryingDataType15VaryingDataType"></span><span id="_CPPv2NK6opensn7Varying14CheckTypeMatchE15VaryingDataType15VaryingDataType"></span><span id="opensn::Varying::CheckTypeMatch__VaryingDataType.VaryingDataTypeC"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1abf50b5f6088be7ee958a3be0d689f501"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CheckTypeMatch</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">type_A</span></span>, <a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">type_B_required</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying14CheckTypeMatchE15VaryingDataType15VaryingDataType" title="Link to this definition"></a><br /></dt>
+<dd><p>Checks if two VaryingDataType values match. Type A is matched against type B. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying5type_E">
+<span id="_CPPv3N6opensn7Varying5type_E"></span><span id="_CPPv2N6opensn7Varying5type_E"></span><span id="opensn::Varying::type___VaryingDataType"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1ac2494aeb5dbcc16ed383309eb8ca0564"></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataType4VOIDE" title="opensn::VaryingDataType::VOID"><span class="n"><span class="pre">VOID</span></span></a><a class="headerlink" href="#_CPPv4N6opensn7Varying5type_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Type specification </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying5data_E">
+<span id="_CPPv3N6opensn7Varying5data_E"></span><span id="_CPPv2N6opensn7Varying5data_E"></span><span id="opensn::Varying::data___std::unique_ptr:VaryingType:"></span><span class="target" id="df/d8e/classopensn_1_1_varying_1a5c8eafd9d56436869ef6faf5ff1b0ea9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying5data_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying6IsBoolE">
+<span id="_CPPv3I0EN6opensn7Varying6IsBoolE"></span><span id="_CPPv2I0EN6opensn7Varying6IsBoolE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="dd/d88/structopensn_1_1_varying_1_1_is_bool"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsBool</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying6IsBoolE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying6IsBool5valueE">
+<span id="_CPPv3N6opensn7Varying6IsBool5valueE"></span><span id="_CPPv2N6opensn7Varying6IsBool5valueE"></span><span id="opensn::Varying::IsBool::value__b"></span><span class="target" id="dd/d88/structopensn_1_1_varying_1_1_is_bool_1aab2398cb4c8f0a4426f470d5934c185f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying6IsBoolE" title="opensn::Varying::IsBool::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying6IsBool5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying11IsByteArrayE">
+<span id="_CPPv3I0EN6opensn7Varying11IsByteArrayE"></span><span id="_CPPv2I0EN6opensn7Varying11IsByteArrayE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="df/d26/structopensn_1_1_varying_1_1_is_byte_array"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsByteArray</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying11IsByteArrayE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying11IsByteArray5valueE">
+<span id="_CPPv3N6opensn7Varying11IsByteArray5valueE"></span><span id="_CPPv2N6opensn7Varying11IsByteArray5valueE"></span><span id="opensn::Varying::IsByteArray::value__b"></span><span class="target" id="df/d26/structopensn_1_1_varying_1_1_is_byte_array_1a798358b3c95542d9a29bc7bce0f6f817"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying11IsByteArrayE" title="opensn::Varying::IsByteArray::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying11IsByteArray5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying7IsFloatE">
+<span id="_CPPv3I0EN6opensn7Varying7IsFloatE"></span><span id="_CPPv2I0EN6opensn7Varying7IsFloatE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="db/d35/structopensn_1_1_varying_1_1_is_float"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsFloat</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying7IsFloatE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying7IsFloat5valueE">
+<span id="_CPPv3N6opensn7Varying7IsFloat5valueE"></span><span id="_CPPv2N6opensn7Varying7IsFloat5valueE"></span><span id="opensn::Varying::IsFloat::value__b"></span><span class="target" id="db/d35/structopensn_1_1_varying_1_1_is_float_1a1b736c8cfc822c1c762435fa661470c6"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_floating_point_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying7IsFloatE" title="opensn::Varying::IsFloat::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying7IsFloat5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying9IsIntegerE">
+<span id="_CPPv3I0EN6opensn7Varying9IsIntegerE"></span><span id="_CPPv2I0EN6opensn7Varying9IsIntegerE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d3/d27/structopensn_1_1_varying_1_1_is_integer"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsInteger</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying9IsInteger5valueE">
+<span id="_CPPv3N6opensn7Varying9IsInteger5valueE"></span><span id="_CPPv2N6opensn7Varying9IsInteger5valueE"></span><span id="opensn::Varying::IsInteger::value__b"></span><span class="target" id="d3/d27/structopensn_1_1_varying_1_1_is_integer_1a5fb77230ebb87e21856f743930666d95"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_integral_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="opensn::Varying::IsInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">and</span></span><span class="w"> </span><span class="k"><span class="pre">not</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying9IsIntegerE" title="opensn::Varying::IsInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying9IsInteger5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying15IsSignedIntegerE">
+<span id="_CPPv3I0EN6opensn7Varying15IsSignedIntegerE"></span><span id="_CPPv2I0EN6opensn7Varying15IsSignedIntegerE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="dd/dfb/structopensn_1_1_varying_1_1_is_signed_integer"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsSignedInteger</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying15IsSignedIntegerE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying15IsSignedInteger5valueE">
+<span id="_CPPv3N6opensn7Varying15IsSignedInteger5valueE"></span><span id="_CPPv2N6opensn7Varying15IsSignedInteger5valueE"></span><span id="opensn::Varying::IsSignedInteger::value__b"></span><span class="target" id="dd/dfb/structopensn_1_1_varying_1_1_is_signed_integer_1a78a77213ae21da8b85c605d26b4f739a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_integral_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15IsSignedIntegerE" title="opensn::Varying::IsSignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">and</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_signed_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15IsSignedIntegerE" title="opensn::Varying::IsSignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">and</span></span><span class="w"> </span><span class="k"><span class="pre">not</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying15IsSignedIntegerE" title="opensn::Varying::IsSignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying15IsSignedInteger5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying8IsStringE">
+<span id="_CPPv3I0EN6opensn7Varying8IsStringE"></span><span id="_CPPv2I0EN6opensn7Varying8IsStringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d4/db2/structopensn_1_1_varying_1_1_is_string"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsString</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying8IsStringE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying8IsString5valueE">
+<span id="_CPPv3N6opensn7Varying8IsString5valueE"></span><span id="_CPPv2N6opensn7Varying8IsString5valueE"></span><span id="opensn::Varying::IsString::value__b"></span><span class="target" id="d4/db2/structopensn_1_1_varying_1_1_is_string_1a40fd3bb42a5d7f9c985d0da21963fec9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8IsStringE" title="opensn::Varying::IsString::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">or</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying8IsStringE" title="opensn::Varying::IsString::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying8IsString5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE">
+<span id="_CPPv3I0EN6opensn7Varying17IsUnsignedIntegerE"></span><span id="_CPPv2I0EN6opensn7Varying17IsUnsignedIntegerE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="dc/d9f/structopensn_1_1_varying_1_1_is_unsigned_integer"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsUnsignedInteger</span></span></span><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying17IsUnsignedInteger5valueE">
+<span id="_CPPv3N6opensn7Varying17IsUnsignedInteger5valueE"></span><span id="_CPPv2N6opensn7Varying17IsUnsignedInteger5valueE"></span><span id="opensn::Varying::IsUnsignedInteger::value__b"></span><span class="target" id="dc/d9f/structopensn_1_1_varying_1_1_is_unsigned_integer_1a1ae0776e42dde84c04caf3d05d2fc087"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_integral_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE" title="opensn::Varying::IsUnsignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">and</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_unsigned_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE" title="opensn::Varying::IsUnsignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="k"><span class="pre">and</span></span><span class="w"> </span><span class="k"><span class="pre">not</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">is_same_v</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying17IsUnsignedIntegerE" title="opensn::Varying::IsUnsignedInteger::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying17IsUnsignedInteger5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn7Varying20VaryingArbitraryTypeE">
+<span id="_CPPv3I0EN6opensn7Varying20VaryingArbitraryTypeE"></span><span id="_CPPv2I0EN6opensn7Varying20VaryingArbitraryTypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VaryingArbitraryType</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn7VaryingE" title="opensn::Varying"><span class="n"><span class="pre">Varying</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><a class="headerlink" href="#_CPPv4I0EN6opensn7Varying20VaryingArbitraryTypeE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying20VaryingArbitraryType20VaryingArbitraryTypeE1T">
+<span id="_CPPv3N6opensn7Varying20VaryingArbitraryType20VaryingArbitraryTypeE1T"></span><span id="_CPPv2N6opensn7Varying20VaryingArbitraryType20VaryingArbitraryTypeE1T"></span><span id="opensn::Varying::VaryingArbitraryType::VaryingArbitraryType__T"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1abd82d1fc738ba8ebf81b52b843e0180e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VaryingArbitraryType</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying20VaryingArbitraryTypeE" title="opensn::Varying::VaryingArbitraryType::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying20VaryingArbitraryType20VaryingArbitraryTypeE1T" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType11StringValueEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType11StringValueEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType11StringValueEv"></span><span id="opensn::Varying::VaryingArbitraryType::StringValueC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a9c08101be04ed2395892c1832e20f6f5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType11StringValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType9BoolValueEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType9BoolValueEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType9BoolValueEv"></span><span id="opensn::Varying::VaryingArbitraryType::BoolValueC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a3d08b65ec0a921e2464b7e231f5287d2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType9BoolValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType12IntegerValueEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType12IntegerValueEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType12IntegerValueEv"></span><span id="opensn::Varying::VaryingArbitraryType::IntegerValueC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a7b9fe20ea969a10436fe669951336446"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType12IntegerValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType10FloatValueEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType10FloatValueEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType10FloatValueEv"></span><span id="opensn::Varying::VaryingArbitraryType::FloatValueC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a7a8dc2e334bdfeeeb773c63566dc5fb0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType10FloatValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType5CloneEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType5CloneEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType5CloneEv"></span><span id="opensn::Varying::VaryingArbitraryType::CloneC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a353994d7a8986c56f188e0045bfe3c3d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Clone</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType5CloneEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryType4SizeEv">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryType4SizeEv"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryType4SizeEv"></span><span id="opensn::Varying::VaryingArbitraryType::SizeC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1aa43714a4fc49e53fddb3ee3dd23d0cb4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryType4SizeEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypeeqERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypeeqERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypeeqERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::eq-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1aa91180e4cf743abbf1669840e0690305"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypeeqERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypeneERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypeneERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypeneERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::neq-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a41596e961cf1c1f25bd9c3b61af88604"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypeneERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypegtERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypegtERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypegtERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::gt-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1aac685c5e121a3204d7392b2ac24ba29b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypegtERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypeltERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypeltERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypeltERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::lt-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a2dc2c2ad1eb7d0e4899f05d989aff3cb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypeltERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypegeERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypegeERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypegeERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::gte-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a9198dc2d8878a56df75787d0018db337"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypegeERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying20VaryingArbitraryTypeleERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying20VaryingArbitraryTypeleERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying20VaryingArbitraryTypeleERK11VaryingType"></span><span id="opensn::Varying::VaryingArbitraryType::lte-operator__VaryingTypeCRC"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1aa52021bcb6e4a177445717ba0439ba6a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying20VaryingArbitraryTypeleERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1af14363863e9eacae1f8c6d02b483f87c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a613c560ae8f79e01afa2d88e92781a90"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1ae641c0794f28bccdd5324ee5e45a6560"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a0d5c41e6a2d455d4cd8dcf7a4725dc62"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1ae4f76205059292fd8f0f22116afd4a4a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1acf544ff1fe86f55bcb473b70d5b003f6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a62ae82c4191dc788753a13c005385388"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a4f82769a2935242d26f696cfc40e6217"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a44f1cd48ab2b6c29be67ca4a3e8dffeb"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1ab58abffe7f7f070d75b23e6a5311c7a5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1af8c31b34472e9bbb460decc47d6a8ca6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a239963365fcaf4d7e7aca039736df3ad"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a12f4db469671dc10b82e09f2d187a802"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a5cc2b96928cb3ca4b2c87b94ced55eb9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a492817b5da125f1970ce21927816d574"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a1b03ccd1856dd66c28b9e501a68d1f78"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1ad96063e150f7ccf6c6cc69e3d0a861c7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a90aaf3ab97b7a2dc30a8bdf4deb52ec6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a6e5c9a6fec4e5e5be471a051a29d8a35"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a683e3ff37e344d33c34ca68ce156222d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying20VaryingArbitraryType6value_E">
+<span id="_CPPv3N6opensn7Varying20VaryingArbitraryType6value_E"></span><span id="_CPPv2N6opensn7Varying20VaryingArbitraryType6value_E"></span><span id="opensn::Varying::VaryingArbitraryType::value___T"></span><span class="target" id="dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type_1a36cc15b8902a79749ca26ae72501eff6"></span><a class="reference internal" href="#_CPPv4I0EN6opensn7Varying20VaryingArbitraryTypeE" title="opensn::Varying::VaryingArbitraryType::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying20VaryingArbitraryType6value_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying11VaryingTypeE">
+<span id="_CPPv3N6opensn7Varying11VaryingTypeE"></span><span id="_CPPv2N6opensn7Varying11VaryingTypeE"></span><span id="opensn::Varying::VaryingType"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VaryingType</span></span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="Link to this definition"></a><br /></dt>
+<dd><p>This acts as a base class for templated child arbitrary types </p>
+<p>Subclassed by <a class="reference internal" href="#dc/d72/classopensn_1_1_varying_1_1_varying_arbitrary_type"><span class="std std-ref">opensn::Varying::VaryingArbitraryType&lt; T &gt;</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType11StringValueEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType11StringValueEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType11StringValueEv"></span><span id="opensn::Varying::VaryingType::StringValueC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a6017697ba55d5eb831b9bc6dc0f38bfe"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType11StringValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType9BoolValueEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType9BoolValueEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType9BoolValueEv"></span><span id="opensn::Varying::VaryingType::BoolValueC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1ac43abe35edc4528d63b9fbb6fc3692ef"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoolValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType9BoolValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType12IntegerValueEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType12IntegerValueEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType12IntegerValueEv"></span><span id="opensn::Varying::VaryingType::IntegerValueC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a255af6ced73115c8630945de7b304870"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegerValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType12IntegerValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType10FloatValueEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType10FloatValueEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType10FloatValueEv"></span><span id="opensn::Varying::VaryingType::FloatValueC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1acf9ca52117424678d9fbce8aa7d685dc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType10FloatValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType10BytesValueEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType10BytesValueEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType10BytesValueEv"></span><span id="opensn::Varying::VaryingType::BytesValueC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1ae37ca7f71aa8446ed5eebed078e37573"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BytesValue</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType10BytesValueEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType5CloneEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType5CloneEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType5CloneEv"></span><span id="opensn::Varying::VaryingType::CloneC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a870da7620b326a512796c03bb6fdd4df"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Clone</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType5CloneEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType4SizeEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType4SizeEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType4SizeEv"></span><span id="opensn::Varying::VaryingType::SizeC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1ab9b074e4dceffae296e56e156ae8fac6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType4SizeEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypeeqERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypeeqERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypeeqERK11VaryingType"></span><span id="opensn::Varying::VaryingType::eq-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a26cddbaf8d6c13ba56e0e7f31f151fad"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypeeqERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypeneERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypeneERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypeneERK11VaryingType"></span><span id="opensn::Varying::VaryingType::neq-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a660b538f625f7efbdd5fc2b344733db5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypeneERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypegtERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypegtERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypegtERK11VaryingType"></span><span id="opensn::Varying::VaryingType::gt-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1af229680bee0d3781c106d0e35a2b6a36"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypegtERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypeltERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypeltERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypeltERK11VaryingType"></span><span id="opensn::Varying::VaryingType::lt-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1aed3a455e3fb120d4d4d5ed0bcf0525c7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypeltERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypegeERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypegeERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypegeERK11VaryingType"></span><span id="opensn::Varying::VaryingType::gte-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1aeda4797786ad1f6012585102980c703d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&gt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypegeERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingTypeleERK11VaryingType">
+<span id="_CPPv3NK6opensn7Varying11VaryingTypeleERK11VaryingType"></span><span id="_CPPv2NK6opensn7Varying11VaryingTypeleERK11VaryingType"></span><span id="opensn::Varying::VaryingType::lte-operator__VaryingTypeCRC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a9360e570991e692c0bb265e2f8f9a975"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn7Varying11VaryingTypeE" title="opensn::Varying::VaryingType"><span class="n"><span class="pre">VaryingType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">that</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingTypeleERK11VaryingType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn7Varying11VaryingType4TypeEv">
+<span id="_CPPv3NK6opensn7Varying11VaryingType4TypeEv"></span><span id="_CPPv2NK6opensn7Varying11VaryingType4TypeEv"></span><span id="opensn::Varying::VaryingType::TypeC"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1afeb5c6dbe3a68910fd3f59bb5b05954b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn7Varying11VaryingType4TypeEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying11VaryingTypeD0Ev">
+<span id="_CPPv3N6opensn7Varying11VaryingTypeD0Ev"></span><span id="_CPPv2N6opensn7Varying11VaryingTypeD0Ev"></span><span id="opensn::Varying::VaryingType::~VaryingType"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a33ef29f2b68930329ce0a63ea3bca9b7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~VaryingType</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying11VaryingTypeD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying11VaryingType11VaryingTypeE15VaryingDataType">
+<span id="_CPPv3N6opensn7Varying11VaryingType11VaryingTypeE15VaryingDataType"></span><span id="_CPPv2N6opensn7Varying11VaryingType11VaryingTypeE15VaryingDataType"></span><span id="opensn::Varying::VaryingType::VaryingType__VaryingDataType"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1a01e1ecb15e06bf9a80ce8224be2afe0c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VaryingType</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn7Varying11VaryingType11VaryingTypeE15VaryingDataType" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn7Varying11VaryingType5type_E">
+<span id="_CPPv3N6opensn7Varying11VaryingType5type_E"></span><span id="_CPPv2N6opensn7Varying11VaryingType5type_E"></span><span id="opensn::Varying::VaryingType::type___VaryingDataType"></span><span class="target" id="d7/d8c/classopensn_1_1_varying_1_1_varying_type_1ab5652321351e3c76c8de554bf21542c8"></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15VaryingDataTypeE" title="opensn::VaryingDataType"><span class="n"><span class="pre">VaryingDataType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn7Varying11VaryingType5type_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="unpartitioned_mesh.html" class="btn btn-neutral float-left" title="UnpartitionedMesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vector3.html" class="btn btn-neutral float-right" title="Vector3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

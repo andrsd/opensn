@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AAH_FLUDSCommonData &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="AdjointMGXS" href="adjoint_mgxs.html" />
+    <link rel="prev" title="AAH_FLUDS" href="aah_fluds.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AAH_FLUDSCommonData</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn19AAH_FLUDSCommonDataE"><code class="docutils literal notranslate"><span class="pre">AAH_FLUDSCommonData</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">AAH_FLUDSCommonData</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aah-fludscommondata">
+<h1>AAH_FLUDSCommonData<a class="headerlink" href="#aah-fludscommondata" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonDataE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonDataE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonDataE"></span><span id="opensn::AAH_FLUDSCommonData"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AAH_FLUDSCommonData</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="fluds_common_data.html#_CPPv4N6opensn15FLUDSCommonDataE" title="opensn::FLUDSCommonData"><span class="n"><span class="pre">FLUDSCommonData</span></span></a><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonDataE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData19AAH_FLUDSCommonDataERKNSt6vectorI20CellFaceNodalMappingEERK4SPDSRK17GridFaceHistogram">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData19AAH_FLUDSCommonDataERKNSt6vectorI20CellFaceNodalMappingEERK4SPDSRK17GridFaceHistogram"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData19AAH_FLUDSCommonDataERKNSt6vectorI20CellFaceNodalMappingEERK4SPDSRK17GridFaceHistogram"></span><span id="opensn::AAH_FLUDSCommonData::AAH_FLUDSCommonData__std::vector:CellFaceNodalMapping:CR.SPDSCR.GridFaceHistogramCR"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a20c1a63697a0ae9fb593f583c3341f4a"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AAH_FLUDSCommonData</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn20CellFaceNodalMappingE" title="opensn::CellFaceNodalMapping"><span class="n"><span class="pre">CellFaceNodalMapping</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_nodal_mappings</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="grid_face_histogram.html#_CPPv4N6opensn17GridFaceHistogramE" title="opensn::GridFaceHistogram"><span class="n"><span class="pre">GridFaceHistogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_face_histogram</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData19AAH_FLUDSCommonDataERKNSt6vectorI20CellFaceNodalMappingEERK4SPDSRK17GridFaceHistogram" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData12largest_faceE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData12largest_faceE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData12largest_faceE"></span><span id="opensn::AAH_FLUDSCommonData::largest_face__i"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a1b2fbb1bf207344f005062083ae92402"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">largest_face</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData12largest_faceE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData19num_face_categoriesE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData19num_face_categoriesE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData19num_face_categoriesE"></span><span id="opensn::AAH_FLUDSCommonData::num_face_categories__s"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a3616f657e8018950e54d2d68ca1ceaea"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_face_categories</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData19num_face_categoriesE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of face categories. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData16local_psi_strideE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData16local_psi_strideE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData16local_psi_strideE"></span><span id="opensn::AAH_FLUDSCommonData::local_psi_stride__std::vector:s:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1ad3f23282cee942936fb1a6e7a26d5fb0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_psi_stride</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData16local_psi_strideE" title="Link to this definition"></a><br /></dt>
+<dd><p>Group-angle-faceDOF stride per cat. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData22local_psi_max_elementsE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData22local_psi_max_elementsE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData22local_psi_max_elementsE"></span><span id="opensn::AAH_FLUDSCommonData::local_psi_max_elements__std::vector:s:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a816daca7afa71e97f461dc930f2327d6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_psi_max_elements</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData22local_psi_max_elementsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of faces in each cat. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData24delayed_local_psi_strideE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData24delayed_local_psi_strideE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData24delayed_local_psi_strideE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_local_psi_stride__s"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a6819e5ea2c01fe1152d83a33c4690fa5"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_stride</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData24delayed_local_psi_strideE" title="Link to this definition"></a><br /></dt>
+<dd><p>Group-angle-faceDOF stride delayed cat. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData30delayed_local_psi_max_elementsE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData30delayed_local_psi_max_elementsE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData30delayed_local_psi_max_elementsE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_local_psi_max_elements__s"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a6b49f358b0f4cf5cf0d9f4ab3b6f1a69"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_max_elements</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData30delayed_local_psi_max_elementsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of faces in delayed cat. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData24local_psi_n_block_strideE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData24local_psi_n_block_strideE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData24local_psi_n_block_strideE"></span><span id="opensn::AAH_FLUDSCommonData::local_psi_n_block_stride__std::vector:s:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1af887bd14dd0805f798c842de32c99048"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_psi_n_block_stride</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData24local_psi_n_block_strideE" title="Link to this definition"></a><br /></dt>
+<dd><p>local_psi_n_block_stride[fc]. Given face category fc, the value is total number of faces that store information in this category’s buffer per angle </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData26local_psi_Gn_block_strideGE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData26local_psi_Gn_block_strideGE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData26local_psi_Gn_block_strideGE"></span><span id="opensn::AAH_FLUDSCommonData::local_psi_Gn_block_strideG__std::vector:s:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a6db07370c4e48e29ddc19a309b844e56"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_psi_Gn_block_strideG</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData26local_psi_Gn_block_strideGE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData33delayed_local_psi_Gn_block_strideE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData33delayed_local_psi_Gn_block_strideE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData33delayed_local_psi_Gn_block_strideE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_local_psi_Gn_block_stride__s"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a30b6b298476792e2d25bde3a9004b410"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_Gn_block_stride</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData33delayed_local_psi_Gn_block_strideE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData34delayed_local_psi_Gn_block_strideGE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData34delayed_local_psi_Gn_block_strideGE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData34delayed_local_psi_Gn_block_strideGE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_local_psi_Gn_block_strideG__s"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a18b22ae38b6f2f724ac5591d9d2c9747"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_Gn_block_strideG</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData34delayed_local_psi_Gn_block_strideGE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData21boundary_dependenciesE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData21boundary_dependenciesE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData21boundary_dependenciesE"></span><span id="opensn::AAH_FLUDSCommonData::boundary_dependencies__std::vector:i:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a2b84f1187ee53f07051661ada2544d3b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boundary_dependencies</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData21boundary_dependenciesE" title="Link to this definition"></a><br /></dt>
+<dd><p>Very small vector listing the boundaries this location depends on. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData22deplocI_face_dof_countE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData22deplocI_face_dof_countE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData22deplocI_face_dof_countE"></span><span id="opensn::AAH_FLUDSCommonData::deplocI_face_dof_count__std::vector:i:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a4872f9b2156e0b80357bef167fab53eb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deplocI_face_dof_count</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData22deplocI_face_dof_countE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a small vector [deplocI] that holds the number of face dofs for each dependent location. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18deplocI_cell_viewsE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18deplocI_cell_viewsE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18deplocI_cell_viewsE"></span><span id="opensn::AAH_FLUDSCommonData::deplocI_cell_views__std::vector:std::vector:CompactCellView::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1aea8f97e5bacb2476cf9918c02d73ae43"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15CompactCellViewE" title="opensn::CompactCellView"><span class="n"><span class="pre">CompactCellView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deplocI_cell_views</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18deplocI_cell_viewsE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [dependent_location][unordered_cell_index] that holds an AlphaPair. AlphaPair-first is the cell’s global_id and AlphaPair-second holds a number of BetaPairs. Each BetaPair comprises BetaPair-first = face_slot_index (the location of this faces data in the psi vector, and then a vector of vertex indexes that can be used for dof_mapping. Filled during slot-dynamics. Cleared after beta-pass. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData30so_cell_outb_face_slot_indicesE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData30so_cell_outb_face_slot_indicesE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData30so_cell_outb_face_slot_indicesE"></span><span id="opensn::AAH_FLUDSCommonData::so_cell_outb_face_slot_indices__std::vector:iP:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1ac8874be76e71cb905e489fcdca52dd3c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">so_cell_outb_face_slot_indices</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData30so_cell_outb_face_slot_indicesE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [cell_sweep_order_index][outgoing_face_count] which holds the slot address in the local psi vector where the first face dof will store its data </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData31so_cell_outb_face_face_categoryE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData31so_cell_outb_face_face_categoryE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData31so_cell_outb_face_face_categoryE"></span><span id="opensn::AAH_FLUDSCommonData::so_cell_outb_face_face_category__std::vector:shortP:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a87f72572f4a6db6f52f1e6a09839836a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">so_cell_outb_face_face_category</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData31so_cell_outb_face_face_categoryE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [cell_sweep_order_index][outgoing_face_count] which holds the face categorization for the face. i.e. the local psi vector that hold faces of the same category. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData31so_cell_inco_face_face_categoryE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData31so_cell_inco_face_face_categoryE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData31so_cell_inco_face_face_categoryE"></span><span id="opensn::AAH_FLUDSCommonData::so_cell_inco_face_face_category__std::vector:shortP:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a96b547c162214a47765db55e5d14b4b8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">so_cell_inco_face_face_category</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData31so_cell_inco_face_face_categoryE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [cell_sweep_order_index][incoming_face_count] which holds the face categorization for the face. i.e. the local psi vector that hold faces of the same category. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData23InitializeAlphaElementsERK4SPDSRK17GridFaceHistogram">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData23InitializeAlphaElementsERK4SPDSRK17GridFaceHistogram"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData23InitializeAlphaElementsERK4SPDSRK17GridFaceHistogram"></span><span id="opensn::AAH_FLUDSCommonData::InitializeAlphaElements__SPDSCR.GridFaceHistogramCR"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a45a4d7e96d1e6b6d19be46e339c23771"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitializeAlphaElements</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="grid_face_histogram.html#_CPPv4N6opensn17GridFaceHistogramE" title="opensn::GridFaceHistogram"><span class="n"><span class="pre">GridFaceHistogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_face_histogram</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData23InitializeAlphaElementsERK4SPDSRK17GridFaceHistogram" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData12SlotDynamicsERK4CellRK4SPDSRK17GridFaceHistogramRNSt6vectorINSt6vectorINSt4pairIisEEEEEERNSt6vectorINSt4pairIisEEEERNSt3setIiEE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData12SlotDynamicsERK4CellRK4SPDSRK17GridFaceHistogramRNSt6vectorINSt6vectorINSt4pairIisEEEEEERNSt6vectorINSt4pairIisEEEERNSt3setIiEE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData12SlotDynamicsERK4CellRK4SPDSRK17GridFaceHistogramRNSt6vectorINSt6vectorINSt4pairIisEEEEEERNSt6vectorINSt4pairIisEEEERNSt3setIiEE"></span><span id="opensn::AAH_FLUDSCommonData::SlotDynamics__CellCR.SPDSCR.GridFaceHistogramCR.std::vector:std::vector:std::pair:i.short:::R.std::vector:std::pair:i.short::R.std::set:i:R"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a0c9fb0c3aa9367828c7777b603e2ea95"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SlotDynamics</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="grid_face_histogram.html#_CPPv4N6opensn17GridFaceHistogramE" title="opensn::GridFaceHistogram"><span class="n"><span class="pre">GridFaceHistogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_face_histogram</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lock_boxes</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">delayed_lock_box</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">location_boundary_dependency_set</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData12SlotDynamicsERK4CellRK4SPDSRK17GridFaceHistogramRNSt6vectorINSt6vectorINSt4pairIisEEEEEERNSt6vectorINSt4pairIisEEEERNSt3setIiEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData20AddFaceViewToDepLocIEiiiRK8CellFace">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData20AddFaceViewToDepLocIEiiiRK8CellFace"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData20AddFaceViewToDepLocIEiiiRK8CellFace"></span><span id="opensn::AAH_FLUDSCommonData::AddFaceViewToDepLocI__i.i.i.CellFaceCR"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1aaf7f3e618f211f93180a4477beb5bbb0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddFaceViewToDepLocI</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">deplocI</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_g_index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_slot</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell_face.html#_CPPv4N6opensn8CellFaceE" title="opensn::CellFace"><span class="n"><span class="pre">CellFace</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData20AddFaceViewToDepLocIEiiiRK8CellFace" title="Link to this definition"></a><br /></dt>
+<dd><p>Given a sweep ordering index, the outgoing face counter, the outgoing face dof, this function computes the location of this position’s upwind psi in the local upwind psi vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData20LocalIncidentMappingERK4CellRK4SPDSRNSt6vectorIiEE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData20LocalIncidentMappingERK4CellRK4SPDSRNSt6vectorIiEE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData20LocalIncidentMappingERK4CellRK4SPDSRNSt6vectorIiEE"></span><span id="opensn::AAH_FLUDSCommonData::LocalIncidentMapping__CellCR.SPDSCR.std::vector:i:R"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1ae7fd43bfb9ae51701b019892580bfc6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LocalIncidentMapping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">local_so_cell_mapping</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData20LocalIncidentMappingERK4CellRK4SPDSRNSt6vectorIiEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData22InitializeBetaElementsERK4SPDSi">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData22InitializeBetaElementsERK4SPDSi"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData22InitializeBetaElementsERK4SPDSi"></span><span id="opensn::AAH_FLUDSCommonData::InitializeBetaElements__SPDSCR.i"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a72e12c996f7970f9e814b583a18126d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitializeBetaElements</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tag_index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData22InitializeBetaElementsERK4SPDSi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData23NonLocalIncidentMappingERK4CellRK4SPDS">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData23NonLocalIncidentMappingERK4CellRK4SPDS"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData23NonLocalIncidentMappingERK4CellRK4SPDS"></span><span id="opensn::AAH_FLUDSCommonData::NonLocalIncidentMapping__CellCR.SPDSCR"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a8b740a6357a1af85b41e6c61d49ba1d5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NonLocalIncidentMapping</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData23NonLocalIncidentMappingERK4CellRK4SPDS" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData29so_cell_inco_face_dof_indicesE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData29so_cell_inco_face_dof_indicesE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData29so_cell_inco_face_dof_indicesE"></span><span id="opensn::AAH_FLUDSCommonData::so_cell_inco_face_dof_indices__std::vector:INCOMING_FACE_INFOP:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a25c3699760a9abb6ff5fe937902dbce6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOE" title="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO"><span class="n"><span class="pre">INCOMING_FACE_INFO</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">so_cell_inco_face_dof_indices</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData29so_cell_inco_face_dof_indicesE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [cell_sweep_order_index][incoming_face_count] that will hold a structure. struct.slot_address holds the slot address where this face’s upwind data is stored. struct.upwind_dof_mapping is a mapping of each of this face’s dofs to the upwinded face’s dofs </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData31nonlocal_outb_face_deplocI_slotE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData31nonlocal_outb_face_deplocI_slotE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData31nonlocal_outb_face_deplocI_slotE"></span><span id="opensn::AAH_FLUDSCommonData::nonlocal_outb_face_deplocI_slot__std::vector:std::pair:i.i::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a2fef8e50cdf62616cf4144b565f1b3bb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nonlocal_outb_face_deplocI_slot</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData31nonlocal_outb_face_deplocI_slotE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [non_local_outgoing_face_count] that maps a face to a dependent location and associated slot index </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18prelocI_cell_viewsE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18prelocI_cell_viewsE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18prelocI_cell_viewsE"></span><span id="opensn::AAH_FLUDSCommonData::prelocI_cell_views__std::vector:std::vector:CompactCellView::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a67c107b925626752c3d41e10d14ea602"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15CompactCellViewE" title="opensn::CompactCellView"><span class="n"><span class="pre">CompactCellView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prelocI_cell_views</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18prelocI_cell_viewsE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [predecessor_location][unordered_cell_index] that holds an AlphaPair. AlphaPair-first is the cell’s global_id and AlphaPair-second holds a number of BetaPairs. Each BetaPair comprises BetaPair-first = face_slot_index (the location of this faces data in the psi vector, and then a vector of vertex indexes that can be used for dof_mapping. Filled in beta-pass Cleared after beta-pass. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData26delayed_prelocI_cell_viewsE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData26delayed_prelocI_cell_viewsE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData26delayed_prelocI_cell_viewsE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_prelocI_cell_views__std::vector:std::vector:CompactCellView::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a783d50718d6eef4645a87ad9e33ab751"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15CompactCellViewE" title="opensn::CompactCellView"><span class="n"><span class="pre">CompactCellView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_prelocI_cell_views</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData26delayed_prelocI_cell_viewsE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData22prelocI_face_dof_countE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData22prelocI_face_dof_countE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData22prelocI_face_dof_countE"></span><span id="opensn::AAH_FLUDSCommonData::prelocI_face_dof_count__std::vector:i:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a9de8ed2261723f46acdab224f85923f0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prelocI_face_dof_count</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData22prelocI_face_dof_countE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a small vector [prelocI] that holds the number of face dofs for each predecessor location. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData30delayed_prelocI_face_dof_countE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData30delayed_prelocI_face_dof_countE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData30delayed_prelocI_face_dof_countE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_prelocI_face_dof_count__std::vector:i:"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1ac0346ce125ef2eadda401085b15c7688"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_prelocI_face_dof_count</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData30delayed_prelocI_face_dof_countE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData34nonlocal_inc_face_prelocI_slot_dofE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData34nonlocal_inc_face_prelocI_slot_dofE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData34nonlocal_inc_face_prelocI_slot_dofE"></span><span id="opensn::AAH_FLUDSCommonData::nonlocal_inc_face_prelocI_slot_dof__std::vector:std::pair:i.std::pair:i.std::vector:i::::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1aed77be36dc689f402146e9354c1935bc"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nonlocal_inc_face_prelocI_slot_dof</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData34nonlocal_inc_face_prelocI_slot_dofE" title="Link to this definition"></a><br /></dt>
+<dd><p>This is a vector [nonlocal_inc_face_counter] containing AlphaPairs. AlphaPair-first is the prelocI index and AlphaPair-second is a BetaPair. The BetaPair-first is the slot where the face storage begins and BetaPair-second is a dof mapping </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData42delayed_nonlocal_inc_face_prelocI_slot_dofE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData42delayed_nonlocal_inc_face_prelocI_slot_dofE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData42delayed_nonlocal_inc_face_prelocI_slot_dofE"></span><span id="opensn::AAH_FLUDSCommonData::delayed_nonlocal_inc_face_prelocI_slot_dof__std::vector:std::pair:i.std::pair:i.std::vector:i::::"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a3292141be76530d1442bcff89f17a3e8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_nonlocal_inc_face_prelocI_slot_dof</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData42delayed_nonlocal_inc_face_prelocI_slot_dofE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-functions">Private Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData17SerializeCellInfoERNSt6vectorI15CompactCellViewEERNSt6vectorIiEEi">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData17SerializeCellInfoERNSt6vectorI15CompactCellViewEERNSt6vectorIiEEi"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData17SerializeCellInfoERNSt6vectorI15CompactCellViewEERNSt6vectorIiEEi"></span><span id="opensn::AAH_FLUDSCommonData::SerializeCellInfo__std::vector:CompactCellView:R.std::vector:i:R.i"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1a2329bcb972aad7b344f359c58eff49fd"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SerializeCellInfo</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15CompactCellViewE" title="opensn::CompactCellView"><span class="n"><span class="pre">CompactCellView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_views</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_indices</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_face_dofs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData17SerializeCellInfoERNSt6vectorI15CompactCellViewEERNSt6vectorIiEEi" title="Link to this definition"></a><br /></dt>
+<dd><p>This cell takes a hierarchy of a cell compact view and serializes it for MPI transmission. This is easy since all the values are integers. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData19DeSerializeCellInfoERNSt6vectorI15CompactCellViewEEPNSt6vectorIiEERi">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData19DeSerializeCellInfoERNSt6vectorI15CompactCellViewEEPNSt6vectorIiEERi"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData19DeSerializeCellInfoERNSt6vectorI15CompactCellViewEEPNSt6vectorIiEERi"></span><span id="opensn::AAH_FLUDSCommonData::DeSerializeCellInfo__std::vector:CompactCellView:R.std::vector:i:P.iR"></span><span class="target" id="d5/d9c/classopensn_1_1_a_a_h___f_l_u_d_s_common_data_1ad5d40de1b6a00130ea7f88684a774a69"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DeSerializeCellInfo</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn15CompactCellViewE" title="opensn::CompactCellView"><span class="n"><span class="pre">CompactCellView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_views</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">face_indices</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">num_face_dofs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData19DeSerializeCellInfoERNSt6vectorI15CompactCellViewEEPNSt6vectorIiEERi" title="Link to this definition"></a><br /></dt>
+<dd><p>Deserializes face indices. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<em class="property"><span class="pre">friend</span> <span class="pre">class</span></em> <span class="pre">AAH_FLUDS</span></dt>
+</dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOE"></span><span id="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO"></span><span class="target" id="d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INCOMING_FACE_INFO</span></span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO5SetupERKNSt4pairIiNSt6vectorIsEEEE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO5SetupERKNSt4pairIiNSt6vectorIsEEEE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO5SetupERKNSt4pairIiNSt6vectorIsEEEE"></span><span id="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO::Setup__std::pair:i.std::vector:short::CR"></span><span class="target" id="d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o_1a89b4c395162202affcb4f35566deba22"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Setup</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">input</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO5SetupERKNSt4pairIiNSt6vectorIsEEEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOD0Ev">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOD0Ev"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOD0Ev"></span><span id="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO::~INCOMING_FACE_INFO"></span><span class="target" id="d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o_1a730a7f055e54e0142527b2213d703ebf"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~INCOMING_FACE_INFO</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFOD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO12slot_addressE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO12slot_addressE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO12slot_addressE"></span><span id="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO::slot_address__i"></span><span class="target" id="d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o_1a72e0a4e4f6e9c84cde1732ea463e0926"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">slot_address</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO12slot_addressE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO18upwind_dof_mappingE">
+<span id="_CPPv3N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO18upwind_dof_mappingE"></span><span id="_CPPv2N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO18upwind_dof_mappingE"></span><span id="opensn::AAH_FLUDSCommonData::INCOMING_FACE_INFO::upwind_dof_mapping__shortP"></span><span class="target" id="d2/db8/structopensn_1_1_a_a_h___f_l_u_d_s_common_data_1_1_i_n_c_o_m_i_n_g___f_a_c_e___i_n_f_o_1a52b5d50230378e7f2ce045c41fe24926"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">upwind_dof_mapping</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn19AAH_FLUDSCommonData18INCOMING_FACE_INFO18upwind_dof_mappingE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aah_fluds.html" class="btn btn-neutral float-left" title="AAH_FLUDS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adjoint_mgxs.html" class="btn btn-neutral float-right" title="AdjointMGXS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

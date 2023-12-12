@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boundary Conditions &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Field Functions" href="field_functions.html" />
+    <link rel="prev" title="Groupsets" href="groupsets.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="solver_bases.html">A Solver Bases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html">B Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="groupsets.html">Groupsets</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_functions.html">Field Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors.html">C Executors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lua_functions.html">D Lua functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Modules</a></li>
+      <li class="breadcrumb-item active">Boundary Conditions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="boundary-conditions">
+<h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Link to this heading"></a></h1>
+<p>LBS supports the boundary condition <code class="docutils literal notranslate"><span class="pre">&quot;incident_anisotropic_heterogeneous&quot;</span></code>,
+which allows for a very intricate type of boundary condition to be specified.</p>
+<p>For example, consider the boundary condition applied to boundary <code class="docutils literal notranslate"><span class="pre">zmax</span></code> below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LBSSetOptions</span><span class="p">(</span><span class="n">phys1</span><span class="p">,</span>
+<span class="p">{</span>
+  <span class="n">spatial_discretization</span> <span class="o">=</span> <span class="s2">&quot;pwld&quot;</span><span class="p">,</span>
+  <span class="n">scattering_order</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="n">boundary_conditions</span> <span class="o">=</span>
+  <span class="p">{</span>
+    <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;zmax&quot;</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;incident_anisotropic_heterogeneous&quot;</span><span class="p">,</span>
+      <span class="n">function_name</span> <span class="o">=</span> <span class="s2">&quot;luaBoundaryFunctionA&quot;</span><span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>It points to the lua function <code class="docutils literal notranslate"><span class="pre">&quot;luaBoundaryFunctionA&quot;</span></code>. This lua function will
+be called with the following parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">size_t</span>        <span class="n">cell_global_id</span><span class="p">,</span>
+<span class="nb">int</span>           <span class="n">cell_material_id</span><span class="p">,</span>
+<span class="n">unsigned</span> <span class="nb">int</span>  <span class="n">face_index</span><span class="p">,</span>
+<span class="n">unsigned</span> <span class="nb">int</span>  <span class="n">face_node_index</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">chi_mesh</span><span class="p">::</span><span class="n">Vector3</span> <span class="n">face_node_location</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">chi_mesh</span><span class="p">::</span><span class="n">Vector3</span> <span class="n">face_node_normal</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">std</span><span class="p">::</span><span class="n">vectorint</span> <span class="n">quadrature_angle_indices</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">std</span><span class="p">::</span><span class="n">vectorchi_mesh</span><span class="p">::</span><span class="n">Vector3</span> <span class="n">quadrature_angle_vectors</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">std</span><span class="p">::</span><span class="n">vectorstd</span><span class="p">::</span><span class="n">pairdouble</span><span class="p">,</span><span class="n">double</span> <span class="n">quadrature_phi_theta_angles</span><span class="p">,</span>
+<span class="n">const</span> <span class="n">std</span><span class="p">::</span><span class="n">vectorint</span> <span class="n">group_indices</span><span class="p">,</span>
+<span class="n">double</span> <span class="n">evaluation_time</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>and must return a 1D array of data-values ordered first by angle index, then
+by group index, e.g., n0g0, n0g1, n0g2, n1g0, n1g1, n1g2, etc.</p>
+<p>Example lua function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">luaBoundaryFunctionA</span><span class="p">(</span><span class="n">cell_global_id</span><span class="p">,</span>
+                              <span class="n">material_id</span><span class="p">,</span>
+                              <span class="n">location</span><span class="p">,</span>
+                              <span class="n">normal</span><span class="p">,</span>
+                              <span class="n">quadrature_angle_indices</span><span class="p">,</span>
+                              <span class="n">quadrature_angle_vectors</span><span class="p">,</span>
+                              <span class="n">quadrature_phi_theta_angles</span><span class="p">,</span>
+                              <span class="n">group_indices</span><span class="p">)</span>
+    <span class="n">num_angles</span> <span class="o">=</span> <span class="n">rawlen</span><span class="p">(</span><span class="n">quadrature_angle_vectors</span><span class="p">)</span>
+    <span class="n">num_groups</span> <span class="o">=</span> <span class="n">rawlen</span><span class="p">(</span><span class="n">group_indices</span><span class="p">)</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dof_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">ni</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_angles</span> <span class="n">do</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="n">quadrature_angle_vectorsni</span>
+        <span class="n">phi_theta</span> <span class="o">=</span> <span class="n">quadrature_phi_theta_anglesni</span>
+        <span class="k">for</span> <span class="n">gi</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_groups</span> <span class="n">do</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">group_indicesgi</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+            <span class="n">dof_count</span> <span class="o">=</span> <span class="n">dof_count</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">psidof_count</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">end</span>
+    <span class="n">end</span>
+
+    <span class="k">return</span> <span class="n">psi</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>An example of a very intricate use of this functionality can be seen in the
+test <a class="reference internal" href="#TODO"><span class="xref myst">tests_Transport_Steady_Transport2D_5PolyA_AniHeteroBndry_lua</span></a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="groupsets.html" class="btn btn-neutral float-left" title="Groupsets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="field_functions.html" class="btn btn-neutral float-right" title="Field Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

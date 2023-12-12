@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolumeMesherExtruder &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="VolumeMesherPredefinedUnpartitioned" href="volume_mesher_predefined_unpartitioned.html" />
+    <link rel="prev" title="VolumeMesher" href="volume_mesher.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VolumeMesherExtruder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn20VolumeMesherExtruderE"><code class="docutils literal notranslate"><span class="pre">VolumeMesherExtruder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">VolumeMesherExtruder</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="volumemesherextruder">
+<h1>VolumeMesherExtruder<a class="headerlink" href="#volumemesherextruder" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruderE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruderE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruderE"></span><span id="opensn::VolumeMesherExtruder"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VolumeMesherExtruder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="volume_mesher.html#_CPPv4N6opensn12VolumeMesherE" title="opensn::VolumeMesher"><span class="n"><span class="pre">VolumeMesher</span></span></a><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruderE" title="Link to this definition"></a><br /></dt>
+<dd><p>An extruder mesher taking a flat surface and extruding it. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder12TemplateTypeE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder12TemplateTypeE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder12TemplateTypeE"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a38eab5c20db2ae3cfadef1819f58e1a6"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TemplateType</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder12TemplateTypeE" title="Link to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder12TemplateType18UNPARTITIONED_MESHE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder12TemplateType18UNPARTITIONED_MESHE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder12TemplateType18UNPARTITIONED_MESHE"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a38eab5c20db2ae3cfadef1819f58e1a6a5d7b35a7c355c1a874955eb2654c9d74"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UNPARTITIONED_MESH</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder12TemplateType18UNPARTITIONED_MESHE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder20VolumeMesherExtruderENSt10shared_ptrIK17UnpartitionedMeshEE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder20VolumeMesherExtruderENSt10shared_ptrIK17UnpartitionedMeshEE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder20VolumeMesherExtruderENSt10shared_ptrIK17UnpartitionedMeshEE"></span><span id="opensn::VolumeMesherExtruder::VolumeMesherExtruder__std::shared_ptr:UnpartitionedMeshC:"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1afa57af948a2ff37458588626ea3fcdf8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VolumeMesherExtruder</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="unpartitioned_mesh.html#_CPPv4N6opensn17UnpartitionedMeshE" title="opensn::UnpartitionedMesh"><span class="n"><span class="pre">UnpartitionedMesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">in_unpartitioned_mesh</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder20VolumeMesherExtruderENSt10shared_ptrIK17UnpartitionedMeshEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20VolumeMesherExtruder15GetVertexLayersEv">
+<span id="_CPPv3NK6opensn20VolumeMesherExtruder15GetVertexLayersEv"></span><span id="_CPPv2NK6opensn20VolumeMesherExtruder15GetVertexLayersEv"></span><span id="opensn::VolumeMesherExtruder::GetVertexLayersC"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a71531b49b5f46ff5c746c5b75344c21e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetVertexLayers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20VolumeMesherExtruder15GetVertexLayersEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder8AddLayerERK9MeshLayer">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder8AddLayerERK9MeshLayer"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder8AddLayerERK9MeshLayer"></span><span id="opensn::VolumeMesherExtruder::AddLayer__MeshLayerCR"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a04216d4591e5b983860912107e50318f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddLayer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayerE" title="opensn::VolumeMesherExtruder::MeshLayer"><span class="n"><span class="pre">MeshLayer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">new_layer</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder8AddLayerERK9MeshLayer" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder7ExecuteEv">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder7ExecuteEv"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder7ExecuteEv"></span><span id="opensn::VolumeMesherExtruder::Execute"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1acd151f26485c85a27bb8bd89a59595e5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Execute</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder7ExecuteEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder11SetupLayersEi">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder11SetupLayersEi"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder11SetupLayersEi"></span><span id="opensn::VolumeMesherExtruder::SetupLayers__i"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a8f7162921332c28e975b772a3f274ee7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetupLayers</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_layer_count</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder11SetupLayersEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates actual z-levels for the input layer specification. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder22ProjectCentroidToLevelERK7Vector36size_t">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder22ProjectCentroidToLevelERK7Vector36size_t"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder22ProjectCentroidToLevelERK7Vector36size_t"></span><span id="opensn::VolumeMesherExtruder::ProjectCentroidToLevel__Vector3CR.s"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a92688bf2b601e48d703446bba73c8a1c"></span><a class="reference internal" href="vector3.html#_CPPv4N6opensn7Vector3E" title="opensn::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ProjectCentroidToLevel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="vector3.html#_CPPv4N6opensn7Vector3E" title="opensn::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">centroid</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">level</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder22ProjectCentroidToLevelERK7Vector36size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Projects a centroid to an extruded equivalent layer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder33GetCellKBAPartitionIDFromCentroidER7Vector3">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder33GetCellKBAPartitionIDFromCentroidER7Vector3"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder33GetCellKBAPartitionIDFromCentroidER7Vector3"></span><span id="opensn::VolumeMesherExtruder::GetCellKBAPartitionIDFromCentroid__Vector3R"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a82096042d1a84be8eddcc9b96e374b47"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetCellKBAPartitionIDFromCentroid</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="vector3.html#_CPPv4N6opensn7Vector3E" title="opensn::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">centroid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder33GetCellKBAPartitionIDFromCentroidER7Vector3" title="Link to this definition"></a><br /></dt>
+<dd><p>Computes a cell’s partition id based on a centroid. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder13HasLocalScopeERK4CellRK13MeshContinuum6size_t">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder13HasLocalScopeERK4CellRK13MeshContinuum6size_t"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder13HasLocalScopeERK4CellRK13MeshContinuum6size_t"></span><span id="opensn::VolumeMesherExtruder::HasLocalScope__CellCR.MeshContinuumCR.s"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a7e796f59acc8b687efa749746b6c6de1"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HasLocalScope</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">template_cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">template_continuum</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">z_level</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder13HasLocalScopeERK4CellRK13MeshContinuum6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Determines if a template cell is in the current partition or a direct neighbor to the current partition. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder16MakeExtrudedCellERK4CellRK13MeshContinuum6size_t8uint64_ti6size_t">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder16MakeExtrudedCellERK4CellRK13MeshContinuum6size_t8uint64_ti6size_t"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder16MakeExtrudedCellERK4CellRK13MeshContinuum6size_t8uint64_ti6size_t"></span><span id="opensn::VolumeMesherExtruder::MakeExtrudedCell__CellCR.MeshContinuumCR.s.uint64_t.i.s"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a6b2bb6668215991448cfe636517827ba"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakeExtrudedCell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">template_cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">z_level</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_global_id</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">partition_id</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_template_cells</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder16MakeExtrudedCellERK4CellRK13MeshContinuum6size_t8uint64_ti6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Makes an extruded cell from a template cell. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder16CreateLocalNodesER13MeshContinuumR13MeshContinuum">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder16CreateLocalNodesER13MeshContinuumR13MeshContinuum"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder16CreateLocalNodesER13MeshContinuumR13MeshContinuum"></span><span id="opensn::VolumeMesherExtruder::CreateLocalNodes__MeshContinuumR.MeshContinuumR"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a6959138461fa25de913e93e6ebd780b2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CreateLocalNodes</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">template_grid</span></span>, <a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder16CreateLocalNodesER13MeshContinuumR13MeshContinuum" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates nodes that are owned locally from the 2D template grid. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder12ExtrudeCellsER13MeshContinuumR13MeshContinuum">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder12ExtrudeCellsER13MeshContinuumR13MeshContinuum"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder12ExtrudeCellsER13MeshContinuumR13MeshContinuum"></span><span id="opensn::VolumeMesherExtruder::ExtrudeCells__MeshContinuumR.MeshContinuumR"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a99aa3aaaae9baec63b457037c60f36c1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ExtrudeCells</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">template_grid</span></span>, <a class="reference internal" href="mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder12ExtrudeCellsER13MeshContinuumR13MeshContinuum" title="Link to this definition"></a><br /></dt>
+<dd><p>Extrude template cells into polygons. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder14template_type_E">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder14template_type_E"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder14template_type_E"></span><span id="opensn::VolumeMesherExtruder::template_type___TemplateTypeC"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1aa27d37eda85d6c6a002edb5189e93b4f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn20VolumeMesherExtruder12TemplateTypeE" title="opensn::VolumeMesherExtruder::TemplateType"><span class="n"><span class="pre">TemplateType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">template_type_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder14template_type_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder28template_unpartitioned_mesh_E">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder28template_unpartitioned_mesh_E"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder28template_unpartitioned_mesh_E"></span><span id="opensn::VolumeMesherExtruder::template_unpartitioned_mesh___std::shared_ptr:UnpartitionedMeshC:"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1adbd993fd0c8768acd17b51914be7a175"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="unpartitioned_mesh.html#_CPPv4N6opensn17UnpartitionedMeshE" title="opensn::UnpartitionedMesh"><span class="n"><span class="pre">UnpartitionedMesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">template_unpartitioned_mesh_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder28template_unpartitioned_mesh_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder13input_layers_E">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder13input_layers_E"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder13input_layers_E"></span><span id="opensn::VolumeMesherExtruder::input_layers___std::vector:MeshLayer:"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1adb45b8e74be9c173f780d3502df8d762"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayerE" title="opensn::VolumeMesherExtruder::MeshLayer"><span class="n"><span class="pre">MeshLayer</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">input_layers_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder13input_layers_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder14vertex_layers_E">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder14vertex_layers_E"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder14vertex_layers_E"></span><span id="opensn::VolumeMesherExtruder::vertex_layers___std::vector:double:"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1af97933a2d4c82bb6edbfd8d2a8e95ab3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertex_layers_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder14vertex_layers_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder18node_z_index_incr_E">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder18node_z_index_incr_E"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder18node_z_index_incr_E"></span><span id="opensn::VolumeMesherExtruder::node_z_index_incr___s"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1aba67e0f755b47734b487671a90a014aa"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_z_index_incr_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder18node_z_index_incr_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder13zmax_bndry_idE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder13zmax_bndry_idE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder13zmax_bndry_idE"></span><span id="opensn::VolumeMesherExtruder::zmax_bndry_id__uint64_t"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1a58a48910679397c4f2d49581a0d1743c"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmax_bndry_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder13zmax_bndry_idE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder13zmin_bndry_idE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder13zmin_bndry_idE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder13zmin_bndry_idE"></span><span id="opensn::VolumeMesherExtruder::zmin_bndry_id__uint64_t"></span><span class="target" id="de/df2/classopensn_1_1_volume_mesher_extruder_1ac8edf6f0dc24b8df060c5ec4a979aee8"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmin_bndry_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder13zmin_bndry_idE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder9MeshLayerE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder9MeshLayerE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder9MeshLayerE"></span><span id="opensn::VolumeMesherExtruder::MeshLayer"></span><span class="target" id="db/d77/structopensn_1_1_volume_mesher_extruder_1_1_mesh_layer"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MeshLayer</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayerE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer4nameE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder9MeshLayer4nameE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder9MeshLayer4nameE"></span><span id="opensn::VolumeMesherExtruder::MeshLayer::name__ss"></span><span class="target" id="db/d77/structopensn_1_1_volume_mesher_extruder_1_1_mesh_layer_1a4a90887cf78a9947c640ab2c19a66cbe"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer4nameE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer6heightE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder9MeshLayer6heightE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder9MeshLayer6heightE"></span><span id="opensn::VolumeMesherExtruder::MeshLayer::height__double"></span><span class="target" id="db/d77/structopensn_1_1_volume_mesher_extruder_1_1_mesh_layer_1a7f88698aa2d626c0322e98469d09dc97"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">height</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer6heightE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer13sub_divisionsE">
+<span id="_CPPv3N6opensn20VolumeMesherExtruder9MeshLayer13sub_divisionsE"></span><span id="_CPPv2N6opensn20VolumeMesherExtruder9MeshLayer13sub_divisionsE"></span><span id="opensn::VolumeMesherExtruder::MeshLayer::sub_divisions__i"></span><span class="target" id="db/d77/structopensn_1_1_volume_mesher_extruder_1_1_mesh_layer_1ac14121f623fe8f2167895ce8a63f3f5e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sub_divisions</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20VolumeMesherExtruder9MeshLayer13sub_divisionsE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="volume_mesher.html" class="btn btn-neutral float-left" title="VolumeMesher" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="volume_mesher_predefined_unpartitioned.html" class="btn btn-neutral float-right" title="VolumeMesherPredefinedUnpartitioned" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

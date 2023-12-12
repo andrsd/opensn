@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InputParameters &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="IsotropicMultiGrpSource" href="isotropic_multi_grp_source.html" />
+    <link rel="prev" title="ImplicitEulerTimeIntegration" href="implicit_euler_time_integration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">InputParameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn15InputParametersE"><code class="docutils literal notranslate"><span class="pre">InputParameters</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">InputParameters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="inputparameters">
+<h1>InputParameters<a class="headerlink" href="#inputparameters" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParametersE">
+<span id="_CPPv3N6opensn15InputParametersE"></span><span id="_CPPv2N6opensn15InputParametersE"></span><span id="opensn::InputParameters"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InputParameters</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><a class="headerlink" href="#_CPPv4N6opensn15InputParametersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Class for handling input parameters. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters15InputParametersEv">
+<span id="_CPPv3N6opensn15InputParameters15InputParametersEv"></span><span id="_CPPv2N6opensn15InputParameters15InputParametersEv"></span><span id="opensn::InputParameters::InputParameters"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a0fd3f5b83203e586969a2766d23b7b07"></span><span class="sig-name descname"><span class="n"><span class="pre">InputParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters15InputParametersEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameterspLE15InputParameters">
+<span id="_CPPv3N6opensn15InputParameterspLE15InputParameters"></span><span id="_CPPv2N6opensn15InputParameterspLE15InputParameters"></span><span id="opensn::InputParameters::add-assign-operator__InputParameters"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ac30ad422f1913ba405abb04b934f297d"></span><a class="reference internal" href="#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">+=</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameterspLE15InputParameters" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters13SetObjectTypeERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters13SetObjectTypeERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters13SetObjectTypeERKNSt6stringE"></span><span id="opensn::InputParameters::SetObjectType__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a8b73c6893da5d1a0752dbee2ae67e07b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetObjectType</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obj_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters13SetObjectTypeERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the object type string for more descriptive error messages. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn15InputParameters10ObjectTypeEv">
+<span id="_CPPv3NK6opensn15InputParameters10ObjectTypeEv"></span><span id="_CPPv2NK6opensn15InputParameters10ObjectTypeEv"></span><span id="opensn::InputParameters::ObjectTypeC"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a36131f3d019b46adcab00ae167e282dd"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ObjectType</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn15InputParameters10ObjectTypeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the object type string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters12SetClassNameERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters12SetClassNameERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters12SetClassNameERKNSt6stringE"></span><span id="opensn::InputParameters::SetClassName__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a74720db536103221f57ea87156585d91"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetClassName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">class_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters12SetClassNameERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the class name to be applied to this object. If not used a default will be generated. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters21SetGeneralDescriptionERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters21SetGeneralDescriptionERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters21SetGeneralDescriptionERKNSt6stringE"></span><span id="opensn::InputParameters::SetGeneralDescription__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1af57c29471bd3624b8c13672dd954e17b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetGeneralDescription</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters21SetGeneralDescriptionERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets a general description of the object that should be included with the object’s documentation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn15InputParameters21GetGeneralDescriptionEv">
+<span id="_CPPv3NK6opensn15InputParameters21GetGeneralDescriptionEv"></span><span id="_CPPv2NK6opensn15InputParameters21GetGeneralDescriptionEv"></span><span id="opensn::InputParameters::GetGeneralDescriptionC"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a6c027ed52270c2a7accebd2309148ff0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetGeneralDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn15InputParameters21GetGeneralDescriptionEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters11SetDocGroupERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters11SetDocGroupERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters11SetDocGroupERKNSt6stringE"></span><span id="opensn::InputParameters::SetDocGroup__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a2e588019a75c5f7d29eeb4a7540c8e22"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetDocGroup</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters11SetDocGroupERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Space separated list of doxygen group names to which this documentation should belong. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters20LinkParameterToBlockERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters20LinkParameterToBlockERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters20LinkParameterToBlockERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::LinkParameterToBlock__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a416779608e3c9a179bf5092fddb4015a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LinkParameterToBlock</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">block_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters20LinkParameterToBlockERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets a link to the documentation of a different object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn15InputParameters29GetParameterDocumentationLinkERKNSt6stringE">
+<span id="_CPPv3NK6opensn15InputParameters29GetParameterDocumentationLinkERKNSt6stringE"></span><span id="_CPPv2NK6opensn15InputParameters29GetParameterDocumentationLinkERKNSt6stringE"></span><span id="opensn::InputParameters::GetParameterDocumentationLink__ssCRC"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a5aaf459cc3dfedbcf94bedc43629d36c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetParameterDocumentationLink</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn15InputParameters29GetParameterDocumentationLinkERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets any linkage information of a parameter. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters21GetParameterDocStringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters21GetParameterDocStringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters21GetParameterDocStringERKNSt6stringE"></span><span id="opensn::InputParameters::GetParameterDocString__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a73d0a86f9ef1b68bf14a735a29b69ccf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetParameterDocString</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters21GetParameterDocStringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the parameter’s doc string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters20AddOptionalParameterEvRKNSt6stringE1TRKNSt6stringE">
+<span id="_CPPv3I0EN6opensn15InputParameters20AddOptionalParameterERKNSt6stringE1TRKNSt6stringE"></span><span id="_CPPv2I0EN6opensn15InputParameters20AddOptionalParameterERKNSt6stringE1TRKNSt6stringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ab3d8cf4fb0c0d681eb35e68fa06af961"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddOptionalParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="#_CPPv4I0EN6opensn15InputParameters20AddOptionalParameterEvRKNSt6stringE1TRKNSt6stringE" title="opensn::InputParameters::AddOptionalParameter::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters20AddOptionalParameterEvRKNSt6stringE1TRKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters25AddOptionalParameterBlockERKNSt6stringERK14ParameterBlockRKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters25AddOptionalParameterBlockERKNSt6stringERK14ParameterBlockRKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters25AddOptionalParameterBlockERKNSt6stringERK14ParameterBlockRKNSt6stringE"></span><span id="opensn::InputParameters::AddOptionalParameterBlock__ssCR.ParameterBlockCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a0435e2feab1e888f876537eab6fcb25a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddOptionalParameterBlock</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">block</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters25AddOptionalParameterBlockERKNSt6stringERK14ParameterBlockRKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Specialization for block type parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters25AddOptionalParameterArrayEvRKNSt6stringERKNSt6vectorI1TEERKNSt6stringE">
+<span id="_CPPv3I0EN6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI1TEERKNSt6stringE"></span><span id="_CPPv2I0EN6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI1TEERKNSt6stringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ab892a7d58e235b273328cf182a659448"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddOptionalParameterArray</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6opensn15InputParameters25AddOptionalParameterArrayEvRKNSt6stringERKNSt6vectorI1TEERKNSt6stringE" title="opensn::InputParameters::AddOptionalParameterArray::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">array</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters25AddOptionalParameterArrayEvRKNSt6stringERKNSt6vectorI1TEERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI14ParameterBlockEERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI14ParameterBlockEERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI14ParameterBlockEERKNSt6stringE"></span><span id="opensn::InputParameters::AddOptionalParameterArray__ssCR.std::vector:ParameterBlock:CR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1aca558695e7bf848f24aa326949cce5fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddOptionalParameterArray</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">array</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters25AddOptionalParameterArrayERKNSt6stringERKNSt6vectorI14ParameterBlockEERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Specialization for block type parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters20AddRequiredParameterEvRKNSt6stringERKNSt6stringE">
+<span id="_CPPv3I0EN6opensn15InputParameters20AddRequiredParameterERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2I0EN6opensn15InputParameters20AddRequiredParameterERKNSt6stringERKNSt6stringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1aa29241692040f621ffa1a7bfce59ea95"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddRequiredParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters20AddRequiredParameterEvRKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters25AddRequiredParameterBlockERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters25AddRequiredParameterBlockERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters25AddRequiredParameterBlockERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::AddRequiredParameterBlock__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ae6db7ed8aae499fa6f3a26437bb978c2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddRequiredParameterBlock</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters25AddRequiredParameterBlockERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Specialization for block type parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters25AddRequiredParameterArrayERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters25AddRequiredParameterArrayERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters25AddRequiredParameterArrayERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::AddRequiredParameterArray__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a424b1400afa060e32bb8638c9092a451"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddRequiredParameterArray</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters25AddRequiredParameterArrayERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Specialization for array type parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters29ChangeExistingParamToOptionalEvRKNSt6stringE1TRKNSt6stringE">
+<span id="_CPPv3I0EN6opensn15InputParameters29ChangeExistingParamToOptionalERKNSt6stringE1TRKNSt6stringE"></span><span id="_CPPv2I0EN6opensn15InputParameters29ChangeExistingParamToOptionalERKNSt6stringE1TRKNSt6stringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1aa4073c36cb44bfe9cc37765b975d539f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ChangeExistingParamToOptional</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="#_CPPv4I0EN6opensn15InputParameters29ChangeExistingParamToOptionalEvRKNSt6stringE1TRKNSt6stringE" title="opensn::InputParameters::ChangeExistingParamToOptional::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters29ChangeExistingParamToOptionalEvRKNSt6stringE1TRKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters29ChangeExistingParamToRequiredEvRKNSt6stringERKNSt6stringE">
+<span id="_CPPv3I0EN6opensn15InputParameters29ChangeExistingParamToRequiredERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2I0EN6opensn15InputParameters29ChangeExistingParamToRequiredERKNSt6stringERKNSt6stringE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1aac32f8ab73c1cdc234b26dcb94863ba9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ChangeExistingParamToRequired</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">doc_string</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters29ChangeExistingParamToRequiredEvRKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters16AssignParametersERK14ParameterBlock">
+<span id="_CPPv3N6opensn15InputParameters16AssignParametersERK14ParameterBlock"></span><span id="_CPPv2N6opensn15InputParameters16AssignParametersERK14ParameterBlock"></span><span id="opensn::InputParameters::AssignParameters__ParameterBlockCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a03499cdc23fac0b93057651b27bb13ab"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AssignParameters</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters16AssignParametersERK14ParameterBlock" title="Link to this definition"></a><br /></dt>
+<dd><p>Assigns parameters with thorough type checks, deprecation checks, unused parameter checks. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn15InputParameters22ParametersAtAssignmentEv">
+<span id="_CPPv3NK6opensn15InputParameters22ParametersAtAssignmentEv"></span><span id="_CPPv2NK6opensn15InputParameters22ParametersAtAssignmentEv"></span><span id="opensn::InputParameters::ParametersAtAssignmentC"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a8460492e0d75aad83b651a7cd6beaa79"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ParametersAtAssignment</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn15InputParameters22ParametersAtAssignmentEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the raw parameter block used at assignment. This can be used to see if a user supplied an optional parameter or not. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters30MarkParamaterDeprecatedWarningERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters30MarkParamaterDeprecatedWarningERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters30MarkParamaterDeprecatedWarningERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::MarkParamaterDeprecatedWarning__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ad17f4e25ee89d7706a27af7e68047573"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MarkParamaterDeprecatedWarning</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">deprecation_message</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters30MarkParamaterDeprecatedWarningERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Marks a parameters as deprecated but will only produce a warning. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters28MarkParamaterDeprecatedErrorERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters28MarkParamaterDeprecatedErrorERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters28MarkParamaterDeprecatedErrorERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::MarkParamaterDeprecatedError__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a4f9056c0bff415ca838e14b542e7729c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MarkParamaterDeprecatedError</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">deprecation_message</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters28MarkParamaterDeprecatedErrorERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Marks a parameters as deprecated and will produce an error if the parameter is specified. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters20MarkParamaterRenamedERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters20MarkParamaterRenamedERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters20MarkParamaterRenamedERKNSt6stringERKNSt6stringE"></span><span id="opensn::InputParameters::MarkParamaterRenamed__ssCR.ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a85272b1a42d151c6b45aa7f29cd64018"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MarkParamaterRenamed</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">renaming_description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters20MarkParamaterRenamedERKNSt6stringERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Marks a parameters as renamed and will produce an error if the parameter is specified. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters23ConstrainParameterRangeERKNSt6stringENSt10unique_ptrI14AllowableRangeEE">
+<span id="_CPPv3N6opensn15InputParameters23ConstrainParameterRangeERKNSt6stringENSt10unique_ptrI14AllowableRangeEE"></span><span id="_CPPv2N6opensn15InputParameters23ConstrainParameterRangeERKNSt6stringENSt10unique_ptrI14AllowableRangeEE"></span><span id="opensn::InputParameters::ConstrainParameterRange__ssCR.std::unique_ptr:AllowableRange:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a22101d79f49796605b577667a3b444eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstrainParameterRange</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="allowable_range.html#_CPPv4N6opensn14AllowableRangeE" title="opensn::AllowableRange"><span class="n"><span class="pre">AllowableRange</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">allowable_range</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters23ConstrainParameterRangeERKNSt6stringENSt10unique_ptrI14AllowableRangeEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a range based constraint for a given parameter. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters31SetParameterTypeMismatchAllowedERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters31SetParameterTypeMismatchAllowedERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters31SetParameterTypeMismatchAllowedERKNSt6stringE"></span><span id="opensn::InputParameters::SetParameterTypeMismatchAllowed__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a40a8ff0706136cccd39ea689276323b1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetParameterTypeMismatchAllowed</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters31SetParameterTypeMismatchAllowedERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets a tag for the given parameter that will allow its type to be mismatched upon assignment. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn15InputParameters14DumpParametersEv">
+<span id="_CPPv3NK6opensn15InputParameters14DumpParametersEv"></span><span id="_CPPv2NK6opensn15InputParameters14DumpParametersEv"></span><span id="opensn::InputParameters::DumpParametersC"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a764a0c6438a8a31b98516c410e960f50"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DumpParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn15InputParameters14DumpParametersEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Dumps the input parameters to stdout. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters13MakeForObjectE15InputParametersRK14ParameterBlock">
+<span id="_CPPv3I0EN6opensn15InputParameters13MakeForObjectERK14ParameterBlock"></span><span id="_CPPv2I0EN6opensn15InputParameters13MakeForObjectERK14ParameterBlock"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a588a747f129032fe2672430da04bae35"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakeForObject</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters13MakeForObjectE15InputParametersRK14ParameterBlock" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters12AddParameterE14ParameterBlock">
+<span id="_CPPv3N6opensn15InputParameters12AddParameterE14ParameterBlock"></span><span id="_CPPv2N6opensn15InputParameters12AddParameterE14ParameterBlock"></span><span id="opensn::InputParameters::AddParameter__ParameterBlock"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a698c27c63d0fd73b1a47b5d4883e5f09"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddParameter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">block</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters12AddParameterE14ParameterBlock" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a parameter to the sub-parameter list. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6opensn15InputParameters12AddParameterEvRKNSt6stringE1T">
+<span id="_CPPv3I0EN6opensn15InputParameters12AddParameterERKNSt6stringE1T"></span><span id="_CPPv2I0EN6opensn15InputParameters12AddParameterERKNSt6stringE1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a137f6926f2dbdc5d80066bbd7e879ff9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="#_CPPv4I0EN6opensn15InputParameters12AddParameterEvRKNSt6stringE1T" title="opensn::InputParameters::AddParameter::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6opensn15InputParameters12AddParameterEvRKNSt6stringE1T" title="Link to this definition"></a><br /></dt>
+<dd><p>Makes a <a class="reference internal" href="parameter_block.html#d2/d7f/classopensn_1_1_parameter_block"><span class="std std-ref">ParameterBlock</span></a> and adds it to the sub-parameters list. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters11class_name_E">
+<span id="_CPPv3N6opensn15InputParameters11class_name_E"></span><span id="_CPPv2N6opensn15InputParameters11class_name_E"></span><span id="opensn::InputParameters::class_name___ss"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a3000990c5a0fecf9ab49f28fc2d4548d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">class_name_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters11class_name_E" title="Link to this definition"></a><br /></dt>
+<dd><p>String to represent class name. If not provided a default will be generated. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters10doc_group_E">
+<span id="_CPPv3N6opensn15InputParameters10doc_group_E"></span><span id="_CPPv2N6opensn15InputParameters10doc_group_E"></span><span id="opensn::InputParameters::doc_group___ss"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a104cfd68cf4557a7654f2db40d46c80c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">doc_group_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters10doc_group_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Space separated list of group names. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters21parameter_class_tags_E">
+<span id="_CPPv3N6opensn15InputParameters21parameter_class_tags_E"></span><span id="_CPPv2N6opensn15InputParameters21parameter_class_tags_E"></span><span id="opensn::InputParameters::parameter_class_tags___std::map:ss.InputParameterTag:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a45a1df34c474d9ea7f6ba004ba1d12ae"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn17InputParameterTagE" title="opensn::InputParameterTag"><span class="n"><span class="pre">InputParameterTag</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_class_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters21parameter_class_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters21parameter_doc_string_E">
+<span id="_CPPv3N6opensn15InputParameters21parameter_doc_string_E"></span><span id="_CPPv2N6opensn15InputParameters21parameter_doc_string_E"></span><span id="opensn::InputParameters::parameter_doc_string___std::map:ss.ss:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a7f1ccffaa9e0589007d830e922bd684f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_doc_string_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters21parameter_doc_string_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters25deprecation_warning_tags_E">
+<span id="_CPPv3N6opensn15InputParameters25deprecation_warning_tags_E"></span><span id="_CPPv2N6opensn15InputParameters25deprecation_warning_tags_E"></span><span id="opensn::InputParameters::deprecation_warning_tags___std::map:ss.ss:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a4eaa2ea7126ec8dd6e8dd7f069dbe368"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deprecation_warning_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters25deprecation_warning_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters23deprecation_error_tags_E">
+<span id="_CPPv3N6opensn15InputParameters23deprecation_error_tags_E"></span><span id="_CPPv2N6opensn15InputParameters23deprecation_error_tags_E"></span><span id="opensn::InputParameters::deprecation_error_tags___std::map:ss.ss:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ad22eeec78a2586ed653571c3685b6658"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deprecation_error_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters23deprecation_error_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters19renamed_error_tags_E">
+<span id="_CPPv3N6opensn15InputParameters19renamed_error_tags_E"></span><span id="_CPPv2N6opensn15InputParameters19renamed_error_tags_E"></span><span id="opensn::InputParameters::renamed_error_tags___std::map:ss.ss:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a4c7c4b01959762ef4c91ea668b5ce79a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">renamed_error_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters19renamed_error_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters27type_mismatch_allowed_tags_E">
+<span id="_CPPv3N6opensn15InputParameters27type_mismatch_allowed_tags_E"></span><span id="_CPPv2N6opensn15InputParameters27type_mismatch_allowed_tags_E"></span><span id="opensn::InputParameters::type_mismatch_allowed_tags___std::map:ss.b:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1abbbdfccd00069f888c29fd4f306b4ebf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type_mismatch_allowed_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters27type_mismatch_allowed_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters15parameter_link_E">
+<span id="_CPPv3N6opensn15InputParameters15parameter_link_E"></span><span id="_CPPv2N6opensn15InputParameters15parameter_link_E"></span><span id="opensn::InputParameters::parameter_link___std::map:ss.ss:"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1ae41c973f85487d23846f81411b578c77"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_link_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters15parameter_link_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters16constraint_tags_E">
+<span id="_CPPv3N6opensn15InputParameters16constraint_tags_E"></span><span id="_CPPv2N6opensn15InputParameters16constraint_tags_E"></span><span id="opensn::InputParameters::constraint_tags___std::map:ss.std::unique_ptr:AllowableRange::"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a68231526b15d3c0cf2212f3656263cf9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="allowable_range.html#_CPPv4N6opensn14AllowableRangeE" title="opensn::AllowableRange"><span class="n"><span class="pre">AllowableRange</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">constraint_tags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters16constraint_tags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters20general_description_E">
+<span id="_CPPv3N6opensn15InputParameters20general_description_E"></span><span id="_CPPv2N6opensn15InputParameters20general_description_E"></span><span id="opensn::InputParameters::general_description___ss"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a92d33490539fc71410960da9f49dcf49"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">general_description_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters20general_description_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters26param_block_at_assignment_E">
+<span id="_CPPv3N6opensn15InputParameters26param_block_at_assignment_E"></span><span id="_CPPv2N6opensn15InputParameters26param_block_at_assignment_E"></span><span id="opensn::InputParameters::param_block_at_assignment___ParameterBlock"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a6a7ca4bd307cbaee2eebb14fdb0e2466"></span><a class="reference internal" href="parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_block_at_assignment_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters26param_block_at_assignment_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-functions">Private Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters18IsParameterIgnoredERKNSt6stringE">
+<span id="_CPPv3N6opensn15InputParameters18IsParameterIgnoredERKNSt6stringE"></span><span id="_CPPv2N6opensn15InputParameters18IsParameterIgnoredERKNSt6stringE"></span><span id="opensn::InputParameters::IsParameterIgnored__ssCR"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a2ad137d81fade154f9da424aafb14ef0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsParameterIgnored</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">param_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters18IsParameterIgnoredERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Determines if a parameter is ignored. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-attributes">Private Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn15InputParameters27system_ignored_param_names_E">
+<span id="_CPPv3N6opensn15InputParameters27system_ignored_param_names_E"></span><span id="_CPPv2N6opensn15InputParameters27system_ignored_param_names_E"></span><span id="opensn::InputParameters::system_ignored_param_names___std::vector:ss:C"></span><span class="target" id="d5/d23/classopensn_1_1_input_parameters_1a3fe406232bd9b0458595b68c03080a3c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">system_ignored_param_names_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="s"><span class="pre">&quot;obj_type&quot;</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N6opensn15InputParameters27system_ignored_param_names_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Parameter names to ignore when trying to assign. For now this “obj_type” </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="implicit_euler_time_integration.html" class="btn btn-neutral float-left" title="ImplicitEulerTimeIntegration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="isotropic_multi_grp_source.html" class="btn btn-neutral float-right" title="IsotropicMultiGrpSource" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

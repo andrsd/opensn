@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PostProcessorPrinter &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PPPrinterSubscribeHelper" href="pp_printer_subscribe_helper.html" />
+    <link rel="prev" title="PostProcessor" href="post_processor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PostProcessorPrinter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinterE"><code class="docutils literal notranslate"><span class="pre">PostProcessorPrinter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">PostProcessorPrinter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="postprocessorprinter">
+<h1>PostProcessorPrinter<a class="headerlink" href="#postprocessorprinter" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinterE">
+<span id="_CPPv3N6opensn20PostProcessorPrinterE"></span><span id="_CPPv2N6opensn20PostProcessorPrinterE"></span><span id="opensn::PostProcessorPrinter"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PostProcessorPrinter</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinterE" title="Link to this definition"></a><br /></dt>
+<dd><p>A singleton responsible for printing post-processors. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter20PostProcessorPrinterERK20PostProcessorPrinter">
+<span id="_CPPv3N6opensn20PostProcessorPrinter20PostProcessorPrinterERK20PostProcessorPrinter"></span><span id="_CPPv2N6opensn20PostProcessorPrinter20PostProcessorPrinterERK20PostProcessorPrinter"></span><span id="opensn::PostProcessorPrinter::PostProcessorPrinter__PostProcessorPrinterCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a88e17946addcbedca30e2e974f28b8ea"></span><span class="sig-name descname"><span class="n"><span class="pre">PostProcessorPrinter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinter20PostProcessorPrinterERK20PostProcessorPrinter" title="opensn::PostProcessorPrinter::PostProcessorPrinter"><span class="n"><span class="pre">PostProcessorPrinter</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter20PostProcessorPrinterERK20PostProcessorPrinter" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinteraSERK20PostProcessorPrinter">
+<span id="_CPPv3N6opensn20PostProcessorPrinteraSERK20PostProcessorPrinter"></span><span id="_CPPv2N6opensn20PostProcessorPrinteraSERK20PostProcessorPrinter"></span><span id="opensn::PostProcessorPrinter::assign-operator__PostProcessorPrinterCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ae7f91b9996ca79152a3b44999ca303ad"></span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinterE" title="opensn::PostProcessorPrinter"><span class="n"><span class="pre">PostProcessorPrinter</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinterE" title="opensn::PostProcessorPrinter"><span class="n"><span class="pre">PostProcessorPrinter</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinteraSERK20PostProcessorPrinter" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter18ReceiveEventUpdateERK5Event">
+<span id="_CPPv3N6opensn20PostProcessorPrinter18ReceiveEventUpdateERK5Event"></span><span id="_CPPv2N6opensn20PostProcessorPrinter18ReceiveEventUpdateERK5Event"></span><span id="opensn::PostProcessorPrinter::ReceiveEventUpdate__EventCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1aa089ecd67e10158312c41bdf7926a5c1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReceiveEventUpdate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter18ReceiveEventUpdateERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter22SetScalarPPTableFormatE19ScalarPPTableFormat">
+<span id="_CPPv3N6opensn20PostProcessorPrinter22SetScalarPPTableFormatE19ScalarPPTableFormat"></span><span id="_CPPv2N6opensn20PostProcessorPrinter22SetScalarPPTableFormatE19ScalarPPTableFormat"></span><span id="opensn::PostProcessorPrinter::SetScalarPPTableFormat__ScalarPPTableFormat"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ac288a4546f1fb431faf0ad38ee14d8f6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetScalarPPTableFormat</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19ScalarPPTableFormatE" title="opensn::ScalarPPTableFormat"><span class="n"><span class="pre">ScalarPPTableFormat</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">format</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter22SetScalarPPTableFormatE19ScalarPPTableFormat" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter24SetEventsOnWhichPrintPPsERKNSt6vectorINSt6stringEEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter24SetEventsOnWhichPrintPPsERKNSt6vectorINSt6stringEEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter24SetEventsOnWhichPrintPPsERKNSt6vectorINSt6stringEEE"></span><span id="opensn::PostProcessorPrinter::SetEventsOnWhichPrintPPs__std::vector:ss:CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a1984733fba9d43929a7297911fbe654d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetEventsOnWhichPrintPPs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">events</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter24SetEventsOnWhichPrintPPsERKNSt6vectorINSt6stringEEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter25SetPrintScalarTimeHistoryEb">
+<span id="_CPPv3N6opensn20PostProcessorPrinter25SetPrintScalarTimeHistoryEb"></span><span id="_CPPv2N6opensn20PostProcessorPrinter25SetPrintScalarTimeHistoryEb"></span><span id="opensn::PostProcessorPrinter::SetPrintScalarTimeHistory__b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a7d3062e7039bdc0d47f768c853775de7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetPrintScalarTimeHistory</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter25SetPrintScalarTimeHistoryEb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter25SetPrintVectorTimeHistoryEb">
+<span id="_CPPv3N6opensn20PostProcessorPrinter25SetPrintVectorTimeHistoryEb"></span><span id="_CPPv2N6opensn20PostProcessorPrinter25SetPrintVectorTimeHistoryEb"></span><span id="opensn::PostProcessorPrinter::SetPrintVectorTimeHistory__b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1af8da7e02a0307a0195e29c3eb96d2110"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetPrintVectorTimeHistory</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter25SetPrintVectorTimeHistoryEb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter22SetScalarPerColumnSizeEb">
+<span id="_CPPv3N6opensn20PostProcessorPrinter22SetScalarPerColumnSizeEb"></span><span id="_CPPv2N6opensn20PostProcessorPrinter22SetScalarPerColumnSizeEb"></span><span id="opensn::PostProcessorPrinter::SetScalarPerColumnSize__b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a9b35776b98506c4f3960030695193b65"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetScalarPerColumnSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter22SetScalarPerColumnSizeEb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter22SetVectorPerColumnSizeEb">
+<span id="_CPPv3N6opensn20PostProcessorPrinter22SetVectorPerColumnSizeEb"></span><span id="_CPPv2N6opensn20PostProcessorPrinter22SetVectorPerColumnSizeEb"></span><span id="opensn::PostProcessorPrinter::SetVectorPerColumnSize__b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ae3c3250b7049e7b9b0f10aff777909e7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetVectorPerColumnSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter22SetVectorPerColumnSizeEb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19SetTableColumnLimitE6size_t">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19SetTableColumnLimitE6size_t"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19SetTableColumnLimitE6size_t"></span><span id="opensn::PostProcessorPrinter::SetTableColumnLimit__s"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ad2d0aa671c63673b005e69882d51201f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetTableColumnLimit</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">limit</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19SetTableColumnLimitE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19SetTimeHistoryLimitE6size_t">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19SetTimeHistoryLimitE6size_t"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19SetTimeHistoryLimitE6size_t"></span><span id="opensn::PostProcessorPrinter::SetTimeHistoryLimit__s"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ac5231323088c02818b9c4931eb3f3eb0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetTimeHistoryLimit</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">limit</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19SetTimeHistoryLimitE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter14SetCSVFilenameERKNSt6stringE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter14SetCSVFilenameERKNSt6stringE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter14SetCSVFilenameERKNSt6stringE"></span><span id="opensn::PostProcessorPrinter::SetCSVFilename__ssCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1acf88cb1554b0dc4f7f0c2e696ca69618"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetCSVFilename</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">csv_filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter14SetCSVFilenameERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20PostProcessorPrinter24GetPrintedPostProcessorsERKNSt6vectorIPK13PostProcessorEE">
+<span id="_CPPv3NK6opensn20PostProcessorPrinter24GetPrintedPostProcessorsERKNSt6vectorIPK13PostProcessorEE"></span><span id="_CPPv2NK6opensn20PostProcessorPrinter24GetPrintedPostProcessorsERKNSt6vectorIPK13PostProcessorEE"></span><span id="opensn::PostProcessorPrinter::GetPrintedPostProcessors__std::vector:PostProcessorCP:CRC"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a8a500ac7ce99fd1d689c2528af90a601"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetPrintedPostProcessors</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20PostProcessorPrinter24GetPrintedPostProcessorsERKNSt6vectorIPK13PostProcessorEE" title="Link to this definition"></a><br /></dt>
+<dd><p>A manual means to print a post processor. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter11GetInstanceEv">
+<span id="_CPPv3N6opensn20PostProcessorPrinter11GetInstanceEv"></span><span id="_CPPv2N6opensn20PostProcessorPrinter11GetInstanceEv"></span><span id="opensn::PostProcessorPrinter::GetInstance"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a58865e6d21f688256e319d486b057448"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinterE" title="opensn::PostProcessorPrinter"><span class="n"><span class="pre">PostProcessorPrinter</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetInstance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter11GetInstanceEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter35SubscribeToSystemWideEventPublisherEv">
+<span id="_CPPv3N6opensn20PostProcessorPrinter35SubscribeToSystemWideEventPublisherEv"></span><span id="_CPPv2N6opensn20PostProcessorPrinter35SubscribeToSystemWideEventPublisherEv"></span><span id="opensn::PostProcessorPrinter::SubscribeToSystemWideEventPublisher"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a4cd8adbada2bcaa418a04421424bc626"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SubscribeToSystemWideEventPublisher</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter35SubscribeToSystemWideEventPublisherEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter20PostProcessorPrinterEv">
+<span id="_CPPv3N6opensn20PostProcessorPrinter20PostProcessorPrinterEv"></span><span id="_CPPv2N6opensn20PostProcessorPrinter20PostProcessorPrinterEv"></span><span id="opensn::PostProcessorPrinter::PostProcessorPrinter"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a6cd030d4a91598ea70c21f8b8350a75a"></span><span class="sig-name descname"><span class="n"><span class="pre">PostProcessorPrinter</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter20PostProcessorPrinterEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20PostProcessorPrinter19PrintPostProcessorsERK5Event">
+<span id="_CPPv3NK6opensn20PostProcessorPrinter19PrintPostProcessorsERK5Event"></span><span id="_CPPv2NK6opensn20PostProcessorPrinter19PrintPostProcessorsERK5Event"></span><span id="opensn::PostProcessorPrinter::PrintPostProcessors__EventCRC"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a369d7a36d76bac636595fcd440dae7d2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPostProcessors</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20PostProcessorPrinter19PrintPostProcessorsERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20PostProcessorPrinter24PrintPPsLatestValuesOnlyERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Event">
+<span id="_CPPv3NK6opensn20PostProcessorPrinter24PrintPPsLatestValuesOnlyERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Event"></span><span id="_CPPv2NK6opensn20PostProcessorPrinter24PrintPPsLatestValuesOnlyERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Event"></span><span id="opensn::PostProcessorPrinter::PrintPPsLatestValuesOnly__ssCR.std::vector:PostProcessorCP:CR.EventCRC"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a3c5b330c3498b1cf2d3da9d5628bb438"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPPsLatestValuesOnly</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pps_typename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20PostProcessorPrinter24PrintPPsLatestValuesOnlyERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20PostProcessorPrinter19PrintPPsTimeHistoryERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Eventb">
+<span id="_CPPv3NK6opensn20PostProcessorPrinter19PrintPPsTimeHistoryERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Eventb"></span><span id="_CPPv2NK6opensn20PostProcessorPrinter19PrintPPsTimeHistoryERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Eventb"></span><span id="opensn::PostProcessorPrinter::PrintPPsTimeHistory__ssCR.std::vector:PostProcessorCP:CR.EventCR.bC"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1aa48fdf560bc280a05ae70dc8f4daf615"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPPsTimeHistory</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pps_typename</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">per_column_sizes</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20PostProcessorPrinter19PrintPPsTimeHistoryERKNSt6stringERKNSt6vectorIPK13PostProcessorEERK5Eventb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn20PostProcessorPrinter12PrintCSVFileERK5Event">
+<span id="_CPPv3NK6opensn20PostProcessorPrinter12PrintCSVFileERK5Event"></span><span id="_CPPv2NK6opensn20PostProcessorPrinter12PrintCSVFileERK5Event"></span><span id="opensn::PostProcessorPrinter::PrintCSVFile__EventCRC"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1aec7b1ebc89f16f9759d15dcca3362079"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintCSVFile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn20PostProcessorPrinter12PrintCSVFileERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter35events_on_which_to_print_postprocs_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter35events_on_which_to_print_postprocs_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter35events_on_which_to_print_postprocs_E"></span><span id="opensn::PostProcessorPrinter::events_on_which_to_print_postprocs___std::vector:ss:"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a619f291bd8f8bb9db24b8edc8b0afa83"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">events_on_which_to_print_postprocs_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter35events_on_which_to_print_postprocs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter23scalar_pp_table_format_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter23scalar_pp_table_format_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter23scalar_pp_table_format_E"></span><span id="opensn::PostProcessorPrinter::scalar_pp_table_format___ScalarPPTableFormat"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a040f18b2921dc4be17dff874d56ca3e1"></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19ScalarPPTableFormatE" title="opensn::ScalarPPTableFormat"><span class="n"><span class="pre">ScalarPPTableFormat</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scalar_pp_table_format_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19ScalarPPTableFormatE" title="opensn::ScalarPPTableFormat"><span class="n"><span class="pre">ScalarPPTableFormat</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19ScalarPPTableFormat8VERTICALE" title="opensn::ScalarPPTableFormat::VERTICAL"><span class="n"><span class="pre">VERTICAL</span></span></a><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter23scalar_pp_table_format_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter26print_scalar_time_history_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter26print_scalar_time_history_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter26print_scalar_time_history_E"></span><span id="opensn::PostProcessorPrinter::print_scalar_time_history___b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a60c2a0ecb90af60f8b2cc21c567433a7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">print_scalar_time_history_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter26print_scalar_time_history_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter26print_vector_time_history_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter26print_vector_time_history_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter26print_vector_time_history_E"></span><span id="opensn::PostProcessorPrinter::print_vector_time_history___b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ab1a32170a5bbd578cd5743bfa0b86d3d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">print_vector_time_history_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter26print_vector_time_history_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter24per_column_size_scalars_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter24per_column_size_scalars_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter24per_column_size_scalars_E"></span><span id="opensn::PostProcessorPrinter::per_column_size_scalars___b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1aef7c9d3139b09b1d9cce97ff33c8fc47"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">per_column_size_scalars_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter24per_column_size_scalars_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter24per_column_size_vectors_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter24per_column_size_vectors_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter24per_column_size_vectors_E"></span><span id="opensn::PostProcessorPrinter::per_column_size_vectors___b"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a28406b774552baae8e8a4de4cd01ac41"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">per_column_size_vectors_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter24per_column_size_vectors_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19table_column_limit_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19table_column_limit_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19table_column_limit_E"></span><span id="opensn::PostProcessorPrinter::table_column_limit___s"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1aa293d7be0f65016fe2b9b7d1413c734c"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">table_column_limit_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">120</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19table_column_limit_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19time_history_limit_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19time_history_limit_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19time_history_limit_E"></span><span id="opensn::PostProcessorPrinter::time_history_limit___s"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a68a5ae2ae60c2b95aee4918aa2df4d19"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">time_history_limit_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">15</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19time_history_limit_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter13csv_filename_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter13csv_filename_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter13csv_filename_E"></span><span id="opensn::PostProcessorPrinter::csv_filename___ss"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a89220cde5adff74717b4376ee59c6afa"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">csv_filename_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter13csv_filename_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-functions">Private Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter18PrintPPsHorizontalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi">
+<span id="_CPPv3N6opensn20PostProcessorPrinter18PrintPPsHorizontalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi"></span><span id="_CPPv2N6opensn20PostProcessorPrinter18PrintPPsHorizontalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi"></span><span id="opensn::PostProcessorPrinter::PrintPPsHorizontal__std::vector:std::pair:ss.ss::CR.i"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a4624f021ed9b2d285d31afe905404aaa"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPPsHorizontal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scalar_ppnames_and_vals</span></span>, <span class="kt"><span class="pre">int</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter18PrintPPsHorizontalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter16PrintPPsVerticalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi">
+<span id="_CPPv3N6opensn20PostProcessorPrinter16PrintPPsVerticalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi"></span><span id="_CPPv2N6opensn20PostProcessorPrinter16PrintPPsVerticalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi"></span><span id="opensn::PostProcessorPrinter::PrintPPsVertical__std::vector:std::pair:ss.ss::CR.i"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a0474b422594a28475c1d959c85285bd7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPPsVertical</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scalar_ppnames_and_vals</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">event_code</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter16PrintPPsVerticalERKNSt6vectorINSt4pairINSt6stringENSt6stringEEEEEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter22PrintPPsSubTimeHistoryERKNSt6vectorINSt6vectorINSt6stringEEEEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter22PrintPPsSubTimeHistoryERKNSt6vectorINSt6vectorINSt6stringEEEEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter22PrintPPsSubTimeHistoryERKNSt6vectorINSt6vectorINSt6stringEEEEE"></span><span id="opensn::PostProcessorPrinter::PrintPPsSubTimeHistory__std::vector:std::vector:ss::CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1ad08a51aa2941a3e7c93d29ccea0e63f0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintPPsSubTimeHistory</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sub_history</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter22PrintPPsSubTimeHistoryERKNSt6vectorINSt6vectorINSt6stringEEEEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19PrintScalarPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19PrintScalarPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19PrintScalarPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="opensn::PostProcessorPrinter::PrintScalarPPsToCSV__std::ofstreamR.std::vector:PostProcessorCP:CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a0a959f39940a663fa107a430336585b0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintScalarPPsToCSV</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">csvfile</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19PrintScalarPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter19PrintVectorPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter19PrintVectorPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter19PrintVectorPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="opensn::PostProcessorPrinter::PrintVectorPPsToCSV__std::ofstreamR.std::vector:PostProcessorCP:CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a3d60b3cdb26af87758464d808a1298c9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintVectorPPsToCSV</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">csvfile</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter19PrintVectorPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter22PrintArbitraryPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter22PrintArbitraryPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter22PrintArbitraryPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE"></span><span id="opensn::PostProcessorPrinter::PrintArbitraryPPsToCSV__std::ofstreamR.std::vector:PostProcessorCP:CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1abba4b5bf37e1f53d98200826303928cc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintArbitraryPPsToCSV</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">csvfile</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter22PrintArbitraryPPsToCSVERNSt8ofstreamERKNSt6vectorIPK13PostProcessorEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter27GetScalarPostProcessorsListERK5Event">
+<span id="_CPPv3N6opensn20PostProcessorPrinter27GetScalarPostProcessorsListERK5Event"></span><span id="_CPPv2N6opensn20PostProcessorPrinter27GetScalarPostProcessorsListERK5Event"></span><span id="opensn::PostProcessorPrinter::GetScalarPostProcessorsList__EventCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a04a56e9769a57b92907c2860576f7d52"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetScalarPostProcessorsList</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter27GetScalarPostProcessorsListERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter27GetVectorPostProcessorsListERK5Event">
+<span id="_CPPv3N6opensn20PostProcessorPrinter27GetVectorPostProcessorsListERK5Event"></span><span id="_CPPv2N6opensn20PostProcessorPrinter27GetVectorPostProcessorsListERK5Event"></span><span id="opensn::PostProcessorPrinter::GetVectorPostProcessorsList__EventCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a5d78b4b7b4a06da6a6c8d5e9a02e220d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetVectorPostProcessorsList</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter27GetVectorPostProcessorsListERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter30GetArbitraryPostProcessorsListERK5Event">
+<span id="_CPPv3N6opensn20PostProcessorPrinter30GetArbitraryPostProcessorsListERK5Event"></span><span id="_CPPv2N6opensn20PostProcessorPrinter30GetArbitraryPostProcessorsListERK5Event"></span><span id="opensn::PostProcessorPrinter::GetArbitraryPostProcessorsList__EventCR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a8970f30c5a7018e1830f8a88a04460a9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetArbitraryPostProcessorsList</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="event.html#_CPPv4N6opensn5EventE" title="opensn::Event"><span class="n"><span class="pre">Event</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">event</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter30GetArbitraryPostProcessorsListERK5Event" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter20BuildPPHistoryMatrixE6size_t6size_tRKNSt6vectorIPK13PostProcessorEE">
+<span id="_CPPv3N6opensn20PostProcessorPrinter20BuildPPHistoryMatrixE6size_t6size_tRKNSt6vectorIPK13PostProcessorEE"></span><span id="_CPPv2N6opensn20PostProcessorPrinter20BuildPPHistoryMatrixE6size_t6size_tRKNSt6vectorIPK13PostProcessorEE"></span><span id="opensn::PostProcessorPrinter::BuildPPHistoryMatrix__s.s.std::vector:PostProcessorCP:CR"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a37c95050ae52efa6b823cb57816bc538"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildPPHistoryMatrix</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timehistsize</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time_history_limit</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="post_processor.html#_CPPv4N6opensn13PostProcessorE" title="opensn::PostProcessor"><span class="n"><span class="pre">PostProcessor</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pp_sub_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter20BuildPPHistoryMatrixE6size_t6size_tRKNSt6vectorIPK13PostProcessorEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-attributes">Private Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn20PostProcessorPrinter11helper_ptr_E">
+<span id="_CPPv3N6opensn20PostProcessorPrinter11helper_ptr_E"></span><span id="_CPPv2N6opensn20PostProcessorPrinter11helper_ptr_E"></span><span id="opensn::PostProcessorPrinter::helper_ptr___std::shared_ptr:PPPrinterSubscribeHelper:"></span><span class="target" id="d0/d18/classopensn_1_1_post_processor_printer_1a493cb7aefbd788774c4c2b4a21d62410"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="pp_printer_subscribe_helper.html#_CPPv4N6opensn24PPPrinterSubscribeHelperE" title="opensn::PPPrinterSubscribeHelper"><span class="n"><span class="pre">PPPrinterSubscribeHelper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">helper_ptr_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">make_shared</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="pp_printer_subscribe_helper.html#_CPPv4N6opensn24PPPrinterSubscribeHelperE" title="opensn::PPPrinterSubscribeHelper"><span class="n"><span class="pre">PPPrinterSubscribeHelper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinterE" title="opensn::PostProcessorPrinter"><span class="n"><span class="pre">PostProcessorPrinter</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn20PostProcessorPrinter11GetInstanceEv" title="opensn::PostProcessorPrinter::GetInstance"><span class="n"><span class="pre">GetInstance</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6opensn20PostProcessorPrinter11helper_ptr_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="post_processor.html" class="btn btn-neutral float-left" title="PostProcessor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pp_printer_subscribe_helper.html" class="btn btn-neutral float-right" title="PPPrinterSubscribeHelper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::SweepChunk &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::SweepChunkPWLRZ" href="sweep_chunk_pwlrz.html" />
+    <link rel="prev" title="lbs::SteadyStateSolver" href="steady_state_solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::SweepChunk</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-sweepchunk">
+<h1>lbs::SweepChunk<a class="headerlink" href="#lbs-sweepchunk" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunkE">
+<span id="_CPPv3N6opensn3lbs10SweepChunkE"></span><span id="_CPPv2N6opensn3lbs10SweepChunkE"></span><span id="opensn::lbs::SweepChunk"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SweepChunk</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunkE" title="Link to this definition"></a><br /></dt>
+<dd><p>Base class for LBS sweepers </p>
+<p>Subclassed by <a class="reference internal" href="aah__sweep_chunk.html#d6/d20/classopensn_1_1lbs_1_1_a_a_h___sweep_chunk"><span class="std std-ref">opensn::lbs::AAH_SweepChunk</span></a>, <a class="reference internal" href="cbc__sweep_chunk.html#dd/da9/classopensn_1_1lbs_1_1_c_b_c___sweep_chunk"><span class="std std-ref">opensn::lbs::CBC_SweepChunk</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk10SweepChunkERNSt6vectorIdEERNSt6vectorIdEERK13MeshContinuumRK21SpatialDiscretizationRKNSt6vectorI16UnitCellMatricesEERNSt6vectorIN3lbs11CellLBSViewEEERKNSt6vectorIdEERK11LBSGroupsetRKNSt3mapIiNSt10shared_ptrI12MultiGroupXSEEEEiiNSt10unique_ptrI24SweepDependencyInterfaceEE">
+<span id="_CPPv3N6opensn3lbs10SweepChunk10SweepChunkERNSt6vectorIdEERNSt6vectorIdEERK13MeshContinuumRK21SpatialDiscretizationRKNSt6vectorI16UnitCellMatricesEERNSt6vectorIN3lbs11CellLBSViewEEERKNSt6vectorIdEERK11LBSGroupsetRKNSt3mapIiNSt10shared_ptrI12MultiGroupXSEEEEiiNSt10unique_ptrI24SweepDependencyInterfaceEE"></span><span id="_CPPv2N6opensn3lbs10SweepChunk10SweepChunkERNSt6vectorIdEERNSt6vectorIdEERK13MeshContinuumRK21SpatialDiscretizationRKNSt6vectorI16UnitCellMatricesEERNSt6vectorIN3lbs11CellLBSViewEEERKNSt6vectorIdEERK11LBSGroupsetRKNSt3mapIiNSt10shared_ptrI12MultiGroupXSEEEEiiNSt10unique_ptrI24SweepDependencyInterfaceEE"></span><span id="opensn::lbs::SweepChunk::SweepChunk__std::vector:double:R.std::vector:double:R.MeshContinuumCR.SpatialDiscretizationCR.std::vector:UnitCellMatrices:CR.std::vector:lbs::CellLBSView:R.std::vector:double:CR.LBSGroupsetCR.std::map:i.std::shared_ptr:MultiGroupXS::CR.i.i.std::unique_ptr:SweepDependencyInterface:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a928828e89852f9f9adc473f28db1e504"></span><span class="sig-name descname"><span class="n"><span class="pre">SweepChunk</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">destination_phi</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">destination_psi</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">discretization</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="unit_cell_matrices.html#_CPPv4N6opensn3lbs16UnitCellMatricesE" title="opensn::lbs::UnitCellMatrices"><span class="n"><span class="pre">UnitCellMatrices</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">unit_cell_matrices</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">lbs</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="cell_lbs_view.html#_CPPv4N6opensn3lbs11CellLBSViewE" title="opensn::lbs::CellLBSView"><span class="n"><span class="pre">CellLBSView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_transport_views</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">source_moments</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="lbs_groupset.html#_CPPv4N6opensn3lbs11LBSGroupsetE" title="opensn::lbs::LBSGroupset"><span class="n"><span class="pre">LBSGroupset</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">groupset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/multi_group_xs.html#_CPPv4N6opensn12MultiGroupXSE" title="opensn::MultiGroupXS"><span class="n"><span class="pre">MultiGroupXS</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">xs</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_moments</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_num_cell_dofs</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="sweep_dependency_interface.html#_CPPv4N6opensn3lbs24SweepDependencyInterfaceE" title="opensn::lbs::SweepDependencyInterface"><span class="n"><span class="pre">SweepDependencyInterface</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sweep_dependency_interface_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk10SweepChunkERNSt6vectorIdEERNSt6vectorIdEERK13MeshContinuumRK21SpatialDiscretizationRKNSt6vectorI16UnitCellMatricesEERNSt6vectorIN3lbs11CellLBSViewEEERKNSt6vectorIdEERK11LBSGroupsetRKNSt3mapIiNSt10shared_ptrI12MultiGroupXSEEEEiiNSt10unique_ptrI24SweepDependencyInterfaceEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk31KernelFEMVolumetricGradientTermEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk31KernelFEMVolumetricGradientTermEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk31KernelFEMVolumetricGradientTermEv"></span><span id="opensn::lbs::SweepChunk::KernelFEMVolumetricGradientTerm"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a687c6a3f5c0bc0b068ca804091dc5231"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">KernelFEMVolumetricGradientTerm</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk31KernelFEMVolumetricGradientTermEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Assembles the volumetric gradient term. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk31KernelFEMUpwindSurfaceIntegralsEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk31KernelFEMUpwindSurfaceIntegralsEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk31KernelFEMUpwindSurfaceIntegralsEv"></span><span id="opensn::lbs::SweepChunk::KernelFEMUpwindSurfaceIntegrals"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aa93f51ea4a0435ac519ec9d307ec45df"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">KernelFEMUpwindSurfaceIntegrals</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk31KernelFEMUpwindSurfaceIntegralsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Performs the integral over the surface of a face. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk21KernelFEMSTDMassTermsEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk21KernelFEMSTDMassTermsEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk21KernelFEMSTDMassTermsEv"></span><span id="opensn::lbs::SweepChunk::KernelFEMSTDMassTerms"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a740c36dac19e1c10f34817c7ee1cc7a4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">KernelFEMSTDMassTerms</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk21KernelFEMSTDMassTermsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Assembles angular sources and applies the mass matrix terms. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk15KernelPhiUpdateEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk15KernelPhiUpdateEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk15KernelPhiUpdateEv"></span><span id="opensn::lbs::SweepChunk::KernelPhiUpdate"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a63467f63c9f2c816b7c277f0a70022de"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">KernelPhiUpdate</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk15KernelPhiUpdateEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a single direction’s contribution to the moment integrals. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk15KernelPsiUpdateEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk15KernelPsiUpdateEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk15KernelPsiUpdateEv"></span><span id="opensn::lbs::SweepChunk::KernelPsiUpdate"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1acce7398f42fce6606872ce9f05a13849"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">KernelPsiUpdate</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk15KernelPsiUpdateEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Updates angular fluxes. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-types">Protected Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE">
+<span id="_CPPv3N6opensn3lbs10SweepChunk16CallbackFunctionE"></span><span id="_CPPv2N6opensn3lbs10SweepChunk16CallbackFunctionE"></span><span id="opensn::lbs::SweepChunk::CallbackFunction"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a3676907761bfb509de1d499f49e438eb"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CallbackFunction</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk14RegisterKernelERKNSt6stringE16CallbackFunction">
+<span id="_CPPv3N6opensn3lbs10SweepChunk14RegisterKernelERKNSt6stringE16CallbackFunction"></span><span id="_CPPv2N6opensn3lbs10SweepChunk14RegisterKernelERKNSt6stringE16CallbackFunction"></span><span id="opensn::lbs::SweepChunk::RegisterKernel__ssCR.CallbackFunction"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a48f4b53898507e1100a1a131b745b0fb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RegisterKernel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">function</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk14RegisterKernelERKNSt6stringE16CallbackFunction" title="Link to this definition"></a><br /></dt>
+<dd><p>Registers a kernel as a named callback function </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs10SweepChunk6KernelERKNSt6stringE">
+<span id="_CPPv3NK6opensn3lbs10SweepChunk6KernelERKNSt6stringE"></span><span id="_CPPv2NK6opensn3lbs10SweepChunk6KernelERKNSt6stringE"></span><span id="opensn::lbs::SweepChunk::Kernel__ssCRC"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a546447ce6cadca5df5a351c8150fbf18"></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Kernel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs10SweepChunk6KernelERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a kernel if the given name exists. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk25OutgoingSurfaceOperationsEv">
+<span id="_CPPv3N6opensn3lbs10SweepChunk25OutgoingSurfaceOperationsEv"></span><span id="_CPPv2N6opensn3lbs10SweepChunk25OutgoingSurfaceOperationsEv"></span><span id="opensn::lbs::SweepChunk::OutgoingSurfaceOperations"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a309d0cfb79957125c4ff939c650010b5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OutgoingSurfaceOperations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk25OutgoingSurfaceOperationsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Operations when outgoing fluxes are handled including passing face angular fluxes downstream and computing balance parameters (i.e. outflow) </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk5grid_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk5grid_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk5grid_E"></span><span id="opensn::lbs::SweepChunk::grid___MeshContinuumCR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aeab953d85ae2739eeb9be024884fcf3c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">grid_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk5grid_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk13grid_fe_view_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk13grid_fe_view_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk13grid_fe_view_E"></span><span id="opensn::lbs::SweepChunk::grid_fe_view___SpatialDiscretizationCR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a558222952ef0bece41dad63ed95947bc"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">grid_fe_view_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk13grid_fe_view_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk19unit_cell_matrices_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk19unit_cell_matrices_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk19unit_cell_matrices_E"></span><span id="opensn::lbs::SweepChunk::unit_cell_matrices___std::vector:UnitCellMatrices:CR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a80ce66b631911927089383ab10f60fef"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="unit_cell_matrices.html#_CPPv4N6opensn3lbs16UnitCellMatricesE" title="opensn::lbs::UnitCellMatrices"><span class="n"><span class="pre">UnitCellMatrices</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unit_cell_matrices_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk19unit_cell_matrices_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk20grid_transport_view_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk20grid_transport_view_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk20grid_transport_view_E"></span><span id="opensn::lbs::SweepChunk::grid_transport_view___std::vector:lbs::CellLBSView:R"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a59d8c04b0c41ac76b815938007b981a8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">lbs</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="cell_lbs_view.html#_CPPv4N6opensn3lbs11CellLBSViewE" title="opensn::lbs::CellLBSView"><span class="n"><span class="pre">CellLBSView</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">grid_transport_view_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk20grid_transport_view_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk10q_moments_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk10q_moments_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk10q_moments_E"></span><span id="opensn::lbs::SweepChunk::q_moments___std::vector:double:CR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a4d02e314cd1a26ff9896f3b19187be3b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">q_moments_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk10q_moments_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk9groupset_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk9groupset_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk9groupset_E"></span><span id="opensn::lbs::SweepChunk::groupset___LBSGroupsetCR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a8e96b5d4aed92977dc04dff2fc5de466"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="lbs_groupset.html#_CPPv4N6opensn3lbs11LBSGroupsetE" title="opensn::lbs::LBSGroupset"><span class="n"><span class="pre">LBSGroupset</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">groupset_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk9groupset_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk3xs_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk3xs_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk3xs_E"></span><span id="opensn::lbs::SweepChunk::xs___std::map:i.std::shared_ptr:MultiGroupXS::CR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a06d000a0a941cca80a78c4579728fe42"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/multi_group_xs.html#_CPPv4N6opensn12MultiGroupXSE" title="opensn::MultiGroupXS"><span class="n"><span class="pre">MultiGroupXS</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">xs_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk3xs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk12num_moments_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk12num_moments_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk12num_moments_E"></span><span id="opensn::lbs::SweepChunk::num_moments___iC"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a0b5d105f78ef2daeb5db671573877a1a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_moments_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk12num_moments_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk18save_angular_flux_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk18save_angular_flux_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk18save_angular_flux_E"></span><span id="opensn::lbs::SweepChunk::save_angular_flux___bC"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a0b2dacfc7f13d1b84e068ba823e7a6f7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save_angular_flux_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk18save_angular_flux_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk31sweep_dependency_interface_ptr_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk31sweep_dependency_interface_ptr_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk31sweep_dependency_interface_ptr_E"></span><span id="opensn::lbs::SweepChunk::sweep_dependency_interface_ptr___std::unique_ptr:SweepDependencyInterface:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a1359738a3f209a5d42500041912a1e94"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="sweep_dependency_interface.html#_CPPv4N6opensn3lbs24SweepDependencyInterfaceE" title="opensn::lbs::SweepDependencyInterface"><span class="n"><span class="pre">SweepDependencyInterface</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sweep_dependency_interface_ptr_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk31sweep_dependency_interface_ptr_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk27sweep_dependency_interface_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk27sweep_dependency_interface_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk27sweep_dependency_interface_E"></span><span id="opensn::lbs::SweepChunk::sweep_dependency_interface___SweepDependencyInterfaceR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1adf784a06b36d6ace40e2d8fa3dbbd013"></span><a class="reference internal" href="sweep_dependency_interface.html#_CPPv4N6opensn3lbs24SweepDependencyInterfaceE" title="opensn::lbs::SweepDependencyInterface"><span class="n"><span class="pre">SweepDependencyInterface</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">sweep_dependency_interface_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk27sweep_dependency_interface_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk28groupset_angle_group_stride_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk28groupset_angle_group_stride_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk28groupset_angle_group_stride_E"></span><span id="opensn::lbs::SweepChunk::groupset_angle_group_stride___sC"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a3582542d6f2b1cfd2794c64a9ae10242"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">groupset_angle_group_stride_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk28groupset_angle_group_stride_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk22groupset_group_stride_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk22groupset_group_stride_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk22groupset_group_stride_E"></span><span id="opensn::lbs::SweepChunk::groupset_group_stride___sC"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ad9b5071112f0e4398f3b918be29b668d"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">groupset_group_stride_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk22groupset_group_stride_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk11gs_ss_size_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk11gs_ss_size_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk11gs_ss_size_E"></span><span id="opensn::lbs::SweepChunk::gs_ss_size___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a3537b833bbb96f5f21d2f8c92f17ad64"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_ss_size_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk11gs_ss_size_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk12gs_ss_begin_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk12gs_ss_begin_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk12gs_ss_begin_E"></span><span id="opensn::lbs::SweepChunk::gs_ss_begin___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ae8f33b66da42382bb7db703a7dea1f16"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_ss_begin_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk12gs_ss_begin_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk6gs_gi_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk6gs_gi_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk6gs_gi_E"></span><span id="opensn::lbs::SweepChunk::gs_gi___i"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a6e890a03104706a80d1aee5932924fa5"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_gi_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk6gs_gi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk5Amat_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk5Amat_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk5Amat_E"></span><span id="opensn::lbs::SweepChunk::Amat___std::vector:std::vector:double::"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aad06c62d31b4528dc24e49178d3915a7"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Amat_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk5Amat_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk6Atemp_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk6Atemp_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk6Atemp_E"></span><span id="opensn::lbs::SweepChunk::Atemp___std::vector:std::vector:double::"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aa3acb465a83f2650d25819a455489657"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Atemp_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk6Atemp_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk7source_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk7source_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk7source_E"></span><span id="opensn::lbs::SweepChunk::source___std::vector:double:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ab92181fd351b443d668dc32e8b26dca0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">source_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk7source_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk2b_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk2b_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk2b_E"></span><span id="opensn::lbs::SweepChunk::b___std::vector:std::vector:double::"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1abe6c3727875848f6d2171f0d77433941"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">b_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk2b_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk14cell_local_id_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk14cell_local_id_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk14cell_local_id_E"></span><span id="opensn::lbs::SweepChunk::cell_local_id___uint64_t"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a27cac95bf2c173b2884ff100412299c8"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_local_id_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk14cell_local_id_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk5cell_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk5cell_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk5cell_E"></span><span id="opensn::lbs::SweepChunk::cell___CellCP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a615a5ad636f1cdaaf31ceacce8b02021"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cell_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk5cell_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk13cell_mapping_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk13cell_mapping_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk13cell_mapping_E"></span><span id="opensn::lbs::SweepChunk::cell_mapping___CellMappingCP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ac3627b58da1fa84f9dba15ff10445d1d"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/cell_mapping.html#_CPPv4N6opensn11CellMappingE" title="opensn::CellMapping"><span class="n"><span class="pre">CellMapping</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cell_mapping_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk13cell_mapping_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk20cell_transport_view_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk20cell_transport_view_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk20cell_transport_view_E"></span><span id="opensn::lbs::SweepChunk::cell_transport_view___CellLBSViewP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a2c4995ed9f7bb3f8722ad9c0eb938660"></span><a class="reference internal" href="cell_lbs_view.html#_CPPv4N6opensn3lbs11CellLBSViewE" title="opensn::lbs::CellLBSView"><span class="n"><span class="pre">CellLBSView</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">cell_transport_view_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk20cell_transport_view_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk15cell_num_faces_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk15cell_num_faces_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk15cell_num_faces_E"></span><span id="opensn::lbs::SweepChunk::cell_num_faces___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ad1a52fa0e3f0f03c6c08999229ec280a"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_num_faces_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk15cell_num_faces_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk15cell_num_nodes_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk15cell_num_nodes_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk15cell_num_nodes_E"></span><span id="opensn::lbs::SweepChunk::cell_num_nodes___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ab4c36501326fed34b34f37631b23133e"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_num_nodes_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk15cell_num_nodes_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk2G_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk2G_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk2G_E"></span><span id="opensn::lbs::SweepChunk::G___MatVec3CP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a2e734a2ed05b3e045cec548032561639"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">MatVec3</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">G_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk2G_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk2M_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk2M_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk2M_E"></span><span id="opensn::lbs::SweepChunk::M___MatDblCP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1afaeda89103075d721aa71be9ec550c7a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">MatDbl</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">M_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk2M_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk7M_surf_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk7M_surf_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk7M_surf_E"></span><span id="opensn::lbs::SweepChunk::M_surf___std::vector:MatDbl:CP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a9a6a99e6aebf0587b6159283f498430b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">MatDbl</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">M_surf_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk7M_surf_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk12IntS_shapeI_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk12IntS_shapeI_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk12IntS_shapeI_E"></span><span id="opensn::lbs::SweepChunk::IntS_shapeI___std::vector:VecDbl:CP"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a6aa3b4e744a4b6f9594c1a26b84541ba"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">VecDbl</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">IntS_shapeI_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk12IntS_shapeI_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk20cell_data_callbacks_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk20cell_data_callbacks_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk20cell_data_callbacks_E"></span><span id="opensn::lbs::SweepChunk::cell_data_callbacks___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ad2f1d2b40a33b6536c1a250172f43427"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_data_callbacks_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk20cell_data_callbacks_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 1 : cell data established </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk15face_mu_values_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk15face_mu_values_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk15face_mu_values_E"></span><span id="opensn::lbs::SweepChunk::face_mu_values___std::vector:double:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ad64340b6288e3e65c6a1c3c4b86af258"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_mu_values_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk15face_mu_values_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk14direction_num_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk14direction_num_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk14direction_num_E"></span><span id="opensn::lbs::SweepChunk::direction_num___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1af7adf2f70920611b27a5d6becec34064"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">direction_num_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk14direction_num_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk6omega_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk6omega_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk6omega_E"></span><span id="opensn::lbs::SweepChunk::omega___Vector3"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ab77362ff2c80755dcf549e2f3c5f1f55"></span><a class="reference internal" href="../../framework/vector3.html#_CPPv4N6opensn7Vector3E" title="opensn::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">omega_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk6omega_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk18direction_qweight_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk18direction_qweight_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk18direction_qweight_E"></span><span id="opensn::lbs::SweepChunk::direction_qweight___double"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1acb113e98f757fa1806c8423667c39250"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">direction_qweight_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk18direction_qweight_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk37direction_data_callbacks_and_kernels_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk37direction_data_callbacks_and_kernels_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk37direction_data_callbacks_and_kernels_E"></span><span id="opensn::lbs::SweepChunk::direction_data_callbacks_and_kernels___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aeaeb7616dc00159d2142cec5f1cbe33d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">direction_data_callbacks_and_kernels_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk37direction_data_callbacks_and_kernels_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 2 : direction data established </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk25surface_integral_kernels_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk25surface_integral_kernels_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk25surface_integral_kernels_E"></span><span id="opensn::lbs::SweepChunk::surface_integral_kernels___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a994054449ce60f3a19b5a5929d8ffbdc"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">surface_integral_kernels_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk25surface_integral_kernels_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 3 : Surface integrals </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk2g_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk2g_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk2g_E"></span><span id="opensn::lbs::SweepChunk::g___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1aad8ceda801a2caeca66d56b14bff9175"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">g_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk2g_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk4gsg_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk4gsg_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk4gsg_E"></span><span id="opensn::lbs::SweepChunk::gsg___s"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a480da6cf0ad01e3d9d3e8a9ee56c66b9"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gsg_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk4gsg_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk9sigma_tg_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk9sigma_tg_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk9sigma_tg_E"></span><span id="opensn::lbs::SweepChunk::sigma_tg___double"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a3e32c5b74cc7b6a4b9c285f71e2b4805"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sigma_tg_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk9sigma_tg_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk18mass_term_kernels_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk18mass_term_kernels_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk18mass_term_kernels_E"></span><span id="opensn::lbs::SweepChunk::mass_term_kernels___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a2f62c6265bd9c56d32eb07cee3a41901"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mass_term_kernels_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk18mass_term_kernels_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 4 : group by group mass terms </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk20flux_update_kernels_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk20flux_update_kernels_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk20flux_update_kernels_E"></span><span id="opensn::lbs::SweepChunk::flux_update_kernels___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a262a4280d19f2ee87bf8b4b9b6efac52"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flux_update_kernels_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk20flux_update_kernels_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 5 : flux updates </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk30post_cell_dir_sweep_callbacks_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk30post_cell_dir_sweep_callbacks_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk30post_cell_dir_sweep_callbacks_E"></span><span id="opensn::lbs::SweepChunk::post_cell_dir_sweep_callbacks___std::vector:CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a302e2a0cc762f92d276aef707ed6e55f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">post_cell_dir_sweep_callbacks_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk30post_cell_dir_sweep_callbacks_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Callbacks at phase 6 : Post cell-dir sweep </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-static-functions">Protected Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk14ExecuteKernelsERKNSt6vectorI16CallbackFunctionEE">
+<span id="_CPPv3N6opensn3lbs10SweepChunk14ExecuteKernelsERKNSt6vectorI16CallbackFunctionEE"></span><span id="_CPPv2N6opensn3lbs10SweepChunk14ExecuteKernelsERKNSt6vectorI16CallbackFunctionEE"></span><span id="opensn::lbs::SweepChunk::ExecuteKernels__std::vector:CallbackFunction:CR"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1ab284e2fb95d6a91ba01837c3a5d105b4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ExecuteKernels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">kernels</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk14ExecuteKernelsERKNSt6vectorI16CallbackFunctionEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Executes the supplied kernels list. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs10SweepChunk8kernels_E">
+<span id="_CPPv3N6opensn3lbs10SweepChunk8kernels_E"></span><span id="_CPPv2N6opensn3lbs10SweepChunk8kernels_E"></span><span id="opensn::lbs::SweepChunk::kernels___std::map:ss.CallbackFunction:"></span><span class="target" id="d7/d36/classopensn_1_1lbs_1_1_sweep_chunk_1a5013447ec49141fccbaa09e217f42115"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn3lbs10SweepChunk16CallbackFunctionE" title="opensn::lbs::SweepChunk::CallbackFunction"><span class="n"><span class="pre">CallbackFunction</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kernels_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs10SweepChunk8kernels_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="steady_state_solver.html" class="btn btn-neutral float-left" title="lbs::SteadyStateSolver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sweep_chunk_pwlrz.html" class="btn btn-neutral float-right" title="lbs::SweepChunkPWLRZ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

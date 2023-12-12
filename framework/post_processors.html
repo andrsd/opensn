@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>H Post-Processors &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Post-Processor Utils" href="pp_utils.html" />
+    <link rel="prev" title="Solvers" href="physics_solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cell_mappings.html">Cell Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chi_format_xs.html">Chi-Tech Cross-section format 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html">I Event System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html#opensn-s-event-system">openSn’s event system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experimental.html">Z Experimental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ffi.html">Field Function Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_function.html">Field Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_operation.html">Field Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_file_mesh_generator.html">Supported file types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">G Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">F Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">D Output and Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logical_volume.html">Logical Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">B Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">A Meshing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_generators.html">Mesh Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_handler.html">Mesh Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_macros.html">Mesh Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_modifiers.html">Mesh Modifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mgxs.html">Transport Cross Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi.html">E MPI Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html">C Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_material.html">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_solver.html">Solvers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">H Post-Processors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-a-post-processor">1 What is a Post-Processor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-are-post-processors-created">2 How are post-processors created</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-are-post-processors-executed">3 How are post-processors executed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#default-execute-on-events">3.1 Default <code class="docutils literal notranslate"><span class="pre">execute_on</span></code> events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#post-processor-output-controls">3.2 Post-Processor output controls</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pp_utils.html">Post-Processor Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature.html">Quadrature rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sldfesq.html">Simplified LDFESQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial_discretization.html">Spatial Discretizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_mesher.html">Surface Re-meshers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_integration.html">Time Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_steppers.html">I Time-steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unpartitioned_mesh.html">Unpartitioned Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_mesher.html">Volume Meshers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Framework</a></li>
+      <li class="breadcrumb-item active">H Post-Processors</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="h-post-processors">
+<h1>H Post-Processors<a class="headerlink" href="#h-post-processors" title="Link to this heading"></a></h1>
+<section id="what-is-a-post-processor">
+<h2>1 What is a Post-Processor<a class="headerlink" href="#what-is-a-post-processor" title="Link to this heading"></a></h2>
+<p>A post-processor, implemented via <code class="docutils literal notranslate"><span class="pre">PostProcessor</span></code>, computes simple
+quantities derived from simulation entities (i.e., meshers, solvers, etc.).
+The most common form of a post-processor is a <code class="docutils literal notranslate"><span class="pre">SCALAR</span></code> which computes a single
+value, however, there is a also a <code class="docutils literal notranslate"><span class="pre">VECTOR</span></code> type and an <code class="docutils literal notranslate"><span class="pre">ARBITRARY</span></code> type.</p>
+</section>
+<section id="how-are-post-processors-created">
+<h2>2 How are post-processors created<a class="headerlink" href="#how-are-post-processors-created" title="Link to this heading"></a></h2>
+<p>Below is an example of the simplest (and first created) post-processors called
+the <code class="docutils literal notranslate"><span class="pre">SolverInfoPostProcessor</span></code>. This post-processor obtains information
+from a solver, where each solver can override the virtual method
+<code class="docutils literal notranslate"><span class="pre">Solver::GetInfo</span></code> to provide any piece(s) of information. In this
+case the <code class="docutils literal notranslate"><span class="pre">prk::TransientSolver</span></code> is a mesh-less solver that computes the
+time-dependent neutron population of a Point-Reactor model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Example</span> <span class="n">Point</span><span class="o">-</span><span class="n">Reactor</span> <span class="n">Kinetics</span> <span class="n">solver</span>
+<span class="n">phys0</span> <span class="o">=</span> <span class="n">prk</span><span class="o">.</span><span class="n">TransientSolver</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">initial_source</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">})</span>
+
+<span class="n">pp0</span> <span class="o">=</span> <span class="n">SolverInfoPostProcessor</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">,</span>
+  <span class="n">solver</span> <span class="o">=</span> <span class="n">phys0</span><span class="p">,</span>
+  <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">},</span>
+  <span class="n">print_on</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;ProgramExecuted&quot;</span> <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Post-processors have a few standard parameters.The <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter is always
+required among all post-processors. Additionally we have the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">execute_on</span></code> controlling the events on which to execute the post-processor
+(more on this later).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">print_on</span></code> controlling the events on which to print the post-processor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_value</span></code> can be used to set an initial value for the post-processor.</p></li>
+<li><p>other commands to control various behaviors see <a class="reference internal" href="../developer/framework/post_processor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">PostProcessor</span></code></span></a>.</p></li>
+</ul>
+</section>
+<section id="how-are-post-processors-executed">
+<h2>3 How are post-processors executed<a class="headerlink" href="#how-are-post-processors-executed" title="Link to this heading"></a></h2>
+<p>Post-processors are executed using the event system (see <a class="reference internal" href="event_system.html"><span class="doc std std-doc">EventSystem</span></a>).
+Each post-processor can be subscribed to objects deriving from
+<code class="docutils literal notranslate"><span class="pre">EventPublisher</span></code> that call the Post-Processors at different stages
+(Subscriber design pattern).
+One example is the physics solver-system which has a wrapper to call the post
+processors on calls to <code class="docutils literal notranslate"><span class="pre">Initialize</span></code>, <code class="docutils literal notranslate"><span class="pre">Execute</span></code>, <code class="docutils literal notranslate"><span class="pre">Step</span></code> and <code class="docutils literal notranslate"><span class="pre">Advance</span></code></p>
+<section id="default-execute-on-events">
+<h3>3.1 Default <code class="docutils literal notranslate"><span class="pre">execute_on</span></code> events<a class="headerlink" href="#default-execute-on-events" title="Link to this heading"></a></h3>
+<p>By default a post-processor subscribes to the following events for execution:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SolverInitialized</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SolverAdvanced</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SolverExecuted</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ProgramExecuted</span></code></p></li>
+</ul>
+<p>This behavior can be customized by using the <code class="docutils literal notranslate"><span class="pre">execute_on</span></code> parameter. For
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp0</span> <span class="o">=</span> <span class="n">SolverInfoPostProcessor</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">,</span>
+  <span class="n">solver</span> <span class="o">=</span> <span class="n">phys0</span><span class="p">,</span>
+  <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">},</span>
+  <span class="n">execute_on</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ProgramExecuted&quot;</span><span class="p">},</span>
+  <span class="n">print_on</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;ProgramExecuted&quot;</span> <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="post-processor-output-controls">
+<h3>3.2 Post-Processor output controls<a class="headerlink" href="#post-processor-output-controls" title="Link to this heading"></a></h3>
+<p>Post-Processors are printed to console or file using the <code class="docutils literal notranslate"><span class="pre">PostProcessorPrinter</span></code> singleton.
+It has the options described in
+<a class="reference internal" href="#/developer/framework/%3CTODO%3E"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">PostProcessorPrinterOptions</span></code></span></a> which can be set using
+<a class="reference internal" href="#/developer/framework/%3CTODO%3E"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">PostProcessorPrinterSetOptions</span></code></span></a>.</p>
+<section id="printing-to-console-output">
+<h4>3.2.1 Printing to console output<a class="headerlink" href="#printing-to-console-output" title="Link to this heading"></a></h4>
+<p>The following example shows the printing of a simple post processor.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Example</span> <span class="n">Point</span><span class="o">-</span><span class="n">Reactor</span> <span class="n">Kinetics</span> <span class="n">solver</span>
+<span class="n">phys0</span> <span class="o">=</span> <span class="n">prk</span><span class="o">.</span><span class="n">TransientSolver</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">initial_source</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">})</span>
+
+<span class="n">pp0</span> <span class="o">=</span> <span class="n">SolverInfoPostProcessor</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">,</span>
+  <span class="n">solver</span> <span class="o">=</span> <span class="n">phys0</span><span class="p">,</span>
+  <span class="n">info</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;neutron_population&quot;</span><span class="p">},</span>
+  <span class="n">print_on</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;ProgramExecuted&quot;</span> <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="n">SolverInitialize</span><span class="p">(</span><span class="n">phys0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span> <span class="n">do</span>
+  <span class="n">SolverStep</span><span class="p">(</span><span class="n">phys0</span><span class="p">)</span>
+  <span class="n">time</span> <span class="o">=</span> <span class="n">PRKGetParam</span><span class="p">(</span><span class="n">phys0</span><span class="p">,</span> <span class="s2">&quot;time_next&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span>
+        <span class="n">PRKGetParam</span><span class="p">(</span><span class="n">phys0</span><span class="p">,</span> <span class="s2">&quot;population_next&quot;</span><span class="p">),</span>
+        <span class="n">PRKGetParam</span><span class="p">(</span><span class="n">phys0</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">))</span>
+
+  <span class="n">SolverAdvance</span><span class="p">(</span><span class="n">phys0</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">)</span> <span class="n">then</span>
+    <span class="n">prk</span><span class="o">.</span><span class="n">SetParam</span><span class="p">(</span><span class="n">phys0</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+  <span class="n">end</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>for which the last portion of the output would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span>  <span class="n">Final</span> <span class="n">program</span> <span class="n">time</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+<span class="mi">0</span>  <span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span> <span class="mi">08</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mi">02</span> <span class="n">openSn</span> <span class="n">finished</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">scratch</span><span class="o">/</span><span class="n">RPK</span><span class="o">/</span><span class="n">rpk1</span><span class="o">.</span><span class="n">lua</span>
+<span class="mi">0</span>
+<span class="mi">0</span>  <span class="n">SCALAR</span> <span class="n">post</span><span class="o">-</span><span class="n">processors</span> <span class="n">history</span> <span class="n">at</span> <span class="n">event</span> <span class="s2">&quot;ProgramExecuted&quot;</span>
+<span class="mi">0</span>  <span class="o">*----------*--------------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="n">Time</span>     <span class="o">|</span> <span class="n">neutron_population</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*----------*--------------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.060000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.070000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.080000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.090000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.100000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.110000</span> <span class="o">|</span>           <span class="mf">1.000000</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.120000</span> <span class="o">|</span>           <span class="mf">3.285132</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.130000</span> <span class="o">|</span>           <span class="mf">4.316595</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.140000</span> <span class="o">|</span>           <span class="mf">4.807549</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.150000</span> <span class="o">|</span>           <span class="mf">5.065645</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.160000</span> <span class="o">|</span>           <span class="mf">5.223603</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.170000</span> <span class="o">|</span>           <span class="mf">5.338682</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.180000</span> <span class="o">|</span>           <span class="mf">5.435592</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.190000</span> <span class="o">|</span>           <span class="mf">5.524998</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="mf">0.200000</span> <span class="o">|</span>           <span class="mf">5.611508</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">|</span>   <span class="n">Latest</span> <span class="o">|</span>           <span class="mf">5.611508</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*----------*--------------------</span>
+<span class="mi">0</span>
+<span class="mi">0</span>  <span class="n">SCALAR</span> <span class="n">post</span><span class="o">-</span><span class="n">processors</span> <span class="n">latest</span> <span class="n">values</span> <span class="n">at</span> <span class="n">event</span> <span class="s2">&quot;ProgramExecuted&quot;</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="n">Post</span><span class="o">-</span><span class="n">Processor</span> <span class="n">Name</span>          <span class="o">|</span> <span class="n">Value</span>           <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="n">neutron_population</span><span class="p">(</span><span class="n">latest</span><span class="p">)</span>   <span class="o">|</span>        <span class="mf">5.611508</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+</pre></div>
+</div>
+<p>Here we can see that the <code class="docutils literal notranslate"><span class="pre">PostProcessorPrinter</span></code> printed both the time
+history of the post-processor as well its latest value.</p>
+<p>The time history can be suppressed by adding the following to the input</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PostProcessorPrinterSetOptions</span>
+<span class="p">({</span>
+  <span class="n">print_scalar_time_history</span> <span class="o">=</span> <span class="n">false</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>which results in only the latest value being printed</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span>  <span class="n">Final</span> <span class="n">program</span> <span class="n">time</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+<span class="mi">0</span>  <span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span> <span class="mi">08</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">41</span> <span class="n">openSn</span> <span class="n">finished</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">scratch</span><span class="o">/</span><span class="n">RPK</span><span class="o">/</span><span class="n">rpk1</span><span class="o">.</span><span class="n">lua</span>
+<span class="mi">0</span>
+<span class="mi">0</span>  <span class="n">SCALAR</span> <span class="n">post</span><span class="o">-</span><span class="n">processors</span> <span class="n">latest</span> <span class="n">values</span> <span class="n">at</span> <span class="n">event</span> <span class="s2">&quot;ProgramExecuted&quot;</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="n">Post</span><span class="o">-</span><span class="n">Processor</span> <span class="n">Name</span>          <span class="o">|</span> <span class="n">Value</span>           <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+<span class="mi">0</span>  <span class="o">|</span> <span class="n">neutron_population</span><span class="p">(</span><span class="n">latest</span><span class="p">)</span>   <span class="o">|</span>        <span class="mf">5.611508</span> <span class="o">|</span>
+<span class="mi">0</span>  <span class="o">*------------------------------*-----------------*</span>
+</pre></div>
+</div>
+</section>
+<section id="exporting-to-csv">
+<h4>3.2.2 Exporting to CSV<a class="headerlink" href="#exporting-to-csv" title="Link to this heading"></a></h4>
+<p>The time history of a post-processor can also be exported to a
+Comma Separated Value file (CSV-file) by setting the <code class="docutils literal notranslate"><span class="pre">csv_filename</span></code> option in
+<a class="reference internal" href="#/developer/framework/%3CTODO%3E"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">PostProcessorPrinterSetOptions</span></code></span></a>. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PostProcessorPrinterSetOptions</span>
+<span class="p">({</span>
+  <span class="n">csv_filename</span> <span class="o">=</span> <span class="s2">&quot;rpk1.csv&quot;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-printing-of-post-processors">
+<h4>3.2.3 Manual printing of post-processors<a class="headerlink" href="#manual-printing-of-post-processors" title="Link to this heading"></a></h4>
+<p>Post-processors can be printing manually whenever needed by using either a list
+of post-processor names or handles. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PrintPostProcessors</span><span class="p">({</span><span class="s2">&quot;test_arb&quot;</span><span class="p">,</span> <span class="s2">&quot;period(s)6&quot;</span><span class="p">})</span> <span class="o">--</span><span class="n">using</span> <span class="n">names</span>
+<span class="n">PrintPostProcessors</span><span class="p">({</span><span class="n">pp0</span><span class="p">,</span> <span class="n">pp1</span><span class="p">})</span>                 <span class="o">--</span><span class="n">using</span> <span class="n">handles</span>
+</pre></div>
+</div>
+</section>
+<section id="controlling-numeric-formats">
+<h4>3.2.4 Controlling numeric formats<a class="headerlink" href="#controlling-numeric-formats" title="Link to this heading"></a></h4>
+<p>Each post-processor has the options <code class="docutils literal notranslate"><span class="pre">print_numeric_format</span></code> and <code class="docutils literal notranslate"><span class="pre">print_precision</span></code>
+that controls how numbers are printed. For more about this see
+<a class="reference internal" href="../developer/framework/post_processor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">PostProcessor</span></code></span></a>.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="physics_solver.html" class="btn btn-neutral float-left" title="Solvers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pp_utils.html" class="btn btn-neutral float-right" title="Post-Processor Utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

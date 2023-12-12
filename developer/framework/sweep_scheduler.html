@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SweepScheduler &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SystemWideEventPublisher" href="system_wide_event_publisher.html" />
+    <link rel="prev" title="SweepChunk" href="sweep_chunk.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SweepScheduler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn14SweepSchedulerE"><code class="docutils literal notranslate"><span class="pre">SweepScheduler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">SweepScheduler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sweepscheduler">
+<h1>SweepScheduler<a class="headerlink" href="#sweepscheduler" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepSchedulerE">
+<span id="_CPPv3N6opensn14SweepSchedulerE"></span><span id="_CPPv2N6opensn14SweepSchedulerE"></span><span id="opensn::SweepScheduler"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SweepScheduler</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepSchedulerE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler14SweepSchedulerE19SchedulingAlgorithmR16AngleAggregationR10SweepChunk">
+<span id="_CPPv3N6opensn14SweepScheduler14SweepSchedulerE19SchedulingAlgorithmR16AngleAggregationR10SweepChunk"></span><span id="_CPPv2N6opensn14SweepScheduler14SweepSchedulerE19SchedulingAlgorithmR16AngleAggregationR10SweepChunk"></span><span id="opensn::SweepScheduler::SweepScheduler__SchedulingAlgorithm.AngleAggregationR.SweepChunkR"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a2311034937ddc6eec268a7db4807b115"></span><span class="sig-name descname"><span class="n"><span class="pre">SweepScheduler</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19SchedulingAlgorithmE" title="opensn::SchedulingAlgorithm"><span class="n"><span class="pre">SchedulingAlgorithm</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">in_scheduler_type</span></span>, <a class="reference internal" href="angle_aggregation.html#_CPPv4N6opensn16AngleAggregationE" title="opensn::AngleAggregation"><span class="n"><span class="pre">AngleAggregation</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_angle_agg</span></span>, <a class="reference internal" href="sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_sweep_chunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler14SweepSchedulerE19SchedulingAlgorithmR16AngleAggregationR10SweepChunk" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler8AngleAggEv">
+<span id="_CPPv3N6opensn14SweepScheduler8AngleAggEv"></span><span id="_CPPv2N6opensn14SweepScheduler8AngleAggEv"></span><span id="opensn::SweepScheduler::AngleAgg"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a04171ca61e5b4362859e3475d969e76c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="angle_aggregation.html#_CPPv4N6opensn16AngleAggregationE" title="opensn::AngleAggregation"><span class="n"><span class="pre">AngleAggregation</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">AngleAgg</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler8AngleAggEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn14SweepScheduler13SweepEventTagEv">
+<span id="_CPPv3NK6opensn14SweepScheduler13SweepEventTagEv"></span><span id="_CPPv2NK6opensn14SweepScheduler13SweepEventTagEv"></span><span id="opensn::SweepScheduler::SweepEventTagC"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a2b25f0b232dce5defd71820702331590"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SweepEventTag</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn14SweepScheduler13SweepEventTagEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler5SweepEv">
+<span id="_CPPv3N6opensn14SweepScheduler5SweepEv"></span><span id="_CPPv2N6opensn14SweepScheduler5SweepEv"></span><span id="opensn::SweepScheduler::Sweep"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a5dade80fd73dbeab458f5e212fc15305"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Sweep</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler5SweepEv" title="Link to this definition"></a><br /></dt>
+<dd><p>This is the entry point for sweeping. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn14SweepScheduler19GetAverageSweepTimeEv">
+<span id="_CPPv3NK6opensn14SweepScheduler19GetAverageSweepTimeEv"></span><span id="_CPPv2NK6opensn14SweepScheduler19GetAverageSweepTimeEv"></span><span id="opensn::SweepScheduler::GetAverageSweepTimeC"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a08db65344ba2eef0a681798aa74bc031"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetAverageSweepTime</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn14SweepScheduler19GetAverageSweepTimeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get average sweep time from logging system. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler18GetAngleSetTimingsEv">
+<span id="_CPPv3N6opensn14SweepScheduler18GetAngleSetTimingsEv"></span><span id="_CPPv2N6opensn14SweepScheduler18GetAngleSetTimingsEv"></span><span id="opensn::SweepScheduler::GetAngleSetTimings"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a8a97584cfe3e656e4ab43f2da55caae9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetAngleSetTimings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler18GetAngleSetTimingsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get relevant sweep timing information.</p>
+<p>[0] Total sweep time [1] Total chunk time [2] Total chunk time / total sweep time </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler13GetSweepChunkEv">
+<span id="_CPPv3N6opensn14SweepScheduler13GetSweepChunkEv"></span><span id="_CPPv2N6opensn14SweepScheduler13GetSweepChunkEv"></span><span id="opensn::SweepScheduler::GetSweepChunk"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a4f8e69f27e962693e54bd501c14bea55"></span><a class="reference internal" href="sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetSweepChunk</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler13GetSweepChunkEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the referenced sweep chunk. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler17SetDestinationPhiERNSt6vectorIdEE">
+<span id="_CPPv3N6opensn14SweepScheduler17SetDestinationPhiERNSt6vectorIdEE"></span><span id="_CPPv2N6opensn14SweepScheduler17SetDestinationPhiERNSt6vectorIdEE"></span><span id="opensn::SweepScheduler::SetDestinationPhi__std::vector:double:R"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1aad06252794b82af91b10ad9ba7a32acd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetDestinationPhi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_destination_phi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler17SetDestinationPhiERNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the location where flux moments are to be written. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler18ZeroDestinationPhiEv">
+<span id="_CPPv3N6opensn14SweepScheduler18ZeroDestinationPhiEv"></span><span id="_CPPv2N6opensn14SweepScheduler18ZeroDestinationPhiEv"></span><span id="opensn::SweepScheduler::ZeroDestinationPhi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a8aff285026a5121bb2d69f2acc73f2c8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroDestinationPhi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler18ZeroDestinationPhiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets all elements of the output vector to zero. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler17GetDestinationPhiEv">
+<span id="_CPPv3N6opensn14SweepScheduler17GetDestinationPhiEv"></span><span id="_CPPv2N6opensn14SweepScheduler17GetDestinationPhiEv"></span><span id="opensn::SweepScheduler::GetDestinationPhi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1afe98b6f895a3fe039b822f7141e86a12"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetDestinationPhi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler17GetDestinationPhiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a reference to the output flux moments vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler17SetDestinationPsiERNSt6vectorIdEE">
+<span id="_CPPv3N6opensn14SweepScheduler17SetDestinationPsiERNSt6vectorIdEE"></span><span id="_CPPv2N6opensn14SweepScheduler17SetDestinationPsiERNSt6vectorIdEE"></span><span id="opensn::SweepScheduler::SetDestinationPsi__std::vector:double:R"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a11cd88eb5ea476e22ede605f5dd2f5b9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetDestinationPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_destination_psi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler17SetDestinationPsiERNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the location where angular fluxes are to be written. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler18ZeroDestinationPsiEv">
+<span id="_CPPv3N6opensn14SweepScheduler18ZeroDestinationPsiEv"></span><span id="_CPPv2N6opensn14SweepScheduler18ZeroDestinationPsiEv"></span><span id="opensn::SweepScheduler::ZeroDestinationPsi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a179d1567a6834ecd0a9652681091f5fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroDestinationPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler18ZeroDestinationPsiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets all elements of the output angular flux vector to zero. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler17GetDestinationPsiEv">
+<span id="_CPPv3N6opensn14SweepScheduler17GetDestinationPsiEv"></span><span id="_CPPv2N6opensn14SweepScheduler17GetDestinationPsiEv"></span><span id="opensn::SweepScheduler::GetDestinationPsi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1afb8629b822fbab44ce27981625602c65"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetDestinationPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler17GetDestinationPsiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a reference to the output angular flux vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler22ZeroIncomingDelayedPsiEv">
+<span id="_CPPv3N6opensn14SweepScheduler22ZeroIncomingDelayedPsiEv"></span><span id="_CPPv2N6opensn14SweepScheduler22ZeroIncomingDelayedPsiEv"></span><span id="opensn::SweepScheduler::ZeroIncomingDelayedPsi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a1d8354bee9224d3fa58210a3e05a529b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroIncomingDelayedPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler22ZeroIncomingDelayedPsiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Resets all the incoming intra-location and inter-location cyclic interfaces. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler22ZeroOutgoingDelayedPsiEv">
+<span id="_CPPv3N6opensn14SweepScheduler22ZeroOutgoingDelayedPsiEv"></span><span id="_CPPv2N6opensn14SweepScheduler22ZeroOutgoingDelayedPsiEv"></span><span id="opensn::SweepScheduler::ZeroOutgoingDelayedPsi"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1aee691b8276b1b70e32804d0b4afce006"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroOutgoingDelayedPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler22ZeroOutgoingDelayedPsiEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Resets all the outgoing intra-location and inter-location cyclic interfaces. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler28ZeroOutputFluxDataStructuresEv">
+<span id="_CPPv3N6opensn14SweepScheduler28ZeroOutputFluxDataStructuresEv"></span><span id="_CPPv2N6opensn14SweepScheduler28ZeroOutputFluxDataStructuresEv"></span><span id="opensn::SweepScheduler::ZeroOutputFluxDataStructures"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1af45003c1b02300fb079e47cbe997d8ac"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroOutputFluxDataStructures</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler28ZeroOutputFluxDataStructuresEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Clear the output angular flux vector, the flux moments vector, and the outgoing delayed psi. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler27SetBoundarySourceActiveFlagEb">
+<span id="_CPPv3N6opensn14SweepScheduler27SetBoundarySourceActiveFlagEb"></span><span id="_CPPv2N6opensn14SweepScheduler27SetBoundarySourceActiveFlagEb"></span><span id="opensn::SweepScheduler::SetBoundarySourceActiveFlag__b"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1ac8040a9420e4861c37be1c8abf80e56d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetBoundarySourceActiveFlag</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">flag_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler27SetBoundarySourceActiveFlagEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Activates or deactives the surface src flag. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler16ScheduleAlgoFIFOER10SweepChunk">
+<span id="_CPPv3N6opensn14SweepScheduler16ScheduleAlgoFIFOER10SweepChunk"></span><span id="_CPPv2N6opensn14SweepScheduler16ScheduleAlgoFIFOER10SweepChunk"></span><span id="opensn::SweepScheduler::ScheduleAlgoFIFO__SweepChunkR"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a193c37b77d1c17ab63ee4328c29c0bc6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ScheduleAlgoFIFO</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sweep_chunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler16ScheduleAlgoFIFOER10SweepChunk" title="Link to this definition"></a><br /></dt>
+<dd><p>Applies a First-In-First-Out sweep scheduling. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler17InitializeAlgoDOGEv">
+<span id="_CPPv3N6opensn14SweepScheduler17InitializeAlgoDOGEv"></span><span id="_CPPv2N6opensn14SweepScheduler17InitializeAlgoDOGEv"></span><span id="opensn::SweepScheduler::InitializeAlgoDOG"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1ade0c8b7dc0312f29b64d98db5cd27cf2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitializeAlgoDOG</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler17InitializeAlgoDOGEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Initializes the Depth-Of-Graph algorithm. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler15ScheduleAlgoDOGER10SweepChunk">
+<span id="_CPPv3N6opensn14SweepScheduler15ScheduleAlgoDOGER10SweepChunk"></span><span id="_CPPv2N6opensn14SweepScheduler15ScheduleAlgoDOGER10SweepChunk"></span><span id="opensn::SweepScheduler::ScheduleAlgoDOG__SweepChunkR"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a06c2a41c7c96bf968ebbcf44c0bdacfd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ScheduleAlgoDOG</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sweep_chunk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler15ScheduleAlgoDOGER10SweepChunk" title="Link to this definition"></a><br /></dt>
+<dd><p>Executes the Depth-Of-Graph algorithm. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler15scheduler_type_E">
+<span id="_CPPv3N6opensn14SweepScheduler15scheduler_type_E"></span><span id="_CPPv2N6opensn14SweepScheduler15scheduler_type_E"></span><span id="opensn::SweepScheduler::scheduler_type___SchedulingAlgorithm"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a87c161cee1f942cdb945258c6c72fc4c"></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn19SchedulingAlgorithmE" title="opensn::SchedulingAlgorithm"><span class="n"><span class="pre">SchedulingAlgorithm</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scheduler_type_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler15scheduler_type_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler10angle_agg_E">
+<span id="_CPPv3N6opensn14SweepScheduler10angle_agg_E"></span><span id="_CPPv2N6opensn14SweepScheduler10angle_agg_E"></span><span id="opensn::SweepScheduler::angle_agg___AngleAggregationR"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a4d3241133e20a79c01ceb3da5acf4c6a"></span><a class="reference internal" href="angle_aggregation.html#_CPPv4N6opensn16AngleAggregationE" title="opensn::AngleAggregation"><span class="n"><span class="pre">AngleAggregation</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">angle_agg_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler10angle_agg_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler12rule_values_E">
+<span id="_CPPv3N6opensn14SweepScheduler12rule_values_E"></span><span id="_CPPv2N6opensn14SweepScheduler12rule_values_E"></span><span id="opensn::SweepScheduler::rule_values___std::vector:RULE_VALUES:"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a95f9e3efe58de191bc97cc74a3e655c0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUESE" title="opensn::SweepScheduler::RULE_VALUES"><span class="n"><span class="pre">RULE_VALUES</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rule_values_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler12rule_values_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler12sweep_chunk_E">
+<span id="_CPPv3N6opensn14SweepScheduler12sweep_chunk_E"></span><span id="_CPPv2N6opensn14SweepScheduler12sweep_chunk_E"></span><span id="opensn::SweepScheduler::sweep_chunk___SweepChunkR"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1af66430afbf3df9ede04be91e9eb32de0"></span><a class="reference internal" href="sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">sweep_chunk_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler12sweep_chunk_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler16sweep_event_tag_E">
+<span id="_CPPv3N6opensn14SweepScheduler16sweep_event_tag_E"></span><span id="_CPPv2N6opensn14SweepScheduler16sweep_event_tag_E"></span><span id="opensn::SweepScheduler::sweep_event_tag___sC"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a75ad5eff88f71181299abeaabd0cc075"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sweep_event_tag_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler16sweep_event_tag_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler24sweep_timing_events_tag_E">
+<span id="_CPPv3N6opensn14SweepScheduler24sweep_timing_events_tag_E"></span><span id="_CPPv2N6opensn14SweepScheduler24sweep_timing_events_tag_E"></span><span id="opensn::SweepScheduler::sweep_timing_events_tag___std::vector:s:C"></span><span class="target" id="da/d0d/classopensn_1_1_sweep_scheduler_1a586f8dce5f492a1eaf88765cba167403"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sweep_timing_events_tag_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler24sweep_timing_events_tag_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUESE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUESE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUESE"></span><span id="opensn::SweepScheduler::RULE_VALUES"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RULE_VALUES</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUESE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES11RULE_VALUESERNSt10shared_ptrI9TAngleSetEE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES11RULE_VALUESERNSt10shared_ptrI9TAngleSetEE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES11RULE_VALUESERNSt10shared_ptrI9TAngleSetEE"></span><span id="opensn::SweepScheduler::RULE_VALUES::RULE_VALUES__std::shared_ptr:TAngleSet:R"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1a0e55bf0a305eacae8e9a9c164d6cf61e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RULE_VALUES</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn9TAngleSetE" title="opensn::TAngleSet"><span class="n"><span class="pre">TAngleSet</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ref_as</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES11RULE_VALUESERNSt10shared_ptrI9TAngleSetEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES9angle_setE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES9angle_setE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES9angle_setE"></span><span id="opensn::SweepScheduler::RULE_VALUES::angle_set__std::shared_ptr:TAngleSet:"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1a7d46f08eaf9d54863ef30c37c128407c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn9TAngleSetE" title="opensn::TAngleSet"><span class="n"><span class="pre">TAngleSet</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">angle_set</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES9angle_setE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES14depth_of_graphE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES14depth_of_graphE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES14depth_of_graphE"></span><span id="opensn::SweepScheduler::RULE_VALUES::depth_of_graph__i"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1a1de239caeabccb3b63fdde82ffbf4fce"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">depth_of_graph</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES14depth_of_graphE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegaxE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegaxE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegaxE"></span><span id="opensn::SweepScheduler::RULE_VALUES::sign_of_omegax__i"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1aea188014d298b816b6584f47b59af387"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sign_of_omegax</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegaxE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegayE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegayE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegayE"></span><span id="opensn::SweepScheduler::RULE_VALUES::sign_of_omegay__i"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1a418c6844d3902c6f143d6b407f7f4b27"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sign_of_omegay</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegayE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegazE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegazE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegazE"></span><span id="opensn::SweepScheduler::RULE_VALUES::sign_of_omegaz__i"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1ad028f2d690037692b1bbf20ea86794ea"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sign_of_omegaz</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES14sign_of_omegazE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn14SweepScheduler11RULE_VALUES9set_indexE">
+<span id="_CPPv3N6opensn14SweepScheduler11RULE_VALUES9set_indexE"></span><span id="_CPPv2N6opensn14SweepScheduler11RULE_VALUES9set_indexE"></span><span id="opensn::SweepScheduler::RULE_VALUES::set_index__s"></span><span class="target" id="db/d21/structopensn_1_1_sweep_scheduler_1_1_r_u_l_e___v_a_l_u_e_s_1a9680081a9a45a4fbd1ae0073fd078509"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_index</span></span></span><a class="headerlink" href="#_CPPv4N6opensn14SweepScheduler11RULE_VALUES9set_indexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sweep_chunk.html" class="btn btn-neutral float-left" title="SweepChunk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="system_wide_event_publisher.html" class="btn btn-neutral float-right" title="SystemWideEventPublisher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

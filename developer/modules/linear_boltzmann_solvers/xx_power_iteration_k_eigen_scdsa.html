@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::XXPowerIterationKEigenSCDSA &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="mg_diffusion::Boundary" href="../mg_diffusion/boundary.html" />
+    <link rel="prev" title="lbs::XXPowerIterationKEigen" href="xx_power_iteration_k_eigen.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::XXPowerIterationKEigenSCDSA</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-xxpoweriterationkeigenscdsa">
+<h1>lbs::XXPowerIterationKEigenSCDSA<a class="headerlink" href="#lbs-xxpoweriterationkeigenscdsa" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSAE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSAE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSAE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">XXPowerIterationKEigenSCDSA</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">lbs</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="xx_power_iteration_k_eigen.html#_CPPv4N6opensn3lbs22XXPowerIterationKEigenE" title="opensn::lbs::XXPowerIterationKEigen"><span class="n"><span class="pre">XXPowerIterationKEigen</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSAE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA27XXPowerIterationKEigenSCDSAERK15InputParameters">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA27XXPowerIterationKEigenSCDSAERK15InputParameters"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA27XXPowerIterationKEigenSCDSAERK15InputParameters"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::XXPowerIterationKEigenSCDSA__InputParametersCR"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a4e1e462326b7bb1698723e1b5b9b8b88"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">XXPowerIterationKEigenSCDSA</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA27XXPowerIterationKEigenSCDSAERK15InputParameters" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA10InitializeEv">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA10InitializeEv"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA10InitializeEv"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::Initialize"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a25ec6053ee1e0b958ac0c15e8da4e21c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Initialize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA10InitializeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Initialize function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA7ExecuteEv">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA7ExecuteEv"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA7ExecuteEv"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::Execute"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a3d6928dde85df47c6f5db911bd111c91"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Execute</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA7ExecuteEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Execution function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA12CopyOnlyPhi0ERK11LBSGroupsetRKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA12CopyOnlyPhi0ERK11LBSGroupsetRKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA12CopyOnlyPhi0ERK11LBSGroupsetRKNSt6vectorIdEE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::CopyOnlyPhi0__LBSGroupsetCR.std::vector:double:CR"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a824f89e850d82aec5293ebe8c26e02b9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CopyOnlyPhi0</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="lbs_groupset.html#_CPPv4N6opensn3lbs11LBSGroupsetE" title="opensn::lbs::LBSGroupset"><span class="n"><span class="pre">LBSGroupset</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">groupset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phi_in</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA12CopyOnlyPhi0ERK11LBSGroupsetRKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Copies only the scalar moments from an lbs primary flux moments vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA15ProjectBackPhi0ERK11LBSGroupsetRKNSt6vectorIdEERNSt6vectorIdEE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA15ProjectBackPhi0ERK11LBSGroupsetRKNSt6vectorIdEERNSt6vectorIdEE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA15ProjectBackPhi0ERK11LBSGroupsetRKNSt6vectorIdEERNSt6vectorIdEE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::ProjectBackPhi0__LBSGroupsetCR.std::vector:double:CR.std::vector:double:R"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1aac511c07e146545c076340cd538c5255"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ProjectBackPhi0</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="lbs_groupset.html#_CPPv4N6opensn3lbs11LBSGroupsetE" title="opensn::lbs::LBSGroupset"><span class="n"><span class="pre">LBSGroupset</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">groupset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">input</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA15ProjectBackPhi0ERK11LBSGroupsetRKNSt6vectorIdEERNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Copies back only the scalar moments to a lbs primary flux vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA24MakePWLDVecGhostCommInfoERK21SpatialDiscretizationRK14UnknownManager">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA24MakePWLDVecGhostCommInfoERK21SpatialDiscretizationRK14UnknownManager"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA24MakePWLDVecGhostCommInfoERK21SpatialDiscretizationRK14UnknownManager"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::MakePWLDVecGhostCommInfo__SpatialDiscretizationCR.UnknownManagerCR"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a9d925f0fcf51af20beb0b1666722d5a9"></span><a class="reference internal" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE" title="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo"><span class="n"><span class="pre">GhostInfo</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakePWLDVecGhostCommInfo</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sdm</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">uk_man</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA24MakePWLDVecGhostCommInfoERK21SpatialDiscretizationRK14UnknownManager" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a ghost communicator and all associated information. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA18GetInputParametersEv">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA18GetInputParametersEv"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA18GetInputParametersEv"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::GetInputParameters"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1aff119a11cc2acdf8d46ba9287ee12116"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetInputParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA18GetInputParametersEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA25NodallyAveragedPWLDVectorERKNSt6vectorIdEERK21SpatialDiscretizationRK21SpatialDiscretizationRK14UnknownManagerRKN27XXPowerIterationKEigenSCDSA9GhostInfoE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA25NodallyAveragedPWLDVectorERKNSt6vectorIdEERK21SpatialDiscretizationRK21SpatialDiscretizationRK14UnknownManagerRKN27XXPowerIterationKEigenSCDSA9GhostInfoE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA25NodallyAveragedPWLDVectorERKNSt6vectorIdEERK21SpatialDiscretizationRK21SpatialDiscretizationRK14UnknownManagerRKN27XXPowerIterationKEigenSCDSA9GhostInfoE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::NodallyAveragedPWLDVector__std::vector:double:CR.SpatialDiscretizationCR.SpatialDiscretizationCR.UnknownManagerCR.XXPowerIterationKEigenSCDSA::GhostInfoCR"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1aa6e6e0ffd0ad847d0663ac43198434fc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NodallyAveragedPWLDVector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">input</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pwld_sdm</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pwlc_sdm</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">uk_man</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSAE" title="opensn::lbs::XXPowerIterationKEigenSCDSA"><span class="n"><span class="pre">XXPowerIterationKEigenSCDSA</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE" title="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo"><span class="n"><span class="pre">GhostInfo</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ghost_info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA25NodallyAveragedPWLDVectorERKNSt6vectorIdEERK21SpatialDiscretizationRK21SpatialDiscretizationRK14UnknownManagerRKN27XXPowerIterationKEigenSCDSA9GhostInfoE" title="Link to this definition"></a><br /></dt>
+<dd><p>This method takes an input vector that is the local version of a PWLD discrete space and then makes it continuous by applying nodal averages. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_max_its_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_max_its_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_max_its_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::accel_pi_max_its___i"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a893560a7d7e5125096237505d1078588"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">accel_pi_max_its_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_max_its_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA15accel_pi_k_tol_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA15accel_pi_k_tol_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA15accel_pi_k_tol_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::accel_pi_k_tol___double"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a5b71a53d3906c016c346263aa2fd2ca6"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">accel_pi_k_tol_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA15accel_pi_k_tol_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_verbose_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_verbose_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_verbose_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::accel_pi_verbose___b"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a9dfc675e353fd3b1ca21dcb70fb2f754"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">accel_pi_verbose_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17accel_pi_verbose_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17diffusion_solver_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA17diffusion_solver_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA17diffusion_solver_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diffusion_solver___std::shared_ptr:DiffusionSolver:"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1af25809c86fc2ab41ee306d45ce1f1774"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="diffusion_solver.html#_CPPv4N6opensn3lbs15DiffusionSolverE" title="opensn::lbs::DiffusionSolver"><span class="n"><span class="pre">DiffusionSolver</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diffusion_solver_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA17diffusion_solver_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA21diffusion_solver_sdm_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA21diffusion_solver_sdm_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA21diffusion_solver_sdm_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diffusion_solver_sdm___ssC"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a6b16add7f34c8dde62f0181906abd583"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diffusion_solver_sdm_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA21diffusion_solver_sdm_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA19continuous_sdm_ptr_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA19continuous_sdm_ptr_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA19continuous_sdm_ptr_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::continuous_sdm_ptr___std::shared_ptr:SpatialDiscretization:"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1af3621748847d2fab023f858eafb958ec"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">continuous_sdm_ptr_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA19continuous_sdm_ptr_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA16requires_ghosts_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA16requires_ghosts_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA16requires_ghosts_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::requires_ghosts___b"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a12a1c4dfc2b1e703ce9fb4ce7e9ef57f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">requires_ghosts_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA16requires_ghosts_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA20lbs_pwld_ghost_info_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA20lbs_pwld_ghost_info_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA20lbs_pwld_ghost_info_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::lbs_pwld_ghost_info___GhostInfo"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1af821b5c0a54447a1d06c3e393aceba9a"></span><a class="reference internal" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE" title="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo"><span class="n"><span class="pre">GhostInfo</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lbs_pwld_ghost_info_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA20lbs_pwld_ghost_info_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_l_abs_tol_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_l_abs_tol_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_l_abs_tol_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diff_accel_diffusion_l_abs_tol___double"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a77b8643976d2d761d2e3bd6c45038423"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diff_accel_diffusion_l_abs_tol_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_l_abs_tol_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_max_iters_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_max_iters_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_max_iters_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diff_accel_diffusion_max_iters___i"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1afd771aca9e1c6ebb608edd8c3bbac49b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diff_accel_diffusion_max_iters_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA31diff_accel_diffusion_max_iters_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA29diff_accel_diffusion_verbose_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA29diff_accel_diffusion_verbose_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA29diff_accel_diffusion_verbose_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diff_accel_diffusion_verbose___b"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a2298b2b953c53c0dc0aaae02007d4628"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diff_accel_diffusion_verbose_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA29diff_accel_diffusion_verbose_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA35diff_accel_diffusion_petsc_options_E">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA35diff_accel_diffusion_petsc_options_E"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA35diff_accel_diffusion_petsc_options_E"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::diff_accel_diffusion_petsc_options___ss"></span><span class="target" id="de/d58/classopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1a27448075775a543e599272b2281d300d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diff_accel_diffusion_petsc_options_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA35diff_accel_diffusion_petsc_options_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo"></span><span class="target" id="d7/dd5/structopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1_1_ghost_info"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GhostInfo</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfoE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo25vector_ghost_communicatorE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo25vector_ghost_communicatorE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo25vector_ghost_communicatorE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo::vector_ghost_communicator__std::shared_ptr:VectorGhostCommunicator:"></span><span class="target" id="d7/dd5/structopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1_1_ghost_info_1a093ab709af115902f7ef117284d24653"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/vector_ghost_communicator.html#_CPPv4N6opensn23VectorGhostCommunicatorE" title="opensn::VectorGhostCommunicator"><span class="n"><span class="pre">VectorGhostCommunicator</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vector_ghost_communicator</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo25vector_ghost_communicatorE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo27ghost_global_id_2_local_mapE">
+<span id="_CPPv3N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo27ghost_global_id_2_local_mapE"></span><span id="_CPPv2N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo27ghost_global_id_2_local_mapE"></span><span id="opensn::lbs::XXPowerIterationKEigenSCDSA::GhostInfo::ghost_global_id_2_local_map__std::map:int64_t.int64_t:"></span><span class="target" id="d7/dd5/structopensn_1_1lbs_1_1_x_x_power_iteration_k_eigen_s_c_d_s_a_1_1_ghost_info_1ac0a6629653ac6033b6225f64de076330"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ghost_global_id_2_local_map</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs27XXPowerIterationKEigenSCDSA9GhostInfo27ghost_global_id_2_local_mapE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xx_power_iteration_k_eigen.html" class="btn btn-neutral float-left" title="lbs::XXPowerIterationKEigen" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../mg_diffusion/boundary.html" class="btn btn-neutral float-right" title="mg_diffusion::Boundary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

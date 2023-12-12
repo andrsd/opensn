@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>prk::TransientSolver &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="mg_diffusion::TwoGridCollapsedInfo" href="../mg_diffusion/two_grid_collapsed_info.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">prk::TransientSolver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">prk::TransientSolver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prk-transientsolver">
+<h1>prk::TransientSolver<a class="headerlink" href="#prk-transientsolver" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolverE">
+<span id="_CPPv3N6opensn3prk15TransientSolverE"></span><span id="_CPPv2N6opensn3prk15TransientSolverE"></span><span id="opensn::prk::TransientSolver"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TransientSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/solver.html#_CPPv4N6opensn6SolverE" title="opensn::Solver"><span class="n"><span class="pre">Solver</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolverE" title="Link to this definition"></a><br /></dt>
+<dd><p>General transient solver for point kinetics. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver15TransientSolverERK15InputParameters">
+<span id="_CPPv3N6opensn3prk15TransientSolver15TransientSolverERK15InputParameters"></span><span id="_CPPv2N6opensn3prk15TransientSolver15TransientSolverERK15InputParameters"></span><span id="opensn::prk::TransientSolver::TransientSolver__InputParametersCR"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1acb3e21bd21185571fcb04a57f0c44a2e"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TransientSolver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver15TransientSolverERK15InputParameters" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver10InitializeEv">
+<span id="_CPPv3N6opensn3prk15TransientSolver10InitializeEv"></span><span id="_CPPv2N6opensn3prk15TransientSolver10InitializeEv"></span><span id="opensn::prk::TransientSolver::Initialize"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a087878c8b860c8e01f75485f13668670"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Initialize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver10InitializeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Initialize function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver7ExecuteEv">
+<span id="_CPPv3N6opensn3prk15TransientSolver7ExecuteEv"></span><span id="_CPPv2N6opensn3prk15TransientSolver7ExecuteEv"></span><span id="opensn::prk::TransientSolver::Execute"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a42f36b50abe0b2b16ca1cd548f782782"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Execute</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver7ExecuteEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Execution function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver4StepEv">
+<span id="_CPPv3N6opensn3prk15TransientSolver4StepEv"></span><span id="_CPPv2N6opensn3prk15TransientSolver4StepEv"></span><span id="opensn::prk::TransientSolver::Step"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a918f606129f13b31eacf3b92142c2791"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Step</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver4StepEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Step function </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver7AdvanceEv">
+<span id="_CPPv3N6opensn3prk15TransientSolver7AdvanceEv"></span><span id="_CPPv2N6opensn3prk15TransientSolver7AdvanceEv"></span><span id="opensn::prk::TransientSolver::Advance"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1ab8642dc3b8429170be1add27e63b03a0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Advance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver7AdvanceEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Advance time values function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver7GetInfoERK14ParameterBlock">
+<span id="_CPPv3NK6opensn3prk15TransientSolver7GetInfoERK14ParameterBlock"></span><span id="_CPPv2NK6opensn3prk15TransientSolver7GetInfoERK14ParameterBlock"></span><span id="opensn::prk::TransientSolver::GetInfo__ParameterBlockCRC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1afb55a053f0aa82f27161a8636c404638"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../../framework/parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetInfo</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver7GetInfoERK14ParameterBlock" title="Link to this definition"></a><br /></dt>
+<dd><p>Generalized query for information supporting varying returns. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver14PopulationPrevEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver14PopulationPrevEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver14PopulationPrevEv"></span><span id="opensn::prk::TransientSolver::PopulationPrevC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a4debd4d0a690c4e317e239eda9069e98"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PopulationPrev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver14PopulationPrevEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the population at the previous time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver13PopulationNewEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver13PopulationNewEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver13PopulationNewEv"></span><span id="opensn::prk::TransientSolver::PopulationNewC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1af527bbf31e3064f6dbf0f07ce37aa21c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PopulationNew</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver13PopulationNewEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the population at the next time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver6PeriodEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver6PeriodEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver6PeriodEv"></span><span id="opensn::prk::TransientSolver::PeriodC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a7e85e664ba0242220986e720b5c33f97"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Period</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver6PeriodEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the period computed for the last time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver8TimePrevEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver8TimePrevEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver8TimePrevEv"></span><span id="opensn::prk::TransientSolver::TimePrevC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a66ad09a65a2d0d261300935502707ce8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TimePrev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver8TimePrevEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the time computed for the last time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver7TimeNewEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver7TimeNewEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver7TimeNewEv"></span><span id="opensn::prk::TransientSolver::TimeNewC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a98b64294ecdddee8f52287e75302572b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TimeNew</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver7TimeNewEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the time computed for the next time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver12SolutionPrevEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver12SolutionPrevEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver12SolutionPrevEv"></span><span id="opensn::prk::TransientSolver::SolutionPrevC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a42ddd7f12577d98f0781cc1acfae3b25"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SolutionPrev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver12SolutionPrevEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the solution at the previous time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3prk15TransientSolver11SolutionNewEv">
+<span id="_CPPv3NK6opensn3prk15TransientSolver11SolutionNewEv"></span><span id="_CPPv2NK6opensn3prk15TransientSolver11SolutionNewEv"></span><span id="opensn::prk::TransientSolver::SolutionNewC"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1abfab91845571668f5229c9418d353e51"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SolutionNew</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3prk15TransientSolver11SolutionNewEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the solution at the next time step. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver13SetPropertiesERK14ParameterBlock">
+<span id="_CPPv3N6opensn3prk15TransientSolver13SetPropertiesERK14ParameterBlock"></span><span id="_CPPv2N6opensn3prk15TransientSolver13SetPropertiesERK14ParameterBlock"></span><span id="opensn::prk::TransientSolver::SetProperties__ParameterBlockCR"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a1b0c8cc46aa4c1241a3059471db4e685"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetProperties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/parameter_block.html#_CPPv4N6opensn14ParameterBlockE" title="opensn::ParameterBlock"><span class="n"><span class="pre">ParameterBlock</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver13SetPropertiesERK14ParameterBlock" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver6SetRhoEd">
+<span id="_CPPv3N6opensn3prk15TransientSolver6SetRhoEd"></span><span id="_CPPv2N6opensn3prk15TransientSolver6SetRhoEd"></span><span id="opensn::prk::TransientSolver::SetRho__double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a429a190291e5b306409f344087bb75a7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetRho</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver6SetRhoEd" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the value of rho. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver18GetInputParametersEv">
+<span id="_CPPv3N6opensn3prk15TransientSolver18GetInputParametersEv"></span><span id="_CPPv2N6opensn3prk15TransientSolver18GetInputParametersEv"></span><span id="opensn::prk::TransientSolver::GetInputParameters"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1aa2be20cad9853a6959f356b3f3e1bfc7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetInputParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver18GetInputParametersEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets input parameters. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver8lambdas_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver8lambdas_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver8lambdas_E"></span><span id="opensn::prk::TransientSolver::lambdas___std::vector:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a019b7c5f44cc4feefdd0c3eea3b89d95"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lambdas_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver8lambdas_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver6betas_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver6betas_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver6betas_E"></span><span id="opensn::prk::TransientSolver::betas___std::vector:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a83fc03120a3323c95c00770ac7c729b8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">betas_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver6betas_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver9gen_time_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver9gen_time_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver9gen_time_E"></span><span id="opensn::prk::TransientSolver::gen_time___double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1aab74e31f3186e6f0b92b140dc409d905"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gen_time_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver9gen_time_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver4rho_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver4rho_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver4rho_E"></span><span id="opensn::prk::TransientSolver::rho___double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1afe36f2a50822f5c523eb1b3285350472"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rho_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver4rho_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver16source_strength_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver16source_strength_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver16source_strength_E"></span><span id="opensn::prk::TransientSolver::source_strength___double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a92f312202d22a8924ca69fc07b6cfae3"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">source_strength_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver16source_strength_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver17time_integration_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver17time_integration_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver17time_integration_E"></span><span id="opensn::prk::TransientSolver::time_integration___ss"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a0b4bf0d62393b9792ed5db23e61804bd"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">time_integration_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver17time_integration_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver15num_precursors_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver15num_precursors_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver15num_precursors_E"></span><span id="opensn::prk::TransientSolver::num_precursors___s"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1ae3af305a11f2ceb08d83317c9d3af1e0"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_precursors_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver15num_precursors_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver2A_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver2A_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver2A_E"></span><span id="opensn::prk::TransientSolver::A___DynamicMatrix:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1aa428f9e332b9eca81c3bd149e79c13aa"></span><a class="reference internal" href="../../framework/dynamic_matrix.html#_CPPv4I0EN6opensn13DynamicMatrixE" title="opensn::DynamicMatrix"><span class="n"><span class="pre">DynamicMatrix</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">A_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver2A_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver2I_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver2I_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver2I_E"></span><span id="opensn::prk::TransientSolver::I___DynamicMatrix:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a07a58b82bb32ce8c14817f07efbe61c7"></span><a class="reference internal" href="../../framework/dynamic_matrix.html#_CPPv4I0EN6opensn13DynamicMatrixE" title="opensn::DynamicMatrix"><span class="n"><span class="pre">DynamicMatrix</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">I_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver2I_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver4x_t_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver4x_t_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver4x_t_E"></span><span id="opensn::prk::TransientSolver::x_t___DynamicVector:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1ad28adafb0685b3370483dabcad38f83f"></span><a class="reference internal" href="../../framework/dynamic_vector.html#_CPPv4I0EN6opensn13DynamicVectorE" title="opensn::DynamicVector"><span class="n"><span class="pre">DynamicVector</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">x_t_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver4x_t_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver6x_tp1_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver6x_tp1_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver6x_tp1_E"></span><span id="opensn::prk::TransientSolver::x_tp1___DynamicVector:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a12897456f79d571975276e5139f6a440"></span><a class="reference internal" href="../../framework/dynamic_vector.html#_CPPv4I0EN6opensn13DynamicVectorE" title="opensn::DynamicVector"><span class="n"><span class="pre">DynamicVector</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">x_tp1_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver6x_tp1_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver2q_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver2q_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver2q_E"></span><span id="opensn::prk::TransientSolver::q___DynamicVector:double:"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a6ceba200cced0228167860509cfba303"></span><a class="reference internal" href="../../framework/dynamic_vector.html#_CPPv4I0EN6opensn13DynamicVectorE" title="opensn::DynamicVector"><span class="n"><span class="pre">DynamicVector</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">q_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver2q_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver5beta_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver5beta_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver5beta_E"></span><span id="opensn::prk::TransientSolver::beta___double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a13014d3f15150b43dbfb87a371f919bb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">beta_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver5beta_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3prk15TransientSolver11period_tph_E">
+<span id="_CPPv3N6opensn3prk15TransientSolver11period_tph_E"></span><span id="_CPPv2N6opensn3prk15TransientSolver11period_tph_E"></span><span id="opensn::prk::TransientSolver::period_tph___double"></span><span class="target" id="d9/dc6/classopensn_1_1prk_1_1_transient_solver_1a5de72afcf0e3f16ec2af4366932522b5"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">period_tph_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3prk15TransientSolver11period_tph_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../mg_diffusion/two_grid_collapsed_info.html" class="btn btn-neutral float-left" title="mg_diffusion::TwoGridCollapsedInfo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

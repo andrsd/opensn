@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::TwoGridCollapsedInfo &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::UnitCellMatrices" href="unit_cell_matrices.html" />
+    <link rel="prev" title="lbs::TransientSourceFunction" href="transient_source_function.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::TwoGridCollapsedInfo</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-twogridcollapsedinfo">
+<h1>lbs::TwoGridCollapsedInfo<a class="headerlink" href="#lbs-twogridcollapsedinfo" title="Link to this heading"></a></h1>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs20TwoGridCollapsedInfoE">
+<span id="_CPPv3N6opensn3lbs20TwoGridCollapsedInfoE"></span><span id="_CPPv2N6opensn3lbs20TwoGridCollapsedInfoE"></span><span id="opensn::lbs::TwoGridCollapsedInfo"></span><span class="target" id="d8/dac/structopensn_1_1lbs_1_1_two_grid_collapsed_info"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoGridCollapsedInfo</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs20TwoGridCollapsedInfoE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs20TwoGridCollapsedInfo11collapsed_DE">
+<span id="_CPPv3N6opensn3lbs20TwoGridCollapsedInfo11collapsed_DE"></span><span id="_CPPv2N6opensn3lbs20TwoGridCollapsedInfo11collapsed_DE"></span><span id="opensn::lbs::TwoGridCollapsedInfo::collapsed_D__double"></span><span class="target" id="d8/dac/structopensn_1_1lbs_1_1_two_grid_collapsed_info_1af068003fedf2464fd8066dd1a8d9014a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">collapsed_D</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs20TwoGridCollapsedInfo11collapsed_DE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs20TwoGridCollapsedInfo15collapsed_sig_aE">
+<span id="_CPPv3N6opensn3lbs20TwoGridCollapsedInfo15collapsed_sig_aE"></span><span id="_CPPv2N6opensn3lbs20TwoGridCollapsedInfo15collapsed_sig_aE"></span><span id="opensn::lbs::TwoGridCollapsedInfo::collapsed_sig_a__double"></span><span class="target" id="d8/dac/structopensn_1_1lbs_1_1_two_grid_collapsed_info_1a00f0add51ee3dc422708276d7c874be6"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">collapsed_sig_a</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs20TwoGridCollapsedInfo15collapsed_sig_aE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs20TwoGridCollapsedInfo8spectrumE">
+<span id="_CPPv3N6opensn3lbs20TwoGridCollapsedInfo8spectrumE"></span><span id="_CPPv2N6opensn3lbs20TwoGridCollapsedInfo8spectrumE"></span><span id="opensn::lbs::TwoGridCollapsedInfo::spectrum__std::vector:double:"></span><span class="target" id="d8/dac/structopensn_1_1lbs_1_1_two_grid_collapsed_info_1a4a50b98d1b348e05f7230205da23a410"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">spectrum</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs20TwoGridCollapsedInfo8spectrumE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="transient_source_function.html" class="btn btn-neutral float-left" title="lbs::TransientSourceFunction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="unit_cell_matrices.html" class="btn btn-neutral float-right" title="lbs::UnitCellMatrices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

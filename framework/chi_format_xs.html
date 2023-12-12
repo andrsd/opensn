@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi-Tech Cross-section format 1 &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="I Event System" href="event_system.html" />
+    <link rel="prev" title="Cell Mappings" href="cell_mappings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cell_mappings.html">Cell Mappings</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Chi-Tech Cross-section format 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#steady-state-simulations">Steady state simulations:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k-eigenvalue-related-items">k-eigenvalue related items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keyword-definitions">Keyword definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-advanced-examples">More Advanced Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html">I Event System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html#opensn-s-event-system">openSn’s event system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experimental.html">Z Experimental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ffi.html">Field Function Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_function.html">Field Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_operation.html">Field Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_file_mesh_generator.html">Supported file types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">G Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">F Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">D Output and Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logical_volume.html">Logical Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">B Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">A Meshing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_generators.html">Mesh Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_handler.html">Mesh Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_macros.html">Mesh Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_modifiers.html">Mesh Modifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mgxs.html">Transport Cross Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi.html">E MPI Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html">C Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_material.html">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_solver.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processors.html">H Post-Processors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp_utils.html">Post-Processor Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature.html">Quadrature rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sldfesq.html">Simplified LDFESQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial_discretization.html">Spatial Discretizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_mesher.html">Surface Re-meshers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_integration.html">Time Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_steppers.html">I Time-steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unpartitioned_mesh.html">Unpartitioned Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_mesher.html">Volume Meshers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Framework</a></li>
+      <li class="breadcrumb-item active">Chi-Tech Cross-section format 1</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="chi-tech-cross-section-format-1">
+<h1>Chi-Tech Cross-section format 1<a class="headerlink" href="#chi-tech-cross-section-format-1" title="Link to this heading"></a></h1>
+<p>An example Chi-Tech cross section file is shown below. The bare-bones
+format is shown below with more examples below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This header can be as large as you please. The actual processing</span>
+<span class="c1"># starts at NUM_GROUPS as the first word. After that, NUM_MOMENTS needs to</span>
+<span class="c1"># be processed before any of the other keywords.</span>
+<span class="n">NUM_GROUPS</span> <span class="mi">2</span>
+<span class="n">NUM_MOMENTS</span> <span class="mi">2</span>
+<span class="n">SIGMA_T_BEGIN</span>
+<span class="mi">0</span>   <span class="mf">0.5</span>
+<span class="mi">1</span>   <span class="mf">0.5</span>
+<span class="n">SIGMA_T_END</span>
+
+<span class="n">Comments</span>
+
+<span class="n">TRANSFER_MOMENTS_BEGIN</span>
+<span class="c1">#Zeroth moment (l=0)</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.01</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">0.09</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">0.08</span>
+
+<span class="c1">#(l=1)</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.001</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">0.001</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">0.001</span>
+<span class="n">TRANSFER_MOMENTS_END</span>
+</pre></div>
+</div>
+<section id="steady-state-simulations">
+<h2>Steady state simulations:<a class="headerlink" href="#steady-state-simulations" title="Link to this heading"></a></h2>
+<p>The cross sections can be used in simulations solving the steady state
+Linear Boltzmann Equation of the form:</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{\Omega}_n \boldsymbol{\cdot} \vec{\nabla} \psi_{ng} +
+\sigma_{tg} \psi_{ng} =
+\sum_{\ell=0}^L \sum_{m=-\ell}^{+\ell} \frac{2\ell+1}{4\pi}
+Y_{\ell m} (\vec{\Omega}_n)
+\sum_{g'=0}^{G-1} \sigma_{s\ell,g'{\to}g} \phi_{\ell m,g'} +
+q_{ext,ng} + q_{fission,ng}
+\]</div>
+<p>The two most prominent items required here includes <span class="math notranslate nohighlight">\( \sigma_{tg} \)</span> and
+<span class="math notranslate nohighlight">\( \sigma_{s\ell,g'{\to}g} \)</span>. The latter is an entry in a structure we
+call a generic transfer matrix for moment <span class="math notranslate nohighlight">\( \ell \)</span> with rows <span class="math notranslate nohighlight">\( g=0..G-1 \)</span>
+and columns <span class="math notranslate nohighlight">\( g'=0..G-1 \)</span>. These two items are often the only items required
+in a transport simulation.</p>
+<p>In simulations with fission-sources, cross sections support two formats,
+the simple combined cross sections without delayed neutrons</p>
+<div class="math notranslate nohighlight">
+\[
+q_{fission,ng} = \frac{\chi_g}{4\pi}
+\sum_{g'=0}^{G-1} \nu_{g'} \sigma_{fg'} \phi_{00g'}
+\]</div>
+<p>and those with delayed neutrons, the latter which are currently only used in
+the k-eigenvalue solver.</p>
+</section>
+<section id="k-eigenvalue-related-items">
+<h2>k-eigenvalue related items<a class="headerlink" href="#k-eigenvalue-related-items" title="Link to this heading"></a></h2>
+<p>As stated before, the cross section file supports two formats, the simple
+combined cross sections without delayed neutrons which are depicted above
+and those with delayed neutrons shown below</p>
+<div class="math notranslate nohighlight">
+\[
+q_{fission,ng} = \frac{\chi_g}{4\pi}
+\sum_{g'=0}^{G-1} \nu_{prompt,g'} \sigma_{fg'} \phi_{00g'}
++ \sum_{j=0}^{J-1} \frac{\chi_{delayed,jg}}{4\pi} \gamma_j
+  \sum_{g'=0}^{G-1} \nu_{delayed,g'} \sigma_{fg'} \phi_{00g'}.
+\]</div>
+<p>Codes may also choose to update precursor concentrations for which their decay
+constants, <span class="math notranslate nohighlight">\( \lambda_j \)</span> are required.</p>
+</section>
+<section id="keyword-definitions">
+<h2>Keyword definitions<a class="headerlink" href="#keyword-definitions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>NUM_GROUPS num_groups Required. Specifies the number of groups for this
+cross section. Symbol <span class="math notranslate nohighlight">\( G \)</span>.</p></li>
+<li><p>NUM_MOMENTS num_moments Required. The number of transfer matrices to allocate
+for this cross section (whether used or not). Typically this number is one
+greater than the scattering order (i.e., <span class="math notranslate nohighlight">\( L+1 \)</span>)</p></li>
+<li><p>NUM_PRECURSORS num_precursors Optional. Indicates how many precursors are used
+in this cross section. Symbol <span class="math notranslate nohighlight">\( J \)</span></p></li>
+<li><p>Optional key words per line:</p>
+<ul>
+<li><p>SIGMA_T_BEGIN. Optional. Starts a block that is terminated by a line
+SIGMA_T_END. Each line in the block processes the first two words as
+group, sigma_t. Populates the sigma_tg field. Symbol <span class="math notranslate nohighlight">\( \sigma_{tg} \)</span>.</p></li>
+<li><p>SIGMA_A_BEGIN. Optional. Starts a block that is terminated by a line
+SIGMA_A_END. Each line in the block processes the first two words as
+group, sigma_a. Populates the sigma_ag field. Symbol <span class="math notranslate nohighlight">\( \sigma_{ag} \)</span>.
+If this is not supplied then sigma_a is estimated from the transfer matrix
+and may erroneously estimate balance.</p></li>
+<li><p>SIGMA_F_BEGIN. Optional. Starts a block that is terminated by a line
+SIGMA_F_END. Each line in the block processes the first two words as
+group, sigma_f. Populates the sigma_fg field. Symbol <span class="math notranslate nohighlight">\( \sigma_{fg} \)</span>.</p></li>
+<li><p>NU_BEGIN. Optional. Starts a block that is terminated by a line NU_END.
+Each line in the block processes the first two words as group, nu.
+Populates the nu field. Upon completing the file processing the
+nu_sigma_fg field gets populated from the product of nu and sigma_fg.
+Symbol <span class="math notranslate nohighlight">\( \nu_g \)</span>.</p></li>
+<li><p>NU_PROMPT_BEGIN. Optional. Starts a block that is terminated by a line
+NU_PROMPT_END. Each line in the block processes the first two words as
+group, nu_prompt. Populates the nu_prompt field. Upon completing the
+file processing the nu_p_sigma_fg field gets populated from the product of
+nu_prompt and sigma_fg. Symbol <span class="math notranslate nohighlight">\( \nu_{prompt,g} \)</span>.</p></li>
+<li><p>NU_DELAYED_BEGIN. Optional. Starts a block that is terminated by a line
+NU_DELAYED_END. Each line in the block processes the first two words as
+group, nu_delayed. Populates the nu_delayed field. Upon completing the
+file processing the nu_d_sigma_fg field gets populated from the product of
+nu_delayed and sigma_fg. Symbol <span class="math notranslate nohighlight">\( \nu_{delayed,g} \)</span>.</p></li>
+<li><p>CHI_BEGIN. Optional. Starts a block that is terminated by a line
+CHI_END. Each line in the block processes the first two words as
+group, chi. Populates the chi field. Symbol <span class="math notranslate nohighlight">\( \chi_{g} \)</span>.</p></li>
+<li><p>CHI_PROMPT_BEGIN. Optional. Starts a block that is terminated by a line
+CHI_PROMPT_END. Each line in the block processes the first two words as
+group, chi. Populates the chi_prompt field.
+Symbol <span class="math notranslate nohighlight">\( \chi_{prompt, g} \)</span>.</p></li>
+<li><p>VELOCITY_BEGIN. Optional. Starts a block that is terminated by a line
+VELOCITY_END. Each line in the block processes the first two words as
+group, velocity. Populates the inv_velocity field by inverting parsed
+values. Symbol <span class="math notranslate nohighlight">\( \frac{1}{v_g} \)</span>.</p></li>
+<li><p>INV_VELOCITY_BEGIN. Optional. Starts a block that is terminated by a line
+INV_VELOCITY_END. Each line in the block processes the first two words as
+group, inv_velocity. Populates the inv_velocity field. If this field and
+VELOCITY are provided, this field will be used.
+Symbol <span class="math notranslate nohighlight">\( \frac{1}{v_g} \)</span>.</p></li>
+<li><p>PRECURSOR_DECAY_CONSTANTS_BEGIN. Optional. Starts a block that is
+terminated by a line PRECURSOR_DECAY_CONSTANTS_END. Each line in the block
+processes the first two words as precursor, lambda. Populates the lambda field
+(the precursor decay constant). Symbol <span class="math notranslate nohighlight">\( \lambda_j \)</span>.</p></li>
+<li><p>PRECURSOR_FRACTIONAL_YIELDS_BEGIN. Optional. Starts a block that is
+terminated by a line PRECURSOR_FRACTIONAL_YIELDS_END. Each line in the block
+processes the first two words as precursor, gamma. Populates the gamma field
+(the precursor production fraction per fission). Symbol <span class="math notranslate nohighlight">\( \gamma_j \)</span>.</p></li>
+<li><p>CHI_DELAYED_BEGIN. Optional. Starts a block that is terminated by a line
+CHI_DELAYED_END. Each line in the block processes the first word as the
+group index and the remaining NUM_PRECURSORS words as the the individual
+precursor’s associated delayed spectrum (chi). Populates the chi_d field.
+Symbol <span class="math notranslate nohighlight">\( \chi_{delayed,jg} \)</span>.</p></li>
+<li><p>TRANSFER_MOMENTS_BEGIN. Optional. Starts a block that is terminated by a
+line TRANSFER_MOMENTS_END. Each line in the block processes a line only if
+it starts with the keyword M_GPRIME_G_VAL which needs to be followed by
+four values moment,gprime,g,value. Populates transfer-matrix for moment m, row
+g, column gprime, with value. Symbol <span class="math notranslate nohighlight">\( \sigma_{s\ell,g'{\to}g} \)</span>.</p></li>
+</ul>
+</li>
+<li><p>Comments can be between individual blocks but only the TRANSFER_MOMENTS block
+may have comments between the _BEGIN and _END</p></li>
+<li><p>Comments do not have to start with any specific character since the file
+format is keyword driven.</p></li>
+<li><p>Any number that is not convertible to its required type (integer, double)
+will throw an error to that effect.</p></li>
+<li><p>All errors will indicate the current file, line number and nature of the
+error.</p></li>
+</ul>
+</section>
+<section id="more-advanced-examples">
+<h2>More Advanced Examples<a class="headerlink" href="#more-advanced-examples" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This header can be as large as you please. The actual processing</span>
+<span class="c1"># starts at NUM_GROUPS as the first word. After that, NUM_MOMENTS needs to</span>
+<span class="c1"># be processed before any of the other keywords.</span>
+<span class="n">NUM_GROUPS</span> <span class="mi">2</span>
+<span class="n">NUM_MOMENTS</span> <span class="mi">2</span>
+<span class="n">NUM_PRECURSORS</span> <span class="mi">3</span>
+<span class="n">SIGMA_T_BEGIN</span>
+<span class="mi">0</span>   <span class="mf">0.5</span>
+<span class="mi">1</span>   <span class="mf">0.5</span>
+<span class="n">SIGMA_T_END</span>
+
+<span class="n">Comments</span>
+
+<span class="n">SIGMA_F_BEGIN</span>
+<span class="mi">0</span>   <span class="mf">0.01</span>
+<span class="mi">1</span>   <span class="mf">0.40737</span>
+<span class="n">SIGMA_F_END</span>
+
+<span class="n">NU_PROMPT_BEGIN</span>
+<span class="mi">0</span>    <span class="mf">2.45</span>
+<span class="mi">1</span>    <span class="mf">2.45</span>
+<span class="n">NU_PROMPT_END</span>
+
+<span class="n">CHI_PROMPT_BEGIN</span>
+<span class="mi">0</span>    <span class="mf">1.0</span>
+<span class="mi">1</span>    <span class="mf">0.0</span>
+<span class="n">CHI_PROMPT_END</span>
+
+<span class="n">VELOCITY_BEGIN</span>
+<span class="mi">0</span>    <span class="mf">2.2e10</span>
+<span class="mi">1</span>    <span class="mf">272.145</span>
+<span class="n">VELOCITY_END</span>
+
+<span class="n">TRANSFER_MOMENTS_BEGIN</span>
+<span class="c1">#Zeroth moment (l=0)</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.01</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">0.09</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">0.08</span>
+
+<span class="c1">#(l=1)</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="o">-</span><span class="mf">0.001</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">0.001</span>
+<span class="n">M_GPRIME_G_VAL</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">0.001</span>
+<span class="n">TRANSFER_MOMENTS_END</span>
+
+<span class="n">PRECURSOR_DECAY_CONSTANTS_BEGIN</span>
+<span class="mi">0</span>		<span class="mf">0.1</span>
+<span class="mi">1</span>   <span class="mf">0.2</span>
+<span class="mi">2</span>   <span class="mf">0.3</span>
+<span class="n">PRECURSOR_DECAY_CONSTANTS_END</span>
+
+<span class="n">PRECURSOR_GAMMA_BEGIN</span>
+<span class="mi">0</span>		<span class="mf">0.25</span>
+<span class="mi">1</span>   <span class="mf">0.5</span>
+<span class="mi">2</span>   <span class="mf">0.25</span>
+<span class="n">PRECURSOR_GAMMA_END</span>
+
+<span class="n">NU_DELAYED_BEGIN</span>
+<span class="mi">0</span>		<span class="mf">0.01</span>
+<span class="mi">1</span>   <span class="mf">0.02</span>
+<span class="mi">2</span>   <span class="mf">0.01</span>
+<span class="n">NU_DELAYED_END</span>
+
+<span class="n">CHI_DELAYED_BEGIN</span>
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">0</span>  <span class="mi">0</span>	<span class="mf">1.0</span>
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">0</span>  <span class="mi">1</span>	<span class="mf">1.0</span>
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">0</span>  <span class="mi">2</span>	<span class="mf">1.0</span>
+
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">1</span>  <span class="mi">0</span>	<span class="mf">0.0</span>
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">1</span>  <span class="mi">1</span>	<span class="mf">0.0</span>
+<span class="n">G_PRECURSOR_VAL</span> <span class="mi">1</span>  <span class="mi">2</span>	<span class="mf">0.0</span>
+<span class="n">CHI_DELAYED_END</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cell_mappings.html" class="btn btn-neutral float-left" title="Cell Mappings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="event_system.html" class="btn btn-neutral float-right" title="I Event System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplified LDFESQ &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spatial Discretizations" href="spatial_discretization.html" />
+    <link rel="prev" title="RCCLogicalVolume" href="rcc_logical_volume.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cell_mappings.html">Cell Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chi_format_xs.html">Chi-Tech Cross-section format 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html">I Event System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html#opensn-s-event-system">openSn’s event system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experimental.html">Z Experimental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ffi.html">Field Function Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_function.html">Field Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_operation.html">Field Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_file_mesh_generator.html">Supported file types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">G Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">F Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">D Output and Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logical_volume.html">Logical Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">B Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">A Meshing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_generators.html">Mesh Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_handler.html">Mesh Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_macros.html">Mesh Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_modifiers.html">Mesh Modifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mgxs.html">Transport Cross Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi.html">E MPI Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html">C Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_material.html">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_solver.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processors.html">H Post-Processors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp_utils.html">Post-Processor Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature.html">Quadrature rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simplified LDFESQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specific-notes-for-the-simplified-version">Specific notes for the simplified version</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-sub-division-of-the-inscribed-cube-face">Initial sub-division of the inscribed cube face</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#placement-of-the-quadrature-points">Placement of the quadrature points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integration-of-basis-functions">Integration of basis functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#local-refinement">Local refinement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spatial_discretization.html">Spatial Discretizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_mesher.html">Surface Re-meshers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_integration.html">Time Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_steppers.html">I Time-steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unpartitioned_mesh.html">Unpartitioned Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_mesher.html">Volume Meshers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Framework</a></li>
+      <li class="breadcrumb-item active">Simplified LDFESQ</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="simplified-ldfesq">
+<h1>Simplified LDFESQ<a class="headerlink" href="#simplified-ldfesq" title="Link to this heading"></a></h1>
+<p>This quadrature is a simplified implementation of the quadrature
+defined in the paper by Cheuk Lau and Marvin Adams:
+“Discrete Ordinates Quadratures Based on Linear
+and Quadratic Discontinuous Finite Elements over
+Spherical Quadrilaterals”, Nuclear Science and Engineering, 185:1,
+pages 36-52, 2017.</p>
+<p><img alt="" src="../_images/SLDFESQn40.png" /></p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The initial refinement is generated for the octant where all the
+direction cosines are positive. We will call this the first octant.</p></li>
+<li><p>A cube of side length <span class="math notranslate nohighlight">\( a=\frac{1}{\sqrt{3}} \)</span> is inscribed within
+the unit sphere and the origin planes. This cube has three faces
+that project onto the unit sphere in the first octant.
+<img alt="" src="../_images/SLDFESQFig2.png" /></p></li>
+<li><p>Each face of the cube can be described by a local coordinate system,
+<span class="math notranslate nohighlight">\( \tilde{x} \)</span>, <span class="math notranslate nohighlight">\( \tilde{y} \)</span>. In this reference frame each face
+is identically subdivided into an orthogonal grid. The generated
+grid-cells are called sub-squares.</p></li>
+<li><p>A face and its associated sub-squares, in the local reference frame,
+can be rotated and translated
+onto the cube faces, for which we will call the reference frame the
+<span class="math notranslate nohighlight">\( xyz \)</span>-prime reference frame.</p></li>
+<li><p>The sub-squares on each face project onto
+Spherical Quadrilaterals (SQs) on the unit sphere, a space which we
+shall refer to as the <span class="math notranslate nohighlight">\( xyz \)</span> reference frame. Or in the paper
+mu-eta-xi.
+<img alt="" src="../_images/SLDFESQFig3.png" /></p></li>
+<li><p>Once the SQs are generated we have numerous choices on where to
+define quadrature points and associated shape functions. In the LDFE
+formulation we need 4 quadrature points and, for simplicity, we restrict
+the placement of these points in a certain manner. We form radii, in
+the xy-tilde reference, from the sub-square centroids to each corner
+of the sub-square (essentially producing sub-sub-squares) and then
+chose to place our quadrature points only on these points.</p></li>
+<li><p>The placement of the quadrature points can then be projected to
+xyz after which the shape function coefficients can be determined.</p></li>
+<li><p>The weight of each quadrature point is the spherical surface area
+integral of its shape function. This integral is done with a high order
+Guass-Legendre quadrature and a Jacobian <span class="math notranslate nohighlight">\( \frac{a}{r^3} \)</span>.</p></li>
+<li><p>The original Lau and Adams paper used a Multi-variate secant method to
+determine the placement of the quadrature points along the sub-sub-square
+radii.</p></li>
+</ul>
+</section>
+<section id="specific-notes-for-the-simplified-version">
+<h2>Specific notes for the simplified version<a class="headerlink" href="#specific-notes-for-the-simplified-version" title="Link to this heading"></a></h2>
+<section id="initial-sub-division-of-the-inscribed-cube-face">
+<h3>Initial sub-division of the inscribed cube face<a class="headerlink" href="#initial-sub-division-of-the-inscribed-cube-face" title="Link to this heading"></a></h3>
+<p>The orthogonal grid in the xy-tilde reference frame is dependent on a
+a diagonal spacing of grid points. The paper by Lau and Adams did not
+specify exactly how to generate this spacing but only stated that their
+spacing minimizes the max/avg and max/min ratio of projected SQ to
+1.1 and 1.3 respectively. We found that the application of a weighting
+function, <span class="math notranslate nohighlight">\( \alpha (\cos \beta \frac{\pi}{2} x - \cos \beta
+\frac{\pi}{2}) \)</span> produces the optimal spacing. See the code for additional
+clarification.</p>
+</section>
+<section id="placement-of-the-quadrature-points">
+<h3>Placement of the quadrature points<a class="headerlink" href="#placement-of-the-quadrature-points" title="Link to this heading"></a></h3>
+<p>Instead of using a multi-variate secant method to place the quadrature
+points we found that placing the points on the 4 Gauss-Legendre points
+for a quadrilateral (<span class="math notranslate nohighlight">\([\pm \frac{1}{\sqrt{3}},\pm \frac{1}{\sqrt{3}}]\)</span>)
+still produced 4th order convergence and added a lot of speed to the algorithm.</p>
+</section>
+<section id="integration-of-basis-functions">
+<h3>Integration of basis functions<a class="headerlink" href="#integration-of-basis-functions" title="Link to this heading"></a></h3>
+<p>The determinant of the Jacobian can be hard to derive.
+It can be done in the two ways:</p>
+<p>using a cross-product <img alt="" src="../_images/SLDFESQ_JacobianA.jpg" /></p>
+<p>or in angle space <img alt="" src="../_images/SLDFESQ_JacobianB.jpg" />.</p>
+</section>
+<section id="local-refinement">
+<h3>Local refinement<a class="headerlink" href="#local-refinement" title="Link to this heading"></a></h3>
+<p>The data structures employed allows the SQs to easily be refined in certain
+regions.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcc_logical_volume.html" class="btn btn-neutral float-left" title="RCCLogicalVolume" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spatial_discretization.html" class="btn btn-neutral float-right" title="Spatial Discretizations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -21,7 +21,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="BooleanLogicalVolume" href="../../../framework/boolean_logical_volume.html" />
+    <link rel="next" title="Framework" href="../../../framework/index.html" />
     <link rel="prev" title="Mesh Tutorial 7: A 3D Extruded Mesh" href="../../3d_extruded_mesh.html" /> 
 </head>
 
@@ -54,16 +54,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../basic_diffusion_simulation.html">Tutorial 1: Basic Diffusion Simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../output.html">Tutorial 2: Other Forms of Output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../basic_transport_simulation.html">Tutorial 3: Basic Transport Simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../1d_mesh.html">Mesh Tutorial 1: Simple 1D Meshes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../2d_ortho_mesh.html">Mesh Tutorial 2: A 2D Orthogonal Mesh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../3d_ortho_mesh.html">Mesh Tutorial 3: A 3D Orthogonal Mesh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../predef_2d.html">Mesh Tutorial 4: Predefined 2D Mesh Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../gmsh_tutorial.html">Mesh Tutorial 5: Example using gmsh to create a structured mesh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../2d_triangle_python.html">Mesh Tutorial 6: A 2D Unstructured Mesh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../3d_extruded_mesh.html">Mesh Tutorial 7: A 3D Extruded Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#meshing-tutorial">Meshing Tutorial</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
@@ -93,13 +85,16 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../framework/boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer/class_index.html">Class Index</a></li>
 </ul>
 
         </div>
@@ -137,8 +132,7 @@ this is often used in the many examples found in the regression suite, so we exp
 </ul>
 <p>To run the code, simply type: <code class="docutils literal notranslate"><span class="pre">mpiexec</span> <span class="pre">-n</span> <span class="pre">4</span> <span class="pre">*path/to*/opensn</span>&#160; <span class="pre">*input_filename*.lua</span></code></p>
 <p>For more runtime options, type <code class="docutils literal notranslate"><span class="pre">*path/to*/opensn</span> <span class="pre">-h</span></code> for help.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="o">--</span> <span class="n">Check</span> <span class="n">num_procs</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Check</span> <span class="n">num_procs</span>
 <span class="n">num_procs</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">check_num_procs</span><span class="o">==</span><span class="n">nil</span> <span class="ow">and</span> <span class="n">number_of_processes</span> <span class="o">~=</span> <span class="n">num_procs</span><span class="p">)</span> <span class="n">then</span>
   <span class="n">Log</span><span class="p">(</span><span class="n">LOG_0ERROR</span><span class="p">,</span><span class="s2">&quot;Incorrect amount of processors. &quot;</span> <span class="o">..</span>
@@ -146,7 +140,6 @@ this is often used in the many examples found in the regression suite, so we exp
     <span class="s2">&quot;. Pass check_num_procs=false to override if possible.&quot;</span><span class="p">)</span>
   <span class="n">os</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
 <span class="n">end</span>
-
 </pre></div>
 </div>
 </section>
@@ -157,8 +150,7 @@ this is often used in the many examples found in the regression suite, so we exp
 <h3>List of nodes<a class="headerlink" href="#list-of-nodes" title="Link to this heading"></a></h3>
 <p>We first create a lua table for the list of nodes.
 Be mindful that lua indexing starts at 1.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="o">--</span> <span class="n">Setup</span> <span class="n">mesh</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Setup</span> <span class="n">mesh</span>
 <span class="n">nodes</span><span class="o">=</span><span class="p">{}</span>
 <span class="n">n_cells</span><span class="o">=</span><span class="mi">10</span>
 <span class="n">length</span><span class="o">=</span><span class="mf">2.</span>
@@ -168,7 +160,6 @@ Be mindful that lua indexing starts at 1.</p>
     <span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span>
     <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="n">dx</span>
 <span class="n">end</span>
-
 </pre></div>
 </div>
 </section>
@@ -182,29 +173,24 @@ Likewise for ycuts.
 The assignment to a partition is done based on where the cell center is located with respect to the various xcuts, ycuts, and zcuts (a fuzzy logic is applied to avoid issues).</p>
 <p>The resulting mesh and partition is shown below:</p>
 <p><img alt="Mesh_Partition" src="../../../_images/first_example_mesh_partition.png" /></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen</span> <span class="o">=</span> <span class="n">chi_mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
-<span class="p">({</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen</span> <span class="o">=</span> <span class="n">chi_mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span>
   <span class="n">node_sets</span> <span class="o">=</span> <span class="p">{</span><span class="n">nodes</span><span class="p">,</span><span class="n">nodes</span><span class="p">},</span>
-  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">KBAGraphPartitioner</span><span class="o">.</span><span class="n">Create</span>
-  <span class="p">({</span>
-    <span class="n">nx</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">KBAGraphPartitioner</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">xcuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span> <span class="n">ycuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span>
   <span class="p">})</span>
 <span class="p">})</span>
 
 <span class="n">chi_mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
 <section id="material-ids">
 <h3>Material IDs<a class="headerlink" href="#material-ids" title="Link to this heading"></a></h3>
 <p>We create a right parallelepiped logical volume that contains the entire mesh and we assign a 0 for material ID to all cells found inside the logical volume. Logical volumes are quite powerful, see subsequent tutorials on meshing.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="o">--</span> <span class="n">Set</span> <span class="n">Material</span> <span class="n">IDs</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Set</span> <span class="n">Material</span> <span class="n">IDs</span>
 <span class="n">vol0</span> <span class="o">=</span> <span class="n">chi_mesh</span><span class="o">.</span><span class="n">RPPLogicalVolume</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span><span class="n">infx</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">infy</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">infz</span><span class="o">=</span><span class="n">true</span><span class="p">})</span>
 <span class="n">chiVolumeMesherSetProperty</span><span class="p">(</span><span class="n">MATID_FROMLOGICAL</span><span class="p">,</span><span class="n">vol0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -216,24 +202,20 @@ The assignment to a partition is done based on where the cell center is located 
 <li><p>TRANSPORT_XSECTIONS for the transport cross sections, and</p></li>
 <li><p>ISOTROPIC_MG_SOURCE for the isotropic volumetric source</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="o">--</span> <span class="n">Add</span> <span class="n">materials</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Add</span> <span class="n">materials</span>
 <span class="n">materials</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">chiPhysicsAddMaterial</span><span class="p">(</span><span class="s2">&quot;Material_A&quot;</span><span class="p">);</span>
 
 <span class="n">chiPhysicsMaterialAddProperty</span><span class="p">(</span><span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">TRANSPORT_XSECTIONS</span><span class="p">)</span>
 <span class="n">chiPhysicsMaterialAddProperty</span><span class="p">(</span><span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ISOTROPIC_MG_SOURCE</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
 <section id="cross-sections">
 <h2>Cross Sections<a class="headerlink" href="#cross-sections" title="Link to this heading"></a></h2>
 <p>We assign the cross sections to the material by loading the file containing the cross sections.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="n">chiPhysicsMaterialSetProperty</span><span class="p">(</span><span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">TRANSPORT_XSECTIONS</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chiPhysicsMaterialSetProperty</span><span class="p">(</span><span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">TRANSPORT_XSECTIONS</span><span class="p">,</span>
   <span class="n">CHI_XSFILE</span><span class="p">,</span><span class="s2">&quot;xs_1g_MatA.cxs&quot;</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -246,7 +228,6 @@ The assignment to a partition is done based on where the cell center is located 
   <span class="n">src</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">end</span>
 <span class="n">chiPhysicsMaterialSetProperty</span><span class="p">(</span><span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ISOTROPIC_MG_SOURCE</span><span class="p">,</span><span class="n">FROM_ARRAY</span><span class="p">,</span><span class="n">src</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -259,7 +240,6 @@ The assignment to a partition is done based on where the cell center is located 
 <span class="n">npolar</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">pquad</span> <span class="o">=</span> <span class="n">chiCreateProductQuadrature</span><span class="p">(</span><span class="n">GAUSS_LEGENDRE_CHEBYSHEV</span><span class="p">,</span><span class="n">nazimu</span><span class="p">,</span><span class="n">npolar</span><span class="p">)</span>
 <span class="n">chiOptimizeAngularQuadratureForPolarSymmetry</span><span class="p">(</span><span class="n">pquad</span><span class="p">,</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -308,11 +288,11 @@ The assignment to a partition is done based on where the cell center is located 
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">phys</span> <span class="o">=</span> <span class="n">lbs</span><span class="o">.</span><span class="n">DiscreteOrdinatesSolver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">lbs_block</span><span class="p">)</span>
 <span class="n">lbs</span><span class="o">.</span><span class="n">SetOptions</span><span class="p">(</span><span class="n">phys</span><span class="p">,</span> <span class="n">lbs_options</span><span class="p">)</span>
 
+<span class="o">--</span><span class="c1">############################################### Initialize and Execute Solver</span>
 <span class="n">ss_solver</span> <span class="o">=</span> <span class="n">lbs</span><span class="o">.</span><span class="n">SteadyStateSolver</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span><span class="n">lbs_solver_handle</span> <span class="o">=</span> <span class="n">phys</span><span class="p">})</span>
 
 <span class="n">chiSolverInitialize</span><span class="p">(</span><span class="n">ss_solver</span><span class="p">)</span>
 <span class="n">chiSolverExecute</span><span class="p">(</span><span class="n">ss_solver</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -322,10 +302,10 @@ The assignment to a partition is done based on where the cell center is located 
 <p>We extract the scalar flux (i.e., the first entry in the field function list; recall that lua indexing starts at 1) and export it to a VTK file whose name is supplied by the user.</p>
 <p>The resulting scalar flux is shown below:</p>
 <p><img alt="Scalar_flux" src="../../../_images/first_example_scalar_flux.png" /></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fflist</span><span class="p">,</span><span class="n">count</span> <span class="o">=</span> <span class="n">chiLBSGetScalarFieldFunctionList</span><span class="p">(</span><span class="n">phys</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="c1">############################################### Get field functions</span>
+<span class="n">fflist</span><span class="p">,</span><span class="n">count</span> <span class="o">=</span> <span class="n">chiLBSGetScalarFieldFunctionList</span><span class="p">(</span><span class="n">phys</span><span class="p">)</span>
 <span class="n">vtk_basename</span> <span class="o">=</span> <span class="s2">&quot;first_example&quot;</span>
 <span class="n">chiExportFieldFunctionToVTK</span><span class="p">(</span><span class="n">fflist</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">vtk_basename</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </section>
@@ -363,12 +343,10 @@ The assignment to a partition is done based on where the cell center is located 
     <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="n">dx</span>
 <span class="n">end</span>
 
-<span class="n">meshgen</span> <span class="o">=</span> <span class="n">chi_mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
-<span class="p">({</span>
+<span class="n">meshgen</span> <span class="o">=</span> <span class="n">chi_mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span>
   <span class="n">node_sets</span> <span class="o">=</span> <span class="p">{</span><span class="n">nodes</span><span class="p">,</span><span class="n">nodes</span><span class="p">},</span>
-  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">KBAGraphPartitioner</span><span class="o">.</span><span class="n">Create</span>
-  <span class="p">({</span>
-    <span class="n">nx</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">KBAGraphPartitioner</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">xcuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span> <span class="n">ycuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span>
   <span class="p">})</span>
 <span class="p">})</span>
@@ -442,7 +420,6 @@ The assignment to a partition is done based on where the cell center is located 
 
 </pre></div>
 </div>
-<p>Back to \ref lbs_tutorials</p>
 </section>
 </section>
 
@@ -451,7 +428,7 @@ The assignment to a partition is done based on where the cell center is located 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../../3d_extruded_mesh.html" class="btn btn-neutral float-left" title="Mesh Tutorial 7: A 3D Extruded Mesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../../framework/boolean_logical_volume.html" class="btn btn-neutral float-right" title="BooleanLogicalVolume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../../framework/index.html" class="btn btn-neutral float-right" title="Framework" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

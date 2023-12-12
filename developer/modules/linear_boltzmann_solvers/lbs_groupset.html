@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::LBSGroupset &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::LBSSolver" href="lbs_solver.html" />
+    <link rel="prev" title="lbs::LBSGroup" href="lbs_group.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::LBSGroupset</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-lbsgroupset">
+<h1>lbs::LBSGroupset<a class="headerlink" href="#lbs-lbsgroupset" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupsetE">
+<span id="_CPPv3N6opensn3lbs11LBSGroupsetE"></span><span id="_CPPv2N6opensn3lbs11LBSGroupsetE"></span><span id="opensn::lbs::LBSGroupset"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LBSGroupset</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/object.html#_CPPv4N6opensn6ObjectE" title="opensn::Object"><span class="n"><span class="pre">Object</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupsetE" title="Link to this definition"></a><br /></dt>
+<dd><p>Group set functioning as a collection of groups </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetERK15InputParametersiRK9LBSSolver">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset11LBSGroupsetERK15InputParametersiRK9LBSSolver"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset11LBSGroupsetERK15InputParametersiRK9LBSSolver"></span><span id="opensn::lbs::LBSGroupset::LBSGroupset__InputParametersCR.i.LBSSolverCR"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1acfd6ada182bd56de15da8240281e8b19"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LBSGroupset</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="lbs_solver.html#_CPPv4N6opensn3lbs9LBSSolverE" title="opensn::lbs::LBSSolver"><span class="n"><span class="pre">LBSSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lbs_solver</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetERK15InputParametersiRK9LBSSolver" title="Link to this definition"></a><br /></dt>
+<dd><p>Input parameters based constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetEv">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset11LBSGroupsetEv"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset11LBSGroupsetEv"></span><span id="opensn::lbs::LBSGroupset::LBSGroupset"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1afe27fa004eb12a1f3a9c38597d23960e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LBSGroupset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetEi">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset11LBSGroupsetEi"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset11LBSGroupsetEi"></span><span id="opensn::lbs::LBSGroupset::LBSGroupset__i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ad7d80df9631b1a4e3244b3843df963e2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LBSGroupset</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset11LBSGroupsetEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset20BuildDiscMomOperatorEj12GeometryType">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset20BuildDiscMomOperatorEj12GeometryType"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset20BuildDiscMomOperatorEj12GeometryType"></span><span id="opensn::lbs::LBSGroupset::BuildDiscMomOperator__unsigned-i.GeometryType"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ad9ec6ef63bc6c7df7476dd3c35a1bd77"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildDiscMomOperator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scattering_order</span></span>, <span class="n"><span class="pre">GeometryType</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">geometry_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset20BuildDiscMomOperatorEj12GeometryType" title="Link to this definition"></a><br /></dt>
+<dd><p>Computes the discrete to moment operator. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset20BuildMomDiscOperatorEj12GeometryType">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset20BuildMomDiscOperatorEj12GeometryType"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset20BuildMomDiscOperatorEj12GeometryType"></span><span id="opensn::lbs::LBSGroupset::BuildMomDiscOperator__unsigned-i.GeometryType"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a0c38ddbbb4da1e2e01b791ea29489518"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildMomDiscOperator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scattering_order</span></span>, <span class="n"><span class="pre">GeometryType</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">geometry_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset20BuildMomDiscOperatorEj12GeometryType" title="Link to this definition"></a><br /></dt>
+<dd><p>Computes the moment to discrete operator. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset12BuildSubsetsEv">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset12BuildSubsetsEv"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset12BuildSubsetsEv"></span><span id="opensn::lbs::LBSGroupset::BuildSubsets"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a1131cc39a45dccf896902dfcfade3489"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildSubsets</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset12BuildSubsetsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructs the groupset subsets. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset18PrintSweepInfoFileE6size_tRKNSt6stringE">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset18PrintSweepInfoFileE6size_tRKNSt6stringE"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset18PrintSweepInfoFileE6size_tRKNSt6stringE"></span><span id="opensn::lbs::LBSGroupset::PrintSweepInfoFile__s.ssCR"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ad0f240905ba918de8362f374a99a4d56"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintSweepInfoFile</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ev_tag</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">file_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset18PrintSweepInfoFileE6size_tRKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructs the groupset subsets. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset3id_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset3id_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset3id_E"></span><span id="opensn::lbs::LBSGroupset::id___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a9704b033aaebcbe5ce81d67b43f7dff3"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset3id_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset7groups_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset7groups_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset7groups_E"></span><span id="opensn::lbs::LBSGroupset::groups___std::vector:LBSGroup:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1adbcae322b5a1bcf3a9f4e633d7f879f6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="lbs_group.html#_CPPv4N6opensn3lbs8LBSGroupE" title="opensn::lbs::LBSGroup"><span class="n"><span class="pre">LBSGroup</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">groups_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset7groups_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset11quadrature_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset11quadrature_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset11quadrature_E"></span><span id="opensn::lbs::LBSGroupset::quadrature___std::shared_ptr:AngularQuadrature:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a4d66e714abab27a450cc4dccf96c970e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/angular_quadrature.html#_CPPv4N6opensn17AngularQuadratureE" title="opensn::AngularQuadrature"><span class="n"><span class="pre">AngularQuadrature</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">quadrature_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset11quadrature_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset10angle_agg_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset10angle_agg_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset10angle_agg_E"></span><span id="opensn::lbs::LBSGroupset::angle_agg___std::shared_ptr:AngleAggregation:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a7f8e2da66ddb8c2e8ee4a909d80ecb9f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/angle_aggregation.html#_CPPv4N6opensn16AngleAggregationE" title="opensn::AngleAggregation"><span class="n"><span class="pre">AngleAggregation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">angle_agg_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset10angle_agg_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset20unique_so_groupings_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset20unique_so_groupings_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset20unique_so_groupings_E"></span><span id="opensn::lbs::LBSGroupset::unique_so_groupings___UniqueSOGroupings"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a8a3f6a6b214d119227b4851e78bd4fa0"></span><span class="n"><span class="pre">UniqueSOGroupings</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unique_so_groupings_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset20unique_so_groupings_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset17dir_id_to_so_map_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset17dir_id_to_so_map_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset17dir_id_to_so_map_E"></span><span id="opensn::lbs::LBSGroupset::dir_id_to_so_map___DirIDToSOMap"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ad931681eefc0f15b99c114d808b30096"></span><span class="n"><span class="pre">DirIDToSOMap</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dir_id_to_so_map_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset17dir_id_to_so_map_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset23master_num_grp_subsets_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset23master_num_grp_subsets_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset23master_num_grp_subsets_E"></span><span id="opensn::lbs::LBSGroupset::master_num_grp_subsets___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ae8a753d43e6c0dcb8d2de04810932cb2"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">master_num_grp_subsets_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset23master_num_grp_subsets_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset23master_num_ang_subsets_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset23master_num_ang_subsets_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset23master_num_ang_subsets_E"></span><span id="opensn::lbs::LBSGroupset::master_num_ang_subsets___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1aa319924391b6adff02f425c5dea3658b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">master_num_ang_subsets_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset23master_num_ang_subsets_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset17grp_subset_infos_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset17grp_subset_infos_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset17grp_subset_infos_E"></span><span id="opensn::lbs::LBSGroupset::grp_subset_infos___std::vector:SubSetInfo:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ae87de1b379a89099bbd012937112cefe"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/sub_set_info.html#_CPPv4N6opensn10SubSetInfoE" title="opensn::SubSetInfo"><span class="n"><span class="pre">SubSetInfo</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">grp_subset_infos_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset17grp_subset_infos_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset17iterative_method_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset17iterative_method_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset17iterative_method_E"></span><span id="opensn::lbs::LBSGroupset::iterative_method___IterativeMethod"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a5e84f4151dc481404487ccc84c66a7db"></span><span class="n"><span class="pre">IterativeMethod</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iterative_method_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">IterativeMethod</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">CLASSICRICHARDSON</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset17iterative_method_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset16angleagg_method_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset16angleagg_method_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset16angleagg_method_E"></span><span id="opensn::lbs::LBSGroupset::angleagg_method___AngleAggregationType"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ad6b53606895934c08bbd5681445c3f2b"></span><span class="n"><span class="pre">AngleAggregationType</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">angleagg_method_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">AngleAggregationType</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">POLAR</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset16angleagg_method_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset19residual_tolerance_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset19residual_tolerance_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset19residual_tolerance_E"></span><span id="opensn::lbs::LBSGroupset::residual_tolerance___double"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a16d1e90c9cbb5f070f33ab6033cc740d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">residual_tolerance_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0e-6</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset19residual_tolerance_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset15max_iterations_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset15max_iterations_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset15max_iterations_E"></span><span id="opensn::lbs::LBSGroupset::max_iterations___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a1cb91735346532793c7876e2a8c927ad"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_iterations_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset15max_iterations_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset20gmres_restart_intvl_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset20gmres_restart_intvl_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset20gmres_restart_intvl_E"></span><span id="opensn::lbs::LBSGroupset::gmres_restart_intvl___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ab01007e1439129c029e41f5e1aa887b8"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gmres_restart_intvl_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">30</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset20gmres_restart_intvl_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset13allow_cycles_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset13allow_cycles_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset13allow_cycles_E"></span><span id="opensn::lbs::LBSGroupset::allow_cycles___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a702b7e9f17170d1fadccd35b6bc674a0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">allow_cycles_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset13allow_cycles_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset17log_sweep_events_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset17log_sweep_events_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset17log_sweep_events_E"></span><span id="opensn::lbs::LBSGroupset::log_sweep_events___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a11b7908d3b1e707f2dc2e2a7bd5500ac"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">log_sweep_events_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset17log_sweep_events_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset12apply_wgdsa_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset12apply_wgdsa_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset12apply_wgdsa_E"></span><span id="opensn::lbs::LBSGroupset::apply_wgdsa___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a1050abb61e3f3e82febc48f451fe3b13"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">apply_wgdsa_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset12apply_wgdsa_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset12apply_tgdsa_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset12apply_tgdsa_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset12apply_tgdsa_E"></span><span id="opensn::lbs::LBSGroupset::apply_tgdsa___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1abbcd0239e43bb3dc9e86db6e1b0c0fc8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">apply_tgdsa_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset12apply_tgdsa_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset16wgdsa_max_iters_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset16wgdsa_max_iters_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset16wgdsa_max_iters_E"></span><span id="opensn::lbs::LBSGroupset::wgdsa_max_iters___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ab59d8b4c8b11388c0d2e53ad60e6ec65"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wgdsa_max_iters_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">30</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset16wgdsa_max_iters_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset16tgdsa_max_iters_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset16tgdsa_max_iters_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset16tgdsa_max_iters_E"></span><span id="opensn::lbs::LBSGroupset::tgdsa_max_iters___i"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1afbcb65eb4dac2505e57d7195ab3825ed"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tgdsa_max_iters_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">30</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset16tgdsa_max_iters_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset10wgdsa_tol_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset10wgdsa_tol_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset10wgdsa_tol_E"></span><span id="opensn::lbs::LBSGroupset::wgdsa_tol___double"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a2065684bc5f31546e7b2c3c2760e36cd"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wgdsa_tol_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0e-4</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset10wgdsa_tol_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset10tgdsa_tol_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset10tgdsa_tol_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset10tgdsa_tol_E"></span><span id="opensn::lbs::LBSGroupset::tgdsa_tol___double"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a0c29f832e7f34f92f945bc391c8c1ea2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tgdsa_tol_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0e-4</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset10tgdsa_tol_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset14wgdsa_verbose_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset14wgdsa_verbose_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset14wgdsa_verbose_E"></span><span id="opensn::lbs::LBSGroupset::wgdsa_verbose___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1abc9d05199b2f9d9c3bf9f30131944649"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wgdsa_verbose_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset14wgdsa_verbose_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset14tgdsa_verbose_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset14tgdsa_verbose_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset14tgdsa_verbose_E"></span><span id="opensn::lbs::LBSGroupset::tgdsa_verbose___b"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1ade7d6b9ded1d3b3c56705c9b77ffd9fd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tgdsa_verbose_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset14tgdsa_verbose_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset13wgdsa_string_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset13wgdsa_string_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset13wgdsa_string_E"></span><span id="opensn::lbs::LBSGroupset::wgdsa_string___ss"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1aeee3a52496d2a187849b29bac95f88f0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wgdsa_string_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset13wgdsa_string_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset13tgdsa_string_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset13tgdsa_string_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset13tgdsa_string_E"></span><span id="opensn::lbs::LBSGroupset::tgdsa_string___ss"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a43a56a23847f30b3528caf740ab54cf5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tgdsa_string_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset13tgdsa_string_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset13wgdsa_solver_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset13wgdsa_solver_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset13wgdsa_solver_E"></span><span id="opensn::lbs::LBSGroupset::wgdsa_solver___std::shared_ptr:DiffusionMIPSolver:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a07ea37f8ebfc327e51d3523b65301d65"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="diffusion_mip_solver.html#_CPPv4N6opensn3lbs18DiffusionMIPSolverE" title="opensn::lbs::DiffusionMIPSolver"><span class="n"><span class="pre">DiffusionMIPSolver</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wgdsa_solver_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset13wgdsa_solver_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset13tgdsa_solver_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset13tgdsa_solver_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset13tgdsa_solver_E"></span><span id="opensn::lbs::LBSGroupset::tgdsa_solver___std::shared_ptr:DiffusionMIPSolver:"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a1fc75ed9a46063b56f881c8cae5f9acd"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="diffusion_mip_solver.html#_CPPv4N6opensn3lbs18DiffusionMIPSolverE" title="opensn::lbs::DiffusionMIPSolver"><span class="n"><span class="pre">DiffusionMIPSolver</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tgdsa_solver_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset13tgdsa_solver_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset21tg_acceleration_info_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset21tg_acceleration_info_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset21tg_acceleration_info_E"></span><span id="opensn::lbs::LBSGroupset::tg_acceleration_info___opensn::lbs::LBSGroupset::TwoGridAccelerationInfo"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a3c65677197aa0caf10b9020fe0169da2"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">lbs</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs11LBSGroupsetE" title="opensn::lbs::LBSGroupset"><span class="n"><span class="pre">LBSGroupset</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfoE" title="opensn::lbs::LBSGroupset::TwoGridAccelerationInfo"><span class="n"><span class="pre">TwoGridAccelerationInfo</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tg_acceleration_info_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset21tg_acceleration_info_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset11psi_uk_man_E">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset11psi_uk_man_E"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset11psi_uk_man_E"></span><span id="opensn::lbs::LBSGroupset::psi_uk_man___UnknownManager"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1af30d011b6263325c3e4f016ddf52761f"></span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">psi_uk_man_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset11psi_uk_man_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset18GetInputParametersEv">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset18GetInputParametersEv"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset18GetInputParametersEv"></span><span id="opensn::lbs::LBSGroupset::GetInputParameters"></span><span class="target" id="d0/df4/classopensn_1_1lbs_1_1_l_b_s_groupset_1a32e6cea8564345c9001fb82e1f1fff60"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../../framework/input_parameters.html#_CPPv4N6opensn15InputParametersE" title="opensn::InputParameters"><span class="n"><span class="pre">InputParameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetInputParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset18GetInputParametersEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfoE">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfoE"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfoE"></span><span id="opensn::lbs::LBSGroupset::TwoGridAccelerationInfo"></span><span class="target" id="dd/d46/structopensn_1_1lbs_1_1_l_b_s_groupset_1_1_two_grid_acceleration_info"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoGridAccelerationInfo</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfoE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo19map_mat_id_2_tginfoE">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo19map_mat_id_2_tginfoE"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo19map_mat_id_2_tginfoE"></span><span id="opensn::lbs::LBSGroupset::TwoGridAccelerationInfo::map_mat_id_2_tginfo__std::map:i.TwoGridCollapsedInfo:"></span><span class="target" id="dd/d46/structopensn_1_1lbs_1_1_l_b_s_groupset_1_1_two_grid_acceleration_info_1ab641cc5803b9c39f7813a808194cd288"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="two_grid_collapsed_info.html#_CPPv4N6opensn3lbs20TwoGridCollapsedInfoE" title="opensn::lbs::TwoGridCollapsedInfo"><span class="n"><span class="pre">TwoGridCollapsedInfo</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">map_mat_id_2_tginfo</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo19map_mat_id_2_tginfoE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo6schemeE">
+<span id="_CPPv3N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo6schemeE"></span><span id="_CPPv2N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo6schemeE"></span><span id="opensn::lbs::LBSGroupset::TwoGridAccelerationInfo::scheme__EnergyCollapseScheme"></span><span class="target" id="dd/d46/structopensn_1_1lbs_1_1_l_b_s_groupset_1_1_two_grid_acceleration_info_1a93a413325db20dca2796b7e283f7a85f"></span><span class="n"><span class="pre">EnergyCollapseScheme</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scheme</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">EnergyCollapseScheme</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">JFULL</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs11LBSGroupset23TwoGridAccelerationInfo6schemeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lbs_group.html" class="btn btn-neutral float-left" title="lbs::LBSGroup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lbs_solver.html" class="btn btn-neutral float-right" title="lbs::LBSSolver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

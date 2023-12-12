@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::WGSLinearSolver &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::XXNonLinearKEigen" href="xx_non_linear_k_eigen.html" />
+    <link rel="prev" title="lbs::WGSContext" href="wgs_context.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::WGSLinearSolver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-wgslinearsolver">
+<h1>lbs::WGSLinearSolver<a class="headerlink" href="#lbs-wgslinearsolver" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolverE">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolverE"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolverE"></span><span id="opensn::lbs::WGSLinearSolver"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WGSLinearSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/linear_solver.html#_CPPv4N6opensn12LinearSolverE" title="opensn::LinearSolver"><span class="n"><span class="pre">LinearSolver</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolverE" title="Link to this definition"></a><br /></dt>
+<dd><p>Linear <a class="reference internal" href="../../framework/solver.html#d5/d55/classopensn_1_1_solver"><span class="std std-ref">Solver</span></a> specialization for Within GroupSet (WGS) solves. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver15WGSLinearSolverENSt10shared_ptrI10WGSContextEE">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver15WGSLinearSolverENSt10shared_ptrI10WGSContextEE"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver15WGSLinearSolverENSt10shared_ptrI10WGSContextEE"></span><span id="opensn::lbs::WGSLinearSolver::WGSLinearSolver__std::shared_ptr:WGSContext:"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a3b0130f7eb4500bf3a4d96954d24f94f"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WGSLinearSolver</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="wgs_context.html#_CPPv4N6opensn3lbs10WGSContextE" title="opensn::lbs::WGSContext"><span class="n"><span class="pre">WGSContext</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">gs_context_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver15WGSLinearSolverENSt10shared_ptrI10WGSContextEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gs_context_ptr</strong> – Context Pointer to abstract context. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolverD0Ev">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolverD0Ev"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolverD0Ev"></span><span id="opensn::lbs::WGSLinearSolver::~WGSLinearSolver"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a5aec5ff4cf2852b43c75e79a4ce26827"></span><span class="sig-name descname"><span class="n"><span class="pre">~WGSLinearSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolverD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver16PreSetupCallbackEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver16PreSetupCallbackEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver16PreSetupCallbackEv"></span><span id="opensn::lbs::WGSLinearSolver::PreSetupCallback"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1ada7021cf41ea516b0f3853039bb3f1d8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PreSetupCallback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver16PreSetupCallbackEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver18SetConvergenceTestEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver18SetConvergenceTestEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver18SetConvergenceTestEv"></span><span id="opensn::lbs::WGSLinearSolver::SetConvergenceTest"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1abfe30174e1942042b8f61c575cc92d38"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetConvergenceTest</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver18SetConvergenceTestEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver13SetSystemSizeEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver13SetSystemSizeEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver13SetSystemSizeEv"></span><span id="opensn::lbs::WGSLinearSolver::SetSystemSize"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1aa1593000538de35e2f9f60d34c48b319"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetSystemSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver13SetSystemSizeEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver9SetSystemEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver9SetSystemEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver9SetSystemEv"></span><span id="opensn::lbs::WGSLinearSolver::SetSystem"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a6c33798d82efac12faf7784f13ee09ef"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetSystem</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver9SetSystemEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver17SetPreconditionerEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver17SetPreconditionerEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver17SetPreconditionerEv"></span><span id="opensn::lbs::WGSLinearSolver::SetPreconditioner"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a59487b92624583ebcb1a041d4da9c324"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetPreconditioner</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver17SetPreconditionerEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver17PostSetupCallbackEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver17PostSetupCallbackEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver17PostSetupCallbackEv"></span><span id="opensn::lbs::WGSLinearSolver::PostSetupCallback"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a18e547d39a2697325a5445219b2a4eeb"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PostSetupCallback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver17PostSetupCallbackEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver16PreSolveCallbackEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver16PreSolveCallbackEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver16PreSolveCallbackEv"></span><span id="opensn::lbs::WGSLinearSolver::PreSolveCallback"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a5e8f649214b277be77c8565eaad9ae80"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PreSolveCallback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver16PreSolveCallbackEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver6SetRHSEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver6SetRHSEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver6SetRHSEv"></span><span id="opensn::lbs::WGSLinearSolver::SetRHS"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1ac3d0922ec6abe9d716e6bbe5ee00e2ae"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetRHS</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver6SetRHSEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver15SetInitialGuessEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver15SetInitialGuessEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver15SetInitialGuessEv"></span><span id="opensn::lbs::WGSLinearSolver::SetInitialGuess"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1abf7eb14f96ca3e086feb05229a354a3f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetInitialGuess</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver15SetInitialGuessEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver17PostSolveCallbackEv">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver17PostSolveCallbackEv"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver17PostSolveCallbackEv"></span><span id="opensn::lbs::WGSLinearSolver::PostSolveCallback"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1afda3773ab16927f8e05533f1ee2ce95a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PostSolveCallback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver17PostSolveCallbackEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15WGSLinearSolver22saved_q_moments_local_E">
+<span id="_CPPv3N6opensn3lbs15WGSLinearSolver22saved_q_moments_local_E"></span><span id="_CPPv2N6opensn3lbs15WGSLinearSolver22saved_q_moments_local_E"></span><span id="opensn::lbs::WGSLinearSolver::saved_q_moments_local___std::vector:double:"></span><span class="target" id="dc/dfd/classopensn_1_1lbs_1_1_w_g_s_linear_solver_1a26ca8962e2cb5b23344d7c29fd28e280"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">saved_q_moments_local_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15WGSLinearSolver22saved_q_moments_local_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wgs_context.html" class="btn btn-neutral float-left" title="lbs::WGSContext" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xx_non_linear_k_eigen.html" class="btn btn-neutral float-right" title="lbs::XXNonLinearKEigen" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::CBC_AngleSet &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::CBC_SweepChunk" href="cbc__sweep_chunk.html" />
+    <link rel="prev" title="lbs::BoundaryPreference" href="boundary_preference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::CBC_AngleSet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-cbc-angleset">
+<h1>lbs::CBC_AngleSet<a class="headerlink" href="#lbs-cbc-angleset" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSetE">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSetE"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSetE"></span><span id="opensn::lbs::CBC_AngleSet"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CBC_AngleSet</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/angle_set.html#_CPPv4N6opensn8AngleSetE" title="opensn::AngleSet"><span class="n"><span class="pre">AngleSet</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSetE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet12CBC_AngleSetE6size_t6size_tRK4SPDSRNSt10shared_ptrI5FLUDSEERKNSt6vectorI6size_tEERNSt3mapI8uint64_tNSt10shared_ptrI10SweepBndryEEEE6size_tRK18MPICommunicatorSet">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet12CBC_AngleSetE6size_t6size_tRK4SPDSRNSt10shared_ptrI5FLUDSEERKNSt6vectorI6size_tEERNSt3mapI8uint64_tNSt10shared_ptrI10SweepBndryEEEE6size_tRK18MPICommunicatorSet"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet12CBC_AngleSetE6size_t6size_tRK4SPDSRNSt10shared_ptrI5FLUDSEERKNSt6vectorI6size_tEERNSt3mapI8uint64_tNSt10shared_ptrI10SweepBndryEEEE6size_tRK18MPICommunicatorSet"></span><span id="opensn::lbs::CBC_AngleSet::CBC_AngleSet__s.s.SPDSCR.std::shared_ptr:FLUDS:R.std::vector:s:CR.std::map:uint64_t.std::shared_ptr:SweepBndry::R.s.MPICommunicatorSetCR"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1aaeaa6a6b4adbfbb493f0bef96b030500"></span><span class="sig-name descname"><span class="n"><span class="pre">CBC_AngleSet</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_groups</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spds.html#_CPPv4N6opensn4SPDSE" title="opensn::SPDS"><span class="n"><span class="pre">SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">spds</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/fluds.html#_CPPv4N6opensn5FLUDSE" title="opensn::FLUDS"><span class="n"><span class="pre">FLUDS</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fluds</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">angle_indices</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../namespace_opensn.html#_CPPv4N6opensn10SweepBndryE" title="opensn::SweepBndry"><span class="n"><span class="pre">SweepBndry</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_boundaries</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">in_ref_subset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/mpi_communicator_set.html#_CPPv4N6opensn18MPICommunicatorSetE" title="opensn::MPICommunicatorSet"><span class="n"><span class="pre">MPICommunicatorSet</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">comm_set</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet12CBC_AngleSetE6size_t6size_tRK4SPDSRNSt10shared_ptrI5FLUDSEERKNSt6vectorI6size_tEERNSt3mapI8uint64_tNSt10shared_ptrI10SweepBndryEEEE6size_tRK18MPICommunicatorSet" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet15GetCommunicatorEv">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet15GetCommunicatorEv"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet15GetCommunicatorEv"></span><span id="opensn::lbs::CBC_AngleSet::GetCommunicator"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1abc66658bbc431a6f439ffe273ed48129"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../../framework/asynchronous_communicator.html#_CPPv4N6opensn24AsynchronousCommunicatorE" title="opensn::AsynchronousCommunicator"><span class="n"><span class="pre">AsynchronousCommunicator</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetCommunicator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet15GetCommunicatorEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet29InitializeDelayedUpstreamDataEv">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet29InitializeDelayedUpstreamDataEv"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet29InitializeDelayedUpstreamDataEv"></span><span id="opensn::lbs::CBC_AngleSet::InitializeDelayedUpstreamData"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1aaeef4503b890c5f2c7eff6ae66011f49"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitializeDelayedUpstreamData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet29InitializeDelayedUpstreamDataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Initializes delayed upstream data. This method gets called when a sweep scheduler is constructed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs12CBC_AngleSet20GetMaxBufferMessagesEv">
+<span id="_CPPv3NK6opensn3lbs12CBC_AngleSet20GetMaxBufferMessagesEv"></span><span id="_CPPv2NK6opensn3lbs12CBC_AngleSet20GetMaxBufferMessagesEv"></span><span id="opensn::lbs::CBC_AngleSet::GetMaxBufferMessagesC"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1aed3630da506973f7b0fd277ff6da1eda"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetMaxBufferMessages</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs12CBC_AngleSet20GetMaxBufferMessagesEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the maximum buffer size from the sweepbuffer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet20SetMaxBufferMessagesEi">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet20SetMaxBufferMessagesEi"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet20SetMaxBufferMessagesEi"></span><span id="opensn::lbs::CBC_AngleSet::SetMaxBufferMessages__i"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1a2d7ee0a7fb583697f022ed94e3e5c88e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetMaxBufferMessages</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">new_max</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet20SetMaxBufferMessagesEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the maximum buffer size for the sweepbuffer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet15AngleSetAdvanceERN6opensn10SweepChunkERKNSt6vectorI6size_tEE19ExecutionPermission">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet15AngleSetAdvanceERN6opensn10SweepChunkERKNSt6vectorI6size_tEE19ExecutionPermission"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet15AngleSetAdvanceERN6opensn10SweepChunkERKNSt6vectorI6size_tEE19ExecutionPermission"></span><span id="opensn::lbs::CBC_AngleSet::AngleSetAdvance__opensn::SweepChunkR.std::vector:s:CR.ExecutionPermission"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1ac6872cfeca2aa709ea5c18e58c7d219a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../../namespace_opensn.html#_CPPv4N6opensn14AngleSetStatusE" title="opensn::AngleSetStatus"><span class="n"><span class="pre">AngleSetStatus</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AngleSetAdvance</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/sweep_chunk.html#_CPPv4N6opensn10SweepChunkE" title="opensn::SweepChunk"><span class="n"><span class="pre">SweepChunk</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sweep_chunk</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">timing_tags</span></span>, <a class="reference internal" href="../../namespace_opensn.html#_CPPv4N6opensn19ExecutionPermissionE" title="opensn::ExecutionPermission"><span class="n"><span class="pre">ExecutionPermission</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">permission</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet15AngleSetAdvanceERN6opensn10SweepChunkERKNSt6vectorI6size_tEE19ExecutionPermission" title="Link to this definition"></a><br /></dt>
+<dd><p>This function advances the work stages of an angleset. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet16FlushSendBuffersEv">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet16FlushSendBuffersEv"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet16FlushSendBuffersEv"></span><span id="opensn::lbs::CBC_AngleSet::FlushSendBuffers"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1a44c85bb61c0f4369be83a2dde7284581"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../../namespace_opensn.html#_CPPv4N6opensn14AngleSetStatusE" title="opensn::AngleSetStatus"><span class="n"><span class="pre">AngleSetStatus</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FlushSendBuffers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet16FlushSendBuffersEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet17ResetSweepBuffersEv">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet17ResetSweepBuffersEv"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet17ResetSweepBuffersEv"></span><span id="opensn::lbs::CBC_AngleSet::ResetSweepBuffers"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1abca61094a313450b2dec66f6c363502c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ResetSweepBuffers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet17ResetSweepBuffersEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Resets the sweep buffer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet18ReceiveDelayedDataEv">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet18ReceiveDelayedDataEv"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet18ReceiveDelayedDataEv"></span><span id="opensn::lbs::CBC_AngleSet::ReceiveDelayedData"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1aff7e3fc75b515e5c3fe21d5e3aaaf0b1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReceiveDelayedData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet18ReceiveDelayedDataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Instructs the sweep buffer to receive delayed data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet8PsiBndryE8uint64_tj8uint64_tjji6size_tb">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet8PsiBndryE8uint64_tj8uint64_tjji6size_tb"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet8PsiBndryE8uint64_tj8uint64_tjji6size_tb"></span><span id="opensn::lbs::CBC_AngleSet::PsiBndry__uint64_t.unsigned-i.uint64_t.unsigned-i.unsigned-i.i.s.b"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1a394d806ca50a6f5559fd1c11d2f6ace4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PsiBndry</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bndry_map</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">angle_num</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_local_id</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_num</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">fi</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">g</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">gs_ss_begin</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">surface_source_active</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet8PsiBndryE8uint64_tj8uint64_tjji6size_tb" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a pointer to a boundary flux data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet26ReflectingPsiOutBoundBndryE8uint64_tj8uint64_tjj6size_t">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet26ReflectingPsiOutBoundBndryE8uint64_tj8uint64_tjj6size_t"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet26ReflectingPsiOutBoundBndryE8uint64_tj8uint64_tjj6size_t"></span><span id="opensn::lbs::CBC_AngleSet::ReflectingPsiOutBoundBndry__uint64_t.unsigned-i.uint64_t.unsigned-i.unsigned-i.s"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1a4b40a85722127201746664cd55bb2045"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ReflectingPsiOutBoundBndry</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bndry_map</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">angle_num</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_local_id</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_num</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">fi</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">gs_ss_begin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet26ReflectingPsiOutBoundBndryE8uint64_tj8uint64_tjj6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a pointer to outbound boundary flux data. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet9cbc_spds_E">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet9cbc_spds_E"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet9cbc_spds_E"></span><span id="opensn::lbs::CBC_AngleSet::cbc_spds___CBC_SPDSCR"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1adc97a21e182e759b276227934bad724a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cbc_spds.html#_CPPv4N6opensn3lbs8CBC_SPDSE" title="opensn::lbs::CBC_SPDS"><span class="n"><span class="pre">CBC_SPDS</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">cbc_spds_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet9cbc_spds_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet18current_task_list_E">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet18current_task_list_E"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet18current_task_list_E"></span><span id="opensn::lbs::CBC_AngleSet::current_task_list___std::vector:Task:"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1ac498c8420a3dcb6834c818e3d150e428"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../framework/task.html#_CPPv4N6opensn4TaskE" title="opensn::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">current_task_list_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet18current_task_list_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs12CBC_AngleSet11async_comm_E">
+<span id="_CPPv3N6opensn3lbs12CBC_AngleSet11async_comm_E"></span><span id="_CPPv2N6opensn3lbs12CBC_AngleSet11async_comm_E"></span><span id="opensn::lbs::CBC_AngleSet::async_comm___CBC_ASynchronousCommunicator"></span><span class="target" id="d8/ddd/classopensn_1_1lbs_1_1_c_b_c___angle_set_1adeb654ce3e8e4a3c5aa1da77f9e7e8f4"></span><a class="reference internal" href="cbc_a_synchronous_communicator.html#_CPPv4N6opensn3lbs28CBC_ASynchronousCommunicatorE" title="opensn::lbs::CBC_ASynchronousCommunicator"><span class="n"><span class="pre">CBC_ASynchronousCommunicator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">async_comm_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs12CBC_AngleSet11async_comm_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boundary_preference.html" class="btn btn-neutral float-left" title="lbs::BoundaryPreference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cbc__sweep_chunk.html" class="btn btn-neutral float-right" title="lbs::CBC_SweepChunk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

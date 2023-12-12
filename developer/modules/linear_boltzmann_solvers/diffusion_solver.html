@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::DiffusionSolver &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::DiscreteOrdinatesAdjointSolver" href="discrete_ordinates_adjoint_solver.html" />
+    <link rel="prev" title="lbs::DiffusionPWLCSolver" href="diffusion_pwlc_solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds.html">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::DiffusionSolver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-diffusionsolver">
+<h1>lbs::DiffusionSolver<a class="headerlink" href="#lbs-diffusionsolver" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolverE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolverE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolverE"></span><span id="opensn::lbs::DiffusionSolver"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DiffusionSolver</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolverE" title="Link to this definition"></a><br /></dt>
+<dd><p>Generic diffusion solver for acceleration. </p>
+<p>Subclassed by <a class="reference internal" href="diffusion_mip_solver.html#db/d83/classopensn_1_1lbs_1_1_diffusion_m_i_p_solver"><span class="std std-ref">opensn::lbs::DiffusionMIPSolver</span></a>, <a class="reference internal" href="diffusion_pwlc_solver.html#dd/d90/classopensn_1_1lbs_1_1_diffusion_p_w_l_c_solver"><span class="std std-ref">opensn::lbs::DiffusionPWLCSolver</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver15DiffusionSolverENSt6stringERK21SpatialDiscretizationRK14UnknownManagerNSt3mapI8uint64_t17BoundaryConditionEE11MatID2XSMapRKNSt6vectorI16UnitCellMatricesEEbb">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver15DiffusionSolverENSt6stringERK21SpatialDiscretizationRK14UnknownManagerNSt3mapI8uint64_t17BoundaryConditionEE11MatID2XSMapRKNSt6vectorI16UnitCellMatricesEEbb"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver15DiffusionSolverENSt6stringERK21SpatialDiscretizationRK14UnknownManagerNSt3mapI8uint64_t17BoundaryConditionEE11MatID2XSMapRKNSt6vectorI16UnitCellMatricesEEbb"></span><span id="opensn::lbs::DiffusionSolver::DiffusionSolver__ss.SpatialDiscretizationCR.UnknownManagerCR.std::map:uint64_t.BoundaryCondition:.MatID2XSMap.std::vector:UnitCellMatrices:CR.b.b"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ad436dd22ccdb8e813634f055e8fb1bea"></span><span class="sig-name descname"><span class="n"><span class="pre">DiffusionSolver</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">text_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv" title="opensn::lbs::DiffusionSolver::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sdm</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">uk_man</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="boundary_condition.html#_CPPv4N6opensn3lbs17BoundaryConditionE" title="opensn::lbs::BoundaryCondition"><span class="n"><span class="pre">BoundaryCondition</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bcs</span></span>, <a class="reference internal" href="#_CPPv4N6opensn3lbs15DiffusionSolver11MatID2XSMapE" title="opensn::lbs::DiffusionSolver::MatID2XSMap"><span class="n"><span class="pre">MatID2XSMap</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">map_mat_id_2_xs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="unit_cell_matrices.html#_CPPv4N6opensn3lbs16UnitCellMatricesE" title="opensn::lbs::UnitCellMatrices"><span class="n"><span class="pre">UnitCellMatrices</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">unit_cell_matrices</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">requires_ghosts</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver15DiffusionSolverENSt6stringERK21SpatialDiscretizationRK14UnknownManagerNSt3mapI8uint64_t17BoundaryConditionEE11MatID2XSMapRKNSt6vectorI16UnitCellMatricesEEbb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs15DiffusionSolver8TextNameEv">
+<span id="_CPPv3NK6opensn3lbs15DiffusionSolver8TextNameEv"></span><span id="_CPPv2NK6opensn3lbs15DiffusionSolver8TextNameEv"></span><span id="opensn::lbs::DiffusionSolver::TextNameC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4cfa1a9b23e4edfb9fda44e0e772ad86"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TextName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs15DiffusionSolver8TextNameEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the assigned text name. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs15DiffusionSolver3RHSEv">
+<span id="_CPPv3NK6opensn3lbs15DiffusionSolver3RHSEv"></span><span id="_CPPv2NK6opensn3lbs15DiffusionSolver3RHSEv"></span><span id="opensn::lbs::DiffusionSolver::RHSC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ac8b5e7ba59afa82bb02a7a1f9219fe20"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">RHS</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs15DiffusionSolver3RHSEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the right-hand side petsc vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs15DiffusionSolver3BCSEv">
+<span id="_CPPv3NK6opensn3lbs15DiffusionSolver3BCSEv"></span><span id="_CPPv2NK6opensn3lbs15DiffusionSolver3BCSEv"></span><span id="opensn::lbs::DiffusionSolver::BCSC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1abb095dc720368461268d74e2e3ba0dc4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="boundary_condition.html#_CPPv4N6opensn3lbs17BoundaryConditionE" title="opensn::lbs::BoundaryCondition"><span class="n"><span class="pre">BoundaryCondition</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">BCS</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs15DiffusionSolver3BCSEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the assigned unknown structure. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs15DiffusionSolver16UnknownStructureEv">
+<span id="_CPPv3NK6opensn3lbs15DiffusionSolver16UnknownStructureEv"></span><span id="_CPPv2NK6opensn3lbs15DiffusionSolver16UnknownStructureEv"></span><span id="opensn::lbs::DiffusionSolver::UnknownStructureC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a8c557299d0c7f4f31efe35f464654f45"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">UnknownStructure</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs15DiffusionSolver16UnknownStructureEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv">
+<span id="_CPPv3NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv"></span><span id="_CPPv2NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv"></span><span id="opensn::lbs::DiffusionSolver::SpatialDiscretizationC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1af26aba798868438e43cb91d0eb3a5270"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv" title="opensn::lbs::DiffusionSolver::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">SpatialDiscretization</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the associated spatial discretization. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver26GetNumPhiIterativeUnknownsEv">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver26GetNumPhiIterativeUnknownsEv"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver26GetNumPhiIterativeUnknownsEv"></span><span id="opensn::lbs::DiffusionSolver::GetNumPhiIterativeUnknowns"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4e1fe86a7046040f830c010dd37b8198"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetNumPhiIterativeUnknowns</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver26GetNumPhiIterativeUnknownsEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolverD0Ev">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolverD0Ev"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolverD0Ev"></span><span id="opensn::lbs::DiffusionSolver::~DiffusionSolver"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a2a6c679ad1aa25ddb30e9bca15a58b75"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~DiffusionSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolverD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver10InitializeEv">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver10InitializeEv"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver10InitializeEv"></span><span id="opensn::lbs::DiffusionSolver::Initialize"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a2bdf2f8495d06398a30158f0814abed6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Initialize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver10InitializeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Initializes the diffusion solver. This involves creating the sparse matrix with the appropriate sparsity pattern. Creating the RHS vector. Creating the KSP solver. Setting the very specialized parameters for Hypre’s BooomerAMG. Note: <code class="docutils literal notranslate"><span class="pre">PCSetFromOptions</span></code> and <code class="docutils literal notranslate"><span class="pre">KSPSetFromOptions</span></code> are called at the end. Therefore, any number of additional PETSc options can be passed via the commandline. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver14AssembleAand_bERKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver14AssembleAand_bERKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver14AssembleAand_bERKNSt6vectorIdEE"></span><span id="opensn::lbs::DiffusionSolver::AssembleAand_b__std::vector:double:CR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1aa06183680ffbb345478ff608e73d37fa"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AssembleAand_b</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">q_vector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver14AssembleAand_bERKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver10Assemble_bERKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver10Assemble_bERKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver10Assemble_bERKNSt6vectorIdEE"></span><span id="opensn::lbs::DiffusionSolver::Assemble_b__std::vector:double:CR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a6a387690ecb3734d9a00792681d394d3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Assemble_b</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">q_vector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver10Assemble_bERKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver10Assemble_bE3Vec">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver10Assemble_bE3Vec"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver10Assemble_bE3Vec"></span><span id="opensn::lbs::DiffusionSolver::Assemble_b__Vec"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4cab297038650cf770d988ea249954aa"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Assemble_b</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">petsc_q_vector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver10Assemble_bE3Vec" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver8AddToRHSERKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver8AddToRHSERKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver8AddToRHSERKNSt6vectorIdEE"></span><span id="opensn::lbs::DiffusionSolver::AddToRHS__std::vector:double:CR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ac3abae21d9ac0ca50ee4586873140c78"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddToRHS</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver8AddToRHSERKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds to the right-hand side without applying spatial discretization. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver5SolveERNSt6vectorIdEEb">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver5SolveERNSt6vectorIdEEb"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver5SolveERNSt6vectorIdEEb"></span><span id="opensn::lbs::DiffusionSolver::Solve__std::vector:double:R.b"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a5641413d9a7b0c6a3eef0a0f2d7f939a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Solve</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">solution</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use_initial_guess</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver5SolveERNSt6vectorIdEEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Solves the system and stores the local solution in the vector provide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – Vector in to which the solution will be parsed. </p></li>
+<li><p><strong>use_initial_guess</strong> – bool [Default:False] Flag, when set, will use the values of the output solution as initial guess. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver5SolveE3Vecb">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver5SolveE3Vecb"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver5SolveE3Vecb"></span><span id="opensn::lbs::DiffusionSolver::Solve__Vec.b"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a70560dc7d62571e3f105257059bcc557"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Solve</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">petsc_solution</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use_initial_guess</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver5SolveE3Vecb" title="Link to this definition"></a><br /></dt>
+<dd><p>Solves the system and stores the local solution in the vector provide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>petsc_solution</strong> – Vector in to which the solution will be parsed. </p></li>
+<li><p><strong>use_initial_guess</strong> – bool [Default:False] Flag, when set, will use the values of the output solution as initial guess. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7optionsE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7optionsE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7optionsE"></span><span id="opensn::lbs::DiffusionSolver::options__opensn::lbs::DiffusionSolver::Options"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1adb7ee7d5d7c6de40d46fa8fd2b36d663"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">lbs</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs15DiffusionSolverE" title="opensn::lbs::DiffusionSolver"><span class="n"><span class="pre">DiffusionSolver</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs15DiffusionSolver7OptionsE" title="opensn::lbs::DiffusionSolver::Options"><span class="n"><span class="pre">Options</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">options</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7optionsE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-types">Protected Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver11MatID2XSMapE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver11MatID2XSMapE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver11MatID2XSMapE"></span><span id="opensn::lbs::DiffusionSolver::MatID2XSMap"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4f9ba54bc10fadc12565f6d38ebdbae9"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="multigroup_d_and_sig_r.html#_CPPv4N6opensn3lbs21Multigroup_D_and_sigRE" title="opensn::lbs::Multigroup_D_and_sigR"><span class="n"><span class="pre">Multigroup_D_and_sigR</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MatID2XSMap</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver11MatID2XSMapE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver10text_name_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver10text_name_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver10text_name_E"></span><span id="opensn::lbs::DiffusionSolver::text_name___ssC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ada1565194c38e9e8bcdc0167b4b9001a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_name_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver10text_name_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver5grid_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver5grid_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver5grid_E"></span><span id="opensn::lbs::DiffusionSolver::grid___MeshContinuumCR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a64df78b31bd6d3bf7bb77729f3e07853"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/mesh_continuum.html#_CPPv4N6opensn13MeshContinuumE" title="opensn::MeshContinuum"><span class="n"><span class="pre">MeshContinuum</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">grid_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver5grid_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver4sdm_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver4sdm_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver4sdm_E"></span><span id="opensn::lbs::DiffusionSolver::sdm___SpatialDiscretizationCR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a566c964422de73cfe42bf81ef6195546"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK6opensn3lbs15DiffusionSolver21SpatialDiscretizationEv" title="opensn::lbs::DiffusionSolver::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">sdm_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver4sdm_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7uk_man_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7uk_man_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7uk_man_E"></span><span id="opensn::lbs::DiffusionSolver::uk_man___UnknownManagerC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4c3057760039cd3e9af213566f5e7ce0"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uk_man_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7uk_man_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver4bcs_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver4bcs_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver4bcs_E"></span><span id="opensn::lbs::DiffusionSolver::bcs___std::map:uint64_t.BoundaryCondition:C"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ad19f4a994b48cf8ad03c31610bb04277"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="boundary_condition.html#_CPPv4N6opensn3lbs17BoundaryConditionE" title="opensn::lbs::BoundaryCondition"><span class="n"><span class="pre">BoundaryCondition</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bcs_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver4bcs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver16mat_id_2_xs_map_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver16mat_id_2_xs_map_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver16mat_id_2_xs_map_E"></span><span id="opensn::lbs::DiffusionSolver::mat_id_2_xs_map___MatID2XSMapC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ad928dd3f884eae962b8daceea3cc598d"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn3lbs15DiffusionSolver11MatID2XSMapE" title="opensn::lbs::DiffusionSolver::MatID2XSMap"><span class="n"><span class="pre">MatID2XSMap</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mat_id_2_xs_map_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver16mat_id_2_xs_map_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver19unit_cell_matrices_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver19unit_cell_matrices_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver19unit_cell_matrices_E"></span><span id="opensn::lbs::DiffusionSolver::unit_cell_matrices___std::vector:UnitCellMatrices:CR"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a4369f73213ba325bc8d1d11cb950b694"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="unit_cell_matrices.html#_CPPv4N6opensn3lbs16UnitCellMatricesE" title="opensn::lbs::UnitCellMatrices"><span class="n"><span class="pre">UnitCellMatrices</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">unit_cell_matrices_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver19unit_cell_matrices_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver15num_local_dofs_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver15num_local_dofs_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver15num_local_dofs_E"></span><span id="opensn::lbs::DiffusionSolver::num_local_dofs___int64_tC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ac1bd29243c09f25eaf2d9aba2206dbd9"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_local_dofs_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver15num_local_dofs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver16num_global_dofs_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver16num_global_dofs_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver16num_global_dofs_E"></span><span id="opensn::lbs::DiffusionSolver::num_global_dofs___int64_tC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1af41c6318b1acd9c60eedb3b81d1aad27"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_global_dofs_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver16num_global_dofs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver2A_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver2A_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver2A_E"></span><span id="opensn::lbs::DiffusionSolver::A___Mat"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1a2a6b15edbc16b96ee9b3b72a87b6897b"></span><span class="n"><span class="pre">Mat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">A_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver2A_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver4rhs_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver4rhs_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver4rhs_E"></span><span id="opensn::lbs::DiffusionSolver::rhs___Vec"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ae7167d55800ad03e27174eccbbb2ae18"></span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rhs_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver4rhs_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver4ksp_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver4ksp_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver4ksp_E"></span><span id="opensn::lbs::DiffusionSolver::ksp___KSP"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ac03e1af5fb7f34e3fea3b98dee53ecff"></span><span class="n"><span class="pre">KSP</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ksp_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver4ksp_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver16requires_ghosts_E">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver16requires_ghosts_E"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver16requires_ghosts_E"></span><span id="opensn::lbs::DiffusionSolver::requires_ghosts___bC"></span><span class="target" id="d4/d53/classopensn_1_1lbs_1_1_diffusion_solver_1ac568265e45a003b1303c0e4670ee8957"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">requires_ghosts_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver16requires_ghosts_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7OptionsE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7OptionsE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7OptionsE"></span><span id="opensn::lbs::DiffusionSolver::Options"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Options</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7OptionsE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options18residual_toleranceE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options18residual_toleranceE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options18residual_toleranceE"></span><span id="opensn::lbs::DiffusionSolver::Options::residual_tolerance__double"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1ad4cf286ec73be4067fe5de097c4f1870"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">residual_tolerance</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0e-4</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options18residual_toleranceE" title="Link to this definition"></a><br /></dt>
+<dd><p>Residual tol. relative to rhs. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options9max_itersE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options9max_itersE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options9max_itersE"></span><span id="opensn::lbs::DiffusionSolver::Options::max_iters__i"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1a84b651b61ddd65c82f4d5f27282c232c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_iters</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">100</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options9max_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum iterations. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options7verboseE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options7verboseE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options7verboseE"></span><span id="opensn::lbs::DiffusionSolver::Options::verbose__b"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1ac4fc509ca3983b5e0b6f7ef9c8f520c1"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">verbose</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options7verboseE" title="Link to this definition"></a><br /></dt>
+<dd><p>Verbosity flag. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options22perform_symmetry_checkE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options22perform_symmetry_checkE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options22perform_symmetry_checkE"></span><span id="opensn::lbs::DiffusionSolver::Options::perform_symmetry_check__b"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1ab9ef0a90423584b2d7b157e86a83c747"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perform_symmetry_check</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options22perform_symmetry_checkE" title="Link to this definition"></a><br /></dt>
+<dd><p>For debugging only (very expensive) </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options25additional_options_stringE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options25additional_options_stringE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options25additional_options_stringE"></span><span id="opensn::lbs::DiffusionSolver::Options::additional_options_string__ss"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1ae68b8651c88096ceb47e84697a47d44e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">additional_options_string</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options25additional_options_stringE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs15DiffusionSolver7Options14penalty_factorE">
+<span id="_CPPv3N6opensn3lbs15DiffusionSolver7Options14penalty_factorE"></span><span id="_CPPv2N6opensn3lbs15DiffusionSolver7Options14penalty_factorE"></span><span id="opensn::lbs::DiffusionSolver::Options::penalty_factor__double"></span><span class="target" id="dd/d53/structopensn_1_1lbs_1_1_diffusion_solver_1_1_options_1a342047d5907cbd8d82ea26ba525b255b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">penalty_factor</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4.0</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs15DiffusionSolver7Options14penalty_factorE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="diffusion_pwlc_solver.html" class="btn btn-neutral float-left" title="lbs::DiffusionPWLCSolver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="discrete_ordinates_adjoint_solver.html" class="btn btn-neutral float-right" title="lbs::DiscreteOrdinatesAdjointSolver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

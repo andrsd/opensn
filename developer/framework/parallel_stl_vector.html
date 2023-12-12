@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ParallelSTLVector &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ParallelVector" href="parallel_vector.html" />
+    <link rel="prev" title="OrthogonalMeshGenerator" href="orthogonal_mesh_generator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ParallelSTLVector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn17ParallelSTLVectorE"><code class="docutils literal notranslate"><span class="pre">ParallelSTLVector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">ParallelSTLVector</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="parallelstlvector">
+<h1>ParallelSTLVector<a class="headerlink" href="#parallelstlvector" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVectorE">
+<span id="_CPPv3N6opensn17ParallelSTLVectorE"></span><span id="_CPPv2N6opensn17ParallelSTLVectorE"></span><span id="opensn::ParallelSTLVector"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ParallelSTLVector</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVectorE" title="Link to this definition"></a><br /></dt>
+<dd><p>An implementation of a parallel vector. </p>
+<p>Subclassed by <a class="reference internal" href="ghosted_parallel_stl_vector.html#d2/d0c/classopensn_1_1_ghosted_parallel_s_t_l_vector"><span class="std std-ref">opensn::GhostedParallelSTLVector</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorE8uint64_t8uint64_tRKN3mpi12CommunicatorE">
+<span id="_CPPv3N6opensn17ParallelSTLVector17ParallelSTLVectorE8uint64_t8uint64_tRKN3mpi12CommunicatorE"></span><span id="_CPPv2N6opensn17ParallelSTLVector17ParallelSTLVectorE8uint64_t8uint64_tRKN3mpi12CommunicatorE"></span><span id="opensn::ParallelSTLVector::ParallelSTLVector__uint64_t.uint64_t.mpi::CommunicatorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a3088e5cb5d34f3a0108be2944807f513"></span><span class="sig-name descname"><span class="n"><span class="pre">ParallelSTLVector</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_size</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">global_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">mpi</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Communicator</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">communicator</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorE8uint64_t8uint64_tRKN3mpi12CommunicatorE" title="Link to this definition"></a><br /></dt>
+<dd><p>Initialize a parallel vector with the given local and global sizes with the given communicator whose entries are set to zero. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERK17ParallelSTLVector">
+<span id="_CPPv3N6opensn17ParallelSTLVector17ParallelSTLVectorERK17ParallelSTLVector"></span><span id="_CPPv2N6opensn17ParallelSTLVector17ParallelSTLVectorERK17ParallelSTLVector"></span><span id="opensn::ParallelSTLVector::ParallelSTLVector__ParallelSTLVectorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a4b4af6d9a5b8c0bc935038c33fa51e64"></span><span class="sig-name descname"><span class="n"><span class="pre">ParallelSTLVector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERK17ParallelSTLVector" title="opensn::ParallelSTLVector::ParallelSTLVector"><span class="n"><span class="pre">ParallelSTLVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERK17ParallelSTLVector" title="Link to this definition"></a><br /></dt>
+<dd><p>Copy constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERR17ParallelSTLVector">
+<span id="_CPPv3N6opensn17ParallelSTLVector17ParallelSTLVectorERR17ParallelSTLVector"></span><span id="_CPPv2N6opensn17ParallelSTLVector17ParallelSTLVectorERR17ParallelSTLVector"></span><span id="opensn::ParallelSTLVector::ParallelSTLVector__ParallelSTLVectorRR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a9045aebc6ce69a88fd929cf6542529f7"></span><span class="sig-name descname"><span class="n"><span class="pre">ParallelSTLVector</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERR17ParallelSTLVector" title="opensn::ParallelSTLVector::ParallelSTLVector"><span class="n"><span class="pre">ParallelSTLVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector17ParallelSTLVectorERR17ParallelSTLVector" title="Link to this definition"></a><br /></dt>
+<dd><p>Move constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector8MakeCopyEv">
+<span id="_CPPv3NK6opensn17ParallelSTLVector8MakeCopyEv"></span><span id="_CPPv2NK6opensn17ParallelSTLVector8MakeCopyEv"></span><span id="opensn::ParallelSTLVector::MakeCopyC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a5862b49efc44bad6a9cfd8d989e32ce7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakeCopy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector8MakeCopyEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a copy of the vector datastructures AND values. This routine requires no communication. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector9MakeCloneEv">
+<span id="_CPPv3NK6opensn17ParallelSTLVector9MakeCloneEv"></span><span id="_CPPv2NK6opensn17ParallelSTLVector9MakeCloneEv"></span><span id="opensn::ParallelSTLVector::MakeCloneC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1ad556e4f35f0972b5a2e8d831ff1fba40"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakeClone</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector9MakeCloneEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a copy of the vector datastructures but NOT the values. The values are defaulted to zero. This routine requires no communication. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector4DataEv">
+<span id="_CPPv3N6opensn17ParallelSTLVector4DataEv"></span><span id="_CPPv2N6opensn17ParallelSTLVector4DataEv"></span><span id="opensn::ParallelSTLVector::Data"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1ad2630d0810380b209e0a2e90337de4af"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector4DataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a direct pointer to the memory array used internally by the vector to store its owned elements. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector4DataEv">
+<span id="_CPPv3NK6opensn17ParallelSTLVector4DataEv"></span><span id="_CPPv2NK6opensn17ParallelSTLVector4DataEv"></span><span id="opensn::ParallelSTLVector::DataC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a6aeb337e0934947db36d01be2c957a2d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector4DataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a direct const pointer to the memory array used internally by the vector to store its owned elements </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector12LocalSTLDataEv">
+<span id="_CPPv3NK6opensn17ParallelSTLVector12LocalSTLDataEv"></span><span id="_CPPv2NK6opensn17ParallelSTLVector12LocalSTLDataEv"></span><span id="opensn::ParallelSTLVector::LocalSTLDataC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1af360bb3beffef7de4010844cebea220b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">LocalSTLData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector12LocalSTLDataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a constant reference to the local data of the vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector12LocalSTLDataEv">
+<span id="_CPPv3N6opensn17ParallelSTLVector12LocalSTLDataEv"></span><span id="_CPPv2N6opensn17ParallelSTLVector12LocalSTLDataEv"></span><span id="opensn::ParallelSTLVector::LocalSTLData"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a72c823154c8356a508b75ca54c06a63d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">LocalSTLData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector12LocalSTLDataEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a reference to the local data of the vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVectorixE7int64_t">
+<span id="_CPPv3NK6opensn17ParallelSTLVectorixE7int64_t"></span><span id="_CPPv2NK6opensn17ParallelSTLVectorixE7int64_t"></span><span id="opensn::ParallelSTLVector::subscript-operator__int64_tC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1aa800b0776a6b64e00e9fa05cba0698e5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">[]</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVectorixE7int64_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Read only accessor to the entry at the given local index of the local vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This accessor allows access to all locally stored elements, including any data beyond local_size_ that may exist in derived classes. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVectorixE7int64_t">
+<span id="_CPPv3N6opensn17ParallelSTLVectorixE7int64_t"></span><span id="_CPPv2N6opensn17ParallelSTLVectorixE7int64_t"></span><span id="opensn::ParallelSTLVector::subscript-operator__int64_t"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a7dae709cda68afd21da991ab58ac9c70"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">[]</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVectorixE7int64_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Read/write accessor to the entry at the given local index of the local vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This accessor allows access to all locally stored elements, including any data beyond local_size_ that may exist in derived classes. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector15MakeLocalVectorEv">
+<span id="_CPPv3N6opensn17ParallelSTLVector15MakeLocalVectorEv"></span><span id="_CPPv2N6opensn17ParallelSTLVector15MakeLocalVectorEv"></span><span id="opensn::ParallelSTLVector::MakeLocalVector"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a32cb9dcde003a7050e803cf614be3ec5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MakeLocalVector</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector15MakeLocalVectorEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Return a vector containing the locally owned data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector3SetEd">
+<span id="_CPPv3N6opensn17ParallelSTLVector3SetEd"></span><span id="_CPPv2N6opensn17ParallelSTLVector3SetEd"></span><span id="opensn::ParallelSTLVector::Set__double"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a16e107494e3d63e4c099d33e30cb61e9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Set</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector3SetEd" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the entries of the locally owned portion of the parallel vector to the given value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector3SetERKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn17ParallelSTLVector3SetERKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn17ParallelSTLVector3SetERKNSt6vectorIdEE"></span><span id="opensn::ParallelSTLVector::Set__std::vector:double:CR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a67f29112805121ca89f8bb9ec01e4f65"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Set</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">local_vector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector3SetERKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the entries of the locally owned portion of the parallel vector to the given STL vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector8BlockSetERKNSt6vectorIdEE7int64_t7int64_t">
+<span id="_CPPv3N6opensn17ParallelSTLVector8BlockSetERKNSt6vectorIdEE7int64_t7int64_t"></span><span id="_CPPv2N6opensn17ParallelSTLVector8BlockSetERKNSt6vectorIdEE7int64_t7int64_t"></span><span id="opensn::ParallelSTLVector::BlockSet__std::vector:double:CR.int64_t.int64_t"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a912793e68570ea918caa9f4374e45032"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BlockSet</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_offset</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector8BlockSetERKNSt6vectorIdEE7int64_t7int64_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Copies a contiguous block of data from the source STL vector to the current vector starting at local_offset. The input STL vector must have exactly num_values entries. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector15CopyLocalValuesERK14ParallelVector">
+<span id="_CPPv3N6opensn17ParallelSTLVector15CopyLocalValuesERK14ParallelVector"></span><span id="_CPPv2N6opensn17ParallelSTLVector15CopyLocalValuesERK14ParallelVector"></span><span id="opensn::ParallelSTLVector::CopyLocalValues__ParallelVectorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a71543c76f400c2201d241ad8fd0c8fb1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CopyLocalValues</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector15CopyLocalValuesERK14ParallelVector" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the local values of one vector equal to another. The sizes must be compatible. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector15CopyLocalValuesE3Vec">
+<span id="_CPPv3N6opensn17ParallelSTLVector15CopyLocalValuesE3Vec"></span><span id="_CPPv2N6opensn17ParallelSTLVector15CopyLocalValuesE3Vec"></span><span id="opensn::ParallelSTLVector::CopyLocalValues__Vec"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a97dc925eb00c41510f8120fc7c4f498f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CopyLocalValues</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector15CopyLocalValuesE3Vec" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the local values of the vector equal to that of the PETSc vector. The sizes must be compatible. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector20BlockCopyLocalValuesERK14ParallelVector7int64_t7int64_t7int64_t">
+<span id="_CPPv3N6opensn17ParallelSTLVector20BlockCopyLocalValuesERK14ParallelVector7int64_t7int64_t7int64_t"></span><span id="_CPPv2N6opensn17ParallelSTLVector20BlockCopyLocalValuesERK14ParallelVector7int64_t7int64_t7int64_t"></span><span id="opensn::ParallelSTLVector::BlockCopyLocalValues__ParallelVectorCR.int64_t.int64_t.int64_t"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a424488babfad45a609421a059e84944e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BlockCopyLocalValues</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y_offset</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_offset</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector20BlockCopyLocalValuesERK14ParallelVector7int64_t7int64_t7int64_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Copies a contiguous block of local data (num_values entries) from the source vector (starting at y_offset) to the current vector starting at local_offset. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector20BlockCopyLocalValuesE3Vec7int64_t7int64_t7int64_t">
+<span id="_CPPv3N6opensn17ParallelSTLVector20BlockCopyLocalValuesE3Vec7int64_t7int64_t7int64_t"></span><span id="_CPPv2N6opensn17ParallelSTLVector20BlockCopyLocalValuesE3Vec7int64_t7int64_t7int64_t"></span><span id="opensn::ParallelSTLVector::BlockCopyLocalValues__Vec.int64_t.int64_t.int64_t"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a239819f8608dd37ae1a00b4b3de8fa09"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BlockCopyLocalValues</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Vec</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y_offset</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_offset</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector20BlockCopyLocalValuesE3Vec7int64_t7int64_t7int64_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Copies a contiguous block of local data (num_values entries) from the source vector (starting at y_offset) to the current vector starting at local_offset. PETSc flavor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector8SetValueE7int64_td9VecOpType">
+<span id="_CPPv3N6opensn17ParallelSTLVector8SetValueE7int64_td9VecOpType"></span><span id="_CPPv2N6opensn17ParallelSTLVector8SetValueE7int64_td9VecOpType"></span><span id="opensn::ParallelSTLVector::SetValue__int64_t.double.VecOpType"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a3ec219099d2ab9dea4b6fdec5b50402f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetValue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">global_id</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn9VecOpTypeE" title="opensn::VecOpType"><span class="n"><span class="pre">VecOpType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">op_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector8SetValueE7int64_td9VecOpType" title="Link to this definition"></a><br /></dt>
+<dd><p>Define a set or add operation for the given global id-value pair</p>
+<p>This routine adds the global id-value pair to the set operation cache, which upon execution of Assemble, communicates the operations to the appropriate process. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector9SetValuesERKNSt6vectorI7int64_tEERKNSt6vectorIdEE9VecOpType">
+<span id="_CPPv3N6opensn17ParallelSTLVector9SetValuesERKNSt6vectorI7int64_tEERKNSt6vectorIdEE9VecOpType"></span><span id="_CPPv2N6opensn17ParallelSTLVector9SetValuesERKNSt6vectorI7int64_tEERKNSt6vectorIdEE9VecOpType"></span><span id="opensn::ParallelSTLVector::SetValues__std::vector:int64_t:CR.std::vector:double:CR.VecOpType"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1aef8b0210760d8091c1f74069876a75c1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetValues</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">global_ids</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn9VecOpTypeE" title="opensn::VecOpType"><span class="n"><span class="pre">VecOpType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">op_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector9SetValuesERKNSt6vectorI7int64_tEERKNSt6vectorIdEE9VecOpType" title="Link to this definition"></a><br /></dt>
+<dd><p>Group multiple operations into a single call.</p>
+<p>This routine goes through the given global id-value pairs and calls SetValue for each. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVectorpLERK14ParallelVector">
+<span id="_CPPv3N6opensn17ParallelSTLVectorpLERK14ParallelVector"></span><span id="_CPPv2N6opensn17ParallelSTLVectorpLERK14ParallelVector"></span><span id="opensn::ParallelSTLVector::add-assign-operator__ParallelVectorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1ac69c5641de109c541dc111ec394012db"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">+=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVectorpLERK14ParallelVector" title="Link to this definition"></a><br /></dt>
+<dd><p>In place adding of vectors. The sizes must be compatible. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector6PlusAYERK14ParallelVectord">
+<span id="_CPPv3N6opensn17ParallelSTLVector6PlusAYERK14ParallelVectord"></span><span id="_CPPv2N6opensn17ParallelSTLVector6PlusAYERK14ParallelVectord"></span><span id="opensn::ParallelSTLVector::PlusAY__ParallelVectorCR.double"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a9131dba950affd70887e41bda1df88da"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PlusAY</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector6PlusAYERK14ParallelVectord" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a vector multiplied by scalar a, <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">a*y</span></code>. Optimized for a=1.0 and -1.0 </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector7AXPlusYEdRK14ParallelVector">
+<span id="_CPPv3N6opensn17ParallelSTLVector7AXPlusYEdRK14ParallelVector"></span><span id="_CPPv2N6opensn17ParallelSTLVector7AXPlusYEdRK14ParallelVector"></span><span id="opensn::ParallelSTLVector::AXPlusY__double.ParallelVectorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a47994b548ae3f5d0cbcab30dcba61f1e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AXPlusY</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="parallel_vector.html#_CPPv4N6opensn14ParallelVectorE" title="opensn::ParallelVector"><span class="n"><span class="pre">ParallelVector</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">y</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector7AXPlusYEdRK14ParallelVector" title="Link to this definition"></a><br /></dt>
+<dd><p>Performs x = a*x + y with the current vector being x. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector5ScaleEd">
+<span id="_CPPv3N6opensn17ParallelSTLVector5ScaleEd"></span><span id="_CPPv2N6opensn17ParallelSTLVector5ScaleEd"></span><span id="opensn::ParallelSTLVector::Scale__double"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a2dc12bafbac57bf19efd4b471c1c17a2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Scale</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector5ScaleEd" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a constant scalar value to all the entries of the vector </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector5ShiftEd">
+<span id="_CPPv3N6opensn17ParallelSTLVector5ShiftEd"></span><span id="_CPPv2N6opensn17ParallelSTLVector5ShiftEd"></span><span id="opensn::ParallelSTLVector::Shift__double"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1ae52b7b768c0b07dd862dc18040b81efe"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Shift</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector5ShiftEd" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the specified norm of the vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector11ComputeNormE8NormType">
+<span id="_CPPv3NK6opensn17ParallelSTLVector11ComputeNormE8NormType"></span><span id="_CPPv2NK6opensn17ParallelSTLVector11ComputeNormE8NormType"></span><span id="opensn::ParallelSTLVector::ComputeNorm__NormTypeC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1af61adf9ac40e6e8541734b83791a3f48"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ComputeNorm</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../namespace_opensn.html#_CPPv4N6opensn8NormTypeE" title="opensn::NormType"><span class="n"><span class="pre">NormType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">norm_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector11ComputeNormE8NormType" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the specified norm of the vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector8AssembleEv">
+<span id="_CPPv3N6opensn17ParallelSTLVector8AssembleEv"></span><span id="_CPPv2N6opensn17ParallelSTLVector8AssembleEv"></span><span id="opensn::ParallelSTLVector::Assemble"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a66f7be38ba6e8e9bdb741a68b802a1f2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Assemble</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector8AssembleEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Communicate all operations stored within the operation cache to the corresponding processes that own the respective global indices, and apply the operations.</p>
+<p>This routine clears the respective operation cache once completed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector8PrintStrEv">
+<span id="_CPPv3NK6opensn17ParallelSTLVector8PrintStrEv"></span><span id="_CPPv2NK6opensn17ParallelSTLVector8PrintStrEv"></span><span id="opensn::ParallelSTLVector::PrintStrC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a4ef809107300edd0f0ea0bff75c1047d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintStr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector8PrintStrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Print the local vectors to stings. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-types">Protected Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector9OperationE">
+<span id="_CPPv3N6opensn17ParallelSTLVector9OperationE"></span><span id="_CPPv2N6opensn17ParallelSTLVector9OperationE"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1af76e55a595cef69682241ba28cb0a39c"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Operation</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector9OperationE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector8extents_E">
+<span id="_CPPv3N6opensn17ParallelSTLVector8extents_E"></span><span id="_CPPv2N6opensn17ParallelSTLVector8extents_E"></span><span id="opensn::ParallelSTLVector::extents___std::vector:uint64_t:C"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a4e27405f393583873ac7e188db2249a5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">extents_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector8extents_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector7values_E">
+<span id="_CPPv3N6opensn17ParallelSTLVector7values_E"></span><span id="_CPPv2N6opensn17ParallelSTLVector7values_E"></span><span id="opensn::ParallelSTLVector::values___std::vector:double:"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a0b3dd018dc82800528448026deee4707"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">values_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector7values_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector10set_cache_E">
+<span id="_CPPv3N6opensn17ParallelSTLVector10set_cache_E"></span><span id="_CPPv2N6opensn17ParallelSTLVector10set_cache_E"></span><span id="opensn::ParallelSTLVector::set_cache___std::vector:Operation:"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a6e7bd9d5ad31b7091469d2acbff4fc5e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn17ParallelSTLVector9OperationE" title="opensn::ParallelSTLVector::Operation"><span class="n"><span class="pre">Operation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cache_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector10set_cache_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector10add_cache_E">
+<span id="_CPPv3N6opensn17ParallelSTLVector10add_cache_E"></span><span id="_CPPv2N6opensn17ParallelSTLVector10add_cache_E"></span><span id="opensn::ParallelSTLVector::add_cache___std::vector:Operation:"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1aa4c64ccb461c9bd44f8db11720099a62"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn17ParallelSTLVector9OperationE" title="opensn::ParallelSTLVector::Operation"><span class="n"><span class="pre">Operation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_cache_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector10add_cache_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn17ParallelSTLVector12FindOwnerPIDE8uint64_t">
+<span id="_CPPv3NK6opensn17ParallelSTLVector12FindOwnerPIDE8uint64_t"></span><span id="_CPPv2NK6opensn17ParallelSTLVector12FindOwnerPIDE8uint64_t"></span><span id="opensn::ParallelSTLVector::FindOwnerPID__uint64_tC"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a8f55fff51876cc8427c4b8dce7d5f05d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FindOwnerPID</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">global_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn17ParallelSTLVector12FindOwnerPIDE8uint64_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-static-functions">Private Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn17ParallelSTLVector13DefineExtentsE8uint64_tiRKN3mpi12CommunicatorE">
+<span id="_CPPv3N6opensn17ParallelSTLVector13DefineExtentsE8uint64_tiRKN3mpi12CommunicatorE"></span><span id="_CPPv2N6opensn17ParallelSTLVector13DefineExtentsE8uint64_tiRKN3mpi12CommunicatorE"></span><span id="opensn::ParallelSTLVector::DefineExtents__uint64_t.i.mpi::CommunicatorCR"></span><span class="target" id="d0/d24/classopensn_1_1_parallel_s_t_l_vector_1a612a5b4def62d0b31daabda2d1a2b961"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DefineExtents</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">local_size</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">comm_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">mpi</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Communicator</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">communicator</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn17ParallelSTLVector13DefineExtentsE8uint64_tiRKN3mpi12CommunicatorE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="orthogonal_mesh_generator.html" class="btn btn-neutral float-left" title="OrthogonalMeshGenerator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parallel_vector.html" class="btn btn-neutral float-right" title="ParallelVector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

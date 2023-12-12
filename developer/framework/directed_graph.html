@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DirectedGraph &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="DummyStream" href="dummy_stream.html" />
+    <link rel="prev" title="CylindricalAngularQuadrature" href="cylindrical_angular_quadrature.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DirectedGraph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraphE"><code class="docutils literal notranslate"><span class="pre">DirectedGraph</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparse_matrix.html">SparseMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">DirectedGraph</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="directedgraph">
+<h1>DirectedGraph<a class="headerlink" href="#directedgraph" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraphE">
+<span id="_CPPv3N6opensn13DirectedGraphE"></span><span id="_CPPv2N6opensn13DirectedGraphE"></span><span id="opensn::DirectedGraph"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DirectedGraph</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraphE" title="Link to this definition"></a><br /></dt>
+<dd><p>Simple implementation of a directed graph. This implementation was considered to serve more versatile strategies with regards to grid parallel partitioning. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph9AddVertexE6size_tPv">
+<span id="_CPPv3N6opensn13DirectedGraph9AddVertexE6size_tPv"></span><span id="_CPPv2N6opensn13DirectedGraph9AddVertexE6size_tPv"></span><span id="opensn::DirectedGraph::AddVertex__s.voidP"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1aa3764ef630368f4c4b4ab68ba18cddfc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddVertex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph9AddVertexE6size_tPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a vertex to the graph. By default <em>context</em> is assumed to be nullptr. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph9AddVertexEPv">
+<span id="_CPPv3N6opensn13DirectedGraph9AddVertexEPv"></span><span id="_CPPv2N6opensn13DirectedGraph9AddVertexEPv"></span><span id="opensn::DirectedGraph::AddVertex__voidP"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a527b07be43afa80ab809c46a5928df1f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddVertex</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph9AddVertexEPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a vertex to the graph. By default <em>context</em> is assumed to be nullptr and <em>id</em> is assumed to be assigned automatically. In the latter case the vertex id will be the same as the order in which it was added (0,1,2,3,etc … will have id’s 0,1,2,3,etc) </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph12RemoveVertexE6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph12RemoveVertexE6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph12RemoveVertexE6size_t"></span><span id="opensn::DirectedGraph::RemoveVertex__s"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a0b4ca0ecce3b66c13df9a678cf01f822"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RemoveVertex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph12RemoveVertexE6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Removes a vertex from the graph. This method does not free any context related data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph7AddEdgeE6size_t6size_td">
+<span id="_CPPv3N6opensn13DirectedGraph7AddEdgeE6size_t6size_td"></span><span id="_CPPv2N6opensn13DirectedGraph7AddEdgeE6size_t6size_td"></span><span id="opensn::DirectedGraph::AddEdge__s.s.double"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1ae3fada2e6004a4f9011f2359666fdeb8"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddEdge</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">from</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">to</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">weight</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph7AddEdgeE6size_t6size_td" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds an edge to the graph. Range checks are supplied by the vertex accessor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph10RemoveEdgeE6size_t6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph10RemoveEdgeE6size_t6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph10RemoveEdgeE6size_t6size_t"></span><span id="opensn::DirectedGraph::RemoveEdge__s.s"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1aaabdca1b73c558946a6633ec2b4baa7e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RemoveEdge</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">from</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">to</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph10RemoveEdgeE6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Remove an edge from the graph. Range checks are supplied by the vertex accessor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph11GetNumSinksEv">
+<span id="_CPPv3N6opensn13DirectedGraph11GetNumSinksEv"></span><span id="_CPPv2N6opensn13DirectedGraph11GetNumSinksEv"></span><span id="opensn::DirectedGraph::GetNumSinks"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a070f2b7bb31fabe0ed97ac8b64206171"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetNumSinks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph11GetNumSinksEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph13GetNumSourcesEv">
+<span id="_CPPv3N6opensn13DirectedGraph13GetNumSourcesEv"></span><span id="_CPPv2N6opensn13DirectedGraph13GetNumSourcesEv"></span><span id="opensn::DirectedGraph::GetNumSources"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a18ee58a454b80eec80e8cc48a7660c92"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetNumSources</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph13GetNumSourcesEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph31FindStronglyConnectedComponentsEv">
+<span id="_CPPv3N6opensn13DirectedGraph31FindStronglyConnectedComponentsEv"></span><span id="_CPPv2N6opensn13DirectedGraph31FindStronglyConnectedComponentsEv"></span><span id="opensn::DirectedGraph::FindStronglyConnectedComponents"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1ae8fcd390baef0aa0f5c4067ee13d13f5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FindStronglyConnectedComponents</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph31FindStronglyConnectedComponentsEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Find strongly connected components. This method is the implementation of Tarjan’s algorithm [1].</p>
+<p>[1] Tarjan R.E. “Depth-first search and linear graph algorithms”, SIAM Journal on Computing, 1972.</p>
+<p>It returns collections of vertices that form strongly connected components excluding singletons. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph23GenerateTopologicalSortEv">
+<span id="_CPPv3N6opensn13DirectedGraph23GenerateTopologicalSortEv"></span><span id="_CPPv2N6opensn13DirectedGraph23GenerateTopologicalSortEv"></span><span id="opensn::DirectedGraph::GenerateTopologicalSort"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a6b163eee6179f345e07683c5b7890a35"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GenerateTopologicalSort</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph23GenerateTopologicalSortEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Generates a topological sort. This method is the implementation of Kahn’s algorithm [1].</p>
+<p>[1] Kahn, Arthur B. (1962), “Topological sorting of large networks”, Communications of the ACM, 5 (11): 558–562</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the vertex ids sorted topologically. If this vector is empty the algorithm failed because it detected cyclic dependencies. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph20FindApproxMinimumFASEv">
+<span id="_CPPv3N6opensn13DirectedGraph20FindApproxMinimumFASEv"></span><span id="_CPPv2N6opensn13DirectedGraph20FindApproxMinimumFASEv"></span><span id="opensn::DirectedGraph::FindApproxMinimumFAS"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a26b1bc821a0a62a5268d751a26767f30"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FindApproxMinimumFAS</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph20FindApproxMinimumFASEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Finds a sequence that minimizes the Feedback Arc Set (FAS). This algorithm implements the algorithm depicted in [1].</p>
+<p><p>[1] Eades P., Lin X., Smyth W.F., “Fast &amp; Effective heuristic for</p>
+<p>the feedback arc set problem”, Information Processing Letters, Volume 47. 1993.</p>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph13PrintGraphvizEi">
+<span id="_CPPv3N6opensn13DirectedGraph13PrintGraphvizEi"></span><span id="_CPPv2N6opensn13DirectedGraph13PrintGraphvizEi"></span><span id="opensn::DirectedGraph::PrintGraphviz__i"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a07790737bd85f1177005f45c4aac7619"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintGraphviz</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">location_mask</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph13PrintGraphvizEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Prints the graph in Graphviz format. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph16PrintSubGraphvizERKNSt6vectorIiEEi">
+<span id="_CPPv3N6opensn13DirectedGraph16PrintSubGraphvizERKNSt6vectorIiEEi"></span><span id="_CPPv2N6opensn13DirectedGraph16PrintSubGraphvizERKNSt6vectorIiEEi"></span><span id="opensn::DirectedGraph::PrintSubGraphviz__std::vector:i:CR.i"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1ae65579981e4cf61cbf2209c78bfb7a60"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintSubGraphviz</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">verts_to_print</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">location_mask</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph16PrintSubGraphvizERKNSt6vectorIiEEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Prints a sub-graph in Graphviz format. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph24RemoveCyclicDependenciesEv">
+<span id="_CPPv3N6opensn13DirectedGraph24RemoveCyclicDependenciesEv"></span><span id="_CPPv2N6opensn13DirectedGraph24RemoveCyclicDependenciesEv"></span><span id="opensn::DirectedGraph::RemoveCyclicDependencies"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a94eb335f0f5acfebd73319d3a7ca2aac"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RemoveCyclicDependencies</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph24RemoveCyclicDependenciesEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph5ClearEv">
+<span id="_CPPv3N6opensn13DirectedGraph5ClearEv"></span><span id="_CPPv2N6opensn13DirectedGraph5ClearEv"></span><span id="opensn::DirectedGraph::Clear"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1afbee46cadbe20493bf82c2932af0adbc"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph5ClearEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Clears all the data structures associated with the graph. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraphD0Ev">
+<span id="_CPPv3N6opensn13DirectedGraphD0Ev"></span><span id="_CPPv2N6opensn13DirectedGraphD0Ev"></span><span id="opensn::DirectedGraph::~DirectedGraph"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a2c92f3c89206907b2487ce8438e50ab8"></span><span class="sig-name descname"><span class="n"><span class="pre">~DirectedGraph</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraphD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph8verticesE">
+<span id="_CPPv3N6opensn13DirectedGraph8verticesE"></span><span id="_CPPv2N6opensn13DirectedGraph8verticesE"></span><span id="opensn::DirectedGraph::vertices__VertexAccessor"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1acd7d806e6ee996b8b65a3456724e7016"></span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessorE" title="opensn::DirectedGraph::VertexAccessor"><span class="n"><span class="pre">VertexAccessor</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertices</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph8verticesE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph12DFSAlgorithmERNSt6vectorI6size_tEERNSt6vectorIbEE6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph12DFSAlgorithmERNSt6vectorI6size_tEERNSt6vectorIbEE6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph12DFSAlgorithmERNSt6vectorI6size_tEERNSt6vectorIbEE6size_t"></span><span id="opensn::DirectedGraph::DFSAlgorithm__std::vector:s:R.std::vector:b:R.s"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a7e678cd3abfb1bc7ae62d330b7968822"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DFSAlgorithm</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">traversal</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">visited</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cur_vid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph12DFSAlgorithmERNSt6vectorI6size_tEERNSt6vectorIbEE6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Depth-First-Search main recursive algorithm. This is the recursive portion of the method below this one (opensn::DirectedGraph::DepthFirstSearch). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph12SCCAlgorithmE6size_tRiRNSt6vectorIiEERNSt6vectorIiEERNSt6vectorIbEERNSt5stackI6size_tEERNSt6vectorINSt6vectorI6size_tEEEE">
+<span id="_CPPv3N6opensn13DirectedGraph12SCCAlgorithmE6size_tRiRNSt6vectorIiEERNSt6vectorIiEERNSt6vectorIbEERNSt5stackI6size_tEERNSt6vectorINSt6vectorI6size_tEEEE"></span><span id="_CPPv2N6opensn13DirectedGraph12SCCAlgorithmE6size_tRiRNSt6vectorIiEERNSt6vectorIiEERNSt6vectorIbEERNSt5stackI6size_tEERNSt6vectorINSt6vectorI6size_tEEEE"></span><span id="opensn::DirectedGraph::SCCAlgorithm__s.iR.std::vector:i:R.std::vector:i:R.std::vector:b:R.std::stack:s:R.std::vector:std::vector:s::R"></span><span class="target" id="db/d5e/classopensn_1_1_directed_graph_1a16a64d5372f0140daefbcaca6eaba61a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SCCAlgorithm</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">u</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">disc</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">low</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">on_stack</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stack</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">SCCs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph12SCCAlgorithmE6size_tRiRNSt6vectorIiEERNSt6vectorIiEERNSt6vectorIbEERNSt5stackI6size_tEERNSt6vectorINSt6vectorI6size_tEEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>SCC main recursive algorithm. This is the recursive call for the method defined below this one (opensn::DirectedGraph::FindStronglyConnectedConnections). </p>
+</dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessorE">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessorE"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessorE"></span><span id="opensn::DirectedGraph::VertexAccessor"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VertexAccessor</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessorE" title="Link to this definition"></a><br /></dt>
+<dd><p>Allows semi-sane access to vertices even if they are removed from the graph. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor9AddVertexE6size_tPv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor9AddVertexE6size_tPv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor9AddVertexE6size_tPv"></span><span id="opensn::DirectedGraph::VertexAccessor::AddVertex__s.voidP"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a996047942d2ca0192fc472201019bd60"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddVertex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor9AddVertexE6size_tPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a vertex to the graph with a supplied id. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor9AddVertexEPv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor9AddVertexEPv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor9AddVertexEPv"></span><span id="opensn::DirectedGraph::VertexAccessor::AddVertex__voidP"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a96ab81aeba5dc92c18991a175d2d2e39"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AddVertex</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor9AddVertexEPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Adds a vertex to the graph where the ID is assigned to the number of vertices already loaded on the graph. For example, if there are 3 vertices on the graph (with IDs 0 through 2) then the next vertex (this one) will be assigned and ID of 3. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor12RemoveVertexE6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor12RemoveVertexE6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor12RemoveVertexE6size_t"></span><span id="opensn::DirectedGraph::VertexAccessor::RemoveVertex__s"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a29c7767e45e5491510fb5a7f65ccce0b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RemoveVertex</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor12RemoveVertexE6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Removes a vertex from the graph. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessorixE6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessorixE6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessorixE6size_t"></span><span id="opensn::DirectedGraph::VertexAccessor::subscript-operator__s"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1ab5ab59c3aa8cb835750ce4507406b41b"></span><a class="reference internal" href="graph_vertex.html#_CPPv4N6opensn11GraphVertexE" title="opensn::GraphVertex"><span class="n"><span class="pre">GraphVertex</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">[]</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessorixE6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Accesses a vertex from the graph. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor5beginEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor5beginEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor5beginEv"></span><span id="opensn::DirectedGraph::VertexAccessor::begin"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a7e4a690fa0f76a38adcd83532183edfe"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor5beginEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor3endEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor3endEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor3endEv"></span><span id="opensn::DirectedGraph::VertexAccessor::end"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1adf9684b3b304861008c60f268ae2b654"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor3endEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor4sizeEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor4sizeEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor4sizeEv"></span><span id="opensn::DirectedGraph::VertexAccessor::size"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a660124894036860e13bde452c6e74261"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor4sizeEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor11GetNumValidEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor11GetNumValidEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor11GetNumValidEv"></span><span id="opensn::DirectedGraph::VertexAccessor::GetNumValid"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1aedcbde8c962157fdbd0033876e343003"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetNumValid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor11GetNumValidEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor5clearEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor5clearEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor5clearEv"></span><span id="opensn::DirectedGraph::VertexAccessor::clear"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a7afbd33216f076047d6e43d4e9a0e350"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor5clearEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor9vertices_E">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor9vertices_E"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor9vertices_E"></span><span id="opensn::DirectedGraph::VertexAccessor::vertices___std::vector:GraphVertex:"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1af8e035bafc69555280869852046d0bf5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="graph_vertex.html#_CPPv4N6opensn11GraphVertexE" title="opensn::GraphVertex"><span class="n"><span class="pre">GraphVertex</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertices_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor9vertices_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor19vertex_valid_flags_E">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor19vertex_valid_flags_E"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor19vertex_valid_flags_E"></span><span id="opensn::DirectedGraph::VertexAccessor::vertex_valid_flags___std::vector:b:"></span><span class="target" id="d0/d64/classopensn_1_1_directed_graph_1_1_vertex_accessor_1a2cef59beb054fd94a13100ca0c364b8a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">vertex_valid_flags_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor19vertex_valid_flags_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iteratorE"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iteratorE"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iterator</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="Link to this definition"></a><br /></dt>
+<dd><p>Internal iterator class for vertex accessor. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator8iteratorER14VertexAccessor6size_t">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iterator8iteratorER14VertexAccessor6size_t"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iterator8iteratorER14VertexAccessor6size_t"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::iterator__VertexAccessorR.s"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1adbec37098b0dc59cf4a89b0f1191c839"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iterator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessorE" title="opensn::DirectedGraph::VertexAccessor"><span class="n"><span class="pre">VertexAccessor</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_block</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator8iteratorER14VertexAccessor6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorppEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iteratorppEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iteratorppEv"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::inc-operator"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1aa01cd5d9931c1eadb5f27f28541e8466"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorppEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorppEi">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iteratorppEi"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iteratorppEi"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::inc-operator__i"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1a38e4a81ce99bd833bb25a3ec15724a89"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">junk</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorppEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratormlEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iteratormlEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iteratormlEv"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::mul-operator"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1aa9f5af19ca7b178437ba58c62ec411b2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="graph_vertex.html#_CPPv4N6opensn11GraphVertexE" title="opensn::GraphVertex"><span class="n"><span class="pre">GraphVertex</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">*</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratormlEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorptEv">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iteratorptEv"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iteratorptEv"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::pointer-operator"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1a4034adf813419e0b84f84cb3fd994829"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="graph_vertex.html#_CPPv4N6opensn11GraphVertexE" title="opensn::GraphVertex"><span class="n"><span class="pre">GraphVertex</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">-&gt;</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorptEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn13DirectedGraph14VertexAccessor8iteratoreqERK8iterator">
+<span id="_CPPv3NK6opensn13DirectedGraph14VertexAccessor8iteratoreqERK8iterator"></span><span id="_CPPv2NK6opensn13DirectedGraph14VertexAccessor8iteratoreqERK8iterator"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::eq-operator__iteratorCRC"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1a554e11fec759d32007a049ba3b982d14"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn13DirectedGraph14VertexAccessor8iteratoreqERK8iterator" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn13DirectedGraph14VertexAccessor8iteratorneERK8iterator">
+<span id="_CPPv3NK6opensn13DirectedGraph14VertexAccessor8iteratorneERK8iterator"></span><span id="_CPPv2NK6opensn13DirectedGraph14VertexAccessor8iteratorneERK8iterator"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::neq-operator__iteratorCRC"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1a1a757bd363cf66339477bc850faf71f6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iteratorE" title="opensn::DirectedGraph::VertexAccessor::iterator"><span class="n"><span class="pre">iterator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn13DirectedGraph14VertexAccessor8iteratorneERK8iterator" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator9ref_blockE">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iterator9ref_blockE"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iterator9ref_blockE"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::ref_block__VertexAccessorR"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1ab689da0060599171ae38956dcb4fa821"></span><a class="reference internal" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessorE" title="opensn::DirectedGraph::VertexAccessor"><span class="n"><span class="pre">VertexAccessor</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ref_block</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator9ref_blockE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator11ref_elementE">
+<span id="_CPPv3N6opensn13DirectedGraph14VertexAccessor8iterator11ref_elementE"></span><span id="_CPPv2N6opensn13DirectedGraph14VertexAccessor8iterator11ref_elementE"></span><span id="opensn::DirectedGraph::VertexAccessor::iterator::ref_element__s"></span><span class="target" id="d6/dc2/classopensn_1_1_directed_graph_1_1_vertex_accessor_1_1iterator_1ab9d6b8c03ade73f5516d10abe774b8c0"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_element</span></span></span><a class="headerlink" href="#_CPPv4N6opensn13DirectedGraph14VertexAccessor8iterator11ref_elementE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cylindrical_angular_quadrature.html" class="btn btn-neutral float-left" title="CylindricalAngularQuadrature" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dummy_stream.html" class="btn btn-neutral float-right" title="DummyStream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

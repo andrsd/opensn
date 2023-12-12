@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lbs::CBC_FLUDS &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="lbs::CBC_FLUDSCommonData" href="cbc_fluds_common_data.html" />
+    <link rel="prev" title="lbs::CBC_ASynchronousCommunicator" href="cbc_a_synchronous_communicator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class_index.html#framework">Framework</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../class_index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#cfem-diffusion">CFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#dfem-diffusion">DFEM Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#fv-diffusion">FV Diffusion</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../class_index.html#linear-boltzmann-solvers">Linear Boltzmann Solvers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_chunk.html">lbs::AAH_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aah__sweep_dependency_interface.html">lbs::AAH_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adjoint_source_function.html">lbs::AdjointSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_context.html">lbs::AGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_linear_solver.html">lbs::AGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ags_scheme_entry.html">lbs::AGSSchemeEntry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_condition.html">lbs::BoundaryCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundary_preference.html">lbs::BoundaryPreference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__angle_set.html">lbs::CBC_AngleSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_chunk.html">lbs::CBC_SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc__sweep_dependency_interface.html">lbs::CBC_SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_a_synchronous_communicator.html">lbs::CBC_ASynchronousCommunicator</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">lbs::CBC_FLUDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_fluds_common_data.html">lbs::CBC_FLUDSCommonData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cbc_spds.html">lbs::CBC_SPDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cell_lbs_view.html">lbs::CellLBSView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_dfem_solver.html">lbs::DiffusionDFEMSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_mip_solver.html">lbs::DiffusionMIPSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_pwlc_solver.html">lbs::DiffusionPWLCSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="diffusion_solver.html">lbs::DiffusionSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_adjoint_solver.html">lbs::DiscreteOrdinatesAdjointSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_curvilinear_solver.html">lbs::DiscreteOrdinatesCurvilinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discrete_ordinates_solver.html">lbs::DiscreteOrdinatesSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k_residual_function_context.html">lbs::KResidualFunctionContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_group.html">lbs::LBSGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_groupset.html">lbs::LBSGroupset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lbs_solver.html">lbs::LBSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mipwgs_context2.html">lbs::MIPWGSContext2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="multigroup_d_and_sig_r.html">lbs::Multigroup_D_and_sigR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_ags_context.html">lbs::NLKEigenAGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_context.html">lbs::NLKEigenDiffContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigen_diff_solver.html">lbs::NLKEigenDiffSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nlk_eigenvalue_ags_solver.html">lbs::NLKEigenvalueAGSSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="options.html">lbs::Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="point_source.html">lbs::PointSource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="response_function_designation.html">lbs::ResponseFunctionDesignation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_flags.html">lbs::SourceFlags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source_function.html">lbs::SourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="steady_state_solver.html">lbs::SteadyStateSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk.html">lbs::SweepChunk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_chunk_pwlrz.html">lbs::SweepChunkPWLRZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_dependency_interface.html">lbs::SweepDependencyInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sweep_wgs_context.html">lbs::SweepWGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_solver.html">lbs::TransientSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="transient_source_function.html">lbs::TransientSourceFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="two_grid_collapsed_info.html">lbs::TwoGridCollapsedInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit_cell_matrices.html">lbs::UnitCellMatrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_context.html">lbs::WGSContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wgs_linear_solver.html">lbs::WGSLinearSolver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_non_linear_k_eigen.html">lbs::XXNonLinearKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen.html">lbs::XXPowerIterationKEigen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="xx_power_iteration_k_eigen_scdsa.html">lbs::XXPowerIterationKEigenSCDSA</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#mg-diffusion">MG Diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../class_index.html#point-reactor-kinetics">Point Reactor Kinetics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">lbs::CBC_FLUDS</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lbs-cbc-fluds">
+<h1>lbs::CBC_FLUDS<a class="headerlink" href="#lbs-cbc-fluds" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDSE">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDSE"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDSE"></span><span id="opensn::lbs::CBC_FLUDS"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CBC_FLUDS</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">opensn</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../framework/fluds.html#_CPPv4N6opensn5FLUDSE" title="opensn::FLUDS"><span class="n"><span class="pre">FLUDS</span></span></a><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDSE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS11CellFaceKeyE">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS11CellFaceKeyE"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS11CellFaceKeyE"></span><span id="opensn::lbs::CBC_FLUDS::CellFaceKey"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a42d96cfd292787cf3ad730ff5df20d5f"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CellFaceKey</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS11CellFaceKeyE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS9CBC_FLUDSE6size_t6size_tRK19CBC_FLUDSCommonDataRNSt6vectorIdEERK14UnknownManagerRK21SpatialDiscretization">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS9CBC_FLUDSE6size_t6size_tRK19CBC_FLUDSCommonDataRNSt6vectorIdEERK14UnknownManagerRK21SpatialDiscretization"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS9CBC_FLUDSE6size_t6size_tRK19CBC_FLUDSCommonDataRNSt6vectorIdEERK14UnknownManagerRK21SpatialDiscretization"></span><span id="opensn::lbs::CBC_FLUDS::CBC_FLUDS__s.s.CBC_FLUDSCommonDataCR.std::vector:double:R.UnknownManagerCR.SpatialDiscretizationCR"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1af8fc5e392976269233064cba2ef99777"></span><span class="sig-name descname"><span class="n"><span class="pre">CBC_FLUDS</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_groups</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cbc_fluds_common_data.html#_CPPv4N6opensn3lbs19CBC_FLUDSCommonDataE" title="opensn::lbs::CBC_FLUDSCommonData"><span class="n"><span class="pre">CBC_FLUDSCommonData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">common_data</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">local_psi_data</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">psi_uk_man</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sdm</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS9CBC_FLUDSE6size_t6size_tRK19CBC_FLUDSCommonDataRNSt6vectorIdEERK14UnknownManagerRK21SpatialDiscretization" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs9CBC_FLUDS10CommonDataEv">
+<span id="_CPPv3NK6opensn3lbs9CBC_FLUDS10CommonDataEv"></span><span id="_CPPv2NK6opensn3lbs9CBC_FLUDS10CommonDataEv"></span><span id="opensn::lbs::CBC_FLUDS::CommonDataC"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1aa1b556ce6cc75a7b32489465b272a6a9"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/fluds_common_data.html#_CPPv4N6opensn15FLUDSCommonDataE" title="opensn::FLUDSCommonData"><span class="n"><span class="pre">FLUDSCommonData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">CommonData</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs9CBC_FLUDS10CommonDataEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs9CBC_FLUDS23GetLocalUpwindDataBlockEv">
+<span id="_CPPv3NK6opensn3lbs9CBC_FLUDS23GetLocalUpwindDataBlockEv"></span><span id="_CPPv2NK6opensn3lbs9CBC_FLUDS23GetLocalUpwindDataBlockEv"></span><span id="opensn::lbs::CBC_FLUDS::GetLocalUpwindDataBlockC"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a75bed99d462f93c96c1caa3c514de31a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetLocalUpwindDataBlock</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs9CBC_FLUDS23GetLocalUpwindDataBlockEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS21GetLocalCellUpwindPsiERKNSt6vectorIdEERK4Cell">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS21GetLocalCellUpwindPsiERKNSt6vectorIdEERK4Cell"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS21GetLocalCellUpwindPsiERKNSt6vectorIdEERK4Cell"></span><span id="opensn::lbs::CBC_FLUDS::GetLocalCellUpwindPsi__std::vector:double:CR.CellCR"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a79b562e36454ad14fe466ba3ded098a1"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetLocalCellUpwindPsi</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">psi_data_block</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/cell.html#_CPPv4N6opensn4CellE" title="opensn::Cell"><span class="n"><span class="pre">Cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS21GetLocalCellUpwindPsiERKNSt6vectorIdEERK4Cell" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn3lbs9CBC_FLUDS21GetNonLocalUpwindDataE8uint64_tj">
+<span id="_CPPv3NK6opensn3lbs9CBC_FLUDS21GetNonLocalUpwindDataE8uint64_tj"></span><span id="_CPPv2NK6opensn3lbs9CBC_FLUDS21GetNonLocalUpwindDataE8uint64_tj"></span><span id="opensn::lbs::CBC_FLUDS::GetNonLocalUpwindData__uint64_t.unsigned-iC"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1ae77caf8141b75ffffac749df1ce90895"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetNonLocalUpwindData</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_global_id</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn3lbs9CBC_FLUDS21GetNonLocalUpwindDataE8uint64_tj" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS20GetNonLocalUpwindPsiERKNSt6vectorIdEEjj">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS20GetNonLocalUpwindPsiERKNSt6vectorIdEEjj"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS20GetNonLocalUpwindPsiERKNSt6vectorIdEEjj"></span><span id="opensn::lbs::CBC_FLUDS::GetNonLocalUpwindPsi__std::vector:double:CR.unsigned-i.unsigned-i"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a267bd6ae85842a43b9f9f9604effbf66"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">GetNonLocalUpwindPsi</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">psi_data</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_node_mapped</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">angle_set_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS20GetNonLocalUpwindPsiERKNSt6vectorIdEEjj" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS23ClearLocalAndReceivePsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS23ClearLocalAndReceivePsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS23ClearLocalAndReceivePsiEv"></span><span id="opensn::lbs::CBC_FLUDS::ClearLocalAndReceivePsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a7acf80500b349b14564acb36317e8bd0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ClearLocalAndReceivePsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS23ClearLocalAndReceivePsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS12ClearSendPsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS12ClearSendPsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS12ClearSendPsiEv"></span><span id="opensn::lbs::CBC_FLUDS::ClearSendPsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a785c7fa0774129b034e46719f02b3728"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ClearSendPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS12ClearSendPsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS24AllocateInternalLocalPsiE6size_t6size_t">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS24AllocateInternalLocalPsiE6size_t6size_t"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS24AllocateInternalLocalPsiE6size_t6size_t"></span><span id="opensn::lbs::CBC_FLUDS::AllocateInternalLocalPsi__s.s"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1ab43f7ded0b6277d2d671fe7064c4be83"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllocateInternalLocalPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_grps</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS24AllocateInternalLocalPsiE6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS19AllocateOutgoingPsiE6size_t6size_t6size_t">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS19AllocateOutgoingPsiE6size_t6size_t6size_t"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS19AllocateOutgoingPsiE6size_t6size_t6size_t"></span><span id="opensn::lbs::CBC_FLUDS::AllocateOutgoingPsi__s.s.s"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a62b0fcad4f0336431dd8c71a1f9d666f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllocateOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_grps</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_loc_sucs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS19AllocateOutgoingPsiE6size_t6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS23AllocateDelayedLocalPsiE6size_t6size_t">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS23AllocateDelayedLocalPsiE6size_t6size_t"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS23AllocateDelayedLocalPsiE6size_t6size_t"></span><span id="opensn::lbs::CBC_FLUDS::AllocateDelayedLocalPsi__s.s"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1aba8823660c49abbb68e578153655f9f3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllocateDelayedLocalPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_grps</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS23AllocateDelayedLocalPsiE6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS26AllocatePrelocIOutgoingPsiE6size_t6size_t6size_t">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS26AllocatePrelocIOutgoingPsiE6size_t6size_t6size_t"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS26AllocatePrelocIOutgoingPsiE6size_t6size_t6size_t"></span><span id="opensn::lbs::CBC_FLUDS::AllocatePrelocIOutgoingPsi__s.s.s"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a9130d02266e977fadbc4880e5c8f331c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllocatePrelocIOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_grps</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_loc_deps</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS26AllocatePrelocIOutgoingPsiE6size_t6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS33AllocateDelayedPrelocIOutgoingPsiE6size_t6size_t6size_t">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS33AllocateDelayedPrelocIOutgoingPsiE6size_t6size_t6size_t"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS33AllocateDelayedPrelocIOutgoingPsiE6size_t6size_t6size_t"></span><span id="opensn::lbs::CBC_FLUDS::AllocateDelayedPrelocIOutgoingPsi__s.s.s"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a6f2c500c98471e34c1b98488ae4acb69"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllocateDelayedPrelocIOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_grps</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_angles</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_loc_deps</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS33AllocateDelayedPrelocIOutgoingPsiE6size_t6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS15DelayedLocalPsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS15DelayedLocalPsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS15DelayedLocalPsiEv"></span><span id="opensn::lbs::CBC_FLUDS::DelayedLocalPsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a6cb0c10e73653e8c02ad871a84f96f9c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DelayedLocalPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS15DelayedLocalPsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS18DelayedLocalPsiOldEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS18DelayedLocalPsiOldEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS18DelayedLocalPsiOldEv"></span><span id="opensn::lbs::CBC_FLUDS::DelayedLocalPsiOld"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1af7b523d397e659b30cde08d858e1ab47"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DelayedLocalPsiOld</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS18DelayedLocalPsiOldEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS18DeplocIOutgoingPsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS18DeplocIOutgoingPsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS18DeplocIOutgoingPsiEv"></span><span id="opensn::lbs::CBC_FLUDS::DeplocIOutgoingPsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1aecbfc2b9f71954297c9b06946b1143a3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DeplocIOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS18DeplocIOutgoingPsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS18PrelocIOutgoingPsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS18PrelocIOutgoingPsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS18PrelocIOutgoingPsiEv"></span><span id="opensn::lbs::CBC_FLUDS::PrelocIOutgoingPsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1aa34ea02bc428ce8cffe9a2d2dd774af4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">PrelocIOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS18PrelocIOutgoingPsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS25DelayedPrelocIOutgoingPsiEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS25DelayedPrelocIOutgoingPsiEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS25DelayedPrelocIOutgoingPsiEv"></span><span id="opensn::lbs::CBC_FLUDS::DelayedPrelocIOutgoingPsi"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1af085d23fd4ee5e92a7e881340f1dec51"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DelayedPrelocIOutgoingPsi</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS25DelayedPrelocIOutgoingPsiEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS28DelayedPrelocIOutgoingPsiOldEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS28DelayedPrelocIOutgoingPsiOldEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS28DelayedPrelocIOutgoingPsiOldEv"></span><span id="opensn::lbs::CBC_FLUDS::DelayedPrelocIOutgoingPsiOld"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1afe39bfb2460745901882e7a2de4ad499"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DelayedPrelocIOutgoingPsiOld</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS28DelayedPrelocIOutgoingPsiOldEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS23DeplocsOutgoingMessagesEv">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS23DeplocsOutgoingMessagesEv"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS23DeplocsOutgoingMessagesEv"></span><span id="opensn::lbs::CBC_FLUDS::DeplocsOutgoingMessages"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a54a7e74cc120f7958bd6a004e267186a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs9CBC_FLUDS11CellFaceKeyE" title="opensn::lbs::CBC_FLUDS::CellFaceKey"><span class="n"><span class="pre">CellFaceKey</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">DeplocsOutgoingMessages</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS23DeplocsOutgoingMessagesEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS12common_data_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS12common_data_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS12common_data_E"></span><span id="opensn::lbs::CBC_FLUDS::common_data___CBC_FLUDSCommonDataCR"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1ab31139c23ac1314ff37e60d8fbb7d929"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="cbc_fluds_common_data.html#_CPPv4N6opensn3lbs19CBC_FLUDSCommonDataE" title="opensn::lbs::CBC_FLUDSCommonData"><span class="n"><span class="pre">CBC_FLUDSCommonData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">common_data_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS12common_data_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS15local_psi_data_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS15local_psi_data_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS15local_psi_data_E"></span><span id="opensn::lbs::CBC_FLUDS::local_psi_data___std::reference_wrapper:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a35c4e3f39ca956eeb42d50a8ecab0d5e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">reference_wrapper</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_psi_data_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS15local_psi_data_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS11psi_uk_man_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS11psi_uk_man_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS11psi_uk_man_E"></span><span id="opensn::lbs::CBC_FLUDS::psi_uk_man___UnknownManagerCR"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1ae5b100f1700066fe8e88d9a39f80e42d"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/unknown_manager.html#_CPPv4N6opensn14UnknownManagerE" title="opensn::UnknownManager"><span class="n"><span class="pre">UnknownManager</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">psi_uk_man_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS11psi_uk_man_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS4sdm_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS4sdm_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS4sdm_E"></span><span id="opensn::lbs::CBC_FLUDS::sdm___SpatialDiscretizationCR"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a6f05d3b6ff30ed013c0aff4186e8c789"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../framework/spatial_discretization.html#_CPPv4N6opensn21SpatialDiscretizationE" title="opensn::SpatialDiscretization"><span class="n"><span class="pre">SpatialDiscretization</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">sdm_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS4sdm_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS18delayed_local_psi_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS18delayed_local_psi_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS18delayed_local_psi_E"></span><span id="opensn::lbs::CBC_FLUDS::delayed_local_psi___std::vector:double:"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a01c1848ea7e0f21614321ed91bc9d145"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS18delayed_local_psi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS22delayed_local_psi_old_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS22delayed_local_psi_old_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS22delayed_local_psi_old_E"></span><span id="opensn::lbs::CBC_FLUDS::delayed_local_psi_old___std::vector:double:"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a8506efaecdbe4af3cca975d7911aeeda"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_local_psi_old_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS22delayed_local_psi_old_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS21deplocI_outgoing_psi_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS21deplocI_outgoing_psi_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS21deplocI_outgoing_psi_E"></span><span id="opensn::lbs::CBC_FLUDS::deplocI_outgoing_psi___std::vector:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a31422487b9332a1df942d74f6398a6ef"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deplocI_outgoing_psi_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS21deplocI_outgoing_psi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS21prelocI_outgoing_psi_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS21prelocI_outgoing_psi_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS21prelocI_outgoing_psi_E"></span><span id="opensn::lbs::CBC_FLUDS::prelocI_outgoing_psi___std::vector:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1aea9b56164a6b84a583ec846855ba8b4c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prelocI_outgoing_psi_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS21prelocI_outgoing_psi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS22boundryI_incoming_psi_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS22boundryI_incoming_psi_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS22boundryI_incoming_psi_E"></span><span id="opensn::lbs::CBC_FLUDS::boundryI_incoming_psi___std::vector:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a5ef32127d380002f0fa8c64aa1c6b0a0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boundryI_incoming_psi_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS22boundryI_incoming_psi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS29delayed_prelocI_outgoing_psi_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS29delayed_prelocI_outgoing_psi_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS29delayed_prelocI_outgoing_psi_E"></span><span id="opensn::lbs::CBC_FLUDS::delayed_prelocI_outgoing_psi___std::vector:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a595cf11247ab0e3252ce42cd784fdf5b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_prelocI_outgoing_psi_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS29delayed_prelocI_outgoing_psi_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS33delayed_prelocI_outgoing_psi_old_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS33delayed_prelocI_outgoing_psi_old_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS33delayed_prelocI_outgoing_psi_old_E"></span><span id="opensn::lbs::CBC_FLUDS::delayed_prelocI_outgoing_psi_old___std::vector:std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a1025b9c026dbfd4c2f9b6cf2bb4081c4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delayed_prelocI_outgoing_psi_old_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS33delayed_prelocI_outgoing_psi_old_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn3lbs9CBC_FLUDS26deplocs_outgoing_messages_E">
+<span id="_CPPv3N6opensn3lbs9CBC_FLUDS26deplocs_outgoing_messages_E"></span><span id="_CPPv2N6opensn3lbs9CBC_FLUDS26deplocs_outgoing_messages_E"></span><span id="opensn::lbs::CBC_FLUDS::deplocs_outgoing_messages___std::map:CellFaceKey.std::vector:double::"></span><span class="target" id="d4/dec/classopensn_1_1lbs_1_1_c_b_c___f_l_u_d_s_1a18f997490fa6f2648c1e983f36bd53d8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6opensn3lbs9CBC_FLUDS11CellFaceKeyE" title="opensn::lbs::CBC_FLUDS::CellFaceKey"><span class="n"><span class="pre">CellFaceKey</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deplocs_outgoing_messages_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn3lbs9CBC_FLUDS26deplocs_outgoing_messages_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cbc_a_synchronous_communicator.html" class="btn btn-neutral float-left" title="lbs::CBC_ASynchronousCommunicator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cbc_fluds_common_data.html" class="btn btn-neutral float-right" title="lbs::CBC_FLUDSCommonData" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Framework &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BooleanLogicalVolume" href="boolean_logical_volume.html" />
+    <link rel="prev" title="A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source" href="../tutorials/lbs/first/first_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Framework</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cell_mappings.html">Cell Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chi_format_xs.html">Chi-Tech Cross-section format 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html">I Event System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html#opensn-s-event-system">openSn’s event system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experimental.html">Z Experimental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ffi.html">Field Function Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_function.html">Field Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_operation.html">Field Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_file_mesh_generator.html">Supported file types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">G Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">F Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">D Output and Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logical_volume.html">Logical Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">B Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">A Meshing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_generators.html">Mesh Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_handler.html">Mesh Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_macros.html">Mesh Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_modifiers.html">Mesh Modifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mgxs.html">Transport Cross Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi.html">E MPI Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html">C Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_material.html">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_solver.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processors.html">H Post-Processors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp_utils.html">Post-Processor Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature.html">Quadrature rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sldfesq.html">Simplified LDFESQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial_discretization.html">Spatial Discretizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_mesher.html">Surface Re-meshers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_integration.html">Time Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_steppers.html">I Time-steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unpartitioned_mesh.html">Unpartitioned Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_mesher.html">Volume Meshers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Framework</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="framework">
+<h1>Framework<a class="headerlink" href="#framework" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="boolean_logical_volume.html"><span class="doc">BooleanLogicalVolume</span></a></p></li>
+<li><p><a class="reference internal" href="cell_mappings.html"><span class="doc">Cell Mappings</span></a></p></li>
+<li><p><a class="reference internal" href="chi_format_xs.html"><span class="doc">Chi-Tech Cross-section format 1</span></a></p></li>
+<li><p><a class="reference internal" href="event_system.html"><span class="doc">I Event System</span></a></p></li>
+<li><p><a class="reference internal" href="experimental.html"><span class="doc">Z Experimental</span></a></p></li>
+<li><p><a class="reference internal" href="ffi.html"><span class="doc">Field Function Interpolation</span></a></p></li>
+<li><p><a class="reference internal" href="field_function.html"><span class="doc">Field Function</span></a></p></li>
+<li><p><a class="reference internal" href="field_operation.html"><span class="doc">Field Operation</span></a></p></li>
+<li><p><a class="reference internal" href="from_file_mesh_generator.html"><span class="doc">Supported file types</span></a></p></li>
+<li><p><a class="reference internal" href="functions.html"><span class="doc">Functions</span></a></p></li>
+<li><p><a class="reference internal" href="graphs.html"><span class="doc">G Graphs</span></a></p></li>
+<li><p><a class="reference internal" href="interfaces.html"><span class="doc">F Interfaces</span></a></p></li>
+<li><p><a class="reference internal" href="log.html"><span class="doc">D Output and Logging</span></a></p></li>
+<li><p><a class="reference internal" href="logical_volume.html"><span class="doc">Logical Volume</span></a></p></li>
+<li><p><a class="reference internal" href="math.html"><span class="doc">B Math</span></a></p></li>
+<li><p><a class="reference internal" href="mesh.html"><span class="doc">A Meshing</span></a></p></li>
+<li><p><a class="reference internal" href="mesh_generators.html"><span class="doc">Mesh Generators</span></a></p></li>
+<li><p><a class="reference internal" href="mesh_handler.html"><span class="doc">Mesh Handler</span></a></p></li>
+<li><p><a class="reference internal" href="mesh_macros.html"><span class="doc">Mesh Macros</span></a></p></li>
+<li><p><a class="reference internal" href="mesh_modifiers.html"><span class="doc">Mesh Modifiers</span></a></p></li>
+<li><p><a class="reference internal" href="mgxs.html"><span class="doc">Transport Cross Sections</span></a></p></li>
+<li><p><a class="reference internal" href="mpi.html"><span class="doc">E MPI Utilities</span></a></p></li>
+<li><p><a class="reference internal" href="physics.html"><span class="doc">C Physics</span></a></p></li>
+<li><p><a class="reference internal" href="physics_material.html"><span class="doc">Materials</span></a></p></li>
+<li><p><a class="reference internal" href="physics_solver.html"><span class="doc">Solvers</span></a></p></li>
+<li><p><a class="reference internal" href="post_processors.html"><span class="doc">H Post-Processors</span></a></p></li>
+<li><p><a class="reference internal" href="pp_utils.html"><span class="doc">Post-Processor Utils</span></a></p></li>
+<li><p><a class="reference internal" href="quadrature.html"><span class="doc">Quadrature rules</span></a></p></li>
+<li><p><a class="reference internal" href="rcc_logical_volume.html"><span class="doc">RCCLogicalVolume</span></a></p></li>
+<li><p><a class="reference internal" href="sldfesq.html"><span class="doc">Simplified LDFESQ</span></a></p></li>
+<li><p><a class="reference internal" href="spatial_discretization.html"><span class="doc">Spatial Discretizations</span></a></p></li>
+<li><p><a class="reference internal" href="surface_mesher.html"><span class="doc">Surface Re-meshers</span></a></p></li>
+<li><p><a class="reference internal" href="time_integration.html"><span class="doc">Time Integration</span></a></p></li>
+<li><p><a class="reference internal" href="time_steppers.html"><span class="doc">I Time-steppers</span></a></p></li>
+<li><p><a class="reference internal" href="unpartitioned_mesh.html"><span class="doc">Unpartitioned Mesh</span></a></p></li>
+<li><p><a class="reference internal" href="volume_mesher.html"><span class="doc">Volume Meshers</span></a></p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials/lbs/first/first_example.html" class="btn btn-neutral float-left" title="A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boolean_logical_volume.html" class="btn btn-neutral float-right" title="BooleanLogicalVolume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SparseMatrix &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SpatialDiscretization" href="spatial_discretization.html" />
+    <link rel="prev" title="SolverInfoPostProcessor" href="solver_info_post_processor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../framework/index.html">Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class_index.html">Class Index</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../class_index.html#framework">Framework</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aah__angle_set.html">AAH_AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_a_synchronous_communicator.html">AAH_ASynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds.html">AAH_FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aah_fluds_common_data.html">AAH_FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adjoint_mgxs.html">AdjointMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregate_nodal_value_post_processor.html">AggregateNodalValuePostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range.html">AllowableRange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_high_limit.html">AllowableRangeHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_list.html">AllowableRangeList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_high_limit.html">AllowableRangeLowHighLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allowable_range_low_limit.html">AllowableRangeLowLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_aggregation.html">AngleAggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set.html">AngleSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angle_set_group.html">AngleSetGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature.html">AngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_custom.html">AngularQuadratureCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_custom.html">AngularQuadratureProdCustom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gl.html">AngularQuadratureProdGL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_glc.html">AngularQuadratureProdGLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="angular_quadrature_prod_gll.html">AngularQuadratureProdGLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="asynchronous_communicator.html">AsynchronousCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="base_functor.html">SimplifiedLDFESQ::BaseFunctor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_option.html">BasicOption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="basic_options.html">BasicOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_function.html">BoundaryFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_incident_heterogeneous.html">BoundaryIncidentHeterogeneous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_isotropic_homogenous.html">BoundaryIsotropicHomogenous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_reflecting.html">BoundaryReflecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundary_vaccuum.html">BoundaryVaccuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="byte_array.html">ByteArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdf_sampler.html">CDFSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell.html">Cell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_face.html">CellFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_mapping.html">CellMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cell_volume_integral_post_processor.html">CellVolumeIntegralPostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constant_time_stepper.html">ConstantTimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crank_nicolson_time_integration.html">CrankNicolsonTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cst_memory.html">CSTMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="curvilinear_angular_quadrature.html">CurvilinearAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cylindrical_angular_quadrature.html">CylindricalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directed_graph.html">DirectedGraph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dummy_stream.html">DummyStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_matrix.html">DynamicMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_vector.html">DynamicVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge.html">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event.html">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_publisher.html">EventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="event_subscriber.html">EventSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extruder_mesh_generator.html">ExtruderMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extrusion_layer.html">ExtrusionLayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face.html">Face</a></li>
+<li class="toctree-l3"><a class="reference internal" href="face_nodal_mapping.html">FaceNodalMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_cell_intersection.html">FFICellIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi_face_edge_intersection.html">FFIFaceEdgeIntersection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_copy_operation.html">FieldCopyOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function.html">FieldFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_context.html">FieldFunctionContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_grid_based.html">FieldFunctionGridBased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interface.html">FieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation.html">FieldFunctionInterpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_line.html">FieldFunctionInterpolationLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_point.html">FieldFunctionInterpolationPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_slice.html">FieldFunctionInterpolationSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_function_interpolation_volume.html">FieldFunctionInterpolationVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="field_operation.html">FieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_element_base.html">FiniteElementBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume.html">FiniteVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finite_volume_mapping.html">FiniteVolumeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds.html">FLUDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluds_common_data.html">FLUDSCommonData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="from_file_mesh_generator.html">FromFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function.html">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_dim_a_to_dim_b.html">FunctionDimAToDimB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="function_weight_from_rho.html">FUNCTION_WEIGHT_FROM_RHO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghost_vec_local_raw.html">GhostVecLocalRaw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghosted_parallel_stl_vector.html">GhostedParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="global_cell_handler.html">GlobalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="golub_fischer.html">GolubFischer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_partitioner.html">GraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_vertex.html">GraphVertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_based_field_function_interface.html">GridBasedFieldFunctionInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grid_face_histogram.html">GridFaceHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_euler_time_integration.html">ImplicitEulerTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_parameters.html">InputParameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isotropic_multi_grp_source.html">IsotropicMultiGrpSource</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kba_graph_partitioner.html">KBAGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base.html">LagrangeBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_base_mapping.html">LagrangeBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_continuous.html">LagrangeContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_discontinuous.html">LagrangeDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_hex_mapping.html">LagrangeHexMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_quad_mapping.html">LagrangeQuadMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_slab_mapping.html">LagrangeSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_tet_mapping.html">LagrangeTetMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_triangle_mapping.html">LagrangeTriangleMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lagrange_wedge_mapping.html">LagrangeWedgeMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_graph_partitioner.html">LinearGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver.html">LinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linear_solver_context.html">LinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_cell_handler.html">LocalCellHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_stream.html">LogStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logger.html">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume.html">LogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="logical_volume_interface.html">LogicalVolumeInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material.html">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property.html">MaterialProperty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="material_property_scalar_func_xyztv.html">MaterialPropertyScalarFuncXYZTV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matrix3x3.html">Matrix3x3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_continuum.html">MeshContinuum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_generator.html">MeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_handler.html">MeshHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesh_modifier.html">MeshModifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_communicator_set.html">MPICommunicatorSet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_field_operation.html">MultiFieldOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi_group_xs.html">MultiGroupXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nd_array.html">NDArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_function.html">NonLinearFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver.html">NonLinearSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_context.html">NonLinearSolverContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non_linear_solver_options.html">NonLinearSolverOptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object_factory.html">ObjectFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orthogonal_mesh_generator.html">OrthogonalMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_stl_vector.html">ParallelSTLVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel_vector.html">ParallelVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_block.html">ParameterBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partitioner_predicate.html">PartitionerPredicate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pet_sc_solver_setup.html">PETScSolverSetup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="petsc_graph_partitioner.html">PETScGraphPartitioner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="physics_event_publisher.html">PhysicsEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base.html">PieceWiseLinearBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_base_mapping.html">PieceWiseLinearBaseMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_continuous.html">PieceWiseLinearContinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_discontinuous.html">PieceWiseLinearDiscontinuous</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polygon_mapping.html">PieceWiseLinearPolygonMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_polyhedron_mapping.html">PieceWiseLinearPolyhedronMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piece_wise_linear_slab_mapping.html">PieceWiseLinearSlabMapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piecewise_linear1_d.html">PiecewiseLinear1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="point_quadrature.html">PointQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="poly_face.html">PolyFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor.html">PostProcessor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processor_printer.html">PostProcessorPrinter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pp_printer_subscribe_helper.html">PPPrinterSubscribeHelper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preconditioner_context.html">PreconditionerContext</a></li>
+<li class="toctree-l3"><a class="reference internal" href="product_quadrature.html">ProductQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature.html">Quadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_conical.html">QuadratureConical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_chebyshev.html">QuadratureGaussChebyshev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_gauss_legendre.html">QuadratureGaussLegendre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_hexahedron.html">QuadratureHexahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_jacobi.html">QuadratureJacobi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_line.html">QuadratureLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_point_phi_theta.html">QuadraturePointPhiTheta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_quadrilateral.html">QuadratureQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_tetrahedron.html">QuadratureTetrahedron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_triangle.html">QuadratureTriangle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quadrature_wedge.html">QuadratureWedge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_number_generator.html">RandomNumberGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer.html">RayTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ray_tracer_output_information.html">RayTracerOutputInformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="recoverable_exception.html">RecoverableException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="response_function.html">ResponseFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpp_logical_volume.html">RPPLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_material_function.html">ScalarMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_function.html">ScalarSpatialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_spatial_material_function.html">ScalarSpatialMaterialFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalar_value.html">ScalarValue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simplified_ldfesq.html">SimplifiedLDFESQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single_state_mgxs.html">SingleStateMGXS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="solver_info_post_processor.html">SolverInfoPostProcessor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SparseMatrix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrixE"><code class="docutils literal notranslate"><span class="pre">SparseMatrix</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization.html">SpatialDiscretization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_fv.html">SpatialDiscretization_FV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwlc.html">SpatialDiscretization_PWLC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spatial_discretization_pwld.html">SpatialDiscretization_PWLD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds.html">SPDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spds__adams_adams_hawkins.html">SPDS_AdamsAdamsHawkins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sphere_logical_volume.html">SphereLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_angular_quadrature.html">SphericalAngularQuadrature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spherical_quadrilateral.html">SphericalQuadrilateral</a></li>
+<li class="toctree-l3"><a class="reference internal" href="split_file_mesh_generator.html">SplitFileMeshGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spls.html">SPLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stdg.html">STDG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sub_set_info.html">SubSetInfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh.html">SurfaceMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesh_logical_volume.html">SurfaceMeshLogicalVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher.html">SurfaceMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_passthrough.html">SurfaceMesherPassthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_mesher_predefined.html">SurfaceMesherPredefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="surface_quadrature_point_data.html">SurfaceQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_boundary.html">SweepBoundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_chunk.html">SweepChunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep_scheduler.html">SweepScheduler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_wide_event_publisher.html">SystemWideEventPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rank2_dim3.html">TensorRank2Dim3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tensor_rnx.html">TensorRNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theta_scheme_time_integration.html">ThetaSchemeTimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_integration.html">TimeIntegration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_stepper.html">TimeStepper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_block.html">TimingBlock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timing_log.html">TimingLog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown.html">Unknown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unknown_manager.html">UnknownManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unpartitioned_mesh.html">UnpartitionedMesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="varying.html">Varying</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector3.html">Vector3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_ghost_communicator.html">VectorGhostCommunicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector_nx.html">VectorNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_handler.html">VertexHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher.html">VolumeMesher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_extruder.html">VolumeMesherExtruder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_mesher_predefined_unpartitioned.html">VolumeMesherPredefinedUnpartitioned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volumetric_quadrature_point_data.html">VolumetricQuadraturePointData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="world_xyz_to_natural_mapping_helper.html">WorldXYZToNaturalMappingHelper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../class_index.html#modules">Modules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../class_index.html">Class Index</a></li>
+      <li class="breadcrumb-item active">SparseMatrix</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sparsematrix">
+<h1>SparseMatrix<a class="headerlink" href="#sparsematrix" title="Link to this heading"></a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrixE">
+<span id="_CPPv3N6opensn12SparseMatrixE"></span><span id="_CPPv2N6opensn12SparseMatrixE"></span><span id="opensn::SparseMatrix"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SparseMatrix</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrixE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sparse matrix utility. This is a basic CSR type sparse matrix which allows efficient matrix storage and multiplication. It is not intended for solving linear systems (use PETSc for that instead). It was originally developed for the transfer matrices of transport cross-sections. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix12SparseMatrixE6size_t6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix12SparseMatrixE6size_t6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix12SparseMatrixE6size_t6size_t"></span><span id="opensn::SparseMatrix::SparseMatrix__s.s"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a535396a488a8708dc231e4c66dae050c"></span><span class="sig-name descname"><span class="n"><span class="pre">SparseMatrix</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_rows</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_cols</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix12SparseMatrixE6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor with number of rows and columns constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix12SparseMatrixERK12SparseMatrix">
+<span id="_CPPv3N6opensn12SparseMatrix12SparseMatrixERK12SparseMatrix"></span><span id="_CPPv2N6opensn12SparseMatrix12SparseMatrixERK12SparseMatrix"></span><span id="opensn::SparseMatrix::SparseMatrix__SparseMatrixCR"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a5a550b1dd92521e9b82e67d3df6c89c2"></span><span class="sig-name descname"><span class="n"><span class="pre">SparseMatrix</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix12SparseMatrixERK12SparseMatrix" title="opensn::SparseMatrix::SparseMatrix"><span class="n"><span class="pre">SparseMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_matrix</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix12SparseMatrixERK12SparseMatrix" title="Link to this definition"></a><br /></dt>
+<dd><p>Copy constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix7NumRowsEv">
+<span id="_CPPv3NK6opensn12SparseMatrix7NumRowsEv"></span><span id="_CPPv2NK6opensn12SparseMatrix7NumRowsEv"></span><span id="opensn::SparseMatrix::NumRowsC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a94eab87fe1f803e8c1e4818744a32e59"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NumRows</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix7NumRowsEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix7NumColsEv">
+<span id="_CPPv3NK6opensn12SparseMatrix7NumColsEv"></span><span id="_CPPv2NK6opensn12SparseMatrix7NumColsEv"></span><span id="opensn::SparseMatrix::NumColsC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a657e926a1bf040a0ad80d9f19ffb0497"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NumCols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix7NumColsEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix6InsertE6size_t6size_td">
+<span id="_CPPv3N6opensn12SparseMatrix6InsertE6size_t6size_td"></span><span id="_CPPv2N6opensn12SparseMatrix6InsertE6size_t6size_td"></span><span id="opensn::SparseMatrix::Insert__s.s.double"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1ab05318dee39f1abb5f4507f6067e0b6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Insert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">j</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix6InsertE6size_t6size_td" title="Link to this definition"></a><br /></dt>
+<dd><p>Inserts a value into the matrix. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix9InsertAddE6size_t6size_td">
+<span id="_CPPv3N6opensn12SparseMatrix9InsertAddE6size_t6size_td"></span><span id="_CPPv2N6opensn12SparseMatrix9InsertAddE6size_t6size_td"></span><span id="opensn::SparseMatrix::InsertAdd__s.s.double"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a41afeeee24d638b0ce587c84b939b197"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InsertAdd</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">j</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix9InsertAddE6size_t6size_td" title="Link to this definition"></a><br /></dt>
+<dd><p>Inserts-Adds a value into the matrix with duplicate check. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix7ValueIJE6size_t6size_t">
+<span id="_CPPv3NK6opensn12SparseMatrix7ValueIJE6size_t6size_t"></span><span id="_CPPv2NK6opensn12SparseMatrix7ValueIJE6size_t6size_t"></span><span id="opensn::SparseMatrix::ValueIJ__s.sC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1aaaf8dbfe4c7e8c0c4943c98031879003"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ValueIJ</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">j</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix7ValueIJE6size_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the value in the matrix at the given location. This is a rather inefficient routine. Use the columns and values rather than directly this function. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix11SetDiagonalERKNSt6vectorIdEE">
+<span id="_CPPv3N6opensn12SparseMatrix11SetDiagonalERKNSt6vectorIdEE"></span><span id="_CPPv2N6opensn12SparseMatrix11SetDiagonalERKNSt6vectorIdEE"></span><span id="opensn::SparseMatrix::SetDiagonal__std::vector:double:CR"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a09240952c73483fdfdec7efd6b8f9409"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SetDiagonal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">diag</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix11SetDiagonalERKNSt6vectorIdEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the diagonal of the matrix using a vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix8CompressEv">
+<span id="_CPPv3N6opensn12SparseMatrix8CompressEv"></span><span id="_CPPv2N6opensn12SparseMatrix8CompressEv"></span><span id="opensn::SparseMatrix::Compress"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a4389c358873bca05d9db255d1d705c69"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Compress</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix8CompressEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Sorts the column indices of each row for faster lookup. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix8PrintStrEv">
+<span id="_CPPv3NK6opensn12SparseMatrix8PrintStrEv"></span><span id="_CPPv2NK6opensn12SparseMatrix8PrintStrEv"></span><span id="opensn::SparseMatrix::PrintStrC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a5935e8066f7a3acc4bcf108d1b221720"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PrintStr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix8PrintStrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Prints the sparse matrix to string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrixD0Ev">
+<span id="_CPPv3N6opensn12SparseMatrixD0Ev"></span><span id="_CPPv2N6opensn12SparseMatrixD0Ev"></span><span id="opensn::SparseMatrix::~SparseMatrix"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a07ae8e49118cd7d3836110757b7d7344"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~SparseMatrix</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrixD0Ev" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix3RowE6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix3RowE6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix3RowE6size_t"></span><span id="opensn::SparseMatrix::Row__s"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1af1d550147bf87be35ae80c1dc5e4047a"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContextE" title="opensn::SparseMatrix::RowIteratorContext"><span class="n"><span class="pre">RowIteratorContext</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Row</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">row_id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix3RowE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix3RowE6size_t">
+<span id="_CPPv3NK6opensn12SparseMatrix3RowE6size_t"></span><span id="_CPPv2NK6opensn12SparseMatrix3RowE6size_t"></span><span id="opensn::SparseMatrix::Row__sC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1ac381f074816b9bf8fdf0d7faf398006e"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContextE" title="opensn::SparseMatrix::ConstRowIteratorContext"><span class="n"><span class="pre">ConstRowIteratorContext</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Row</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">row_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix3RowE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix5beginEv">
+<span id="_CPPv3N6opensn12SparseMatrix5beginEv"></span><span id="_CPPv2N6opensn12SparseMatrix5beginEv"></span><span id="opensn::SparseMatrix::begin"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1aa4b2156649eb10fde062014cea397e05"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorE" title="opensn::SparseMatrix::EntriesIterator"><span class="n"><span class="pre">EntriesIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix5beginEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix3endEv">
+<span id="_CPPv3N6opensn12SparseMatrix3endEv"></span><span id="_CPPv2N6opensn12SparseMatrix3endEv"></span><span id="opensn::SparseMatrix::end"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a462abd404c0cf5c3b679f823ca9e6d29"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorE" title="opensn::SparseMatrix::EntriesIterator"><span class="n"><span class="pre">EntriesIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix3endEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix13rowI_indices_E">
+<span id="_CPPv3N6opensn12SparseMatrix13rowI_indices_E"></span><span id="_CPPv2N6opensn12SparseMatrix13rowI_indices_E"></span><span id="opensn::SparseMatrix::rowI_indices___std::vector:std::vector:s::"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1accdcf5c97f03278533f85ab9729dce33"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rowI_indices_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix13rowI_indices_E" title="Link to this definition"></a><br /></dt>
+<dd><p>rowI_indices[i] is a vector indices j for the non-zero columns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix12rowI_values_E">
+<span id="_CPPv3N6opensn12SparseMatrix12rowI_values_E"></span><span id="_CPPv2N6opensn12SparseMatrix12rowI_values_E"></span><span id="opensn::SparseMatrix::rowI_values___std::vector:std::vector:double::"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1aec4d411306ccd0fb414849d39bf80829"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rowI_values_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix12rowI_values_E" title="Link to this definition"></a><br /></dt>
+<dd><p>rowI_values[i] corresponds to column indices and contains the non-zero value. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix16CheckInitializedEv">
+<span id="_CPPv3NK6opensn12SparseMatrix16CheckInitializedEv"></span><span id="_CPPv2NK6opensn12SparseMatrix16CheckInitializedEv"></span><span id="opensn::SparseMatrix::CheckInitializedC"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a1a9ee1e69edbd8f629ffd465eeae9f18"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CheckInitialized</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix16CheckInitializedEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor with number of rows constructor. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix9row_size_E">
+<span id="_CPPv3N6opensn12SparseMatrix9row_size_E"></span><span id="_CPPv2N6opensn12SparseMatrix9row_size_E"></span><span id="opensn::SparseMatrix::row_size___s"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a4e4457cd9f182118a3f1cc491c06bff6"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">row_size_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix9row_size_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum number of rows for this matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix9col_size_E">
+<span id="_CPPv3N6opensn12SparseMatrix9col_size_E"></span><span id="_CPPv2N6opensn12SparseMatrix9col_size_E"></span><span id="opensn::SparseMatrix::col_size___s"></span><span class="target" id="d2/dc3/classopensn_1_1_sparse_matrix_1a0fe06db81c7dddcbe439d21ce9468891"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">col_size_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix9col_size_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum number of columns for this matrix. </p>
+</dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix19ConstEntryReferenceE">
+<span id="_CPPv3N6opensn12SparseMatrix19ConstEntryReferenceE"></span><span id="_CPPv2N6opensn12SparseMatrix19ConstEntryReferenceE"></span><span id="opensn::SparseMatrix::ConstEntryReference"></span><span class="target" id="d3/dbe/structopensn_1_1_sparse_matrix_1_1_const_entry_reference"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstEntryReference</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReferenceE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix19ConstEntryReference19ConstEntryReferenceERK6size_tRK6size_tRKd">
+<span id="_CPPv3N6opensn12SparseMatrix19ConstEntryReference19ConstEntryReferenceERK6size_tRK6size_tRKd"></span><span id="_CPPv2N6opensn12SparseMatrix19ConstEntryReference19ConstEntryReferenceERK6size_tRK6size_tRKd"></span><span id="opensn::SparseMatrix::ConstEntryReference::ConstEntryReference__sCR.sCR.doubleCR"></span><span class="target" id="d3/dbe/structopensn_1_1_sparse_matrix_1_1_const_entry_reference_1abb7f3cc9b1bd2ec8f4450b6e2e897dc4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstEntryReference</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">row_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">column_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReference19ConstEntryReferenceERK6size_tRK6size_tRKd" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix19ConstEntryReference9row_indexE">
+<span id="_CPPv3N6opensn12SparseMatrix19ConstEntryReference9row_indexE"></span><span id="_CPPv2N6opensn12SparseMatrix19ConstEntryReference9row_indexE"></span><span id="opensn::SparseMatrix::ConstEntryReference::row_index__sCR"></span><span class="target" id="d3/dbe/structopensn_1_1_sparse_matrix_1_1_const_entry_reference_1abc4e95ec1784111ba6d07b4c1b50724e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">row_index</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReference9row_indexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix19ConstEntryReference12column_indexE">
+<span id="_CPPv3N6opensn12SparseMatrix19ConstEntryReference12column_indexE"></span><span id="_CPPv2N6opensn12SparseMatrix19ConstEntryReference12column_indexE"></span><span id="opensn::SparseMatrix::ConstEntryReference::column_index__sCR"></span><span class="target" id="d3/dbe/structopensn_1_1_sparse_matrix_1_1_const_entry_reference_1a2b681551aeb143d36526115b9928b290"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">column_index</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReference12column_indexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix19ConstEntryReference5valueE">
+<span id="_CPPv3N6opensn12SparseMatrix19ConstEntryReference5valueE"></span><span id="_CPPv2N6opensn12SparseMatrix19ConstEntryReference5valueE"></span><span id="opensn::SparseMatrix::ConstEntryReference::value__doubleCR"></span><span class="target" id="d3/dbe/structopensn_1_1_sparse_matrix_1_1_const_entry_reference_1a7721bd8bb4798395b348e7acf4b3f378"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReference5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContextE">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContextE"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContextE"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstRowIteratorContext</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContextE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext23ConstRowIteratorContextERK12SparseMatrix6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext23ConstRowIteratorContextERK12SparseMatrix6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext23ConstRowIteratorContextERK12SparseMatrix6size_t"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIteratorContext__SparseMatrixCR.s"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1aa88e30b43bcd3fe874355dfbd32e55ef"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstRowIteratorContext</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrixE" title="opensn::SparseMatrix"><span class="n"><span class="pre">SparseMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">matrix</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_row</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext23ConstRowIteratorContextERK12SparseMatrix6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext5beginEv">
+<span id="_CPPv3NK6opensn12SparseMatrix23ConstRowIteratorContext5beginEv"></span><span id="_CPPv2NK6opensn12SparseMatrix23ConstRowIteratorContext5beginEv"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::beginC"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1a278089918e677e197ca6686c2e6f0d25"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator"><span class="n"><span class="pre">ConstRowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext5beginEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext3endEv">
+<span id="_CPPv3NK6opensn12SparseMatrix23ConstRowIteratorContext3endEv"></span><span id="_CPPv2NK6opensn12SparseMatrix23ConstRowIteratorContext3endEv"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::endC"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1a3d03bd23467abc3a5041acefd6d2c730"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator"><span class="n"><span class="pre">ConstRowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext3endEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext12ref_col_ids_E">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext12ref_col_ids_E"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext12ref_col_ids_E"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ref_col_ids___std::vector:s:CR"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1a11fe26ba5fa132dd83bb3c383764cc1f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ref_col_ids_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext12ref_col_ids_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext13ref_col_vals_E">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext13ref_col_vals_E"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext13ref_col_vals_E"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ref_col_vals___std::vector:double:CR"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1a7ce667585b95ff981c824d01ec67bdb7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ref_col_vals_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext13ref_col_vals_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext8ref_row_E">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext8ref_row_E"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext8ref_row_E"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ref_row___sC"></span><span class="target" id="d5/d86/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1a18e7899ad7ea215845af94322277db2c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_row_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext8ref_row_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstRowIterator</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator16ConstRowIteratorERK23ConstRowIteratorContext6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator16ConstRowIteratorERK23ConstRowIteratorContext6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator16ConstRowIteratorERK23ConstRowIteratorContext6size_t"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::ConstRowIterator__ConstRowIteratorContextCR.s"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1aeec7c1178b389f7c65107c870b5807b5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstRowIterator</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContextE" title="opensn::SparseMatrix::ConstRowIteratorContext"><span class="n"><span class="pre">ConstRowIteratorContext</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator16ConstRowIteratorERK23ConstRowIteratorContext6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEv">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEv"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEv"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::inc-operator"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a45a747113e2e17b655b2688bae523fcc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEi">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEi"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEi"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::inc-operator__i"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a45a0b47872c393c0f838927a50fda218"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorppEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratormlEv">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratormlEv"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratormlEv"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::mul-operator"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a6006d213b0d176fb57f882e84b52a7e2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix19ConstEntryReferenceE" title="opensn::SparseMatrix::ConstEntryReference"><span class="n"><span class="pre">ConstEntryReference</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">*</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratormlEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratoreqERK2It">
+<span id="_CPPv3NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratoreqERK2It"></span><span id="_CPPv2NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratoreqERK2It"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::eq-operator__ItCRC"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a1d136a792b9752cd14cd3ba985b8e34d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratoreqERK2It" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorneERK2It">
+<span id="_CPPv3NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorneERK2It"></span><span id="_CPPv2NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorneERK2It"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::neq-operator__ItCRC"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1aa0ce961aa4c28106922146ff867cb498"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorneERK2It" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-types">Private Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::It"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a216cf4b42c747f00268d4b9cba2fafdf"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIteratorE" title="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator"><span class="n"><span class="pre">ConstRowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">It</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator2ItE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator8context_E">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator8context_E"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator8context_E"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::context___ConstRowIteratorContextCR"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a9b59e04c879db06ccbbb516d3c01cf2f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContextE" title="opensn::SparseMatrix::ConstRowIteratorContext"><span class="n"><span class="pre">ConstRowIteratorContext</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">context_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator8context_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator10ref_entry_E">
+<span id="_CPPv3N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator10ref_entry_E"></span><span id="_CPPv2N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator10ref_entry_E"></span><span id="opensn::SparseMatrix::ConstRowIteratorContext::ConstRowIterator::ref_entry___s"></span><span class="target" id="dc/d8e/classopensn_1_1_sparse_matrix_1_1_const_row_iterator_context_1_1_const_row_iterator_1a207f85f9cf08cdd0db6ca07be0f2b045"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_entry_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix23ConstRowIteratorContext16ConstRowIterator10ref_entry_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIteratorE">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIteratorE"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIteratorE"></span><span id="opensn::SparseMatrix::EntriesIterator"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EntriesIterator</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterator to loop over all matrix entries. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator15EntriesIteratorER12SparseMatrix6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator15EntriesIteratorER12SparseMatrix6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator15EntriesIteratorER12SparseMatrix6size_t"></span><span id="opensn::SparseMatrix::EntriesIterator::EntriesIterator__SparseMatrixR.s"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a0f2c6a940816e1915d9e487f2d39b995"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EntriesIterator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrixE" title="opensn::SparseMatrix"><span class="n"><span class="pre">SparseMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">row</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator15EntriesIteratorER12SparseMatrix6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator7AdvanceEv">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator7AdvanceEv"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator7AdvanceEv"></span><span id="opensn::SparseMatrix::EntriesIterator::Advance"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a8895981e4172589317505e2e3adc4086"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Advance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator7AdvanceEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIteratorppEv">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIteratorppEv"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIteratorppEv"></span><span id="opensn::SparseMatrix::EntriesIterator::inc-operator"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a87e8fde67226571e5a6195734aab1c91"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE" title="opensn::SparseMatrix::EntriesIterator::EIt"><span class="n"><span class="pre">EIt</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorppEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIteratorppEi">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIteratorppEi"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIteratorppEi"></span><span id="opensn::SparseMatrix::EntriesIterator::inc-operator__i"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a1cc05dc453e3410b57e1f344463793b8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE" title="opensn::SparseMatrix::EntriesIterator::EIt"><span class="n"><span class="pre">EIt</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorppEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIteratormlEv">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIteratormlEv"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIteratormlEv"></span><span id="opensn::SparseMatrix::EntriesIterator::mul-operator"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a722fa4849cb7257fd5dd57f6e121525e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix14EntryReferenceE" title="opensn::SparseMatrix::EntryReference"><span class="n"><span class="pre">EntryReference</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">*</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratormlEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix15EntriesIteratoreqERK3EIt">
+<span id="_CPPv3NK6opensn12SparseMatrix15EntriesIteratoreqERK3EIt"></span><span id="_CPPv2NK6opensn12SparseMatrix15EntriesIteratoreqERK3EIt"></span><span id="opensn::SparseMatrix::EntriesIterator::eq-operator__EItCRC"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1aa4aee15c224af781d11071adb977366e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE" title="opensn::SparseMatrix::EntriesIterator::EIt"><span class="n"><span class="pre">EIt</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix15EntriesIteratoreqERK3EIt" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix15EntriesIteratorneERK3EIt">
+<span id="_CPPv3NK6opensn12SparseMatrix15EntriesIteratorneERK3EIt"></span><span id="_CPPv2NK6opensn12SparseMatrix15EntriesIteratorneERK3EIt"></span><span id="opensn::SparseMatrix::EntriesIterator::neq-operator__EItCRC"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1ab68fc169a7c23f7a4f88823511d95f71"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE" title="opensn::SparseMatrix::EntriesIterator::EIt"><span class="n"><span class="pre">EIt</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix15EntriesIteratorneERK3EIt" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-types">Private Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator3EItE"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator3EItE"></span><span id="opensn::SparseMatrix::EntriesIterator::EIt"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1acf0c56ad5fbbde2b9991dc5ebec5ada3"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix15EntriesIteratorE" title="opensn::SparseMatrix::EntriesIterator"><span class="n"><span class="pre">EntriesIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EIt</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator3EItE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator9sp_matrixE">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator9sp_matrixE"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator9sp_matrixE"></span><span id="opensn::SparseMatrix::EntriesIterator::sp_matrix__SparseMatrixR"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a67739c20c057688c597775de9362bd03"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrixE" title="opensn::SparseMatrix"><span class="n"><span class="pre">SparseMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">sp_matrix</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator9sp_matrixE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator8ref_row_E">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator8ref_row_E"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator8ref_row_E"></span><span id="opensn::SparseMatrix::EntriesIterator::ref_row___s"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1aa296ab13ebd64c8d6836939518e83854"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_row_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator8ref_row_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix15EntriesIterator8ref_col_E">
+<span id="_CPPv3N6opensn12SparseMatrix15EntriesIterator8ref_col_E"></span><span id="_CPPv2N6opensn12SparseMatrix15EntriesIterator8ref_col_E"></span><span id="opensn::SparseMatrix::EntriesIterator::ref_col___s"></span><span class="target" id="d7/d2a/classopensn_1_1_sparse_matrix_1_1_entries_iterator_1a7de859c1182e009da2804ffae0e46f3c"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_col_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix15EntriesIterator8ref_col_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix14EntryReferenceE">
+<span id="_CPPv3N6opensn12SparseMatrix14EntryReferenceE"></span><span id="_CPPv2N6opensn12SparseMatrix14EntryReferenceE"></span><span id="opensn::SparseMatrix::EntryReference"></span><span class="target" id="df/d5a/structopensn_1_1_sparse_matrix_1_1_entry_reference"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EntryReference</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix14EntryReferenceE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix14EntryReference14EntryReferenceERK6size_tRK6size_tRd">
+<span id="_CPPv3N6opensn12SparseMatrix14EntryReference14EntryReferenceERK6size_tRK6size_tRd"></span><span id="_CPPv2N6opensn12SparseMatrix14EntryReference14EntryReferenceERK6size_tRK6size_tRd"></span><span id="opensn::SparseMatrix::EntryReference::EntryReference__sCR.sCR.doubleR"></span><span class="target" id="df/d5a/structopensn_1_1_sparse_matrix_1_1_entry_reference_1a6a3fc1af818cf8504a243683aebe3ec1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EntryReference</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">row_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">column_id</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix14EntryReference14EntryReferenceERK6size_tRK6size_tRd" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix14EntryReference9row_indexE">
+<span id="_CPPv3N6opensn12SparseMatrix14EntryReference9row_indexE"></span><span id="_CPPv2N6opensn12SparseMatrix14EntryReference9row_indexE"></span><span id="opensn::SparseMatrix::EntryReference::row_index__sCR"></span><span class="target" id="df/d5a/structopensn_1_1_sparse_matrix_1_1_entry_reference_1a66fe30b2c43146b39d2e4bd4db2487b4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">row_index</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix14EntryReference9row_indexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix14EntryReference12column_indexE">
+<span id="_CPPv3N6opensn12SparseMatrix14EntryReference12column_indexE"></span><span id="_CPPv2N6opensn12SparseMatrix14EntryReference12column_indexE"></span><span id="opensn::SparseMatrix::EntryReference::column_index__sCR"></span><span class="target" id="df/d5a/structopensn_1_1_sparse_matrix_1_1_entry_reference_1a2f79dd03aefc71692af8d2211912baea"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">column_index</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix14EntryReference12column_indexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix14EntryReference5valueE">
+<span id="_CPPv3N6opensn12SparseMatrix14EntryReference5valueE"></span><span id="_CPPv2N6opensn12SparseMatrix14EntryReference5valueE"></span><span id="opensn::SparseMatrix::EntryReference::value__doubleR"></span><span class="target" id="df/d5a/structopensn_1_1_sparse_matrix_1_1_entry_reference_1a162ff3ab1fc852f6285fd680182e0a93"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix14EntryReference5valueE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContextE">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContextE"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContextE"></span><span id="opensn::SparseMatrix::RowIteratorContext"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RowIteratorContext</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContextE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext18RowIteratorContextER12SparseMatrix6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext18RowIteratorContextER12SparseMatrix6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext18RowIteratorContextER12SparseMatrix6size_t"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIteratorContext__SparseMatrixR.s"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1a5c4e7b6de399b7f32586e786c66ba88e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RowIteratorContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrixE" title="opensn::SparseMatrix"><span class="n"><span class="pre">SparseMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">matrix</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_row</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext18RowIteratorContextER12SparseMatrix6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext5beginEv">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext5beginEv"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext5beginEv"></span><span id="opensn::SparseMatrix::RowIteratorContext::begin"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1ac90fb6c2913a92478238b0e921f4e767"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator"><span class="n"><span class="pre">RowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">begin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext5beginEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext3endEv">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext3endEv"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext3endEv"></span><span id="opensn::SparseMatrix::RowIteratorContext::end"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1a81a7b58cdbd96a38e7725931a3523399"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator"><span class="n"><span class="pre">RowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext3endEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext12ref_col_ids_E">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext12ref_col_ids_E"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext12ref_col_ids_E"></span><span id="opensn::SparseMatrix::RowIteratorContext::ref_col_ids___std::vector:s:CR"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1a6c8fb5c919b8710938380d94c0792ad8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ref_col_ids_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext12ref_col_ids_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext13ref_col_vals_E">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext13ref_col_vals_E"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext13ref_col_vals_E"></span><span id="opensn::SparseMatrix::RowIteratorContext::ref_col_vals___std::vector:double:R"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1a380bd68ce4c30c25b64debd3fced559e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">ref_col_vals_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext13ref_col_vals_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext8ref_row_E">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext8ref_row_E"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext8ref_row_E"></span><span id="opensn::SparseMatrix::RowIteratorContext::ref_row___sC"></span><span class="target" id="d9/d95/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1abf3711441ae74ef53108038689cbc0d7"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_row_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext8ref_row_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RowIterator</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator11RowIteratorER18RowIteratorContext6size_t">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIterator11RowIteratorER18RowIteratorContext6size_t"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIterator11RowIteratorER18RowIteratorContext6size_t"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::RowIterator__RowIteratorContextR.s"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a4ceeda7ace0e4680d81d548091c619e9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RowIterator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContextE" title="opensn::SparseMatrix::RowIteratorContext"><span class="n"><span class="pre">RowIteratorContext</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ref_entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator11RowIteratorER18RowIteratorContext6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEv">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEv"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEv"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::inc-operator"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a061a046e16c2515937cf197c9949580c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEi">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEi"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEi"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::inc-operator__i"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a89d67a8ec80fe2727a9fe911b92070f3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorppEi" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratormlEv">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIteratormlEv"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIteratormlEv"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::mul-operator"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a994d420d1fb416f519d733306451b563"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix14EntryReferenceE" title="opensn::SparseMatrix::EntryReference"><span class="n"><span class="pre">EntryReference</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">*</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratormlEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix18RowIteratorContext11RowIteratoreqERK2It">
+<span id="_CPPv3NK6opensn12SparseMatrix18RowIteratorContext11RowIteratoreqERK2It"></span><span id="_CPPv2NK6opensn12SparseMatrix18RowIteratorContext11RowIteratoreqERK2It"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::eq-operator__ItCRC"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a29bc00ea6d1eb07df56ba73de8600849"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix18RowIteratorContext11RowIteratoreqERK2It" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6opensn12SparseMatrix18RowIteratorContext11RowIteratorneERK2It">
+<span id="_CPPv3NK6opensn12SparseMatrix18RowIteratorContext11RowIteratorneERK2It"></span><span id="_CPPv2NK6opensn12SparseMatrix18RowIteratorContext11RowIteratorneERK2It"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::neq-operator__ItCRC"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a8c1bd59624feb397dc4ff6025eff8749"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator::It"><span class="n"><span class="pre">It</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6opensn12SparseMatrix18RowIteratorContext11RowIteratorneERK2It" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-types">Private Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::It"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1a2f832487017da01ed97a2a41272446f6"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIteratorE" title="opensn::SparseMatrix::RowIteratorContext::RowIterator"><span class="n"><span class="pre">RowIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">It</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator2ItE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator8context_E">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIterator8context_E"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIterator8context_E"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::context___RowIteratorContextR"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1ab4136f5f74d042eda98ac53ffbe21e59"></span><a class="reference internal" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContextE" title="opensn::SparseMatrix::RowIteratorContext"><span class="n"><span class="pre">RowIteratorContext</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">context_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator8context_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator10ref_entry_E">
+<span id="_CPPv3N6opensn12SparseMatrix18RowIteratorContext11RowIterator10ref_entry_E"></span><span id="_CPPv2N6opensn12SparseMatrix18RowIteratorContext11RowIterator10ref_entry_E"></span><span id="opensn::SparseMatrix::RowIteratorContext::RowIterator::ref_entry___s"></span><span class="target" id="d5/d02/classopensn_1_1_sparse_matrix_1_1_row_iterator_context_1_1_row_iterator_1acf526cc89e9724dd4ed0d0e8974c2888"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ref_entry_</span></span></span><a class="headerlink" href="#_CPPv4N6opensn12SparseMatrix18RowIteratorContext11RowIterator10ref_entry_E" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="solver_info_post_processor.html" class="btn btn-neutral float-left" title="SolverInfoPostProcessor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spatial_discretization.html" class="btn btn-neutral float-right" title="SpatialDiscretization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh Generators &mdash; openSn  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mesh Handler" href="mesh_handler.html" />
+    <link rel="prev" title="A Meshing" href="mesh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            openSn
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install_linux.html">Compiling on Personal Linux Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos.html">Compiling on macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_macos_easy.html">Easy install on MacOS Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install_ubuntu_easy.html">Easy install on Ubuntu Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_install.html">Installation and Run Instructions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Basic Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html#meshing-tutorial">Meshing Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/lbs/first/first_example.html">A First Example with Orthogonal Grids, KBA Partitioning, Vacuum BC, and Isotropic External Volumetric Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User's guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Framework</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boolean_logical_volume.html">BooleanLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cell_mappings.html">Cell Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chi_format_xs.html">Chi-Tech Cross-section format 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html">I Event System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event_system.html#opensn-s-event-system">openSn’s event system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experimental.html">Z Experimental</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ffi.html">Field Function Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_function.html">Field Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="field_operation.html">Field Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_file_mesh_generator.html">Supported file types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphs.html">G Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">F Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">D Output and Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logical_volume.html">Logical Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.html">B Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">A Meshing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh Generators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-a">Example A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-b">Example B</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-c">Example C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-different-partitioners">Using different Partitioners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-special-splitfilemeshgenerator">The special SplitFileMeshGenerator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#splitfile-example-a">SplitFile Example A</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#splitfile-example-b">SplitFile Example B</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_handler.html">Mesh Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_macros.html">Mesh Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_modifiers.html">Mesh Modifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mgxs.html">Transport Cross Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi.html">E MPI Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html">C Physics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_material.html">Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics_solver.html">Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processors.html">H Post-Processors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pp_utils.html">Post-Processor Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadrature.html">Quadrature rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcc_logical_volume.html">RCCLogicalVolume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sldfesq.html">Simplified LDFESQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spatial_discretization.html">Spatial Discretizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_mesher.html">Surface Re-meshers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_integration.html">Time Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_steppers.html">I Time-steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unpartitioned_mesh.html">Unpartitioned Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_mesher.html">Volume Meshers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer's guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start_source_code_doc.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_developer_tutorials.html">Developer Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start_user_tutorials.html">User Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/namespace_opensn.html">Namespace opensn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/class_index.html">Class Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openSn</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Framework</a></li>
+      <li class="breadcrumb-item active">Mesh Generators</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="mesh-generators">
+<h1>Mesh Generators<a class="headerlink" href="#mesh-generators" title="Link to this heading"></a></h1>
+<p>We split a <code class="docutils literal notranslate"><span class="pre">MeshGenerator</span></code>’s execution into a
+phase that generates an unpartitioned mesh and a phase that then converts
+this mesh into partitioned <code class="docutils literal notranslate"><span class="pre">MeshContinuum</span></code> (with both steps
+customizable). The phase that creates the <code class="docutils literal notranslate"><span class="pre">MeshContinuum</span></code> object can be hooked
+up to a partitioner that can also be designed to be pluggable.</p>
+<section id="example-a">
+<h2>Example A<a class="headerlink" href="#example-a" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">1.0</span><span class="p">}</span>
+<span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">node_sets</span> <span class="o">=</span> <span class="p">{</span><span class="n">nodes</span><span class="p">,</span><span class="n">nodes</span><span class="p">}</span> <span class="p">})</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;ZMeshTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example we created a set of nodes (monotonically increasing in value)
+for use with the
+<a class="reference internal" href="../developer/framework/orthogonal_mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">OrthogonalMeshGenerator</span></code></span></a>.
+We supplied the same set twice meaning the generator will build a 2D mesh.</p>
+<p>We did not specify a partitioner and therefore the generator will use the
+<a class="reference internal" href="../developer/framework/pet_sc_graph_partitioner.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">PETScGraphPartitioner</span></code></span></a> with <code class="docutils literal notranslate"><span class="pre">type=&quot;parmetis&quot;</span></code> by default.
+Using 8 processes, we can see the mesh and it’s partitioning below.</p>
+<p><img alt="" src="../_images/ExampleA.png" /></p>
+</section>
+<section id="example-b">
+<h2>Example B<a class="headerlink" href="#example-b" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">FromFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;TriangleMesh2x2.obj&quot;</span> <span class="p">})</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;ZMeshTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example we created a mesh by reading it from a file, using the
+<a class="reference internal" href="../developer/framework/from_file_mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">FromFileMeshGenerator</span></code></span></a>.
+The types of file-types we can support is ever growing.
+At the time of writing this we support the following formats:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.obj</span></code> Wavefront</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.msh</span></code> gmesh,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.e</span></code> ExodusII,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.vtu</span></code> VTK Unstructured grid,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.pvtu</span></code> Pieced VTK Unstructured grid,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.case</span></code> Ensight Gold</p></li>
+</ul>
+<p>Using 8 processes, we can see the mesh and it’s partitioning below.</p>
+<p><img alt="" src="../_images/ExampleB.png" /></p>
+</section>
+<section id="example-c">
+<h2>Example C<a class="headerlink" href="#example-c" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ExtruderMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">inputs</span> <span class="o">=</span>
+  <span class="p">{</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">FromFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">filename</span><span class="o">=</span><span class="n">TriangleMesh2x2</span><span class="o">.</span><span class="n">obj</span><span class="s2">&quot; }),</span>
+  <span class="p">},</span>
+  <span class="n">layers</span> <span class="o">=</span> <span class="p">{{</span><span class="n">z</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">},</span>    <span class="o">--</span> <span class="n">First</span> <span class="n">layer</span> <span class="o">-</span> <span class="mi">2</span> <span class="n">sub</span><span class="o">-</span><span class="n">layers</span>
+            <span class="p">{</span><span class="n">z</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">}},</span>   <span class="o">--</span> <span class="n">Second</span> <span class="n">layer</span> <span class="o">-</span> <span class="mi">3</span> <span class="n">sub</span><span class="o">-</span><span class="n">layers</span>
+<span class="p">})</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;ZMeshTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example we use an <a class="reference internal" href="../developer/framework/extruder_mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">ExtruderMeshGenerator</span></code></span></a> with another
+mesh generator as an input to create an extruded mesh.
+Using 8 processes, we can see the mesh and it’s partitioning below.</p>
+<p><img alt="" src="../_images/ExampleC.png" /></p>
+</section>
+<section id="using-different-partitioners">
+<h2>Using different Partitioners<a class="headerlink" href="#using-different-partitioners" title="Link to this heading"></a></h2>
+<p>ChiTech now has a set of Graph Partitioners (i.e. based off <code class="docutils literal notranslate"><span class="pre">GraphPartitioner</span></code>)
+that support different forms of partitioning, for example we have:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../developer/framework/linear_graph_partitioner.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">LinearGraphPartitioner</span></code></span></a>, a very basic partitioner used for
+during the preparation of simulation meshes.</p></li>
+<li><p><a class="reference internal" href="../developer/framework/petsc_graph_partitioner.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">PETScGraphPartitioner</span></code></span></a>, a flexible partitioner that can use all the
+partitioner options available in PETSc (defaults to using <code class="docutils literal notranslate"><span class="pre">&quot;parmetis&quot;</span></code>).</p></li>
+<li><p><a class="reference internal" href="../developer/framework/kba_graph_partitioner.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">KBAGraphPartitioner</span></code></span></a>, the classical Neutron Transport KBA parallel
+partitioning with an overlaid orthogonal layout.</p></li>
+</ul>
+<p>An example of changing the partitioning to PETSc’s <code class="docutils literal notranslate"><span class="pre">&quot;average&quot;</span></code> option is shown
+below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ExtruderMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">inputs</span> <span class="o">=</span>
+  <span class="p">{</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">FromFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+    <span class="p">({</span>
+      <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;resources/TestMeshes/TriangleMesh2x2.obj&quot;</span>
+    <span class="p">}),</span>
+  <span class="p">},</span>
+  <span class="n">layers</span> <span class="o">=</span> <span class="p">{{</span><span class="n">z</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="n">z</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">}},</span>
+  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">PETScGraphPartitioner</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;average&quot;</span><span class="p">})</span>
+<span class="p">})</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;ZMeshTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/ParExample1.png" /></p>
+<p>Another example using the <code class="docutils literal notranslate"><span class="pre">KBAGraphPartitioner</span></code> is shown below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ExtruderMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">inputs</span> <span class="o">=</span>
+  <span class="p">{</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">FromFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+    <span class="p">({</span>
+      <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;resources/TestMeshes/TriangleMesh2x2.obj&quot;</span>
+    <span class="p">}),</span>
+  <span class="p">},</span>
+  <span class="n">layers</span> <span class="o">=</span> <span class="p">{{</span><span class="n">z</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="n">z</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">}},</span>
+  <span class="n">partitioner</span> <span class="o">=</span> <span class="n">KBAGraphPartitioner</span><span class="o">.</span><span class="n">Create</span>
+  <span class="p">({</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">xcuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span> <span class="n">ycuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">},</span> <span class="n">zcuts</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.1</span><span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+
+<span class="n">MeshHandlerExportMeshToVTK</span><span class="p">(</span><span class="s2">&quot;ZMeshTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/ParExample2.png" /></p>
+</section>
+<section id="the-special-splitfilemeshgenerator">
+<h2>The special SplitFileMeshGenerator<a class="headerlink" href="#the-special-splitfilemeshgenerator" title="Link to this heading"></a></h2>
+<p>For very large meshes the mesh generation process could both take very long and
+require a lot of memory. The current mode of operation of the mesh generators is
+that each process builds the mesh as an unpartitioned mesh then the mesh gets
+converted to a partitioned mesh. Therefore, when a lot of processes are used,
+there could be a large memory spike, large enough to be greater than what even
+an HPC node has available. To partly address this problem we have the
+<a class="reference internal" href="../developer/framework/split_file_mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">SplitFileMeshGenerator</span></code></span></a>. This generator will process multiple mesh
+inputs like any other mesh generator but instead of building the mesh on each
+processor only the home location builds the mesh. Thereafter the mesh is
+partitioned and each processors’ local-cells, ghost-cells, and relevant vertices
+are written to separate binary files. The default folder, into which these files
+are written, is named “split_mesh” and the default file names for the meshes are
+“split_mesh_x.cmesh”, where the x represents the processors rank. Both the
+folder name and file name prefixes (i.e. the “split_mesh” part) can be altered
+via input parameters.</p>
+<p>It is also possible to generate split meshes in serial by supplying the
+<code class="docutils literal notranslate"><span class="pre">num_parts</span></code> parameter. Also, if a simulation uses the same mesh over and over
+then the parameter <code class="docutils literal notranslate"><span class="pre">read_only</span></code> can be used to suppress the mesh being
+created every single time.</p>
+<section id="splitfile-example-a">
+<h3>SplitFile Example A<a class="headerlink" href="#splitfile-example-a" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">SplitFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">inputs</span> <span class="o">=</span>
+  <span class="p">{</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">node_sets</span> <span class="o">=</span> <span class="p">{</span><span class="n">xmesh</span><span class="p">,</span><span class="n">ymesh</span><span class="p">,</span><span class="n">zmesh</span><span class="p">}</span> <span class="p">})</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The examples below will create, in the current working directory, the folder
+<code class="docutils literal notranslate"><span class="pre">split_mesh</span></code> and within it <code class="docutils literal notranslate"><span class="pre">split_mesh_0.cmesh</span></code>, <code class="docutils literal notranslate"><span class="pre">split_mesh_1.cmesh</span></code>, etc.</p>
+</section>
+<section id="splitfile-example-b">
+<h3>SplitFile Example B<a class="headerlink" href="#splitfile-example-b" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshgen1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">SplitFileMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+<span class="p">({</span>
+  <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">OrthogonalMeshGenerator</span><span class="o">.</span><span class="n">Create</span><span class="p">({</span> <span class="n">node_sets</span> <span class="o">=</span> <span class="p">{</span><span class="n">xmesh</span><span class="p">,</span><span class="n">ymesh</span><span class="p">}</span> <span class="p">}),</span>
+    <span class="n">mesh</span><span class="o">.</span><span class="n">ExtruderMeshGenerator</span><span class="o">.</span><span class="n">Create</span>
+    <span class="p">({</span>
+      <span class="n">layers</span> <span class="o">=</span> <span class="p">{{</span><span class="n">z</span><span class="o">=</span><span class="n">Lz</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">Nz</span><span class="p">}}</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="n">mesh</span><span class="o">.</span><span class="n">MeshGenerator</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">meshgen1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This example is the same as the one above it, however, it uses the extruder
+mesh generator in a chain.</p>
+<p><em>Note</em>: Partitioning and the other parameters of
+<a class="reference internal" href="../developer/framework/split_file_mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">SplitFileMeshGenerator</span></code></span></a> are identical to that of
+the base <a class="reference internal" href="../developer/framework/mesh_generator.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">MeshGenerator</span></code></span></a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mesh.html" class="btn btn-neutral float-left" title="A Meshing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mesh_handler.html" class="btn btn-neutral float-right" title="Mesh Handler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-present, openSn team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
