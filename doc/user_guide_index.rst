@@ -31,6 +31,7 @@ Framework
 - :doc:`/framework/rcc_logical_volume`
 - :doc:`/framework/spatial_discretization`
 - :doc:`/framework/surface_mesher`
+- :doc:`/framework/time_integration`
 
 
 .. toctree::
@@ -68,3 +69,4 @@ Framework
    framework/rcc_logical_volume
    framework/spatial_discretization
    framework/surface_mesher
+   framework/time_integration
