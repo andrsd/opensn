@@ -8,6 +8,7 @@ Framework
 - :doc:`/framework/experimental`
 - :doc:`/framework/ffi`
 - :doc:`/framework/field_function`
+- :doc:`/framework/field_operation`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -26,6 +27,7 @@ Framework
    framework/experimental
    framework/ffi
    framework/field_function
+   framework/field_operation
    framework/log
    framework/math
    framework/mesh_generators
