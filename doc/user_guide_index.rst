@@ -2,6 +2,7 @@ Framework
 =========
 
 - :doc:`/framework/boolean_logical_volume`
+- :doc:`/framework/cell_mappings`
 - :doc:`/framework/mesh_generators`
 
 
@@ -11,4 +12,5 @@ Framework
    :caption: Framework
 
    framework/boolean_logical_volume
+   framework/cell_mappings
    framework/mesh_generators
