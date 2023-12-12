@@ -10,6 +10,7 @@ Framework
 - :doc:`/framework/field_function`
 - :doc:`/framework/field_operation`
 - :doc:`/framework/from_file_mesh_generator`
+- :doc:`/framework/functions`
 - :doc:`/framework/log`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
@@ -30,6 +31,7 @@ Framework
    framework/field_function
    framework/field_operation
    framework/from_file_mesh_generator
+   framework/functions
    framework/log
    framework/math
    framework/mesh_generators
