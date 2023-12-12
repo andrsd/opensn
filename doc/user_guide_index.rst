@@ -28,6 +28,7 @@ Framework
 - :doc:`/framework/post_processors`
 - :doc:`/framework/pp_utils`
 - :doc:`/framework/quadrature`
+- :doc:`/framework/rcc_logical_volume`
 
 
 .. toctree::
@@ -62,3 +63,4 @@ Framework
    framework/post_processors
    framework/pp_utils
    framework/quadrature
+   framework/rcc_logical_volume
