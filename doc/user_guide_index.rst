@@ -14,6 +14,7 @@ Framework
 - :doc:`/framework/graphs`
 - :doc:`/framework/interfaces`
 - :doc:`/framework/log`
+- :doc:`/framework/logical_volume`
 - :doc:`/framework/math`
 - :doc:`/framework/mesh_generators`
 - :doc:`/framework/mpi`
@@ -37,6 +38,7 @@ Framework
    framework/graphs
    framework/interfaces
    framework/log
+   framework/logical_volume
    framework/math
    framework/mesh_generators
    framework/mpi
