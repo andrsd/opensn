@@ -232,3 +232,138 @@ Framework
    :glob:
 
    framework/*
+
+Modules
+-------
+
+CFEM Diffusion
+^^^^^^^^^^^^^^
+
+- :doc:`/developer/modules/cfem_diffusion/boundary`
+- :doc:`/developer/modules/cfem_diffusion/solver`
+
+.. toctree::
+   :hidden:
+   :caption: CFEM Diffusion
+   :glob:
+
+   modules/cfem_diffusion/*
+
+
+DFEM Diffusion
+^^^^^^^^^^^^^^
+
+- :doc:`/developer/modules/dfem_diffusion/boundary`
+- :doc:`/developer/modules/dfem_diffusion/solver`
+
+.. toctree::
+   :hidden:
+   :caption: DFEM Diffusion
+   :glob:
+
+   modules/dfem_diffusion/*
+
+
+FV Diffusion
+^^^^^^^^^^^^^^
+
+- :doc:`/developer/modules/dfem_diffusion/boundary`
+- :doc:`/developer/modules/dfem_diffusion/solver`
+
+.. toctree::
+   :hidden:
+   :caption: FV Diffusion
+   :glob:
+
+   modules/fv_diffusion/*
+
+
+Linear Boltzmann Solvers
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- :doc:`/developer/modules/linear_boltzmann_solvers/aah__sweep_chunk`
+- :doc:`/developer/modules/linear_boltzmann_solvers/aah__sweep_dependency_interface`
+- :doc:`/developer/modules/linear_boltzmann_solvers/adjoint_source_function`
+- :doc:`/developer/modules/linear_boltzmann_solvers/ags_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/ags_linear_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/ags_scheme_entry`
+- :doc:`/developer/modules/linear_boltzmann_solvers/boundary_condition`
+- :doc:`/developer/modules/linear_boltzmann_solvers/boundary_preference`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc__angle_set`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc__sweep_chunk`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc__sweep_dependency_interface`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc_a_synchronous_communicator`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc_fluds`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc_fluds_common_data`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cbc_spds`
+- :doc:`/developer/modules/linear_boltzmann_solvers/cell_lbs_view`
+- :doc:`/developer/modules/linear_boltzmann_solvers/diffusion_dfem_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/diffusion_mip_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/diffusion_pwlc_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/diffusion_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/discrete_ordinates_adjoint_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/discrete_ordinates_curvilinear_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/discrete_ordinates_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/k_residual_function_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/lbs_group`
+- :doc:`/developer/modules/linear_boltzmann_solvers/lbs_groupset`
+- :doc:`/developer/modules/linear_boltzmann_solvers/lbs_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/mipwgs_context2`
+- :doc:`/developer/modules/linear_boltzmann_solvers/multigroup_d_and_sig_r`
+- :doc:`/developer/modules/linear_boltzmann_solvers/nlk_eigen_ags_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/nlk_eigen_diff_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/nlk_eigen_diff_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/nlk_eigenvalue_ags_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/options`
+- :doc:`/developer/modules/linear_boltzmann_solvers/point_source`
+- :doc:`/developer/modules/linear_boltzmann_solvers/response_function_designation`
+- :doc:`/developer/modules/linear_boltzmann_solvers/source_flags`
+- :doc:`/developer/modules/linear_boltzmann_solvers/source_function`
+- :doc:`/developer/modules/linear_boltzmann_solvers/steady_state_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/sweep_chunk`
+- :doc:`/developer/modules/linear_boltzmann_solvers/sweep_chunk_pwlrz`
+- :doc:`/developer/modules/linear_boltzmann_solvers/sweep_dependency_interface`
+- :doc:`/developer/modules/linear_boltzmann_solvers/sweep_wgs_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/transient_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/transient_source_function`
+- :doc:`/developer/modules/linear_boltzmann_solvers/two_grid_collapsed_info`
+- :doc:`/developer/modules/linear_boltzmann_solvers/unit_cell_matrices`
+- :doc:`/developer/modules/linear_boltzmann_solvers/wgs_context`
+- :doc:`/developer/modules/linear_boltzmann_solvers/wgs_linear_solver`
+- :doc:`/developer/modules/linear_boltzmann_solvers/xx_non_linear_k_eigen`
+- :doc:`/developer/modules/linear_boltzmann_solvers/xx_power_iteration_k_eigen`
+- :doc:`/developer/modules/linear_boltzmann_solvers/xx_power_iteration_k_eigen_scdsa`
+
+.. toctree::
+   :hidden:
+   :caption: Linear Boltzmann Solvers
+   :glob:
+
+   modules/linear_boltzmann_solvers/*
+
+
+MG Diffusion
+^^^^^^^^^^^^
+
+- :doc:`/developer/modules/mg_diffusion/boundary`
+- :doc:`/developer/modules/mg_diffusion/solver`
+
+.. toctree::
+   :hidden:
+   :caption: MG Diffusion
+   :glob:
+
+   modules/mg_diffusion/*
+
+
+Point Reactor Kinetics
+^^^^^^^^^^^^^^^^^^^^^^
+
+- :doc:`/developer/modules/point_reactor_kinetics/transient_solver`
+
+.. toctree::
+   :hidden:
+   :caption: Point Reactor Kinetics
+   :glob:
+
+   modules/point_reactor_kinetics/*
