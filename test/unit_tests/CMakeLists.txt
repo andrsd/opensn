@@ -1,7 +1,10 @@
 add_executable(opensn-unit-tests
     byte_array_test.cc
+    dynamic_vector_test.cc
+    dynamic_matrix_test.cc
     kba_graph_partitioner_test.cc
     nd_array_test.cc
+    sparse_matrix_test.cc
     timing_block_test.cc
     main.cc
 )
