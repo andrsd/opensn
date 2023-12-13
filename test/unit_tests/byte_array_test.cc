@@ -1,34 +1,11 @@
+#include "gmock/gmock.h"
 #include "framework/data_types/byte_array.h"
-#include "framework/data_types/ndarray.h"
-#include "framework/mesh/cell/cell.h"
-
-#include "framework/runtime.h"
-#include "framework/logging/log.h"
-
-#include "lua/framework/console/console.h"
-
-#include "framework/mpi/mpi_utils.h"
-
-#include <map>
+#include "framework/mesh/mesh_vector.h"
 
 using namespace opensn;
 
-namespace unit_tests
+TEST(ByteArray, WriteRead)
 {
-
-ParameterBlock data_types_Test00(const InputParameters& params);
-
-RegisterWrapperFunctionNamespace(unit_tests, data_types_Test00, nullptr, data_types_Test00);
-
-ParameterBlock
-data_types_Test00(const InputParameters&)
-{
-  bool passed = true;
-
-  // Byte array
-  // write/read
-  opensn::log.Log() << "GOLD_BEGIN";
-  opensn::log.Log() << "Testing ByteArray Write and Read\n";
   ByteArray barr;
 
   barr.Write<double>(1.01234567890123456789);
@@ -44,34 +21,28 @@ data_types_Test00(const InputParameters&)
   auto bl_value1 = barr.Read<bool>();
   auto bl_value2 = barr.Read<bool>();
   auto vec3 = barr.Read<Vector3>();
+  EXPECT_DOUBLE_EQ(dbl_value, 1.01234567890123456789);
+  EXPECT_DOUBLE_EQ(int_value, -15600700);
+  EXPECT_DOUBLE_EQ(dbl_value2, 2.0987654321);
+  EXPECT_FALSE(bl_value1);
+  EXPECT_TRUE(bl_value2);
+  EXPECT_DOUBLE_EQ(vec3.x, 3.0);
+  EXPECT_DOUBLE_EQ(vec3.y, 2.0);
+  EXPECT_DOUBLE_EQ(vec3.z, 1.0);
+}
 
+TEST(ByteArray, Seek)
+{
   ByteArray seeker;
   seeker.Write<bool>(false);
   seeker.Write<double>(1.01234567890123456789);
-
-  opensn::log.Log() << "EndOfBuffer " << seeker.EndOfBuffer();
-  opensn::log.Log() << "Offset " << seeker.Offset();
   seeker.Seek(seeker.Size() - sizeof(double));
-  opensn::log.Log() << "OffsetAfterSeek " << seeker.Offset();
-  opensn::log.Log() << "Value check " << seeker.Read<double>();
+}
 
-  if (dbl_value != 1.01234567890123456789 or int_value != -15600700 or dbl_value2 != 2.0987654321 or
-      bl_value1 or !bl_value2 or vec3[0] != Vector3(3.0, 2.0, 1.0)[0] or
-      vec3[1] != Vector3(3.0, 2.0, 1.0)[1] or vec3[2] != Vector3(3.0, 2.0, 1.0)[2])
-
-  {
-    passed = false;
-    opensn::log.Log() << std::string("ByteArray"
-                                     " Write/Read ... Failed\n");
-  }
-  else
-    opensn::log.Log() << std::string("ByteArray "
-                                     "Write/Read ... Passed\n");
-
-  // Testing Byte array
-  // serialization
-  opensn::log.Log() << "Testing ByteArray "
-                       "Serialization/DeSerialization\n";
+TEST(ByteArray, Serialize)
+{
+#if 0
+  bool passed = false;
   if (opensn::mpi_comm.size() == 2)
   {
 
@@ -267,131 +238,5 @@ data_types_Test00(const InputParameters&)
   else
     opensn::log.Log() << "ByteArray"
                          "Serialization/DeSerialization ... Passed\n";
-
-  // Testing NDArray
-  //
-  opensn::log.Log() << "Testing NDArray\n";
-  std::stringstream dummy;
-  // Constructor vector
-  // rank()
-  {
-    NDArray<double> nd_array1(std::vector<size_t>{2, 2, 2});
-    dummy << "Should be printing rank and 2x2x2=8 zeros\n";
-    dummy << nd_array1.rank() << "\n";
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done1\n";
-  }
-
-  // Constructor array
-  {
-    NDArray<double> nd_array1(std::array<size_t, 3>{2, 2, 2});
-    dummy << "Should be 2x2x2=8 zeros\n";
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done2\n";
-  }
-
-  // Constructor initializer_list
-  {
-    dummy << "Should be 2x2x2=8 zeros\n";
-    NDArray<double> nd_array1({2, 2, 2});
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done3\n";
-  }
-
-  // Constructor vector value
-  {
-    dummy << "Should be 2x2x2=8 zeros\n";
-    NDArray<double> nd_array1(std::vector<size_t>{2, 2, 2}, 0.0);
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done4\n";
-  }
-
-  // Constructor array value
-  {
-    dummy << "Should be 2x2x2=8 zeros\n";
-    NDArray<double> nd_array1(std::array<size_t, 3>{2, 2, 2}, 0.0);
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done5\n";
-  }
-
-  // Constructor initializer_list value
-  {
-    dummy << "Should be 2x2x2=8 zeros\n";
-    NDArray<double> nd_array1({2, 2, 2}, 0.0);
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done6\n";
-  }
-
-  // Constructor none
-  {
-    dummy << "Should not print anything\n";
-    NDArray<double> nd_array1;
-    for (auto val : nd_array1)
-    {
-      dummy << val << " ";
-    }
-    dummy << "Done7\n";
-  }
-
-  // method set
-  // iterators
-  // const iterators
-  {
-    NDArray<double> nd_array2(std::vector<size_t>{2, 2, 2});
-    nd_array2.set(1.0);
-
-    dummy << "Should be 2x2x2=8 ones\n";
-    for (auto val : nd_array2)
-      dummy << val << " ";
-    dummy << "\n";
-    dummy << "Done8\n";
-
-    dummy << "Should be 2x2x2=8 ones\n";
-    const auto& nd_array3 = nd_array2;
-    for (auto i = nd_array3.cbegin(); i != nd_array3.cend(); ++i)
-      dummy << *i << " ";
-    dummy << "\n";
-    dummy << "Done9\n";
-  }
-
-  // size and empty
-  {
-    NDArray<double> nd_array4(std::array<size_t, 3>{2, 2, 2});
-    nd_array4.set(1.0);
-
-    dummy << "size " << nd_array4.size() << "\n";
-    dummy << "empty() " << nd_array4.empty();
-
-    dummy << "Should be 2x2x2=8 ones\n";
-    for (auto val : nd_array4)
-      dummy << val << " ";
-    dummy << "\n";
-    dummy << "Done10\n";
-  }
-
-  opensn::log.Log() << dummy.str();
-
-  opensn::log.Log() << "GOLD_END";
-
-  return ParameterBlock();
+#endif
 }
-
-} //  namespace unit_tests

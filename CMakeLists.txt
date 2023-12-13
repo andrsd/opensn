@@ -9,9 +9,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+include(FetchContent)
 include(GNUInstallDirs)
 include(CheckTypeSize)
 include(CheckSymbolExists)
+include(GoogleTest)
 
 option(OPENSN_WITH_LUA "Build with lua support" ON)
 
@@ -107,11 +109,35 @@ if(NOT MSVC)
     set_target_properties(libopensn PROPERTIES OUTPUT_NAME opensn)
 endif()
 
-
 if(OPENSN_WITH_LUA)
     add_subdirectory(lua)
-    add_subdirectory(test)
 endif()
+
+# unit tests
+
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.12.0
+)
+set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+mark_as_advanced(FORCE
+    BUILD_GMOCK
+    INSTALL_GTEST
+    FETCHCONTENT_SOURCE_DIR_GOOGLETEST
+    FETCHCONTENT_UPDATES_DISCONNECTED_GOOGLETEST
+)
+
+FetchContent_MakeAvailable(googletest)
+mark_as_advanced(FORCE
+    FETCHCONTENT_BASE_DIR
+    FETCHCONTENT_FULLY_DISCONNECTED
+    FETCHCONTENT_QUIET
+    FETCHCONTENT_UPDATES_DISCONNECTED
+)
+
+enable_testing()
+add_subdirectory(test)
 
 #
 configure_file(config.h.in config.h)
