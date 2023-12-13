@@ -1,5 +1,6 @@
 add_executable(opensn-unit-tests
     byte_array_test.cc
+    kba_graph_partitioner_test.cc
     nd_array_test.cc
     main.cc
 )
