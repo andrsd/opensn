@@ -8,6 +8,7 @@ add_executable(opensn-unit-tests
     parallel_stl_vector_test.cc
     sparse_matrix_test.cc
     timing_block_test.cc
+    utils_test.cc
     main.cc
 )
 
