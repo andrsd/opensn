@@ -1,9 +1,11 @@
 #include "gtest/gtest.h"
+#include "framework/runtime.h"
 
 int
 main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
+  mpi::Environment env;
   GTEST_FLAG_SET(death_test_style, "threadsafe");
   return RUN_ALL_TESTS();
 }

@@ -7,8 +7,6 @@ using namespace testing;
 
 TEST(KBAGraphPartitioner, Partition)
 {
-  mpi::Environment env;
-
   ParameterBlock input_parameters;
 
   input_parameters.AddParameter("nx", 2);

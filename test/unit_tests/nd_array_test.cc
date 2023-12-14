@@ -188,7 +188,6 @@ WDD_IJK_Sweep2(const std::array<size_t, 3>& mesh_divs,
 
 TEST(NDAarray, WDD_IJK_Sweep)
 {
-  mpi::Environment env;
   bool verbose = false;
 
   const std::array<size_t, 3> mesh_divisions = {1, 1, 10};

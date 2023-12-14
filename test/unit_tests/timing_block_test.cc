@@ -8,7 +8,6 @@ using namespace testing;
 
 TEST(TimingBlock, Test)
 {
-  mpi::Environment env;
   Initialize();
 
   auto& t_main = opensn::log.CreateTimingBlock("Timing_Main");
