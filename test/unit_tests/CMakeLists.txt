@@ -3,6 +3,7 @@ add_executable(opensn-unit-tests
     dynamic_vector_test.cc
     dynamic_matrix_test.cc
     ghosted_parallel_stl_vector_test.cc
+    input_parameters_test.cc
     kba_graph_partitioner_test.cc
     nd_array_test.cc
     parallel_stl_vector_test.cc
