@@ -1,13 +1,5 @@
 [
   {
-    "file" : "params_test_00.lua", "num_procs" : 1, "checks" :
-    [
-      {
-        "type" : "GoldFile", "scope_keyword" : "GOLD"
-      }
-    ]
-  },
-  {
     "file" : "params_test_01a.lua", "num_procs" : 1, "checks" :
     [
       { "type" : "StrCompare", "key" : "**WARNING** Parameter \"limiter_type\"" },
