@@ -29,7 +29,6 @@ bool suppress_color = false;
 std::filesystem::path input_path;
 
 std::vector<std::shared_ptr<MeshContinuum>> mesh_stack;
-std::vector<std::shared_ptr<SurfaceMesh>> surface_mesh_stack;
 std::vector<std::shared_ptr<FieldFunctionInterpolation>> field_func_interpolation_stack;
 std::vector<std::shared_ptr<UnpartitionedMesh>> unpartitionedmesh_stack;
 std::vector<std::shared_ptr<Material>> material_stack;
@@ -64,7 +63,6 @@ Finalize()
 {
   SystemWideEventPublisher::GetInstance().PublishEvent(Event("ProgramExecuted"));
   mesh_stack.clear();
-  surface_mesh_stack.clear();
   object_stack.clear();
   field_func_interpolation_stack.clear();
   unpartitionedmesh_stack.clear();

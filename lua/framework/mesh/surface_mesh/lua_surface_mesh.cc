@@ -45,7 +45,7 @@ MeshComputeLoadBalancing(lua_State* L)
   auto surf_handle = LuaArg<size_t>(L, 1);
 
   auto& cur_surf =
-    opensn::GetStackItem<SurfaceMesh>(opensn::surface_mesh_stack, surf_handle, __FUNCTION__);
+    opensn::GetStackItem<SurfaceMesh>(opensn::object_stack, surf_handle, __FUNCTION__);
 
   auto x_cuts = LuaArg<std::vector<double>>(L, 2);
   auto y_cuts = LuaArg<std::vector<double>>(L, 3);
@@ -77,7 +77,7 @@ SurfaceMeshExtractOpenEdgesToObj(lua_State* L)
   auto file_name = LuaArg<std::string>(L, 2);
 
   auto& surface_mesh =
-    opensn::GetStackItem<SurfaceMesh>(opensn::surface_mesh_stack, surf_handle, __FUNCTION__);
+    opensn::GetStackItem<SurfaceMesh>(opensn::object_stack, surf_handle, __FUNCTION__);
 
   surface_mesh.ExtractOpenEdgesToObj(file_name.c_str());
 
@@ -114,7 +114,7 @@ MeshSurfaceMeshImportFromTriangleFiles(lua_State* L)
   const std::string file_name = LuaArg<std::string>(L, 2);
   auto as_poly = LuaArgOptional<bool>(L, 3, true);
 
-  auto& surface_mesh = opensn::GetStackItem<SurfaceMesh>(opensn::surface_mesh_stack, handle, fname);
+  auto& surface_mesh = opensn::GetStackItem<SurfaceMesh>(opensn::object_stack, handle, fname);
 
   surface_mesh.ImportFromTriangleFiles(file_name.c_str(), as_poly);
 
@@ -130,7 +130,7 @@ SurfaceMeshImportFromMshFiles(lua_State* L)
   auto as_poly = LuaArgOptional<bool>(L, 3, true);
 
   auto& surface_mesh =
-    opensn::GetStackItem<SurfaceMesh>(opensn::surface_mesh_stack, handle, __FUNCTION__);
+    opensn::GetStackItem<SurfaceMesh>(opensn::object_stack, handle, __FUNCTION__);
 
   std::stringstream outtext;
   outtext << "SurfaceMeshImportFromMshFiles: Loading a gmsh ascii file: " << file_name << std::endl;
