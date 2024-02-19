@@ -154,10 +154,10 @@ acceleration_Diffusion_DFEM(const InputParameters&)
   } // for cell
 
   auto mms_phi_function = CreateFunction("MMS_phi");
-  opensn::function_stack.push_back(mms_phi_function);
+  opensn::object_stack.push_back(mms_phi_function);
 
   auto mms_q_function = CreateFunction("MMS_q");
-  opensn::function_stack.push_back(mms_q_function);
+  opensn::object_stack.push_back(mms_q_function);
 
   // Make solver
   lbs::DiffusionMIPSolver solver(

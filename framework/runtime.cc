@@ -38,7 +38,6 @@ std::vector<std::shared_ptr<AngularQuadrature>> angular_quadrature_stack;
 std::vector<std::shared_ptr<Object>> object_stack;
 std::vector<std::shared_ptr<SpatialDiscretization>> sdm_stack;
 std::vector<std::shared_ptr<PostProcessor>> postprocessor_stack;
-std::vector<std::shared_ptr<Function>> function_stack;
 
 int
 Initialize()
@@ -69,7 +68,6 @@ Finalize()
   object_stack.clear();
   material_stack.clear();
   multigroup_xs_stack.clear();
-  function_stack.clear();
 
   CALI_MARK_END(opensn::name.c_str());
 }

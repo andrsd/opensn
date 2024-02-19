@@ -204,7 +204,7 @@ FFInterpolationSetProperty(lua_State* L)
       LuaCheckArgs<size_t, int, int, std::string>(L, fname);
       const auto func_name = LuaArg<std::string>(L, 4);
       auto operation_function = CreateFunction(func_name);
-      opensn::function_stack.push_back(operation_function);
+      opensn::object_stack.push_back(operation_function);
       cur_ffi_volume.SetOperationFunction(operation_function);
     }
 
