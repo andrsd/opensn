@@ -7,6 +7,7 @@
 #include "framework/console/console.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "lua/framework/mesh/lua_mesh.h"
 #include "lua/framework/math/functions/lua_scalar_spatial_material_function.h"
 
 using namespace opensn;
@@ -38,20 +39,25 @@ CreateFunction(const std::string& function_name)
 int
 CFEMDiffusionSolverCreate(lua_State* L)
 {
-  auto solver_name = LuaArgOptional<std::string>(L, 1, "CFEMDiffusionSolver");
+  const std::string fname = "diffusion.CFEMSolverCreate";
+  LuaCheckArgs<size_t>(L, fname);
+
+  auto grid_handle = LuaArg<size_t>(L, 1);
+  auto solver_name = LuaArgOptional<std::string>(L, 2, "CFEMDiffusionSolver");
+
+  auto grid = opensnlua::MeshContinuumFromHandle(grid_handle);
+  auto new_solver = std::make_shared<opensn::cfem_diffusion::Solver>(grid, solver_name);
 
   auto d_coef_function = CreateFunction("D_coef");
-  opensn::function_stack.push_back(d_coef_function);
+  opensn::object_stack.push_back(d_coef_function);
+  new_solver->SetDCoefFunction(d_coef_function);
 
   auto q_ext_function = CreateFunction("Q_ext");
-  opensn::function_stack.push_back(q_ext_function);
+  opensn::object_stack.push_back(q_ext_function);
+  new_solver->SetQExtFunction(q_ext_function);
 
   auto sigma_a_function = CreateFunction("Sigma_a");
-  opensn::function_stack.push_back(sigma_a_function);
-
-  auto new_solver = std::make_shared<opensn::cfem_diffusion::Solver>(solver_name);
-  new_solver->SetDCoefFunction(d_coef_function);
-  new_solver->SetQExtFunction(q_ext_function);
+  opensn::object_stack.push_back(sigma_a_function);
   new_solver->SetSigmaAFunction(sigma_a_function);
 
   opensn::object_stack.push_back(new_solver);

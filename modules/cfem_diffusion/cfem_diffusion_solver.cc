@@ -16,8 +16,9 @@ namespace opensn
 namespace cfem_diffusion
 {
 
-Solver::Solver(const std::string& name)
-  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
+Solver::Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name)
+  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}}),
+    grid_ptr_(grid)
 {
 }
 
@@ -54,16 +55,10 @@ Solver::Initialize()
             << program_timer.GetTimeString() << " " << TextName()
             << ": Initializing CFEM Diffusion solver ";
 
-  // Get grid
-  grid_ptr_ = GetCurrentMesh();
-  const auto& grid = *grid_ptr_;
-  if (grid_ptr_ == nullptr)
-    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
-
-  log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  log.Log() << "Global num cells: " << grid_ptr_->GetGlobalNumberOfCells();
 
   // BIDs
-  auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
+  auto globl_unique_bndry_ids = grid_ptr_->GetDomainUniqueBoundaryIDs();
 
   const auto& grid_boundary_id_map = grid_ptr_->GetBoundaryIDMap();
   for (uint64_t bndry_id : globl_unique_bndry_ids)
@@ -181,12 +176,11 @@ Solver::Execute()
 {
   log.Log() << "\nExecuting CFEM Diffusion solver";
 
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
   // Assemble the system
   log.Log() << "Assembling system: ";
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid_ptr_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();

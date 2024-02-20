@@ -10,7 +10,7 @@ for i=1,(N+1) do
 end
 
 meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = {nodes,nodes} })
-mesh.MeshGenerator.Execute(meshgen1)
+grid = mesh.MeshGenerator.Execute(meshgen1)
 
 --############################################### Set Material IDs
 mesh.SetUniformMaterialID(0)
@@ -51,7 +51,7 @@ mesh.SetBoundaryIDFromLogicalVolume(s_vol,s_bndry)
 
 --############################################### Add material properties
 --#### CFEM solver
-phys1 = diffusion.CFEMSolverCreate()
+phys1 = diffusion.CFEMSolverCreate(grid)
 
 diffusion.CFEMSetBCProperty(phys1,"boundary_type",e_bndry,"dirichlet",0.0)
 diffusion.CFEMSetBCProperty(phys1,"boundary_type",w_bndry,"dirichlet",0.0)

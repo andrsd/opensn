@@ -47,7 +47,7 @@ public:
   BoundaryPreferences boundary_preferences_;
   std::map<uint64_t, Boundary> boundaries_;
 
-  explicit Solver(const std::string& name);
+  Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name);
   ~Solver() override;
 
   void SetDCoefFunction(std::shared_ptr<ScalarSpatialMaterialFunction> function);
