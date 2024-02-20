@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/lua.h"
-
 #include "framework/mesh/mesh_generator/mesh_generator.h"
-
 #include "framework/console/console.h"
-
 #include "framework/runtime.h"
+#include "lua/framework/mesh/lua_mesh.h"
 
 using namespace opensn;
 
@@ -26,9 +24,9 @@ MeshGeneratorExecute(lua_State* L)
 
   auto handle = LuaArg<size_t>(L, 1);
   auto& generator = opensn::GetStackItem<MeshGenerator>(opensn::object_stack, handle, fname);
-  generator.Execute();
-
-  return LuaReturn(L);
+  auto grid = generator.Execute();
+  auto grid_handle = opensnlua::AddMeshContinuum(grid);
+  return LuaReturn(L, grid_handle);
 }
 
 } // namespace opensnlua

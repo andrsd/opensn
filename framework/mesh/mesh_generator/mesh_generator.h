@@ -35,28 +35,27 @@ class MeshContinuum;
 class MeshGenerator : public Object
 {
 public:
-  /**
-   * Final execution step.
-   */
-  virtual void Execute();
-
   static InputParameters GetInputParameters();
   explicit MeshGenerator(const InputParameters& params);
 
   /**
-   * Virtual method to generate the unpartitioned mesh for the next step.
+   * Execute the mesh generator
    */
-  virtual std::unique_ptr<UnpartitionedMesh>
+  virtual std::shared_ptr<MeshContinuum> Execute();
 
   /**
+   * Virtual method to generate the unpartitioned mesh for the next step.
+   *
    * Default behavior here is to return the input umesh unaltered.
    */
+  virtual std::unique_ptr<UnpartitionedMesh>
   GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMesh> input_umesh);
 
   struct VertexListHelper
   {
     virtual const Vertex& at(uint64_t vid) const = 0;
   };
+
   template <typename T>
   struct STLVertexListHelper : public VertexListHelper
   {
@@ -110,6 +109,7 @@ protected:
   const double scale_;
   const bool replicated_;
   std::vector<MeshGenerator*> inputs_;
+  std::shared_ptr<MeshContinuum> output_;
   GraphPartitioner* partitioner_ = nullptr;
 };
 

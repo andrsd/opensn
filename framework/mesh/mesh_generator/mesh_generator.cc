@@ -76,7 +76,7 @@ MeshGenerator::GenerateUnpartitionedMesh(std::unique_ptr<UnpartitionedMesh> inpu
   return input_umesh;
 }
 
-void
+std::shared_ptr<MeshContinuum>
 MeshGenerator::Execute()
 {
   // Execute all input generators
@@ -98,9 +98,10 @@ MeshGenerator::Execute()
   BroadcastPIDs(cell_pids, 0, mpi_comm);
 
   auto grid_ptr = SetupMesh(std::move(current_umesh), cell_pids);
-  mesh_stack.push_back(grid_ptr);
 
   opensn::mpi_comm.barrier();
+
+  return grid_ptr;
 }
 
 void
