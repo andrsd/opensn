@@ -16,9 +16,11 @@ namespace opensn
 namespace dfem_diffusion
 {
 
-Solver::Solver(const std::string& name)
-  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
+Solver::Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name)
+  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}}), grid_(grid)
 {
+  if (grid_ == nullptr)
+    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 }
 
 Solver::~Solver()
@@ -54,18 +56,12 @@ Solver::Initialize()
             << program_timer.GetTimeString() << " " << TextName()
             << ": Initializing DFEM Diffusion solver ";
 
-  // Get grid
-  grid_ptr_ = GetCurrentMesh();
-  const auto& grid = *grid_ptr_;
-  if (grid_ptr_ == nullptr)
-    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
-
-  log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  log.Log() << "Global num cells: " << grid_->GetGlobalNumberOfCells();
 
   // BIDs
-  auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
+  auto globl_unique_bndry_ids = grid_->GetDomainUniqueBoundaryIDs();
 
-  const auto& grid_boundary_id_map = grid_ptr_->GetBoundaryIDMap();
+  const auto& grid_boundary_id_map = grid_->GetBoundaryIDMap();
   for (uint64_t bndry_id : globl_unique_bndry_ids)
   {
     if (grid_boundary_id_map.count(bndry_id) == 0)
@@ -136,7 +132,7 @@ Solver::Initialize()
   } // for bndry
 
   // Make SDM
-  sdm_ptr_ = PieceWiseLinearDiscontinuous::New(*grid_ptr_);
+  sdm_ptr_ = PieceWiseLinearDiscontinuous::New(*grid_);
   const auto& sdm = *sdm_ptr_;
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
@@ -182,7 +178,6 @@ Solver::Execute()
 {
   log.Log() << "\nExecuting DFEM IP Diffusion solver";
 
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
   // Assemble the system
@@ -191,7 +186,7 @@ Solver::Execute()
 
   log.Log() << "Assembling system: ";
 
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const size_t num_nodes = cell_mapping.NumNodes();
@@ -244,7 +239,7 @@ Solver::Execute()
       // interior face
       if (face.has_neighbor_)
       {
-        const auto& adj_cell = grid.cells[face.neighbor_id_];
+        const auto& adj_cell = grid_->cells[face.neighbor_id_];
         const auto& adj_cell_mapping = sdm.GetCellMapping(adj_cell);
         const auto ac_nodes = adj_cell_mapping.GetNodeLocations();
         const size_t acf = Grid::MapCellFace(cell, adj_cell, f);
