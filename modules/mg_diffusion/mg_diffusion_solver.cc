@@ -22,15 +22,18 @@ namespace opensn
 namespace mg_diffusion
 {
 
-Solver::Solver(const std::string& name)
+Solver::Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name)
   : opensn::Solver(name,
                    {{"max_inner_iters", int64_t(500)},
                     {"residual_tolerance", 1.0e-2},
                     {"verbose_level", int64_t(0)},
                     {"thermal_flux_tolerance", 1.0e-2},
                     {"max_thermal_iters", int64_t(500)},
-                    {"do_two_grid", false}})
+                    {"do_two_grid", false}}),
+    grid_(grid)
 {
+  if (grid_ == nullptr)
+    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 }
 
 Solver::~Solver()
@@ -64,27 +67,21 @@ Solver::Initialize()
             << program_timer.GetTimeString() << " " << TextName()
             << ": Initializing CFEM Multigroup Diffusion solver ";
 
-  // Get grid
-  grid_ptr_ = GetCurrentMesh();
-  const auto& grid = *grid_ptr_;
-  if (grid_ptr_ == nullptr)
-    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
-
-  log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  log.Log() << "Global num cells: " << grid_->GetGlobalNumberOfCells();
 
   // Add unique material ids
   std::set<int> unique_material_ids;
   int invalid_mat_cell_count = 0;
-  for (auto& cell : grid.local_cells)
+  for (auto& cell : grid_->local_cells)
   {
     unique_material_ids.insert(cell.material_id_);
     if (cell.material_id_ < 0)
       ++invalid_mat_cell_count;
   }
-  const auto& ghost_cell_ids = grid.cells.GetGhostGlobalIDs();
+  const auto& ghost_cell_ids = grid_->cells.GetGhostGlobalIDs();
   for (uint64_t cell_id : ghost_cell_ids)
   {
-    const auto& cell = grid.cells[cell_id];
+    const auto& cell = grid_->cells[cell_id];
     unique_material_ids.insert(cell.material_id_);
     if (cell.material_id_ < 0)
       ++invalid_mat_cell_count;
@@ -99,11 +96,11 @@ Solver::Initialize()
   mg_diffusion::Solver::Initialize_Materials(unique_material_ids);
 
   // BIDs
-  auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
+  auto globl_unique_bndry_ids = grid_->GetDomainUniqueBoundaryIDs();
   mg_diffusion::Solver::Set_BCs(globl_unique_bndry_ids);
 
   // Make SDM
-  sdm_ptr_ = PieceWiseLinearContinuous::New(*grid_ptr_);
+  sdm_ptr_ = PieceWiseLinearContinuous::New(*grid_);
   const auto& sdm = *sdm_ptr_;
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
@@ -422,14 +419,13 @@ Solver::Compute_TwoGrid_Params()
 void
 Solver::Compute_TwoGrid_VolumeFractions()
 {
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
-  const size_t ncells = grid.local_cells.size();
+  const size_t ncells = grid_->local_cells.size();
   VF_.resize(ncells);
 
   int counter = 0;
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -522,13 +518,12 @@ Solver::Set_BCs(const std::vector<uint64_t>& globl_unique_bndry_ids)
 void
 Solver::Assemble_A_bext()
 {
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
   // Assemble the system
   unsigned int i_two_grid = do_two_grid_ ? 1 : 0;
 
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -801,7 +796,7 @@ Solver::Assemble_RHS(const unsigned int g, const int64_t verbose)
 
   const auto& sdm = *mg_diffusion::Solver::sdm_ptr_;
   // compute inscattering term
-  for (const auto& cell : mg_diffusion::Solver::grid_ptr_->local_cells)
+  for (const auto& cell : mg_diffusion::Solver::grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -870,7 +865,7 @@ Solver::Assemble_RHS_TwoGrid(const int64_t verbose)
 
   const auto& sdm = *sdm_ptr_;
   // compute inscattering term
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -926,7 +921,6 @@ Solver::Update_Flux_With_TwoGrid(const int64_t verbose)
   if (verbose > 2)
     log.Log() << "\nUpdating Thermal fluxes from two-grid";
 
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
   // contains two_grid flux, stored in last num_groups entry
@@ -934,7 +928,7 @@ Solver::Update_Flux_With_TwoGrid(const int64_t verbose)
   VecGetArrayRead(x_[num_groups_], &xlocal_tg);
 
   int counter = 0;
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const size_t num_nodes = cell_mapping.NumNodes();

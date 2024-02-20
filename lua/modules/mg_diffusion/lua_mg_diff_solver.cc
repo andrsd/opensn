@@ -6,6 +6,7 @@
 #include "modules/mg_diffusion/mg_diffusion_solver.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "lua/framework/mesh/lua_mesh.h"
 
 using namespace opensn;
 
@@ -19,10 +20,13 @@ int
 CFEMMGDiffusionSolverCreate(lua_State* L)
 {
   const std::string fname = "diffusion.CFEMMGSolverCreate";
+  LuaCheckArgs<size_t>(L, fname);
 
-  auto solver_name = LuaArgOptional<std::string>(L, 1, "MGDiffusionSolver");
+  auto grid_handle = LuaArg<size_t>(L, 1);
+  auto solver_name = LuaArgOptional<std::string>(L, 2, "MGDiffusionSolver");
 
-  auto new_solver = std::make_shared<opensn::mg_diffusion::Solver>(solver_name);
+  auto grid = opensnlua::MeshContinuumFromHandle(grid_handle);
+  auto new_solver = std::make_shared<opensn::mg_diffusion::Solver>(grid, solver_name);
 
   opensn::object_stack.push_back(new_solver);
 

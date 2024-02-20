@@ -44,8 +44,6 @@ struct TwoGridCollapsedInfo
 class Solver : public opensn::Solver
 {
 public:
-  std::shared_ptr<MeshContinuum> grid_ptr_ = nullptr;
-
   std::shared_ptr<SpatialDiscretization> sdm_ptr_ = nullptr;
 
   uint num_groups_ = 0;
@@ -81,7 +79,7 @@ public:
   BoundaryPreferences boundary_preferences_;
   std::vector<Boundary> boundaries_;
 
-  explicit Solver(const std::string& name);
+  Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name);
   ~Solver() override;
 
   void Initialize() override;
@@ -105,6 +103,8 @@ public:
   void UpdateFieldFunctions();
 
 protected:
+  std::shared_ptr<MeshContinuum> grid_;
+
   std::map<int, std::shared_ptr<MultiGroupXS>> matid_to_xs_map;
 
   std::map<int, std::shared_ptr<IsotropicMultiGrpSource>> matid_to_src_map;
