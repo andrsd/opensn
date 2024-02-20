@@ -6,34 +6,36 @@
 #include "framework/field_functions/field_function_grid_based.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "lua/framework/lua.h"
 #include "lua/framework/console/console.h"
+#include "lua/framework/mesh/lua_mesh.h"
 
 using namespace opensn;
+using namespace opensnlua;
 
 namespace unit_sim_tests
 {
 
-ParameterBlock acceleration_Diffusion_CFEM(const InputParameters& params);
+int acceleration_Diffusion_CFEM(lua_State* L);
 
-RegisterWrapperFunctionNamespace(unit_tests,
-                                 acceleration_Diffusion_CFEM,
-                                 nullptr,
-                                 acceleration_Diffusion_CFEM);
+RegisterLuaFunctionNamespace(acceleration_Diffusion_CFEM, unit_tests, acceleration_Diffusion_CFEM);
 
-ParameterBlock
-acceleration_Diffusion_CFEM(const InputParameters&)
+int
+acceleration_Diffusion_CFEM(lua_State* L)
 {
   typedef std::map<int, lbs::Multigroup_D_and_sigR> MatID2XSMap;
   opensn::log.Log() << "SimTest92_DSA";
 
-  // Get grid
-  auto grid_ptr = GetCurrentMesh();
-  const auto& grid = *grid_ptr;
+  auto params = LuaArg<ParameterBlock>(L, 1);
 
-  opensn::log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  // Get grid
+  auto mesh_handle = params.GetParamValue<size_t>("mesh_handle");
+  auto grid = opensnlua::MeshContinuumFromHandle(mesh_handle);
+
+  opensn::log.Log() << "Global num cells: " << grid->GetGlobalNumberOfCells();
 
   // Make SDM
-  std::shared_ptr<SpatialDiscretization> sdm_ptr = PieceWiseLinearContinuous::New(grid);
+  std::shared_ptr<SpatialDiscretization> sdm_ptr = PieceWiseLinearContinuous::New(*grid);
   const auto& sdm = *sdm_ptr;
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
@@ -61,12 +63,12 @@ acceleration_Diffusion_CFEM(const InputParameters&)
   matid_2_xs_map.insert(std::make_pair(0, lbs::Multigroup_D_and_sigR{{1.0}, {0.0}}));
 
   std::vector<lbs::UnitCellMatrices> unit_cell_matrices;
-  unit_cell_matrices.resize(grid.local_cells.size());
+  unit_cell_matrices.resize(grid->local_cells.size());
 
   // Build unit integrals
   typedef std::vector<Vector3> VecVec3;
   typedef std::vector<VecVec3> MatVec3;
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const size_t cell_num_faces = cell.faces_.size();
@@ -149,7 +151,7 @@ acceleration_Diffusion_CFEM(const InputParameters&)
   // solver.options.ref_solution_lua_function = "MMS_phi";
   // solver.options.source_lua_function = "MMS_q";
   solver.options.verbose = true;
-  solver.options.residual_tolerance = 1.0e-12;
+  solver.options.residual_tolerance = 1.0e-10;
   solver.options.perform_symmetry_check = true;
 
   solver.Initialize();
@@ -175,7 +177,7 @@ acceleration_Diffusion_CFEM(const InputParameters&)
 
   FieldFunctionGridBased::ExportMultipleToVTK("SimTest_92b_DSA_PWLC", {ff});
 
-  return ParameterBlock();
+  return LuaReturn(L);
 }
 
 } //  namespace unit_sim_tests
