@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "modules/fv_diffusion/fv_diffusion_solver.h"
-
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
@@ -17,9 +16,11 @@ namespace opensn
 namespace fv_diffusion
 {
 
-Solver::Solver(const std::string& name)
-  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}})
+Solver::Solver(std::shared_ptr<MeshContinuum> grid, const std::string& name)
+  : opensn::Solver(name, {{"max_iters", int64_t(500)}, {"residual_tolerance", 1.0e-2}}), grid_(grid)
 {
+  if (grid_ == nullptr)
+    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
 }
 
 fv_diffusion::Solver::~Solver()
@@ -56,18 +57,12 @@ fv_diffusion::Solver::Initialize()
             << program_timer.GetTimeString() << " " << TextName()
             << ": Initializing CFEM Diffusion solver ";
 
-  // Get grid
-  grid_ptr_ = GetCurrentMesh();
-  const auto& grid = *grid_ptr_;
-  if (grid_ptr_ == nullptr)
-    throw std::logic_error(std::string(__PRETTY_FUNCTION__) + " No grid defined.");
-
-  log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  log.Log() << "Global num cells: " << grid_->GetGlobalNumberOfCells();
 
   // BIDs
-  auto globl_unique_bndry_ids = grid.GetDomainUniqueBoundaryIDs();
+  auto globl_unique_bndry_ids = grid_->GetDomainUniqueBoundaryIDs();
 
-  const auto& grid_boundary_id_map = grid_ptr_->GetBoundaryIDMap();
+  const auto& grid_boundary_id_map = grid_->GetBoundaryIDMap();
   for (uint64_t bndry_id : globl_unique_bndry_ids)
   {
     if (grid_boundary_id_map.count(bndry_id) == 0)
@@ -138,7 +133,7 @@ fv_diffusion::Solver::Initialize()
   } // for bndry
 
   // Make SDM
-  sdm_ptr_ = FiniteVolume::New(*grid_ptr_);
+  sdm_ptr_ = FiniteVolume::New(*grid_);
   const auto& sdm = *sdm_ptr_;
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
@@ -185,14 +180,13 @@ fv_diffusion::Solver::Execute()
 {
   log.Log() << "\nExecuting CFEM Diffusion solver";
 
-  const auto& grid = *grid_ptr_;
   const auto& sdm = *sdm_ptr_;
 
   // Assemble the system
   // P ~ Present cell
   // N ~ Neighbor cell
   log.Log() << "Assembling system: ";
-  for (const auto& cell_P : grid.local_cells)
+  for (const auto& cell_P : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell_P);
     const double volume_P = cell_mapping.CellVolume(); // Volume of present cell
@@ -218,7 +212,7 @@ fv_diffusion::Solver::Execute()
 
       if (face.has_neighbor_)
       {
-        const auto& cell_N = grid.cells[face.neighbor_id_];
+        const auto& cell_N = grid_->cells[face.neighbor_id_];
         const int jmat = cell_N.material_id_;
         const auto& x_cc_N = cell_N.centroid_;
         const auto x_PN = x_cc_N - x_cc_P;
