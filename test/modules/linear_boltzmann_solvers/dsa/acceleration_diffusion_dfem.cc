@@ -6,8 +6,10 @@
 #include "framework/field_functions/field_function_grid_based.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "lua/framework/lua.h"
 #include "lua/framework/console/console.h"
 #include "lua/framework/math/functions/lua_scalar_spatial_function.h"
+#include "lua/framework/mesh/lua_mesh.h"
 
 using namespace opensn;
 using namespace opensnlua;
@@ -30,27 +32,26 @@ CreateFunction(const std::string& function_name)
 
 } // namespace
 
-ParameterBlock acceleration_Diffusion_DFEM(const InputParameters& params);
+int acceleration_Diffusion_DFEM(lua_State* L);
 
-RegisterWrapperFunctionNamespace(unit_tests,
-                                 acceleration_Diffusion_DFEM,
-                                 nullptr,
-                                 acceleration_Diffusion_DFEM);
+RegisterLuaFunctionNamespace(acceleration_Diffusion_DFEM, unit_tests, acceleration_Diffusion_DFEM);
 
-ParameterBlock
-acceleration_Diffusion_DFEM(const InputParameters&)
+int
+acceleration_Diffusion_DFEM(lua_State* L)
 {
   typedef std::map<int, lbs::Multigroup_D_and_sigR> MatID2XSMap;
   opensn::log.Log() << "SimTest92_DSA";
 
-  // Get grid
-  auto grid_ptr = GetCurrentMesh();
-  const auto& grid = *grid_ptr;
+  auto params = LuaArg<ParameterBlock>(L, 1);
 
-  opensn::log.Log() << "Global num cells: " << grid.GetGlobalNumberOfCells();
+  // Get grid
+  auto mesh_handle = params.GetParamValue<size_t>("mesh_handle");
+  auto grid = opensnlua::MeshContinuumFromHandle(mesh_handle);
+
+  opensn::log.Log() << "Global num cells: " << grid->GetGlobalNumberOfCells();
 
   // Make SDM
-  std::shared_ptr<SpatialDiscretization> sdm_ptr = PieceWiseLinearDiscontinuous::New(grid);
+  std::shared_ptr<SpatialDiscretization> sdm_ptr = PieceWiseLinearDiscontinuous::New(*grid);
   const auto& sdm = *sdm_ptr;
 
   const auto& OneDofPerNode = sdm.UNITARY_UNKNOWN_MANAGER;
@@ -72,12 +73,12 @@ acceleration_Diffusion_DFEM(const InputParameters&)
   matid_2_xs_map.insert(std::make_pair(0, lbs::Multigroup_D_and_sigR{{1.0}, {0.0}}));
 
   std::vector<lbs::UnitCellMatrices> unit_cell_matrices;
-  unit_cell_matrices.resize(grid.local_cells.size());
+  unit_cell_matrices.resize(grid->local_cells.size());
 
   // Build unit integrals
   typedef std::vector<Vector3> VecVec3;
   typedef std::vector<VecVec3> MatVec3;
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const size_t cell_num_faces = cell.faces_.size();
@@ -197,8 +198,7 @@ acceleration_Diffusion_DFEM(const InputParameters&)
   const auto field_wg = ff->GetGhostedFieldVector();
 
   double local_error = 0.0;
-  lua_State* L = Console::GetInstance().GetConsoleState();
-  for (const auto& cell : grid.local_cells)
+  for (const auto& cell : grid->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const size_t num_nodes = cell_mapping.NumNodes();
@@ -231,9 +231,9 @@ acceleration_Diffusion_DFEM(const InputParameters&)
   global_error = std::sqrt(global_error);
 
   opensn::log.Log() << "Error: " << std::scientific << global_error
-                    << " Num-cells: " << grid.GetGlobalNumberOfCells();
+                    << " Num-cells: " << grid->GetGlobalNumberOfCells();
 
-  return ParameterBlock();
+  return LuaReturn(L);
 }
 
 } //  namespace unit_sim_tests
