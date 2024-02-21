@@ -61,7 +61,7 @@ def p_code(p):
 
     code = p[1].strip()
     if len(code) > 0:
-        markdown += "```\n"
+        markdown += "```lua\n"
         markdown += code + "\n"
         markdown += "```\n"
         markdown += "\n"
@@ -103,6 +103,6 @@ with open(args.md_filename, "w") as f:
     f.write(
         "You can copy/paste the text below or look in the file named ```{}```:\n".format(
             args.lua_filename))
-    f.write("```\n")
+    f.write("```lua\n")
     f.write(lua_src)
     f.write("```\n")
