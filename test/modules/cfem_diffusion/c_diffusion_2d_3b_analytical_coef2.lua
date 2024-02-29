@@ -52,6 +52,7 @@ mesh.SetBoundaryIDFromLogicalVolume(s_vol,s_bndry)
 --############################################### Add material properties
 --#### CFEM solver
 phys1 = CFEMDiffusionSolverCreate()
+SolverSetBasicOption(phys1, "residual_tolerance", 1E-10)
 
 CFEMDiffusionSetBCProperty(phys1,"boundary_type",e_bndry,"dirichlet",0.0)
 CFEMDiffusionSetBCProperty(phys1,"boundary_type",w_bndry,"dirichlet",0.0)

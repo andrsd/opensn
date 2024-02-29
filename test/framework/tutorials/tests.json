@@ -3,8 +3,8 @@
     "file" : "fv_test1.lua", "num_procs" : 1, "checks" :
     [
       {
-        "type" : "FloatCompare", "key" : "iteration   10", "wordnum" : 6,
-        "gold" : 2.2349712e-07, "tol" : 1.0e-10
+        "type" : "FloatCompare", "key" : "iteration   17", "wordnum" : 6,
+        "gold" : 2.2225936e-13, "tol" : 1.0e-10
       }
     ]
   },
@@ -12,8 +12,8 @@
     "file" : "fv_test2.lua", "num_procs" : 1, "checks" :
     [
       {
-        "type" : "FloatCompare", "key" : "iteration   10", "wordnum" : 6,
-        "gold" : 2.2349712e-07, "tol" : 1.0e-10
+        "type" : "FloatCompare", "key" : "iteration   17", "wordnum" : 6,
+        "gold" : 2.2225936e-13, "tol" : 1.0e-10
       }
     ]
   },
@@ -21,8 +21,8 @@
     "file" : "pwlc_test1.lua", "num_procs" : 4, "checks" :
     [
       {
-        "type" : "FloatCompare", "key" : "iteration   10", "wordnum" : 6,
-        "gold" : 1.3725535e-07, "tol" : 1.0e-11
+        "type" : "FloatCompare", "key" : "iteration   16", "wordnum" : 6,
+        "gold" : 6.4336099e-13, "tol" : 1.0e-9
       }
     ]
   },
@@ -30,8 +30,8 @@
     "file" : "pwlc_test2.lua", "num_procs" : 4, "checks" :
     [
       {
-        "type" : "FloatCompare", "key" : "iteration    6", "wordnum" : 6,
-        "gold" : 1.1613008e-07, "tol" : 1.0e-10
+        "type" : "FloatCompare", "key" : "iteration   11", "wordnum" : 6,
+        "gold" : 3.6796669e-13, "tol" : 1.0e-10
       },
       {
         "type" : "FloatCompare", "key" : "Error:", "wordnum" : 2,
