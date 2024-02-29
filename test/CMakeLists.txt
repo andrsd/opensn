@@ -34,3 +34,13 @@ add_custom_target(test
             -w3
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
+
+add_custom_target(test-tutorials
+    COMMAND
+        ${CMAKE_SOURCE_DIR}/test/run_tests
+            -d ${CMAKE_SOURCE_DIR}/doc/tutorials
+            --exe ${CMAKE_BINARY_DIR}/lua/opensn
+            -v2
+            -w3
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
