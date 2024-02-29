@@ -24,3 +24,13 @@ target_link_libraries(opensn-test
 target_compile_definitions(opensn-test PRIVATE OPENSN_WITH_LUA)
 
 target_compile_options(opensn-test PRIVATE ${OPENSN_CXX_FLAGS})
+
+add_custom_target(test
+    COMMAND
+        ${CMAKE_SOURCE_DIR}/test/run_tests
+            -d ${CMAKE_SOURCE_DIR}/test
+            --exe ${CMAKE_BINARY_DIR}/test/opensn-test
+            -v2
+            -w3
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
