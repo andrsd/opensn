@@ -207,7 +207,7 @@ DiscreteOrdinatesCurvilinearSolver::PerformInputChecks()
     Vector3(0.0, 1.0, 0.0),
     Vector3(0.0, 0.0, 1.0),
   };
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     for (const auto& face : cell.faces_)
     {
@@ -226,7 +226,7 @@ DiscreteOrdinatesCurvilinearSolver::PerformInputChecks()
           {
             for (const auto& v_id : face.vertex_ids_)
             {
-              const auto& vertex = grid_ptr_->vertices[v_id];
+              const auto& vertex = grid_->vertices[v_id];
               if (std::abs(vertex[d]) > 1.0e-12)
               {
                 log.LogAllError() << "D_DO_RZ_SteadyState::SteadyStateSolver::"
@@ -290,7 +290,7 @@ DiscreteOrdinatesCurvilinearSolver::InitializeSpatialDiscretization()
   }
 
   typedef PieceWiseLinearDiscontinuous SDM_PWLD;
-  discretization_ = SDM_PWLD::New(*grid_ptr_, qorder, system);
+  discretization_ = SDM_PWLD::New(*grid_, qorder, system);
 
   ComputeUnitIntegrals();
 
@@ -323,7 +323,7 @@ DiscreteOrdinatesCurvilinearSolver::InitializeSpatialDiscretization()
     }
   }
 
-  discretization_secondary_ = SDM_PWLD::New(*grid_ptr_, qorder, system);
+  discretization_secondary_ = SDM_PWLD::New(*grid_, qorder, system);
 
   ComputeSecondaryUnitIntegrals();
 }
@@ -372,10 +372,10 @@ DiscreteOrdinatesCurvilinearSolver::ComputeSecondaryUnitIntegrals()
                                  {}};
   };
 
-  const size_t num_local_cells = grid_ptr_->local_cells.size();
+  const size_t num_local_cells = grid_->local_cells.size();
   secondary_unit_cell_matrices_.resize(num_local_cells);
 
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
     secondary_unit_cell_matrices_[cell.local_id_] = ComputeCellUnitIntegrals(cell);
 
   opensn::mpi_comm.barrier();
@@ -385,7 +385,7 @@ DiscreteOrdinatesCurvilinearSolver::ComputeSecondaryUnitIntegrals()
 std::shared_ptr<SweepChunk>
 DiscreteOrdinatesCurvilinearSolver::SetSweepChunk(lbs::LBSGroupset& groupset)
 {
-  auto sweep_chunk = std::make_shared<SweepChunkPwlrz>(*grid_ptr_,
+  auto sweep_chunk = std::make_shared<SweepChunkPwlrz>(*grid_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        secondary_unit_cell_matrices_,

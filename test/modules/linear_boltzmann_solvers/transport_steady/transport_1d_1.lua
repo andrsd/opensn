@@ -1,7 +1,7 @@
 -- 1D Transport test with Vacuum and Incident-isotropic BC.
 -- SDM: PWLD
 -- Test: Max-value=0.49903 and 7.18243e-4
-num_procs = 3
+num_procs = 1
 
 
 
@@ -27,7 +27,7 @@ for i=1,(N+1) do
 end
 
 meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = {nodes} })
-mesh.MeshGenerator.Execute(meshgen1)
+grid = mesh.MeshGenerator.Execute(meshgen1)
 
 --############################################### Set Material IDs
 mesh.SetUniformMaterialID(0)
@@ -63,6 +63,7 @@ mat.SetProperty(materials[2], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 40)
 lbs_block =
 {
+  grid_handle = grid,
   num_groups = num_groups,
   groupsets =
   {
@@ -108,7 +109,9 @@ lbs_options =
   scattering_order = 5,
 }
 
-phys1 = lbs.DiscreteOrdinatesSolver.Create(lbs_block)
+-- phys1 = lbs.DiscreteOrdinatesSolver.Create(lbs_block)
+phys1 = lbs.DiscreteOrdinatesSolverCreate(lbs_block)
+
 lbs.SetOptions(phys1, lbs_options)
 
 --############################################### Initialize and Execute Solver

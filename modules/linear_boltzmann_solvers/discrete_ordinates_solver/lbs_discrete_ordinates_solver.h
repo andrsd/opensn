@@ -23,13 +23,17 @@ protected:
   typedef std::pair<UniqueSOGroupings, DirIDToSOMap> SwpOrderGroupingInfo;
 
 public:
+  DiscreteOrdinatesSolver(std::shared_ptr<MeshContinuum> grid, const std::string& text_name);
   /**
    * Static registration based constructor.
    */
   explicit DiscreteOrdinatesSolver(const InputParameters& params);
   ~DiscreteOrdinatesSolver() override;
 
+  void SetSweepType(const std::string& sweep_type) { sweep_type_ = sweep_type; }
   const std::string& SweepType() const { return sweep_type_; }
+
+  void SetVerboseSweepAngles(const std::vector<size_t>& angles) { verbose_sweep_angles_ = angles; }
 
   std::pair<size_t, size_t> GetNumPhiIterativeUnknowns() override;
   void Initialize() override;
@@ -84,8 +88,6 @@ public:
   ComputeLeakage(const std::vector<uint64_t>& boundary_ids) const;
 
 protected:
-  explicit DiscreteOrdinatesSolver(const std::string& text_name);
-
   /**
    * Initializes Within-GroupSet solvers.
    */
@@ -131,7 +133,7 @@ protected:
     quadrature_fluds_commondata_map_;
 
   std::vector<size_t> verbose_sweep_angles_;
-  const std::string sweep_type_;
+  std::string sweep_type_;
 
 public:
   static InputParameters GetInputParameters();

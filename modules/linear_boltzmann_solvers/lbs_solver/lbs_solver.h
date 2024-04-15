@@ -32,7 +32,7 @@ struct WGSContext;
 class LBSSolver : public opensn::Solver
 {
 public:
-  explicit LBSSolver(const std::string& text_name);
+  LBSSolver(std::shared_ptr<MeshContinuum> grid, const std::string& text_name);
   /**
    * Input parameters based construction.
    */
@@ -102,6 +102,7 @@ public:
    * derived from the list size.
    */
   void AddGroupset();
+  void AddGroupset(const lbs::LBSGroupset& groupset);
   std::vector<LBSGroupset>& Groupsets();
   const std::vector<LBSGroupset>& Groupsets() const;
 
@@ -541,7 +542,7 @@ protected:
   std::vector<PointSource> point_sources_;
   std::vector<DistributedSource> distributed_sources_;
 
-  std::shared_ptr<MeshContinuum> grid_ptr_;
+  std::shared_ptr<MeshContinuum> grid_;
   std::shared_ptr<opensn::SpatialDiscretization> discretization_ = nullptr;
 
   std::vector<CellFaceNodalMapping> grid_nodal_mappings_;

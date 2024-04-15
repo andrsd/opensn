@@ -33,11 +33,6 @@ namespace lbs
 
 OpenSnRegisterObjectInNamespace(lbs, DiscreteOrdinatesSolver);
 
-DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(const std::string& text_name)
-  : LBSSolver(text_name)
-{
-}
-
 InputParameters
 DiscreteOrdinatesSolver::GetInputParameters()
 {
@@ -59,6 +54,12 @@ DiscreteOrdinatesSolver::GetInputParameters()
   params.ConstrainParameterRange("sweep_type", AllowableRangeList::New({"AAH", "CBC"}));
 
   return params;
+}
+
+DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(std::shared_ptr<MeshContinuum> grid,
+                                                 const std::string& text_name)
+  : LBSSolver(grid, text_name), verbose_sweep_angles_(), sweep_type_("AAH")
+{
 }
 
 DiscreteOrdinatesSolver::DiscreteOrdinatesSolver(const InputParameters& params)
@@ -226,7 +227,7 @@ DiscreteOrdinatesSolver::SetGSPETScVecFromPrimarySTLvector(const LBSGroupset& gr
   int gss = gsf - gsi + 1;
 
   int64_t index = -1;
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     auto& transport_view = cell_transport_views_[cell.local_id_];
 
@@ -285,7 +286,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& gr
   int gss = gsf - gsi + 1;
 
   int64_t index = -1;
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     auto& transport_view = cell_transport_views_[cell.local_id_];
 
@@ -351,7 +352,7 @@ DiscreteOrdinatesSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groups
   int gsi = groupset.groups_.front().id_;
   size_t gss = groupset.groups_.size();
 
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     auto& transport_view = cell_transport_views_[cell.local_id_];
 
@@ -405,7 +406,7 @@ DiscreteOrdinatesSolver::SetMultiGSPETScVecFromPrimarySTLvector(
     int gsf = groupset.groups_.back().id_;
     int gss = gsf - gsi + 1;
 
-    for (const auto& cell : grid_ptr_->local_cells)
+    for (const auto& cell : grid_->local_cells)
     {
       auto& transport_view = cell_transport_views_[cell.local_id_];
 
@@ -468,7 +469,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom(
     int gsf = groupset.groups_.back().id_;
     int gss = gsf - gsi + 1;
 
-    for (const auto& cell : grid_ptr_->local_cells)
+    for (const auto& cell : grid_->local_cells)
     {
       auto& transport_view = cell_transport_views_[cell.local_id_];
 
@@ -534,7 +535,7 @@ DiscreteOrdinatesSolver::ReorientAdjointSolution()
         for (int jdir = 0; jdir < num_gs_angles; ++jdir)
         {
           // Angles are opposite if their sum is zero
-          const auto sum = grid_ptr_->Attributes() & DIMENSION_1
+          const auto sum = grid_->Attributes() & DIMENSION_1
                              ? Vector3(0.0, 0.0, omegas[idir].z + omegas[jdir].z)
                              : omegas[idir] + omegas[jdir];
           const bool opposite = sum.NormSquare() < 1.0e-8;
@@ -561,7 +562,7 @@ DiscreteOrdinatesSolver::ReorientAdjointSolution()
     const auto gsg_i = groupset.groups_.front().id_;
     const auto gsg_f = groupset.groups_.back().id_;
 
-    for (const auto& cell : grid_ptr_->local_cells)
+    for (const auto& cell : grid_->local_cells)
     {
       const auto& transport_view = cell_transport_views_[cell.local_id_];
       for (int i = 0; i < transport_view.NumNodes(); ++i)
@@ -645,7 +646,7 @@ DiscreteOrdinatesSolver::ComputeBalance()
   double local_in_flow = 0.0;
   double local_absorption = 0.0;
   double local_production = 0.0;
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = discretization_->GetCellMapping(cell);
     const auto& transport_view = cell_transport_views_[cell.local_id_];
@@ -775,7 +776,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const unsigned int groupset_id,
 
   // Start integration
   std::vector<double> local_leakage(num_gs_groups, 0.0);
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = sdm.GetCellMapping(cell);
     const auto& fe_values = unit_cell_matrices_[cell.local_id_];
@@ -830,7 +831,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const std::vector<uint64_t>& boundary_id
                        "The option `save_angular_flux` must be set to `true` in order "
                        "to compute outgoing currents.");
 
-  const auto unique_bids = grid_ptr_->GetDomainUniqueBoundaryIDs();
+  const auto unique_bids = grid_->GetDomainUniqueBoundaryIDs();
   for (const auto& bid : boundary_ids)
   {
     const auto it = std::find(unique_bids.begin(), unique_bids.end(), bid);
@@ -857,7 +858,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const std::vector<uint64_t>& boundary_id
     const auto& psi_gs = psi_new_local_[gs];
 
     // Loop over cells for integration
-    for (const auto& cell : grid_ptr_->local_cells)
+    for (const auto& cell : grid_->local_cells)
     {
       const auto& cell_mapping = discretization_->GetCellMapping(cell);
       const auto& fe_values = unit_cell_matrices_.at(cell.local_id_);
@@ -931,7 +932,7 @@ DiscreteOrdinatesSolver::InitializeSweepDataStructures()
   {
     if (quadrature_unq_so_grouping_map_.count(groupset.quadrature_) == 0)
       quadrature_unq_so_grouping_map_[groupset.quadrature_] = AssociateSOsAndDirections(
-        *grid_ptr_, *groupset.quadrature_, groupset.angleagg_method_, options_.geometry_type);
+        *grid_, *groupset.quadrature_, groupset.angleagg_method_, options_.geometry_type);
 
     if (quadrature_allow_cycles_map_.count(groupset.quadrature_) == 0)
       quadrature_allow_cycles_map_[groupset.quadrature_] = groupset.allow_cycles_;
@@ -963,13 +964,13 @@ DiscreteOrdinatesSolver::InitializeSweepDataStructures()
       if (sweep_type_ == "AAH")
       {
         const auto new_swp_order = std::make_shared<SPDS_AdamsAdamsHawkins>(
-          omega, *this->grid_ptr_, quadrature_allow_cycles_map_[quadrature], verbose);
+          omega, *this->grid_, quadrature_allow_cycles_map_[quadrature], verbose);
         quadrature_spds_map_[quadrature].push_back(new_swp_order);
       }
       else if (sweep_type_ == "CBC")
       {
         const auto new_swp_order = std::make_shared<CBC_SPDS>(
-          omega, *this->grid_ptr_, quadrature_allow_cycles_map_[quadrature], verbose);
+          omega, *this->grid_, quadrature_allow_cycles_map_[quadrature], verbose);
         quadrature_spds_map_[quadrature].push_back(new_swp_order);
       }
       else
@@ -1188,7 +1189,7 @@ DiscreteOrdinatesSolver::InitFluxDataStructures(LBSGroupset& groupset)
   //                                            to the angle aggregation
   typedef AngleAggregation AngleAgg;
   groupset.angle_agg_ = std::make_shared<AngleAgg>(
-    sweep_boundaries_, gs_num_grps, gs_num_ss, groupset.quadrature_, grid_ptr_);
+    sweep_boundaries_, gs_num_grps, gs_num_ss, groupset.quadrature_, grid_);
 
   AngleSetGroup angle_set_group;
   size_t angle_set_id = 0;
@@ -1283,7 +1284,7 @@ DiscreteOrdinatesSolver::SetSweepChunk(LBSGroupset& groupset)
 
   if (sweep_type_ == "AAH")
   {
-    auto sweep_chunk = std::make_shared<AahSweepChunk>(*grid_ptr_,
+    auto sweep_chunk = std::make_shared<AahSweepChunk>(*grid_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,
@@ -1302,7 +1303,7 @@ DiscreteOrdinatesSolver::SetSweepChunk(LBSGroupset& groupset)
   {
     auto sweep_chunk = std::make_shared<CbcSweepChunk>(phi_new_local_,
                                                        psi_new_local_[groupset.id_],
-                                                       *grid_ptr_,
+                                                       *grid_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,

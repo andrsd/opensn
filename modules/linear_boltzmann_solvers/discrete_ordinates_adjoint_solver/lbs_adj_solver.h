@@ -1,3 +1,4 @@
+
 // SPDX-FileCopyrightText: 2024 The OpenSn Authors <https://open-sn.github.io/opensn/>
 // SPDX-License-Identifier: MIT
 
@@ -31,7 +32,8 @@ class DiscreteOrdinatesAdjointSolver : public DiscreteOrdinatesSolver
 {
 public:
   explicit DiscreteOrdinatesAdjointSolver(const InputParameters& params);
-  explicit DiscreteOrdinatesAdjointSolver(const std::string& solver_name);
+  DiscreteOrdinatesAdjointSolver(std::shared_ptr<MeshContinuum> grid,
+                                 const std::string& solver_name);
 
   DiscreteOrdinatesAdjointSolver(const DiscreteOrdinatesAdjointSolver&) = delete;
   DiscreteOrdinatesAdjointSolver& operator=(const DiscreteOrdinatesAdjointSolver&) = delete;
