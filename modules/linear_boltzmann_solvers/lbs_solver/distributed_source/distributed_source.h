@@ -14,9 +14,6 @@ struct Vector3;
 class Cell;
 class LogicalVolume;
 class SpatialMaterialFunction;
-
-namespace lbs
-{
 class LBSSolver;
 
 /**
@@ -64,5 +61,4 @@ private:
   std::vector<uint64_t> subscribers_;
 };
 
-} // namespace lbs
 } // namespace opensn

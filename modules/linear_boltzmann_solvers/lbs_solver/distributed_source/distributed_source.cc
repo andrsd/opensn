@@ -10,7 +10,7 @@
 #include "framework/runtime.h"
 #include "framework/object_factory.h"
 
-namespace opensn::lbs
+namespace opensn
 {
 
 OpenSnRegisterObjectInNamespace(lbs, DistributedSource);
@@ -49,7 +49,7 @@ DistributedSource::DistributedSource(const InputParameters& params)
 }
 
 void
-lbs::DistributedSource::Initialize(const LBSSolver& lbs_solver)
+DistributedSource::Initialize(const LBSSolver& lbs_solver)
 {
   subscribers_.clear();
   for (const auto& cell : lbs_solver.Grid().local_cells)
@@ -65,7 +65,7 @@ lbs::DistributedSource::Initialize(const LBSSolver& lbs_solver)
 }
 
 std::vector<double>
-lbs::DistributedSource::operator()(const Cell& cell, const Vector3& xyz, const int num_groups) const
+DistributedSource::operator()(const Cell& cell, const Vector3& xyz, const int num_groups) const
 {
   if (std::count(subscribers_.begin(), subscribers_.end(), cell.local_id_) == 0)
     return std::vector<double>(num_groups, 0.0);
@@ -75,4 +75,4 @@ lbs::DistributedSource::operator()(const Cell& cell, const Vector3& xyz, const i
     return function_->Evaluate(xyz, cell.material_id_, num_groups);
 }
 
-} // namespace opensn::lbs
+} // namespace opensn
