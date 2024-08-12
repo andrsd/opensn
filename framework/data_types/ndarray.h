@@ -510,7 +510,7 @@ public:
    * \return Read/write reference to the element.
    */
   template <typename... Args>
-  T& at(Args... args) noexcept
+  T& at(Args... args)
   {
     static_assert(AllIntegral<Args...>::value,
                   "NDArray::at(): All parameters must be of integral type");
