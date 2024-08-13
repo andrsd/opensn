@@ -69,8 +69,6 @@ public:
     }
 
     base_ = new T[size_];
-    for (size_t i = 0; i < size_; ++i)
-      base_[i] = 0.0;
   }
 
   /**
@@ -105,8 +103,6 @@ public:
     }
 
     base_ = new T[size_];
-    for (size_t i = 0; i < size_; ++i)
-      base_[i] = 0.0;
   }
 
   /**
@@ -149,8 +145,6 @@ public:
     }
 
     base_ = new T[size_];
-    for (size_t i = 0; i < size_; ++i)
-      base_[i] = 0.0;
   }
 
   /**
