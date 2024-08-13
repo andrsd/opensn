@@ -319,6 +319,7 @@ public:
       size_(std::move(other.size_)),
       base_(std::move(other.base_))
   {
+    other.base_ = nullptr;
   }
 
   /// Deleted move assignment operator
