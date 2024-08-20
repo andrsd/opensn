@@ -95,8 +95,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
 
   DenseMatrix<double> Amat(max_num_cell_dofs_, max_num_cell_dofs_);
   DenseMatrix<double> Atemp(max_num_cell_dofs_, max_num_cell_dofs_);
-  std::vector<DenseVector<double>> b(groupset_.groups_.size(),
-                                     DenseVector<double>(max_num_cell_dofs_));
+  std::vector<Vector<double>> b(groupset_.groups_.size(), Vector<double>(max_num_cell_dofs_));
   std::vector<double> source(max_num_cell_dofs_);
 
   const auto& face_orientations = angle_set.GetSPDS().CellFaceOrientations()[cell_local_id_];
@@ -116,7 +115,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
 
     // Reset right-hand side
     for (int gsg = 0; gsg < gs_ss_size_; ++gsg)
-      b[gsg] = DenseVector<double>(cell_num_nodes_, 0.0);
+      b[gsg] = Vector<double>(cell_num_nodes_, 0.0);
 
     for (int i = 0; i < cell_num_nodes_; ++i)
       for (int j = 0; j < cell_num_nodes_; ++j)
