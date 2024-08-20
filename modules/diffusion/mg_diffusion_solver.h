@@ -9,7 +9,7 @@
 #include "framework/physics/solver_base/solver.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/utils/timer.h"
-#include "framework/math/dense_vector.h"
+#include "framework/math/vector.h"
 #include <map>
 #include <set>
 
@@ -27,7 +27,7 @@ struct TwoGridCollapsedInfo
 {
   double collapsed_D = 0.0;
   double collapsed_sig_a = 0.0;
-  DenseVector<double> spectrum;
+  Vector<double> spectrum;
 };
 
 // struct Multigroup_D_and_sigR
