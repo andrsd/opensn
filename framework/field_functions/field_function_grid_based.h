@@ -51,22 +51,22 @@ public:
   const SpatialDiscretization& GetSpatialDiscretization() const;
 
   /// Returns a reference to the locally stored field data.
-  std::vector<double>& GetLocalFieldVector();
+  Vector<double>& GetLocalFieldVector();
 
   /// Returns a read-only reference to the locally stored field data.
-  const std::vector<double>& GetLocalFieldVector() const;
+  const Vector<double>& GetLocalFieldVector() const;
 
   /// Makes a copy of the locally stored data with ghost access.
-  std::vector<double> GetGhostedFieldVector() const;
+  Vector<double> GetGhostedFieldVector() const;
 
   /// Updates the field vector with a local STL vector.
-  void UpdateFieldVector(const std::vector<double>& field_vector);
+  void UpdateFieldVector(const Vector<double>& field_vector);
 
   /// Updates the field vector with a PETSc vector. This only operates locally.
   void UpdateFieldVector(const Vec& field_vector);
 
   /// Returns the component values at requested point.
-  virtual std::vector<double> GetPointValue(const Vector3& point) const;
+  virtual Vector<double> GetPointValue(const Vector3& point) const;
 
   /// Evaluates the field function, on a cell, at the specified point, for the given component.
   double Evaluate(const Cell& cell, const Vector3& position, int component) const override;

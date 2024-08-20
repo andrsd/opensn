@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "framework/math/vector.h"
 #include "hdf5.h"
 #include <vector>
 #include <string>
@@ -143,6 +144,32 @@ H5WriteDataset1D(hid_t id, const std::string& name, std::vector<T> data)
 
 template <typename T>
 bool
+H5WriteDataset1D(hid_t id, const std::string& name, Vector<T> data)
+{
+  bool retval = false;
+
+  hsize_t dim[1], maxdims[1];
+  dim[0] = data.size();
+  maxdims[0] = data.size();
+  auto dataspace = H5Screate_simple(1, dim, maxdims);
+  if (dataspace != H5I_INVALID_HID)
+  {
+    auto dataset = H5Dcreate2(
+      id, name.c_str(), get_datatype<T>(), dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    if (dataset != H5I_INVALID_HID)
+    {
+      if (H5Dwrite(dataset, get_datatype<T>(), H5S_ALL, H5S_ALL, H5P_DEFAULT, data.data()) >= 0)
+        retval = true;
+      H5Dclose(dataset);
+    }
+    H5Sclose(dataspace);
+  }
+
+  return retval;
+}
+
+template <typename T>
+bool
 H5CreateAttribute(hid_t id, const std::string& name, T& data)
 {
   bool retval = false;
@@ -206,6 +233,56 @@ H5ReadDataset1D(hid_t id, const std::string& name)
           {
             data.clear();
             data.shrink_to_fit();
+          }
+        }
+        H5Aclose(attribute);
+      }
+    }
+  }
+
+  return data;
+}
+
+template <typename T>
+Vector<T>
+H5ReadDatasetVector(hid_t id, const std::string& name)
+{
+  Vector<T> data;
+
+  auto dataset = H5Dopen2(id, name.c_str(), H5P_DEFAULT);
+  if (dataset != H5I_INVALID_HID)
+  {
+    auto dataspace = H5Dget_space(dataset);
+    if (dataspace != H5I_INVALID_HID)
+    {
+      hsize_t dims[1];
+      if (H5Sget_simple_extent_dims(dataspace, dims, NULL) == 1)
+      {
+        data.Resize(dims[0]);
+        if (H5Dread(dataset, get_datatype<T>(), H5S_ALL, H5S_ALL, H5P_DEFAULT, data.data()) < 0)
+        {
+          data.Clear();
+        }
+      }
+      H5Sclose(dataspace);
+    }
+    H5Dclose(dataset);
+  }
+  else
+  {
+    if (H5Aexists(id, name.c_str()))
+    {
+      auto attribute = H5Aopen(id, name.c_str(), H5P_DEFAULT);
+      if (attribute != H5I_INVALID_HID)
+      {
+        size_t size = static_cast<size_t>(H5Aget_storage_size(attribute));
+        if (size > 0)
+        {
+          size_t num_elements = size / sizeof(T);
+          data.Resize(num_elements);
+          if (H5Aread(attribute, get_datatype<T>(), data.data()) < 0)
+          {
+            data.Clear();
           }
         }
         H5Aclose(attribute);

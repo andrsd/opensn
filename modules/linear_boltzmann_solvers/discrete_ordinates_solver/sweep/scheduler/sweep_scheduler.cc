@@ -296,7 +296,7 @@ SweepScheduler::Sweep()
 }
 
 void
-SweepScheduler::SetDestinationPhi(std::vector<double>& destination_phi)
+SweepScheduler::SetDestinationPhi(Vector<double>& destination_phi)
 {
   sweep_chunk_.SetDestinationPhi(destination_phi);
 }
@@ -307,14 +307,14 @@ SweepScheduler::ZeroDestinationPhi()
   sweep_chunk_.ZeroDestinationPhi();
 }
 
-std::vector<double>&
+Vector<double>&
 SweepScheduler::GetDestinationPhi()
 {
   return sweep_chunk_.GetDestinationPhi();
 }
 
 void
-SweepScheduler::SetDestinationPsi(std::vector<double>& destination_psi)
+SweepScheduler::SetDestinationPsi(Vector<double>& destination_psi)
 {
   sweep_chunk_.SetDestinationPsi(destination_psi);
 }
@@ -325,7 +325,7 @@ SweepScheduler::ZeroDestinationPsi()
   sweep_chunk_.ZeroDestinationPsi();
 }
 
-std::vector<double>&
+Vector<double>&
 SweepScheduler::GetDestinationPsi()
 {
   return sweep_chunk_.GetDestinationPsi();

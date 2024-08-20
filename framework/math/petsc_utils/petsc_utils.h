@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "framework/math/vector.h"
 #include <petscksp.h>
 #include <vector>
 
@@ -184,13 +185,12 @@ PETScSolverSetup CreateCommonKrylovSolverSetup(Mat matrix,
 PetscErrorCode KSPMonitorRelativeToRHS(KSP ksp, PetscInt n, PetscReal rnorm, void*);
 
 /// Copies a PETSc vector to a STL vector. Only the local portion is copied.
-void CopyVecToSTLvector(Vec x, std::vector<double>& data, size_t N, bool resize_STL = true);
+void CopyVecToSTLvector(Vec x, Vector<double>& data, size_t N, bool resize_STL = true);
 
 /// Copies a PETSc vector to a STL vector. Only the local portion is copied.
-void
-CopyVecToSTLvectorWithGhosts(Vec x, std::vector<double>& data, size_t N, bool resize_STL = true);
+void CopyVecToSTLvectorWithGhosts(Vec x, Vector<double>& data, size_t N, bool resize_STL = true);
 
-void CopySTLvectorToVec(const std::vector<double>& data, Vec x, size_t N);
+void CopySTLvectorToVec(const Vector<double>& data, Vec x, size_t N);
 void CopyParallelVectorToVec(const ParallelVector& y, Vec x);
 
 /// Copies global values from a PETSc vector to a STL vector.

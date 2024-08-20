@@ -82,19 +82,19 @@ public:
   virtual double& operator[](int64_t local_id) = 0;
 
   /// Return a vector containing the locally owned data.
-  virtual std::vector<double> MakeLocalVector() = 0;
+  virtual Vector<double> MakeLocalVector() = 0;
 
   /// Set the entries of the locally owned portion of the parallel vector to the given value.
   virtual void Set(double value) = 0;
 
   /// Set the entries of the locally owned portion of the parallel vector to the given STL vector.
-  virtual void Set(const std::vector<double>& local_vector) = 0;
+  virtual void Set(const Vector<double>& local_vector) = 0;
 
   /**
    * Copies a contiguous block of data from the source STL vector to the current vector starting at
    * local_offset. The input STL vector must have exactly num_values entries.
    */
-  virtual void BlockSet(const std::vector<double>& y, int64_t local_offset, int64_t num_values) = 0;
+  virtual void BlockSet(const Vector<double>& y, int64_t local_offset, int64_t num_values) = 0;
 
   /// Sets the local values of one vector equal to another. The sizes must be compatible.
   virtual void CopyLocalValues(const ParallelVector& y) = 0;
@@ -134,9 +134,9 @@ public:
    *
    * This routine goes through the given global id-value pairs and calls SetValue for each.
    */
-  virtual void SetValues(const std::vector<int64_t>& global_ids,
-                         const std::vector<double>& values,
-                         VecOpType op_type) = 0;
+  // virtual void SetValues(const std::vector<int64_t>& global_ids,
+  //                        const Vector<double>& values,
+  //                        VecOpType op_type) = 0;
 
   /// In place adding of vectors. The sizes must be compatible.
   virtual void operator+=(const ParallelVector& y) = 0;

@@ -56,8 +56,8 @@ namespace opensn
 class ResponseEvaluator : public Object
 {
 private:
-  using FluxMomentBuffer = std::vector<double>;
-  using AngularFluxBuffer = std::vector<std::vector<double>>;
+  using FluxMomentBuffer = Vector<double>;
+  using AngularFluxBuffer = std::vector<Vector<double>>;
   using AdjointBuffer = std::pair<FluxMomentBuffer, AngularFluxBuffer>;
 
   using MaterialSources = std::map<int, std::vector<double>>;

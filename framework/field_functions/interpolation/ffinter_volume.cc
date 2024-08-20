@@ -68,7 +68,7 @@ FieldFunctionInterpolationVolume::Execute()
     for (size_t i = 0; i < num_nodes; ++i)
     {
       const int64_t imap = sdm.MapDOFLocal(cell, i, uk_man, uid, cid);
-      node_dof_values[i] = field_data[imap];
+      node_dof_values[i] = field_data(imap);
     }
 
     if (cell_local_id == cell_local_ids_inside_logvol_.front())

@@ -96,11 +96,11 @@ AGSSolver::ComputePointwisePhiChange() const
         for (int g = 0; g < groupset.groups_.size(); ++g)
         {
           size_t m0g_idx = transport_view.MapDOF(i, 0, gsi + g);
-          double max_phi = std::max(fabs(phi_new[m0g_idx]), fabs(phi_old_[m0g_idx]));
+          double max_phi = std::max(fabs(phi_new(m0g_idx)), fabs(phi_old_(m0g_idx)));
           for (int m = 0; m < num_moments; ++m)
           {
             size_t mng_idx = transport_view.MapDOF(i, m, gsi + g);
-            double delta_phi = std::fabs(phi_new[mng_idx] - phi_old_[mng_idx]);
+            double delta_phi = std::fabs(phi_new(mng_idx) - phi_old_(mng_idx));
             if (max_phi >= std::numeric_limits<double>::min())
               pw_change = std::max(delta_phi / max_phi, pw_change);
             else

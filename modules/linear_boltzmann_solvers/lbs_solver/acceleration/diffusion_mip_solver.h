@@ -39,24 +39,24 @@ public:
    * Assembles both the matrix and the RHS using quadrature points. These routines exist for
    * implementing MMS.
    */
-  void AssembleAand_b_wQpoints(const std::vector<double>& q_vector);
+  void AssembleAand_b_wQpoints(const Vector<double>& q_vector);
 
   /**
    * Assembles just the RHS using quadrature points. These routines exist for implementing MMS.
    */
-  void Assemble_b_wQpoints(const std::vector<double>& q_vector);
+  void Assemble_b_wQpoints(const Vector<double>& q_vector);
 
   /**
    * Assembles both the matrix and the RHS using unit cell-matrices. These are the routines used in
    * the production versions.
    */
-  void AssembleAand_b(const std::vector<double>& q_vector) override;
+  void AssembleAand_b(const Vector<double>& q_vector) override;
 
   /**
    * Assembles the RHS using unit cell-matrices. These are the routines used in the production
    * versions.
    */
-  void Assemble_b(const std::vector<double>& q_vector) override;
+  void Assemble_b(const Vector<double>& q_vector) override;
   void Assemble_b(Vec petsc_q_vector) override;
 
   /**

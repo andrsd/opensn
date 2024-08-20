@@ -213,7 +213,7 @@ AAH_ASynchronousCommunicator::ReceiveDelayedData(int angle_set_num)
           all_messages_received = false;
           continue;
         }
-        if (not comm.recv<double>(source, tag, &upstream_psi[block_pos], size).error())
+        if (not comm.recv<double>(source, tag, &upstream_psi(block_pos), size).error())
           delayed_preloc_msg_received_[i][m] = true;
       }
     }
@@ -257,7 +257,7 @@ AAH_ASynchronousCommunicator::ReceiveUpstreamPsi(int angle_set_num)
           all_messages_received = false;
           continue;
         }
-        if (not comm.recv(source, tag, &upstream_psi[block_pos], size).error())
+        if (not comm.recv(source, tag, &upstream_psi(block_pos), size).error())
           preloc_msg_received_[i][m] = true;
       }
     }
@@ -287,7 +287,7 @@ AAH_ASynchronousCommunicator::SendDownstreamPsi(int angle_set_num)
     {
       const auto& [dest, size, block_pos] = deploc_msg_data_[i][m];
       deploc_msg_request_[req] =
-        comm.isend(dest, max_num_messages_ * angle_set_num + m, &outgoing_psi[block_pos], size);
+        comm.isend(dest, max_num_messages_ * angle_set_num + m, &outgoing_psi(block_pos), size);
     }
   }
 }

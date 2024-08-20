@@ -24,13 +24,13 @@ public:
    * Assembles both the matrix and the RHS using unit cell-matrices. These are the routines used in
    * the production versions.
    */
-  void AssembleAand_b(const std::vector<double>& q_vector) override;
+  void AssembleAand_b(const Vector<double>& q_vector) override;
 
   /**
    * Assembles the RHS using unit cell-matrices. These are the routines used in the production
    * versions.
    */
-  void Assemble_b(const std::vector<double>& q_vector) override;
+  void Assemble_b(const Vector<double>& q_vector) override;
 
   /**
    * Assembles the RHS using unit cell-matrices. These are the routines used in the production

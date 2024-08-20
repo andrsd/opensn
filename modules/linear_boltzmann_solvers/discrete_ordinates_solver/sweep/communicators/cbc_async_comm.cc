@@ -94,7 +94,7 @@ CBC_ASynchronousCommunicator::ReceiveData()
   CALI_CXX_MARK_SCOPE("CBC_ASynchronousCommunicator::ReceiveData");
 
   using CellFaceKey = std::pair<uint64_t, unsigned int>; // cell_gid + face_id
-  std::map<CellFaceKey, std::vector<double>> received_messages;
+  std::map<CellFaceKey, Vector<double>> received_messages;
   std::vector<uint64_t> cells_who_received_data;
   auto& location_dependencies = fluds_.GetSPDS().GetLocationDependencies();
   for (int locJ : location_dependencies)

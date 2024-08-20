@@ -36,7 +36,7 @@ DiffusionPWLCSolver::DiffusionPWLCSolver(std::string text_name,
 }
 
 void
-DiffusionPWLCSolver::AssembleAand_b(const std::vector<double>& q_vector)
+DiffusionPWLCSolver::AssembleAand_b(const Vector<double>& q_vector)
 {
   const size_t num_local_dofs = sdm_.GetNumLocalAndGhostDOFs(uk_man_);
   OpenSnInvalidArgumentIf(q_vector.size() != num_local_dofs,
@@ -96,7 +96,7 @@ DiffusionPWLCSolver::AssembleAand_b(const std::vector<double>& q_vector)
 
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       for (size_t i = 0; i < num_nodes; i++)
@@ -234,7 +234,7 @@ DiffusionPWLCSolver::AssembleAand_b(const std::vector<double>& q_vector)
 }
 
 void
-DiffusionPWLCSolver::Assemble_b(const std::vector<double>& q_vector)
+DiffusionPWLCSolver::Assemble_b(const Vector<double>& q_vector)
 {
   const size_t num_local_dofs = sdm_.GetNumLocalAndGhostDOFs(uk_man_);
   OpenSnInvalidArgumentIf(q_vector.size() != num_local_dofs,
@@ -291,7 +291,7 @@ DiffusionPWLCSolver::Assemble_b(const std::vector<double>& q_vector)
       // Get coefficient and nodal src
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       const double Dg = xs.Dg[g];

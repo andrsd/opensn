@@ -35,7 +35,7 @@ AAH_FLUDS::OutgoingPsi(int cell_so_index, int outb_face_counter, int face_dof, i
                      common_data_.local_psi_stride[fc] * num_groups_ +
                    face_dof * num_groups_;
 
-    return &local_psi_[fc][index];
+    return &local_psi_[fc](index);
   }
   else
   {
@@ -44,7 +44,7 @@ AAH_FLUDS::OutgoingPsi(int cell_so_index, int outb_face_counter, int face_dof, i
                      common_data_.delayed_local_psi_stride * num_groups_ +
                    face_dof * num_groups_;
 
-    return &delayed_local_psi_[index];
+    return &delayed_local_psi_(index);
   }
 }
 
@@ -72,7 +72,7 @@ AAH_FLUDS::NLOutgoingPsi(int outb_face_counter, int face_dof, int n)
     Exit(EXIT_FAILURE);
   }
 
-  return &deplocI_outgoing_psi_[depLocI][index];
+  return &deplocI_outgoing_psi_[depLocI](index);
 }
 
 double*
@@ -92,7 +92,7 @@ AAH_FLUDS::UpwindPsi(int cell_so_index, int inc_face_counter, int face_dof, int 
         num_groups_ +
       g;
 
-    return &local_psi_[fc][index];
+    return &local_psi_[fc](index);
   }
   else
   {
@@ -105,7 +105,7 @@ AAH_FLUDS::UpwindPsi(int cell_so_index, int inc_face_counter, int face_dof, int 
         num_groups_ +
       g;
 
-    return &delayed_local_psi_old_[index];
+    return &delayed_local_psi_old_(index);
   }
 }
 
@@ -125,7 +125,7 @@ AAH_FLUDS::NLUpwindPsi(int nonl_inc_face_counter, int face_dof, int g, int n)
     int index = nonlocal_psi_Gn_blockstride * num_groups_ * n + slot * num_groups_ +
                 mapped_dof * num_groups_ + g;
 
-    return &prelocI_outgoing_psi_[prelocI][index];
+    return &prelocI_outgoing_psi_[prelocI](index);
   }
   else
   {
@@ -141,7 +141,7 @@ AAH_FLUDS::NLUpwindPsi(int nonl_inc_face_counter, int face_dof, int g, int n)
     int index = nonlocal_psi_Gn_blockstride * num_groups_ * n + slot * num_groups_ +
                 mapped_dof * num_groups_ + g;
 
-    return &delayed_prelocI_outgoing_psi_old_[prelocI][index];
+    return &delayed_prelocI_outgoing_psi_old_[prelocI](index);
   }
 }
 
@@ -166,10 +166,10 @@ AAH_FLUDS::GetDeplocIFaceDOFCount(int deplocI) const
 void
 AAH_FLUDS::ClearLocalAndReceivePsi()
 {
-  auto empty_vector = std::vector<std::vector<double>>(0);
+  auto empty_vector = std::vector<Vector<double>>(0);
   local_psi_.swap(empty_vector);
 
-  empty_vector = std::vector<std::vector<double>>(0);
+  empty_vector = std::vector<Vector<double>>(0);
   prelocI_outgoing_psi_.swap(empty_vector);
 }
 
@@ -186,7 +186,7 @@ AAH_FLUDS::AllocateInternalLocalPsi(size_t num_grps, size_t num_angles)
   // fc = face category
   for (size_t fc = 0; fc < common_data_.num_face_categories; fc++)
   {
-    local_psi_[fc].resize(common_data_.local_psi_stride[fc] *
+    local_psi_[fc].Resize(common_data_.local_psi_stride[fc] *
                             common_data_.local_psi_max_elements[fc] * num_grps * num_angles,
                           0.0);
   }
@@ -198,7 +198,7 @@ AAH_FLUDS::AllocateOutgoingPsi(size_t num_grps, size_t num_angles, size_t num_lo
   deplocI_outgoing_psi_.resize(num_loc_sucs, std::vector<double>());
   for (size_t deplocI = 0; deplocI < num_loc_sucs; deplocI++)
   {
-    deplocI_outgoing_psi_[deplocI].resize(
+    deplocI_outgoing_psi_[deplocI].Resize(
       common_data_.deplocI_face_dof_count[deplocI] * num_grps * num_angles, 0.0);
   }
 }
@@ -206,11 +206,11 @@ AAH_FLUDS::AllocateOutgoingPsi(size_t num_grps, size_t num_angles, size_t num_lo
 void
 AAH_FLUDS::AllocateDelayedLocalPsi(size_t num_grps, size_t num_angles)
 {
-  delayed_local_psi_.resize(common_data_.delayed_local_psi_stride *
+  delayed_local_psi_.Resize(common_data_.delayed_local_psi_stride *
                               common_data_.delayed_local_psi_max_elements * num_grps * num_angles,
                             0.0);
 
-  delayed_local_psi_old_.resize(common_data_.delayed_local_psi_stride *
+  delayed_local_psi_old_.Resize(common_data_.delayed_local_psi_stride *
                                   common_data_.delayed_local_psi_max_elements * num_grps *
                                   num_angles,
                                 0.0);
@@ -222,7 +222,7 @@ AAH_FLUDS::AllocatePrelocIOutgoingPsi(size_t num_grps, size_t num_angles, size_t
   prelocI_outgoing_psi_.resize(num_loc_deps, std::vector<double>());
   for (size_t prelocI = 0; prelocI < num_loc_deps; prelocI++)
   {
-    prelocI_outgoing_psi_[prelocI].resize(
+    prelocI_outgoing_psi_[prelocI].Resize(
       common_data_.prelocI_face_dof_count[prelocI] * num_grps * num_angles, 0.0);
   }
 }
@@ -244,41 +244,41 @@ AAH_FLUDS::AllocateDelayedPrelocIOutgoingPsi(size_t num_grps,
 
     uint64_t buff_size = num_nodes * num_grps * num_angles;
 
-    delayed_prelocI_outgoing_psi_[prelocI].resize(buff_size, 0.0);
-    delayed_prelocI_outgoing_psi_old_[prelocI].resize(buff_size, 0.0);
+    delayed_prelocI_outgoing_psi_[prelocI].Resize(buff_size, 0.0);
+    delayed_prelocI_outgoing_psi_old_[prelocI].Resize(buff_size, 0.0);
   }
 }
 
-std::vector<double>&
+Vector<double>&
 AAH_FLUDS::DelayedLocalPsi()
 {
   return delayed_local_psi_;
 }
 
-std::vector<double>&
+Vector<double>&
 AAH_FLUDS::DelayedLocalPsiOld()
 {
   return delayed_local_psi_old_;
 }
 
-std::vector<std::vector<double>>&
+std::vector<Vector<double>>&
 AAH_FLUDS::DeplocIOutgoingPsi()
 {
   return deplocI_outgoing_psi_;
 }
 
-std::vector<std::vector<double>>&
+std::vector<Vector<double>>&
 AAH_FLUDS::PrelocIOutgoingPsi()
 {
   return prelocI_outgoing_psi_;
 }
 
-std::vector<std::vector<double>>&
+std::vector<Vector<double>>&
 AAH_FLUDS::DelayedPrelocIOutgoingPsi()
 {
   return delayed_prelocI_outgoing_psi_;
 }
-std::vector<std::vector<double>>&
+std::vector<Vector<double>>&
 AAH_FLUDS::DelayedPrelocIOutgoingPsiOld()
 {
   return delayed_prelocI_outgoing_psi_old_;

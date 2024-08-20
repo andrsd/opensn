@@ -51,7 +51,7 @@ DiffusionMIPSolver::DiffusionMIPSolver(std::string text_name,
 }
 
 void
-DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
+DiffusionMIPSolver::AssembleAand_b_wQpoints(const Vector<double>& q_vector)
 {
   const std::string fname = "acceleration::DiffusionMIPSolver::"
                             "AssembleAand_b_wQpoints";
@@ -84,7 +84,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       for (size_t i = 0; i < num_nodes; i++)
@@ -391,7 +391,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
 }
 
 void
-DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
+DiffusionMIPSolver::Assemble_b_wQpoints(const Vector<double>& q_vector)
 {
   const std::string fname = "acceleration::DiffusionMIPSolver::"
                             "AssembleAand_b_wQpoints";
@@ -421,7 +421,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
 
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       for (size_t i = 0; i < num_nodes; i++)
@@ -587,7 +587,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
 }
 
 void
-DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
+DiffusionMIPSolver::AssembleAand_b(const Vector<double>& q_vector)
 {
   const std::string fname = "acceleration::DiffusionMIPSolver::"
                             "AssembleAand_b";
@@ -621,7 +621,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
 
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       for (size_t i = 0; i < num_nodes; i++)
@@ -879,7 +879,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
 }
 
 void
-DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
+DiffusionMIPSolver::Assemble_b(const Vector<double>& q_vector)
 {
   const std::string fname = "acceleration::DiffusionMIPSolver::"
                             "Assemble_b";
@@ -911,7 +911,7 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
 
       std::vector<double> qg(num_nodes, 0.0);
       for (size_t j = 0; j < num_nodes; j++)
-        qg[j] = q_vector[sdm_.MapDOFLocal(cell, j, uk_man_, 0, g)];
+        qg[j] = q_vector(sdm_.MapDOFLocal(cell, j, uk_man_, 0, g));
 
       // Assemble continuous terms
       for (size_t i = 0; i < num_nodes; i++)

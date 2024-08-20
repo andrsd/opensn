@@ -34,7 +34,7 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
 
   // Lambdas
   auto SetLBSFissionSource = [&active_set_source_function, &front_gs, &densities_local](
-                               const std::vector<double>& input, std::vector<double>& output)
+                               const Vector<double>& input, Vector<double>& output)
   {
     Set(output, 0.0);
     active_set_source_function(front_gs,
@@ -46,7 +46,7 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
 
   auto SetLBSScatterSource =
     [&active_set_source_function, &front_gs, &densities_local](
-      const std::vector<double>& input, std::vector<double>& output, bool suppress_wgs)
+      const Vector<double>& input, Vector<double>& output, bool suppress_wgs)
   {
     Set(output, 0.0);
     SourceFlags source_flags = APPLY_AGS_SCATTER_SOURCES | APPLY_WGS_SCATTER_SOURCES;
@@ -57,7 +57,7 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
 
   auto SetPhi0FissionSource =
     [&front_gs, &lbs_solver, &phi_temp, &SetLBSFissionSource, &q_moments_local](
-      const std::vector<double>& input)
+      const Vector<double>& input)
   {
     Set(phi_temp, 0.0);
     lbs_solver.GSProjectBackPhi0(front_gs, input, phi_temp);
@@ -70,7 +70,7 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
 
   auto SetPhi0ScatterSource =
     [&front_gs, &lbs_solver, &phi_temp, &SetLBSScatterSource, &q_moments_local](
-      const std::vector<double>& input, bool suppress_wgs)
+      const Vector<double>& input, bool suppress_wgs)
   {
     Set(phi_temp, 0.0);
     lbs_solver.GSProjectBackPhi0(front_gs, input, phi_temp);
@@ -81,7 +81,7 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
     return output;
   };
 
-  auto Phi0FissionProdL2Norm = [&front_gs, &lbs_solver, &phi_temp](const std::vector<double>& input)
+  auto Phi0FissionProdL2Norm = [&front_gs, &lbs_solver, &phi_temp](const Vector<double>& input)
   {
     Set(phi_temp, 0.0);
     lbs_solver.GSProjectBackPhi0(front_gs, input, phi_temp);
@@ -94,17 +94,17 @@ NLKEigenAccResidualFunction(SNES snes, Vec phi, Vec r, void* ctx)
   auto delta_phi = nl_context_ptr->PhiVecToSTLVec(phi);
   auto epsilon = delta_phi;
 
-  auto Ss_res = SetPhi0ScatterSource(phi_lph_ip1 - phi_lph_i, false);
+  auto Ss_res = SetPhi0ScatterSource(Subtract(phi_lph_ip1, phi_lph_i), false);
   auto Sscat = SetPhi0ScatterSource(delta_phi, true);
 
-  auto Sfaux = SetPhi0FissionSource(delta_phi + phi_lph_ip1);
-  double lambda = Phi0FissionProdL2Norm(delta_phi + phi_lph_ip1);
+  auto Sfaux = SetPhi0FissionSource(Add(delta_phi, phi_lph_ip1));
+  double lambda = Phi0FissionProdL2Norm(Add(delta_phi, phi_lph_ip1));
   Scale(Sfaux, 1.0 / lambda);
 
-  diff_solver.Assemble_b(Sscat + Sfaux + Ss_res - Sf);
+  diff_solver.Assemble_b(Add(Sscat, Add(Sfaux, Subtract(Ss_res, Sf))));
   diff_solver.Solve(epsilon, true);
 
-  nl_context_ptr->STLVecToPhiVec(epsilon - delta_phi, r);
+  nl_context_ptr->STLVecToPhiVec(Subtract(epsilon, delta_phi), r);
 
   //  double production_old = Phi0FissionProdL2Norm(epsilon_k + phi_lph);
   //  double production_new = Phi0FissionProdL2Norm(epsilon_kp1 + phi_lph);

@@ -99,26 +99,26 @@ FieldFunctionGridBased::GetSpatialDiscretization() const
   return *discretization_;
 }
 
-std::vector<double>&
+Vector<double>&
 FieldFunctionGridBased::GetLocalFieldVector()
 {
   return ghosted_field_vector_->LocalSTLData();
 }
 
-const std::vector<double>&
+const Vector<double>&
 FieldFunctionGridBased::GetLocalFieldVector() const
 {
   return ghosted_field_vector_->LocalSTLData();
 }
 
-std::vector<double>
+Vector<double>
 FieldFunctionGridBased::GetGhostedFieldVector() const
 {
   return ghosted_field_vector_->LocalSTLData();
 }
 
 void
-FieldFunctionGridBased::UpdateFieldVector(const std::vector<double>& field_vector)
+FieldFunctionGridBased::UpdateFieldVector(const Vector<double>& field_vector)
 {
   OpenSnInvalidArgumentIf(field_vector.size() < ghosted_field_vector_->LocalSize(),
                           "Attempted update with a vector of insufficient size.");
@@ -135,7 +135,7 @@ FieldFunctionGridBased::UpdateFieldVector(const Vec& field_vector)
   ghosted_field_vector_->CommunicateGhostEntries();
 }
 
-std::vector<double>
+Vector<double>
 FieldFunctionGridBased::GetPointValue(const Vector3& point) const
 {
   const auto& uk_man = GetUnknownManager();
@@ -283,7 +283,7 @@ FieldFunctionGridBased::ExportMultipleToVTK(
           {
             const int64_t nmap = sdm->MapDOFLocal(cell, n, uk_man, 0, c);
 
-            const double field_value = field_vector[nmap];
+            const double field_value = field_vector(nmap);
 
             point_array->InsertNextValue(field_value);
             node_average += field_value;
@@ -298,7 +298,7 @@ FieldFunctionGridBased::ExportMultipleToVTK(
           {
             const int64_t nmap = sdm->MapDOFLocal(cell, n, uk_man, 0, c);
 
-            const double field_value = field_vector[nmap];
+            const double field_value = field_vector(nmap);
             node_average += field_value;
           } // for node
           node_average /= static_cast<double>(num_nodes);

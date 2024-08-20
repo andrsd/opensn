@@ -151,28 +151,4 @@ VecPNorm(const std::vector<double>& x, const double& p)
   return std::pow(val, 1.0 / p);
 }
 
-std::vector<double>
-operator+(const std::vector<double>& a, const std::vector<double>& b)
-{
-  assert(a.size() == b.size());
-  std::vector<double> result(a.size(), 0.0);
-
-  for (size_t i = 0; i < a.size(); ++i)
-    result[i] = a[i] + b[i];
-
-  return result;
-}
-
-std::vector<double>
-operator-(const std::vector<double>& a, const std::vector<double>& b)
-{
-  assert(a.size() == b.size());
-  std::vector<double> result(a.size(), 0.0);
-
-  for (size_t i = 0; i < a.size(); ++i)
-    result[i] = a[i] - b[i];
-
-  return result;
-}
-
 } // namespace opensn

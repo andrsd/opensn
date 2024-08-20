@@ -151,7 +151,7 @@ PowerIterationKEigenSCDSA::Execute()
   auto phi_temp = phi_old_local_;
 
   /**Lambda for the creation of scattering sources but the input vector is only the zeroth moment*/
-  auto SetLBSScatterSourcePhi0 = [this, &phi_temp](const std::vector<double>& input,
+  auto SetLBSScatterSourcePhi0 = [this, &phi_temp](const Vector<double>& input,
                                                    const bool additive,
                                                    const bool suppress_wg_scat = false)
   {
@@ -190,12 +190,12 @@ PowerIterationKEigenSCDSA::Execute()
     auto phi0_lph_ip1 = CopyOnlyPhi0(front_gs_, phi_new_local_);
 
     // Power Iteration Acceleration
-    SetLBSScatterSourcePhi0(phi0_lph_ip1 - phi0_lph_i, false);
+    SetLBSScatterSourcePhi0(Subtract(phi0_lph_ip1, phi0_lph_i), false);
     auto Ss_res = CopyOnlyPhi0(front_gs_, q_moments_local_);
 
     double production_k = lbs_solver_.ComputeFissionProduction(phi_new_local_);
 
-    std::vector<double> epsilon_k(phi0_lph_ip1.size(), 0.0);
+    Vector<double> epsilon_k(phi0_lph_ip1.size(), 0.0);
     auto epsilon_kp1 = epsilon_k;
 
     double lambda_k = k_eff_;
@@ -203,7 +203,7 @@ PowerIterationKEigenSCDSA::Execute()
 
     for (size_t k = 0; k < accel_pi_max_its_; ++k)
     {
-      ProjectBackPhi0(front_gs_, epsilon_k + phi0_lph_ip1, phi_temp);
+      ProjectBackPhi0(front_gs_, Add(epsilon_k, phi0_lph_ip1), phi_temp);
       SetLBSFissionSource(phi_temp, false);
       Scale(q_moments_local_, 1.0 / lambda_k);
 
@@ -218,13 +218,13 @@ PowerIterationKEigenSCDSA::Execute()
         auto Ss = CopyOnlyPhi0(front_gs_, q_moments_local_);
 
         // Solve the diffusion system
-        diffusion_solver_->Assemble_b(Ss + Sfaux + Ss_res - Sf0_ell);
+        diffusion_solver_->Assemble_b(Add(Ss, Add(Sfaux, Subtract(Ss_res, Sf0_ell))));
         diffusion_solver_->Solve(epsilon_kp1, true);
 
         epsilon_k = epsilon_kp1;
       }
 
-      ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_lph_ip1, phi_old_local_);
+      ProjectBackPhi0(front_gs_, Add(epsilon_kp1, phi0_lph_ip1), phi_old_local_);
 
       double production_kp1 = lbs_solver_.ComputeFissionProduction(phi_old_local_);
 
@@ -243,7 +243,7 @@ PowerIterationKEigenSCDSA::Execute()
       production_k = production_kp1;
     } // acceleration
 
-    ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_lph_ip1, phi_new_local_);
+    ProjectBackPhi0(front_gs_, Add(epsilon_kp1, phi0_lph_ip1), phi_new_local_);
     lbs_solver_.GSScopedCopyPrimarySTLvectors(front_gs_, phi_new_local_, phi_old_local_);
 
     const double production = lbs_solver_.ComputeFissionProduction(phi_old_local_);
@@ -297,9 +297,8 @@ PowerIterationKEigenSCDSA::Execute()
   log.Log() << "LinearBoltzmann::KEigenvalueSolver execution completed\n\n";
 }
 
-std::vector<double>
-PowerIterationKEigenSCDSA::CopyOnlyPhi0(const LBSGroupset& groupset,
-                                        const std::vector<double>& phi_in)
+Vector<double>
+PowerIterationKEigenSCDSA::CopyOnlyPhi0(const LBSGroupset& groupset, const Vector<double>& phi_in)
 {
   const auto& lbs_sdm = lbs_solver_.SpatialDiscretization();
   const auto& diff_sdm = diffusion_solver_->SpatialDiscretization();
@@ -311,7 +310,7 @@ PowerIterationKEigenSCDSA::CopyOnlyPhi0(const LBSGroupset& groupset,
                                        ? diff_sdm.GetNumLocalAndGhostDOFs(diff_uk_man)
                                        : diff_sdm.GetNumLocalDOFs(diff_uk_man);
 
-  std::vector<double> phi_data;
+  Vector<double> phi_data;
   if (continuous_sdm_ptr_)
     phi_data =
       NodallyAveragedPWLDVector(phi_in, lbs_sdm, diff_sdm, phi_uk_man, lbs_pwld_ghost_info_);
@@ -331,7 +330,7 @@ PowerIterationKEigenSCDSA::CopyOnlyPhi0(const LBSGroupset& groupset,
       const int64_t lbs_phi_map = lbs_sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
       double* output_mapped = &output_phi_local[diff_phi_map];
-      const double* phi_in_mapped = &phi_data[lbs_phi_map];
+      const double* phi_in_mapped = &phi_data(lbs_phi_map);
 
       for (size_t g = 0; g < gss; g++)
       {
@@ -345,8 +344,8 @@ PowerIterationKEigenSCDSA::CopyOnlyPhi0(const LBSGroupset& groupset,
 
 void
 PowerIterationKEigenSCDSA::ProjectBackPhi0(const LBSGroupset& groupset,
-                                           const std::vector<double>& input,
-                                           std::vector<double>& output)
+                                           const Vector<double>& input,
+                                           Vector<double>& output)
 {
   const auto& lbs_sdm = lbs_solver_.SpatialDiscretization();
   const auto& diff_sdm = diffusion_solver_->SpatialDiscretization();
@@ -370,8 +369,8 @@ PowerIterationKEigenSCDSA::ProjectBackPhi0(const LBSGroupset& groupset,
       const int64_t diff_phi_map = diff_sdm.MapDOFLocal(cell, i, diff_uk_man, 0, 0);
       const int64_t lbs_phi_map = lbs_sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double* input_mapped = &input[diff_phi_map];
-      double* output_mapped = &output[lbs_phi_map];
+      const double* input_mapped = &input(diff_phi_map);
+      double* output_mapped = &output(lbs_phi_map);
 
       for (int g = 0; g < gss; g++)
         output_mapped[g] = input_mapped[g];
@@ -436,9 +435,9 @@ PowerIterationKEigenSCDSA::MakePWLDVecGhostCommInfo(const SpatialDiscretization&
   return {vgc, ghost_global_id_2_local_map};
 }
 
-std::vector<double>
+Vector<double>
 PowerIterationKEigenSCDSA::NodallyAveragedPWLDVector(
-  const std::vector<double>& input,
+  const Vector<double>& input,
   const SpatialDiscretization& pwld_sdm,
   const SpatialDiscretization& pwlc_sdm,
   const UnknownManager& uk_man,
@@ -481,7 +480,7 @@ PowerIterationKEigenSCDSA::NodallyAveragedPWLDVector(
 
           cfem_dof_global2local_map[dof_cfem_map_globl] = dof_cfem_map;
 
-          const double phi_value = input[dof_dfem_map];
+          const double phi_value = input(dof_dfem_map);
 
           cont_input[dof_cfem_map] += phi_value;
           cont_input_ctr[dof_cfem_map] += 1.0;
@@ -522,7 +521,7 @@ PowerIterationKEigenSCDSA::NodallyAveragedPWLDVector(
             const int64_t dof_dfem_map = dfem_dof_global2local_map.at(dof_dfem_map_globl);
             const int64_t dof_cfem_map = cfem_dof_global2local_map[dof_cfem_map_globl];
 
-            const double phi_value = input_with_ghosts[dof_dfem_map];
+            const double phi_value = input_with_ghosts(dof_dfem_map);
 
             cont_input[dof_cfem_map] += phi_value;
             cont_input_ctr[dof_cfem_map] += 1.0;
@@ -558,7 +557,7 @@ PowerIterationKEigenSCDSA::NodallyAveragedPWLDVector(
 
           const double phi_value = cont_input[dof_cfem_map];
 
-          output[dof_dfem_map] = phi_value;
+          output(dof_dfem_map) = phi_value;
         } // for component c
       }   // for unknown u
     }     // for node i

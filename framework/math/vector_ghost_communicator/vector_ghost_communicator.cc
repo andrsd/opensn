@@ -154,7 +154,7 @@ VectorGhostCommunicator::MapGhostToLocal(const int64_t ghost_id) const
 }
 
 void
-VectorGhostCommunicator::CommunicateGhostEntries(std::vector<double>& ghosted_vector) const
+VectorGhostCommunicator::CommunicateGhostEntries(Vector<double>& ghosted_vector) const
 {
   OpenSnInvalidArgumentIf(ghosted_vector.size() != local_size_ + ghost_ids_.size(),
                           std::string(__FUNCTION__) +
@@ -168,7 +168,7 @@ VectorGhostCommunicator::CommunicateGhostEntries(std::vector<double>& ghosted_ve
   std::vector<double> send_data;
   send_data.reserve(send_size);
   for (const int64_t local_id : cached_parallel_data_.local_ids_to_send_)
-    send_data.push_back(ghosted_vector[local_id]);
+    send_data.push_back(ghosted_vector(local_id));
 
   // Create serialized storage for the data to be received
   const size_t recv_size = ghost_ids_.size();
@@ -187,28 +187,27 @@ VectorGhostCommunicator::CommunicateGhostEntries(std::vector<double>& ghosted_ve
   // ghost indices and the relative ghost index position along with the
   // ordering of the ghost indices, this can be accomplished.
   for (size_t k = 0; k < recv_size; ++k)
-    ghosted_vector[local_size_ + k] =
+    ghosted_vector(local_size_ + k) =
       recv_data[cached_parallel_data_.ghost_to_recv_map_.at(ghost_ids_[k])];
 }
 
-std::vector<double>
+Vector<double>
 VectorGhostCommunicator::MakeGhostedVector() const
 {
   const auto ghosted_size = local_size_ + ghost_ids_.size();
   return std::vector<double>(ghosted_size, 0.0);
 }
 
-std::vector<double>
-VectorGhostCommunicator::MakeGhostedVector(const std::vector<double>& local_vector) const
+Vector<double>
+VectorGhostCommunicator::MakeGhostedVector(const Vector<double>& local_vector) const
 {
   OpenSnInvalidArgumentIf(local_vector.size() != local_size_,
                           std::string(__FUNCTION__) + ": Incompatible unghosted vector." +
                             "unghosted_vector.size() != local_size_");
 
   // Add ghost indices to the back of the unghosted vector
-  std::vector<double> vec = local_vector;
-  for (size_t i = 0; i < ghost_ids_.size(); ++i)
-    vec.emplace_back(0.0);
+  auto vec = local_vector;
+  vec.Resize(ghost_ids_.size(), 0.);
   return vec;
 }
 

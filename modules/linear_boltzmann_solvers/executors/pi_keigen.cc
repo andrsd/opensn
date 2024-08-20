@@ -171,7 +171,7 @@ PowerIterationKEigen::Execute()
 }
 
 void
-PowerIterationKEigen::SetLBSFissionSource(const std::vector<double>& input, const bool additive)
+PowerIterationKEigen::SetLBSFissionSource(const Vector<double>& input, const bool additive)
 {
   if (not additive)
     Set(q_moments_local_, 0.0);
@@ -187,7 +187,7 @@ PowerIterationKEigen::SetLBSFissionSource(const std::vector<double>& input, cons
 }
 
 void
-PowerIterationKEigen::SetLBSScatterSource(const std::vector<double>& input,
+PowerIterationKEigen::SetLBSScatterSource(const Vector<double>& input,
                                           const bool additive,
                                           const bool suppress_wg_scat)
 {

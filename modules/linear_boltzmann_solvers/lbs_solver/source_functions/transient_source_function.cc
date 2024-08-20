@@ -16,7 +16,7 @@ TransientSourceFunction::TransientSourceFunction(const LBSSolver& lbs_solver,
 double
 TransientSourceFunction::AddDelayedFission(const PrecursorList& precursors,
                                            const double& rho,
-                                           const std::vector<double>& nu_delayed_sigma_f,
+                                           const Vector<double>& nu_delayed_sigma_f,
                                            const double* phi) const
 {
   const auto& BackwardEuler = SteppingMethod::IMPLICIT_EULER;
@@ -41,7 +41,7 @@ TransientSourceFunction::AddDelayedFission(const PrecursorList& precursors,
           const double coeff = precursor.emission_spectrum[g_] * precursor.decay_constant /
                                (1.0 + eff_dt * precursor.decay_constant);
 
-          value += coeff * eff_dt * precursor.fractional_yield * rho * nu_delayed_sigma_f[gp] *
+          value += coeff * eff_dt * precursor.fractional_yield * rho * nu_delayed_sigma_f(gp) *
                    phi[gp] / cell_volume_;
         }
 
@@ -52,7 +52,7 @@ TransientSourceFunction::AddDelayedFission(const PrecursorList& precursors,
         const double coeff = precursor.emission_spectrum[g_] * precursor.decay_constant /
                              (1.0 + eff_dt * precursor.decay_constant);
 
-        value += coeff * eff_dt * precursor.fractional_yield * rho * nu_delayed_sigma_f[gp] *
+        value += coeff * eff_dt * precursor.fractional_yield * rho * nu_delayed_sigma_f(gp) *
                  phi[gp] / cell_volume_;
       }
 

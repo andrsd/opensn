@@ -59,9 +59,9 @@ public:
    *        and across/within-groups fission.
    */
   virtual void operator()(const LBSGroupset& groupset,
-                          std::vector<double>& q,
-                          const std::vector<double>& phi,
-                          const std::vector<double>& densities,
+                          Vector<double>& q,
+                          const Vector<double>& phi,
+                          const Vector<double>& densities,
                           SourceFlags source_flags);
 
   virtual double AddSourceMoments() const;
@@ -70,12 +70,12 @@ public:
   /// Adds delayed particle precursor sources.
   virtual double AddDelayedFission(const PrecursorList& precursors,
                                    const double& rho,
-                                   const std::vector<double>& nu_delayed_sigma_f,
+                                   const Vector<double>& nu_delayed_sigma_f,
                                    const double* phi) const;
 
   virtual void AddAdditionalSources(const LBSGroupset& groupset,
-                                    std::vector<double>& q,
-                                    const std::vector<double>& phi,
+                                    Vector<double>& q,
+                                    const Vector<double>& phi,
                                     SourceFlags source_flags)
   {
     AddPointSources(groupset, q, phi, source_flags);
@@ -84,14 +84,14 @@ public:
 
   /// Adds point sources to the source moments.
   void AddPointSources(const LBSGroupset& groupset,
-                       std::vector<double>& q,
-                       const std::vector<double>& phi,
+                       Vector<double>& q,
+                       const Vector<double>& phi,
                        SourceFlags source_flags);
 
   /// Adds volumetric sources to the source moments.
   void AddVolumetricSources(const LBSGroupset& groupset,
-                            std::vector<double>& q,
-                            const std::vector<double>& phi,
+                            Vector<double>& q,
+                            const Vector<double>& phi,
                             SourceFlags source_flags);
 };
 

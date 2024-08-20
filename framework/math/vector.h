@@ -52,6 +52,12 @@ public:
     }
   }
 
+  /**
+   * Removes all elements from the vector (which are destroyed), leaving the container with a size
+   * of 0
+   */
+  void Clear() { this->clear(); }
+
   /// Set the elements of the vector to a specified value
   void Set(TYPE val) { this->set(val); }
 

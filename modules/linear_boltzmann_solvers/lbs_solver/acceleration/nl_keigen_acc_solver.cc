@@ -100,7 +100,7 @@ NLKEigenDiffSolver::PostSolveCallback()
   auto delta_phi = nl_context_ptr->PhiVecToSTLVec(x_);
   auto& phi_lph_ip1 = nl_context_ptr->phi_lph_ip1_;
 
-  auto phi_lp1_temp = phi_lph_ip1 + delta_phi;
+  auto phi_lp1_temp = Add(phi_lph_ip1, delta_phi);
   lbs_solver.GSProjectBackPhi0(front_gs, phi_lp1_temp, phi_new_local);
   lbs_solver.GSScopedCopyPrimarySTLvectors(front_gs, phi_new_local, phi_old_local);
 

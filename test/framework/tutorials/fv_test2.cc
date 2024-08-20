@@ -123,7 +123,7 @@ SimTest02_FV(const InputParameters&)
     opensn::log.Log() << "Converged";
 
   // Extract PETSc vector
-  std::vector<double> field(num_local_dofs, 0.0);
+  Vector<double> field(num_local_dofs, 0.0);
   sdm.LocalizePETScVector(x, field, OneDofPerNode);
 
   // Clean up
@@ -146,7 +146,7 @@ SimTest02_FV(const InputParameters&)
   std::vector<int64_t> ghost_ids = sdm.GetGhostDOFIndices(OneDofPerNode);
 
   VectorGhostCommunicator vgc(num_local_dofs, num_globl_dofs, ghost_ids, opensn::mpi_comm);
-  std::vector<double> field_wg = vgc.MakeGhostedVector(field);
+  auto field_wg = vgc.MakeGhostedVector(field);
 
   vgc.CommunicateGhostEntries(field_wg);
 
@@ -163,7 +163,7 @@ SimTest02_FV(const InputParameters&)
     const auto& cell_mapping = sdm.GetCellMapping(cell);
 
     const int64_t imap = sdm.MapDOFLocal(cell, 0);
-    const double phi_P = field_wg[imap];
+    const double phi_P = field_wg(imap);
 
     const auto& xp = cell.centroid_;
 
@@ -182,7 +182,7 @@ SimTest02_FV(const InputParameters&)
       {
         const auto& adj_cell = grid.cells[face.neighbor_id_];
         const int64_t nmap = sdm.MapDOFLocal(adj_cell, 0);
-        phi_N = field_wg[nmap];
+        phi_N = field_wg(nmap);
 
         xn = adj_cell.centroid_;
       }

@@ -28,7 +28,7 @@ MIP_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   // Apply TGDSA
   if (groupset.apply_tgdsa_)
   {
-    std::vector<double> delta_phi_local;
+    Vector<double> delta_phi_local;
     solver.AssembleTGDSADeltaPhiVector(groupset, phi_delta, delta_phi_local);
     groupset.tgdsa_solver_->Assemble_b(delta_phi_local);
     groupset.tgdsa_solver_->Solve(delta_phi_local);

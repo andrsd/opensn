@@ -2,7 +2,7 @@
 #include "framework/math/parallel_vector/ghosted_parallel_stl_vector.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
-
+#include "framework/math/vector.h"
 #include "lua/framework/console/console.h"
 
 using namespace opensn;
@@ -100,9 +100,9 @@ math_Test02_ParallelVector(const InputParameters&)
   ParallelSTLVector vec3(5, 10, opensn::mpi_comm);
 
   if (opensn::mpi_comm.rank() == 0)
-    vec3.SetValues({5, 6}, {2.0, 3.0}, VecOpType::ADD_VALUE);
+    vec3.SetValues({5, 6}, std::vector<double>({2.0, 3.0}), VecOpType::ADD_VALUE);
   else
-    vec3.SetValues({0, 1}, {1.0, 4.0}, VecOpType::ADD_VALUE);
+    vec3.SetValues({0, 1}, std::vector<double>({1.0, 4.0}), VecOpType::ADD_VALUE);
   vec3.Assemble();
 
   opensn::log.LogAll() << "vec3 after assembly: " << vec3.PrintStr() << std::endl;
@@ -125,7 +125,7 @@ math_Test02_ParallelVector(const InputParameters&)
                        << std::endl;
 
   if (opensn::mpi_comm.rank() == 0)
-    ghost_vec2.SetValues({5, 6}, {6.0, 7.0}, VecOpType::ADD_VALUE);
+    ghost_vec2.SetValues({5, 6}, std::vector<double>({6.0, 7.0}), VecOpType::ADD_VALUE);
   else
     ghost_vec2.SetValues({0, 1, 3}, {1.0, 2.0, 4.0}, VecOpType::ADD_VALUE);
 

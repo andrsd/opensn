@@ -28,7 +28,7 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   // Apply WGDSA
   if (groupset.apply_wgdsa_)
   {
-    std::vector<double> delta_phi_local;
+    Vector<double> delta_phi_local;
     lbs_solver.AssembleWGDSADeltaPhiVector(groupset, phi_new_local, delta_phi_local);
 
     groupset.wgdsa_solver_->Assemble_b(delta_phi_local);
@@ -39,7 +39,7 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   // Apply TGDSA
   if (groupset.apply_tgdsa_)
   {
-    std::vector<double> delta_phi_local;
+    Vector<double> delta_phi_local;
     lbs_solver.AssembleTGDSADeltaPhiVector(groupset, phi_new_local, delta_phi_local);
 
     groupset.tgdsa_solver_->Assemble_b(delta_phi_local);
@@ -68,7 +68,7 @@ WGDSA_TGDSA_PreConditionerMult2(WGSContext& gs_context_ptr, Vec phi_input, Vec p
   // Apply WGDSA
   if (groupset.apply_wgdsa_)
   {
-    std::vector<double> delta_phi_local;
+    Vector<double> delta_phi_local;
     lbs_solver.AssembleWGDSADeltaPhiVector(groupset, phi_new_local, delta_phi_local);
 
     groupset.wgdsa_solver_->Assemble_b(delta_phi_local);
@@ -79,7 +79,7 @@ WGDSA_TGDSA_PreConditionerMult2(WGSContext& gs_context_ptr, Vec phi_input, Vec p
   // Apply TGDSA
   if (groupset.apply_tgdsa_)
   {
-    std::vector<double> delta_phi_local;
+    Vector<double> delta_phi_local;
     lbs_solver.AssembleTGDSADeltaPhiVector(groupset, phi_new_local, delta_phi_local);
 
     groupset.tgdsa_solver_->Assemble_b(delta_phi_local);

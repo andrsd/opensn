@@ -179,14 +179,14 @@ public:
    * specialization of this method.
    */
   virtual void LocalizePETScVector(Vec petsc_vector,
-                                   std::vector<double>& local_vector,
+                                   Vector<double>& local_vector,
                                    const UnknownManager& unknown_manager) const;
   /**
    * Develops a localized view of a petsc vector. Each spatial discretization can have a
    * specialization of this method.
    */
   virtual void LocalizePETScVectorWithGhosts(Vec petsc_vector,
-                                             std::vector<double>& local_vector,
+                                             Vector<double>& local_vector,
                                              const UnknownManager& unknown_manager) const;
 
   /// Cartesian coordinate system spatial weighting function.

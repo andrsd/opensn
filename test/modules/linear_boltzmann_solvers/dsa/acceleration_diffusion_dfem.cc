@@ -172,8 +172,8 @@ acceleration_Diffusion_DFEM(const InputParameters&)
   opensn::log.Log() << "Done constructing solver" << std::endl;
 
   // Assemble and solve
-  std::vector<double> q_vector(num_local_dofs, 1.0);
-  std::vector<double> x_vector(num_local_dofs, 0.0);
+  Vector<double> q_vector(num_local_dofs, 1.0);
+  Vector<double> x_vector(num_local_dofs, 0.0);
 
   solver.AssembleAand_b_wQpoints(q_vector);
   solver.Solve(x_vector);
@@ -207,7 +207,7 @@ acceleration_Diffusion_DFEM(const InputParameters&)
     for (size_t j = 0; j < num_nodes; ++j)
     {
       const int64_t jmap = sdm.MapDOFLocal(cell, j);
-      nodal_phi[j] = field_wg[jmap];
+      nodal_phi[j] = field_wg(jmap);
     } // for j
 
     // Quadrature loop

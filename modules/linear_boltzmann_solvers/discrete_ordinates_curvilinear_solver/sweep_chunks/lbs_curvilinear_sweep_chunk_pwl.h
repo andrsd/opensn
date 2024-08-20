@@ -19,10 +19,10 @@ public:
                   const std::vector<UnitCellMatrices>& unit_cell_matrices,
                   const std::vector<UnitCellMatrices>& secondary_unit_cell_matrices,
                   std::vector<CellLBSView>& cell_transport_views,
-                  const std::vector<double>& densities,
-                  std::vector<double>& destination_phi,
-                  std::vector<double>& destination_psi,
-                  const std::vector<double>& source_moments,
+                  const Vector<double>& densities,
+                  Vector<double>& destination_phi,
+                  Vector<double>& destination_psi,
+                  const Vector<double>& source_moments,
                   LBSGroupset& groupset,
                   const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                   int num_moments,
@@ -36,7 +36,7 @@ private:
   /// Unknown manager.
   UnknownManager unknown_manager_;
   /// Sweeping dependency angular intensity (for each polar level).
-  std::vector<double> psi_sweep_;
+  Vector<double> psi_sweep_;
   /// Mapping from direction linear index to direction polar level.
   std::map<unsigned int, unsigned int> map_polar_level_;
   /// Normal vector to determine symmetric boundary condition.

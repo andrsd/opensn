@@ -5,6 +5,7 @@
 
 #include "modules/linear_boltzmann_solvers/lbs_solver/acceleration/acceleration.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
+#include "framework/math/vector.h"
 #include "petscksp.h"
 
 namespace opensn
@@ -96,12 +97,12 @@ public:
    */
   void Initialize();
 
-  virtual void AssembleAand_b(const std::vector<double>& q_vector) = 0;
-  virtual void Assemble_b(const std::vector<double>& q_vector) = 0;
+  virtual void AssembleAand_b(const Vector<double>& q_vector) = 0;
+  virtual void Assemble_b(const Vector<double>& q_vector) = 0;
   virtual void Assemble_b(Vec petsc_q_vector) = 0;
 
   /// Adds to the right-hand side without applying spatial discretization.
-  void AddToRHS(const std::vector<double>& values);
+  void AddToRHS(const Vector<double>& values);
 
   /// Adds to the entries into the matrix without applying spatial discretization.
   void AddToMatrix(const std::vector<int64_t>& rows,
@@ -115,7 +116,7 @@ public:
    * \param use_initial_guess bool [Default:False] Flag, when set, will
    *                 use the values of the output solution as initial guess.
    */
-  void Solve(std::vector<double>& solution, bool use_initial_guess = false);
+  void Solve(Vector<double>& solution, bool use_initial_guess = false);
 
   /**
    * Solves the system and stores the local solution in the vector provide.

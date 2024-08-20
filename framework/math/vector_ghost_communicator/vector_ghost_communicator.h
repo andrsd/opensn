@@ -4,6 +4,7 @@
 #pragma once
 
 #include "mpicpp-lite/mpicpp-lite.h"
+#include "framework/math/vector.h"
 #include <vector>
 #include <cstdint>
 #include <map>
@@ -39,10 +40,10 @@ public:
 
   int64_t MapGhostToLocal(int64_t ghost_id) const;
 
-  void CommunicateGhostEntries(std::vector<double>& ghosted_vector) const;
+  void CommunicateGhostEntries(Vector<double>& ghosted_vector) const;
 
-  std::vector<double> MakeGhostedVector() const;
-  std::vector<double> MakeGhostedVector(const std::vector<double>& local_vector) const;
+  Vector<double> MakeGhostedVector() const;
+  Vector<double> MakeGhostedVector(const Vector<double>& local_vector) const;
 
 protected:
   const uint64_t local_size_;

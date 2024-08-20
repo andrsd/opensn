@@ -76,7 +76,7 @@ DiffusionSolver::GetNumPhiIterativeUnknowns()
 }
 
 void
-DiffusionSolver::AddToRHS(const std::vector<double>& values)
+DiffusionSolver::AddToRHS(const Vector<double>& values)
 {
   const auto num_local_dofs = sdm_.GetNumLocalDOFs(uk_man_);
   if (num_local_dofs != values.size())
@@ -85,7 +85,7 @@ DiffusionSolver::AddToRHS(const std::vector<double>& values)
   PetscScalar* rhs_ptr;
   VecGetArray(rhs_, &rhs_ptr);
   for (size_t i = 0; i < num_local_dofs; ++i)
-    rhs_ptr[i] += values[i];
+    rhs_ptr[i] += values(i);
   VecRestoreArray(rhs_, &rhs_ptr);
 }
 
@@ -178,7 +178,7 @@ DiffusionSolver::Initialize()
 }
 
 void
-DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
+DiffusionSolver::Solve(Vector<double>& solution, bool use_initial_guess)
 {
   const std::string fname = "acceleration::DiffusionMIPSolver::Solve";
   Vec x;

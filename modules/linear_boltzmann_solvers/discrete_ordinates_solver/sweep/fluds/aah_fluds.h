@@ -29,15 +29,15 @@ private:
 
   size_t delayed_local_psi_Gn_block_strideG; // Custom G
 
-  std::vector<std::vector<double>> local_psi_;
-  std::vector<double> delayed_local_psi_;
-  std::vector<double> delayed_local_psi_old_;
-  std::vector<std::vector<double>> deplocI_outgoing_psi_;
-  std::vector<std::vector<double>> prelocI_outgoing_psi_;
-  std::vector<std::vector<double>> boundryI_incoming_psi_;
+  std::vector<Vector<double>> local_psi_;
+  Vector<double> delayed_local_psi_;
+  Vector<double> delayed_local_psi_old_;
+  std::vector<Vector<double>> deplocI_outgoing_psi_;
+  std::vector<Vector<double>> prelocI_outgoing_psi_;
+  std::vector<Vector<double>> boundryI_incoming_psi_;
 
-  std::vector<std::vector<double>> delayed_prelocI_outgoing_psi_;
-  std::vector<std::vector<double>> delayed_prelocI_outgoing_psi_old_;
+  std::vector<Vector<double>> delayed_prelocI_outgoing_psi_;
+  std::vector<Vector<double>> delayed_prelocI_outgoing_psi_old_;
 
 public:
   /**
@@ -78,15 +78,15 @@ public:
                                          size_t num_angles,
                                          size_t num_loc_deps) override;
 
-  std::vector<double>& DelayedLocalPsi() override;
-  std::vector<double>& DelayedLocalPsiOld() override;
+  Vector<double>& DelayedLocalPsi() override;
+  Vector<double>& DelayedLocalPsiOld() override;
 
-  std::vector<std::vector<double>>& DeplocIOutgoingPsi() override;
+  std::vector<Vector<double>>& DeplocIOutgoingPsi() override;
 
-  std::vector<std::vector<double>>& PrelocIOutgoingPsi() override;
+  std::vector<Vector<double>>& PrelocIOutgoingPsi() override;
 
-  std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsi() override;
-  std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsiOld() override;
+  std::vector<Vector<double>>& DelayedPrelocIOutgoingPsi() override;
+  std::vector<Vector<double>>& DelayedPrelocIOutgoingPsiOld() override;
 };
 
 } // namespace opensn

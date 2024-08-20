@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "framework/math/vector.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_solver/sweep/fluds/fluds_common_data.h"
 #include <vector>
 #include <set>
@@ -40,16 +41,16 @@ public:
   {
   }
 
-  virtual std::vector<double>& DelayedLocalPsi() = 0;
-  virtual std::vector<double>& DelayedLocalPsiOld() = 0;
+  virtual Vector<double>& DelayedLocalPsi() = 0;
+  virtual Vector<double>& DelayedLocalPsiOld() = 0;
 
-  virtual std::vector<std::vector<double>>& DeplocIOutgoingPsi() = 0;
+  virtual std::vector<Vector<double>>& DeplocIOutgoingPsi() = 0;
 
-  virtual std::vector<std::vector<double>>& PrelocIOutgoingPsi() = 0;
+  virtual std::vector<Vector<double>>& PrelocIOutgoingPsi() = 0;
 
-  virtual std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsi() = 0;
+  virtual std::vector<Vector<double>>& DelayedPrelocIOutgoingPsi() = 0;
 
-  virtual std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsiOld() = 0;
+  virtual std::vector<Vector<double>>& DelayedPrelocIOutgoingPsiOld() = 0;
 
   virtual ~FLUDS() = default;
 

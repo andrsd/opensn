@@ -122,7 +122,7 @@ SimTest01_FV(const InputParameters&)
     opensn::log.Log() << "Converged";
 
   // Extract PETSc vector
-  std::vector<double> field(num_local_dofs, 0.0);
+  Vector<double> field(num_local_dofs, 0.0);
   sdm.LocalizePETScVector(x, field, OneDofPerNode);
 
   // Clean up

@@ -223,7 +223,7 @@ SpatialDiscretization::CopyVectorWithUnknownScope(const std::vector<double>& fro
 
 void
 SpatialDiscretization::LocalizePETScVector(Vec petsc_vector,
-                                           std::vector<double>& local_vector,
+                                           Vector<double>& local_vector,
                                            const UnknownManager& unknown_manager) const
 {
   size_t num_local_dofs = GetNumLocalDOFs(unknown_manager);
@@ -233,7 +233,7 @@ SpatialDiscretization::LocalizePETScVector(Vec petsc_vector,
 
 void
 SpatialDiscretization::LocalizePETScVectorWithGhosts(Vec petsc_vector,
-                                                     std::vector<double>& local_vector,
+                                                     Vector<double>& local_vector,
                                                      const UnknownManager& unknown_manager) const
 {
   size_t num_local_dofs = GetNumLocalAndGhostDOFs(unknown_manager);

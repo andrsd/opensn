@@ -107,7 +107,7 @@ CellVolumeIntegralPostProcessor::Execute(const Event& event_context)
     for (size_t i = 0; i < num_nodes; ++i)
     {
       const int64_t imap = sdm.MapDOFLocal(cell, i, uk_man, uid, cid);
-      node_dof_values[i] = field_data[imap];
+      node_dof_values[i] = field_data(imap);
     } // for i
 
     for (const size_t qp : fe_vol_data.QuadraturePointIndices())

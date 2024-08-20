@@ -13,10 +13,10 @@ AahSweepChunk::AahSweepChunk(const MeshContinuum& grid,
                              const SpatialDiscretization& discretization,
                              const std::vector<UnitCellMatrices>& unit_cell_matrices,
                              std::vector<CellLBSView>& cell_transport_views,
-                             const std::vector<double>& densities,
-                             std::vector<double>& destination_phi,
-                             std::vector<double>& destination_psi,
-                             const std::vector<double>& source_moments,
+                             const Vector<double>& densities,
+                             Vector<double>& destination_phi,
+                             Vector<double>& destination_psi,
+                             const Vector<double>& source_moments,
                              const LBSGroupset& groupset,
                              const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                              int num_moments,
@@ -75,7 +75,7 @@ AahSweepChunk::Sweep(AngleSet& angle_set)
     const auto& face_orientations = spds.CellFaceOrientations()[cell_local_id];
     std::vector<double> face_mu_values(cell_num_faces);
 
-    const auto& rho = densities_[cell.local_id_];
+    const auto& rho = densities_(cell.local_id_);
     const auto& sigma_t = xs_.at(cell.material_id_)->SigmaTotal();
 
     // Get cell matrices
@@ -173,7 +173,7 @@ AahSweepChunk::Sweep(AngleSet& angle_set)
           for (int m = 0; m < num_moments_; ++m)
           {
             const size_t ir = cell_transport_view.MapDOF(i, m, static_cast<int>(gs_gi + gsg));
-            temp_src += m2d_op[m][direction_num] * source_moments_[ir];
+            temp_src += m2d_op[m][direction_num] * source_moments_(ir);
           }
           source[i] = temp_src;
         }
@@ -206,7 +206,7 @@ AahSweepChunk::Sweep(AngleSet& angle_set)
         {
           const size_t ir = cell_transport_view.MapDOF(i, m, gs_gi);
           for (int gsg = 0; gsg < gs_ss_size; ++gsg)
-            output_phi[ir + gsg] += wn_d2m * b[gsg](i);
+            output_phi(ir + gsg) += wn_d2m * b[gsg](i);
         }
       }
 
@@ -215,7 +215,7 @@ AahSweepChunk::Sweep(AngleSet& angle_set)
       {
         auto& output_psi = GetDestinationPsi();
         double* cell_psi_data =
-          &output_psi[discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0)];
+          &output_psi(discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0));
 
         for (size_t i = 0; i < cell_num_nodes; ++i)
         {

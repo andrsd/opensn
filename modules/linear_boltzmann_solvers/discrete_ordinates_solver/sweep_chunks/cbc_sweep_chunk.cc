@@ -12,14 +12,14 @@
 namespace opensn
 {
 
-CbcSweepChunk::CbcSweepChunk(std::vector<double>& destination_phi,
-                             std::vector<double>& destination_psi,
+CbcSweepChunk::CbcSweepChunk(Vector<double>& destination_phi,
+                             Vector<double>& destination_psi,
                              const MeshContinuum& grid,
                              const SpatialDiscretization& discretization,
                              const std::vector<UnitCellMatrices>& unit_cell_matrices,
                              std::vector<CellLBSView>& cell_transport_views,
-                             const std::vector<double>& densities,
-                             const std::vector<double>& source_moments,
+                             const Vector<double>& densities,
+                             const Vector<double>& source_moments,
                              const LBSGroupset& groupset,
                              const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                              int num_moments,
@@ -101,7 +101,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
   const auto& face_orientations = angle_set.GetSPDS().CellFaceOrientations()[cell_local_id_];
   std::vector<double> face_mu_values(cell_num_faces_);
 
-  const auto& rho = densities_[cell_local_id_];
+  const auto& rho = densities_(cell_local_id_);
   const auto& sigma_t = xs_.at(cell_->material_id_)->SigmaTotal();
 
   // as = angle set
@@ -136,7 +136,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       const bool is_boundary_face = not face.has_neighbor_;
       auto face_nodal_mapping = &fluds_->CommonData().GetFaceNodalMapping(cell_local_id_, f);
 
-      const std::vector<double>* psi_upwnd_data_block = nullptr;
+      const Vector<double>* psi_upwnd_data_block = nullptr;
       const double* psi_local_face_upwnd_data = nullptr;
       if (is_local_face)
       {
@@ -207,7 +207,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
         for (int m = 0; m < num_moments_; ++m)
         {
           const size_t ir = cell_transport_view_->MapDOF(i, m, static_cast<int>(gs_gi_ + gsg));
-          temp_src += m2d_op[m][direction_num] * source_moments_[ir];
+          temp_src += m2d_op[m][direction_num] * source_moments_(ir);
         }
         source[i] = temp_src;
       }
@@ -240,7 +240,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       {
         const size_t ir = cell_transport_view_->MapDOF(i, m, gs_gi_);
         for (int gsg = 0; gsg < gs_ss_size_; ++gsg)
-          output_phi[ir + gsg] += wn_d2m * b[gsg](i);
+          output_phi(ir + gsg) += wn_d2m * b[gsg](i);
       }
     }
 
@@ -249,7 +249,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
     {
       auto& output_psi = GetDestinationPsi();
       double* cell_psi_data =
-        &output_psi[discretization_.MapDOFLocal(*cell_, 0, groupset_.psi_uk_man_, 0, 0)];
+        &output_psi(discretization_.MapDOFLocal(*cell_, 0, groupset_.psi_uk_man_, 0, 0));
 
       for (size_t i = 0; i < cell_num_nodes_; ++i)
       {

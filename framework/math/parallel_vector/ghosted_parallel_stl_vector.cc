@@ -28,12 +28,12 @@ double
 GhostedParallelSTLVector::GetGlobalValue(const int64_t global_id) const
 {
   if (global_id >= extents_[location_id_] and global_id < extents_[location_id_ + 1])
-    return values_[global_id - extents_[location_id_]];
+    return values_(global_id - extents_[location_id_]);
 
   OpenSnInvalidArgumentIf(ghost_comm_.MapGhostToLocal(global_id) == -1,
                           "Invalid global id specified. Specified global ids must be "
                           "locally owned or ghosts.");
-  return values_[ghost_comm_.MapGhostToLocal(global_id)];
+  return values_(ghost_comm_.MapGhostToLocal(global_id));
 }
 
 } // namespace opensn

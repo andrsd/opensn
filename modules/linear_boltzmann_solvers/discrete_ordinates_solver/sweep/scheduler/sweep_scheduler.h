@@ -70,22 +70,22 @@ private:
 
 public:
   /// Sets the location where flux moments are to be written.
-  void SetDestinationPhi(std::vector<double>& destination_phi);
+  void SetDestinationPhi(Vector<double>& destination_phi);
 
   /// Sets all elements of the output vector to zero.
   void ZeroDestinationPhi();
 
   /// Returns a reference to the output flux moments vector.
-  std::vector<double>& GetDestinationPhi();
+  Vector<double>& GetDestinationPhi();
 
   /// Sets the location where angular fluxes are to be written.
-  void SetDestinationPsi(std::vector<double>& destination_psi);
+  void SetDestinationPsi(Vector<double>& destination_psi);
 
   /// Sets all elements of the output angular flux vector to zero.
   void ZeroDestinationPsi();
 
   /// Returns a reference to the output angular flux vector.
-  std::vector<double>& GetDestinationPsi();
+  Vector<double>& GetDestinationPsi();
 
   /// Resets all the incoming intra-location and inter-locationcyclic interfaces.
   void ZeroIncomingDelayedPsi();

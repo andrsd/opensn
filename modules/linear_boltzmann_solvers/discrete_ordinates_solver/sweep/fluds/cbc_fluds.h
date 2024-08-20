@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "framework/math/vector.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_solver/sweep/fluds/cbc_fluds_common_data.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_solver/sweep/fluds/fluds.h"
 #include <map>
@@ -21,20 +22,19 @@ public:
   CBC_FLUDS(size_t num_groups,
             size_t num_angles,
             const CBC_FLUDSCommonData& common_data,
-            std::vector<double>& local_psi_data,
+            Vector<double>& local_psi_data,
             const UnknownManager& psi_uk_man,
             const SpatialDiscretization& sdm);
 
   const FLUDSCommonData& CommonData() const;
 
-  const std::vector<double>& GetLocalUpwindDataBlock() const;
+  const Vector<double>& GetLocalUpwindDataBlock() const;
 
-  const double* GetLocalCellUpwindPsi(const std::vector<double>& psi_data_block, const Cell& cell);
+  const double* GetLocalCellUpwindPsi(const Vector<double>& psi_data_block, const Cell& cell);
 
-  const std::vector<double>& GetNonLocalUpwindData(uint64_t cell_global_id,
-                                                   unsigned int face_id) const;
+  const Vector<double>& GetNonLocalUpwindData(uint64_t cell_global_id, unsigned int face_id) const;
 
-  const double* GetNonLocalUpwindPsi(const std::vector<double>& psi_data,
+  const double* GetNonLocalUpwindPsi(const Vector<double>& psi_data,
                                      unsigned int face_node_mapped,
                                      unsigned int angle_set_index);
 
@@ -53,18 +53,18 @@ public:
   {
   }
 
-  std::vector<double>& DelayedLocalPsi() override { return delayed_local_psi_; }
-  std::vector<double>& DelayedLocalPsiOld() override { return delayed_local_psi_old_; }
+  Vector<double>& DelayedLocalPsi() override { return delayed_local_psi_; }
+  Vector<double>& DelayedLocalPsiOld() override { return delayed_local_psi_old_; }
 
-  std::vector<std::vector<double>>& DeplocIOutgoingPsi() override { return deplocI_outgoing_psi_; }
+  std::vector<Vector<double>>& DeplocIOutgoingPsi() override { return deplocI_outgoing_psi_; }
 
-  std::vector<std::vector<double>>& PrelocIOutgoingPsi() override { return prelocI_outgoing_psi_; }
+  std::vector<Vector<double>>& PrelocIOutgoingPsi() override { return prelocI_outgoing_psi_; }
 
-  std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsi() override
+  std::vector<Vector<double>>& DelayedPrelocIOutgoingPsi() override
   {
     return delayed_prelocI_outgoing_psi_;
   }
-  std::vector<std::vector<double>>& DelayedPrelocIOutgoingPsiOld() override
+  std::vector<Vector<double>>& DelayedPrelocIOutgoingPsiOld() override
   {
     return delayed_prelocI_outgoing_psi_old_;
   }
@@ -72,27 +72,27 @@ public:
   // cell_global_id, face_id
   using CellFaceKey = std::pair<uint64_t, unsigned int>;
 
-  std::map<CellFaceKey, std::vector<double>>& DeplocsOutgoingMessages()
+  std::map<CellFaceKey, Vector<double>>& DeplocsOutgoingMessages()
   {
     return deplocs_outgoing_messages_;
   }
 
 private:
   const CBC_FLUDSCommonData& common_data_;
-  std::reference_wrapper<std::vector<double>> local_psi_data_;
+  std::reference_wrapper<Vector<double>> local_psi_data_;
   const UnknownManager& psi_uk_man_;
   const SpatialDiscretization& sdm_;
 
-  std::vector<double> delayed_local_psi_;
-  std::vector<double> delayed_local_psi_old_;
-  std::vector<std::vector<double>> deplocI_outgoing_psi_;
-  std::vector<std::vector<double>> prelocI_outgoing_psi_;
-  std::vector<std::vector<double>> boundryI_incoming_psi_;
+  Vector<double> delayed_local_psi_;
+  Vector<double> delayed_local_psi_old_;
+  std::vector<Vector<double>> deplocI_outgoing_psi_;
+  std::vector<Vector<double>> prelocI_outgoing_psi_;
+  std::vector<Vector<double>> boundryI_incoming_psi_;
 
-  std::vector<std::vector<double>> delayed_prelocI_outgoing_psi_;
-  std::vector<std::vector<double>> delayed_prelocI_outgoing_psi_old_;
+  std::vector<Vector<double>> delayed_prelocI_outgoing_psi_;
+  std::vector<Vector<double>> delayed_prelocI_outgoing_psi_old_;
 
-  std::map<CellFaceKey, std::vector<double>> deplocs_outgoing_messages_;
+  std::map<CellFaceKey, Vector<double>> deplocs_outgoing_messages_;
 };
 
 } // namespace opensn

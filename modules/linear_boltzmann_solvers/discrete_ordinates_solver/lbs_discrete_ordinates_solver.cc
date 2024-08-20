@@ -159,7 +159,7 @@ DiscreteOrdinatesSolver::ScalePhiVector(PhiSTLOption which_phi, double value)
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::ScalePhiVector");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -203,7 +203,7 @@ DiscreteOrdinatesSolver::SetGSPETScVecFromPrimarySTLvector(const LBSGroupset& gr
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::SetGSPETScVecFromPrimarySTLvector");
 
-  const std::vector<double>* y_ptr;
+  const Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -236,7 +236,7 @@ DiscreteOrdinatesSolver::SetGSPETScVecFromPrimarySTLvector(const LBSGroupset& gr
         for (int g = 0; g < gss; g++)
         {
           index++;
-          x_ref[index] = (*y_ptr)[mapping + g]; // Offset on purpose
+          x_ref[index] = (*y_ptr)(mapping + g); // Offset on purpose
         }                                       // for g
       }                                         // for moment
     }                                           // for dof
@@ -262,7 +262,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& gr
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::SetPrimarySTLvectorFromGSPETScVec");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -295,7 +295,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& gr
         for (int g = 0; g < gss; g++)
         {
           index++;
-          (*y_ptr)[mapping + g] = x_ref[index];
+          (*y_ptr)(mapping + g) = x_ref[index];
         } // for g
       }   // for moment
     }     // for dof
@@ -320,7 +320,7 @@ DiscreteOrdinatesSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groups
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::GSScopedCopyPrimarySTLvectors");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (to_which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -333,7 +333,7 @@ DiscreteOrdinatesSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groups
       throw std::logic_error("GSScopedCopyPrimarySTLvectors");
   }
 
-  std::vector<double>* x_src_ptr;
+  Vector<double>* x_src_ptr;
   switch (from_which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -360,7 +360,7 @@ DiscreteOrdinatesSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groups
         size_t mapping = transport_view.MapDOF(i, m, gsi);
         for (int g = 0; g < gss; g++)
         {
-          (*y_ptr)[mapping + g] = (*x_src_ptr)[mapping + g];
+          (*y_ptr)(mapping + g) = (*x_src_ptr)(mapping + g);
         } // for g
       }   // for moment
     }     // for dof
@@ -378,7 +378,7 @@ DiscreteOrdinatesSolver::SetMultiGSPETScVecFromPrimarySTLvector(
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::SetMultiGSPETScVecFromPrimarySTLvector");
 
-  const std::vector<double>* y_ptr;
+  const Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -415,7 +415,7 @@ DiscreteOrdinatesSolver::SetMultiGSPETScVecFromPrimarySTLvector(
           for (int g = 0; g < gss; g++)
           {
             index++;
-            x_ref[index] = (*y_ptr)[mapping + g]; // Offset on purpose
+            x_ref[index] = (*y_ptr)(mapping + g); // Offset on purpose
           }                                       // for g
         }                                         // for moment
       }                                           // for dof
@@ -441,7 +441,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom(
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -478,7 +478,7 @@ DiscreteOrdinatesSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom(
           for (int g = 0; g < gss; g++)
           {
             index++;
-            (*y_ptr)[mapping + g] = x_ref[index];
+            (*y_ptr)(mapping + g) = x_ref[index];
           } // for g
         }   // for moment
       }     // for dof
@@ -579,8 +579,8 @@ DiscreteOrdinatesSolver::ReorientAdjointSolution()
 
           for (int g = gsg_i; g <= gsg_f; ++g)
           {
-            phi_new_local_[dof_map + g] *= std::pow(-1.0, ell);
-            phi_old_local_[dof_map + g] *= std::pow(-1.0, ell);
+            phi_new_local_(dof_map + g) *= std::pow(-1.0, ell);
+            phi_old_local_(dof_map + g) *= std::pow(-1.0, ell);
           } // for group g
         }   // for moment m
 
@@ -594,7 +594,7 @@ DiscreteOrdinatesSolver::ReorientAdjointSolution()
                              discretization_->MapDOFLocal(cell, i, uk_man, jdir, 0));
 
             for (int gsg = 0; gsg < num_gs_groups; ++gsg)
-              std::swap(psi[dof_map.first + gsg], psi[dof_map.second + gsg]);
+              std::swap(psi(dof_map.first + gsg), psi(dof_map.second + gsg));
           }
         }
       } // for node i
@@ -624,10 +624,10 @@ DiscreteOrdinatesSolver::ComputeBalance()
   // Get material source
   // This is done using the SetSource routine because it allows a lot of flexibility.
   auto mat_src = phi_old_local_;
-  mat_src.assign(mat_src.size(), 0.0);
+  mat_src = Vector(mat_src.size(), 0.0);
   for (auto& groupset : groupsets_)
   {
-    q_moments_local_.assign(q_moments_local_.size(), 0.0);
+    q_moments_local_ = Vector(q_moments_local_.size(), 0.0);
     active_set_source_function_(groupset,
                                 q_moments_local_,
                                 phi_old_local_,
@@ -715,8 +715,8 @@ DiscreteOrdinatesSolver::ComputeBalance()
       for (int g = 0; g < num_groups_; ++g)
       {
         size_t imap = transport_view.MapDOF(i, 0, g);
-        double phi_0g = phi_old_local_[imap];
-        double q_0g = mat_src[imap];
+        double phi_0g = phi_old_local_(imap);
+        double q_0g = mat_src(imap);
 
         local_absorption += sigma_a[g] * phi_0g * IntV_shapeI(i);
         local_production += q_0g * IntV_shapeI(i);
@@ -808,7 +808,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const unsigned int groupset_id,
               {
                 const auto g = gsg + gsi;
                 const auto imap = sdm.MapDOFLocal(cell, i, psi_uk_man, n, g);
-                const auto psi = psi_new_local_[groupset_id][imap];
+                const auto psi = psi_new_local_[groupset_id](imap);
                 local_leakage[gsg] += weight * mu * psi * int_f_shape_i(i);
               } // for g
             }   // outgoing
@@ -895,7 +895,7 @@ DiscreteOrdinatesSolver::ComputeLeakage(const std::vector<uint64_t>& boundary_id
               {
                 const auto g = first_gs_group + gsg;
                 const auto imap = discretization_->MapDOFLocal(cell, i, psi_uk_man, n, gsg);
-                bndry_leakage[g] += coeff * psi_gs[imap];
+                bndry_leakage[g] += coeff * psi_gs(imap);
               } // for groupset group gsg
             }   // for angle n
           }     // for face index fi

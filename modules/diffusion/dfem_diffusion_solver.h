@@ -55,7 +55,7 @@ private:
                       size_t ccfi,
                       double epsilon = 1.0e-12);
 
-  std::vector<double> field_;
+  Vector<double> field_;
 
   std::shared_ptr<ScalarSpatialMaterialFunction> d_coef_function_;
   std::shared_ptr<ScalarSpatialMaterialFunction> sigma_a_function_;

@@ -107,7 +107,7 @@ AggregateNodalValuePostProcessor::Execute(const Event& event_context)
       const int64_t imap = sdm.MapDOFLocal(cell, i, uk_man, uid, cid);
       if (imap >= 0 and imap < num_local_dofs)
       {
-        const double field_value = field_data[imap];
+        const double field_value = field_data(imap);
         if (first_local)
         {
           local_max_value = field_value;

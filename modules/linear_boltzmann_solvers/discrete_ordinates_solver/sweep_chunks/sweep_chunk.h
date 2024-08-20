@@ -26,14 +26,14 @@ public:
    */
   std::vector<MomentCallbackFunc> moment_callbacks;
 
-  SweepChunk(std::vector<double>& destination_phi,
-             std::vector<double>& destination_psi,
+  SweepChunk(Vector<double>& destination_phi,
+             Vector<double>& destination_psi,
              const MeshContinuum& grid,
              const SpatialDiscretization& discretization,
              const std::vector<UnitCellMatrices>& unit_cell_matrices,
              std::vector<CellLBSView>& cell_transport_views,
-             const std::vector<double>& densities,
-             const std::vector<double>& source_moments,
+             const Vector<double>& densities,
+             const Vector<double>& source_moments,
              const LBSGroupset& groupset,
              const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
              int num_moments,
@@ -72,22 +72,22 @@ protected:
   friend class SweepScheduler;
 
   /// Sets the location where flux moments are to be written.
-  void SetDestinationPhi(std::vector<double>& phi) { destination_phi = (&phi); }
+  void SetDestinationPhi(Vector<double>& phi) { destination_phi = (&phi); }
 
   /// Sets all elements of the output vector to zero.
-  void ZeroDestinationPhi() { (*destination_phi).assign((*destination_phi).size(), 0.0); }
+  void ZeroDestinationPhi() { (*destination_phi) = Vector((*destination_phi).size(), 0.0); }
 
   /// Returns a reference to the output flux moments vector.
-  std::vector<double>& GetDestinationPhi() { return *destination_phi; }
+  Vector<double>& GetDestinationPhi() { return *destination_phi; }
 
   /// Sets the location where angular fluxes are to be written.
-  void SetDestinationPsi(std::vector<double>& psi) { destination_psi = (&psi); }
+  void SetDestinationPsi(Vector<double>& psi) { destination_psi = (&psi); }
 
   /// Sets all elements of the output angular flux vector to zero.
-  void ZeroDestinationPsi() { (*destination_psi).assign((*destination_psi).size(), 0.0); }
+  void ZeroDestinationPsi() { (*destination_psi) = Vector((*destination_psi).size(), 0.0); }
 
   /// Returns a reference to the output angular flux vector.
-  std::vector<double>& GetDestinationPsi() { return *destination_psi; }
+  Vector<double>& GetDestinationPsi() { return *destination_psi; }
 
   /// Activates or deactives the surface src flag.
   void SetBoundarySourceActiveFlag(bool flag_value) { surface_source_active = flag_value; }
@@ -99,8 +99,8 @@ protected:
   const SpatialDiscretization& discretization_;
   const std::vector<UnitCellMatrices>& unit_cell_matrices_;
   std::vector<CellLBSView>& cell_transport_views_;
-  const std::vector<double>& densities_;
-  const std::vector<double>& source_moments_;
+  const Vector<double>& densities_;
+  const Vector<double>& source_moments_;
   const LBSGroupset& groupset_;
   const std::map<int, std::shared_ptr<MultiGroupXS>>& xs_;
   const int num_moments_;
@@ -110,8 +110,8 @@ protected:
   const size_t groupset_group_stride_;
 
 private:
-  std::vector<double>* destination_phi;
-  std::vector<double>* destination_psi;
+  Vector<double>* destination_phi;
+  Vector<double>* destination_psi;
   bool surface_source_active = false;
 };
 

@@ -26,7 +26,7 @@ public:
     : ParallelSTLVector(local_size, global_size, communicator),
       ghost_comm_(local_size, global_size, ghost_ids, communicator)
   {
-    values_.assign(local_size_ + ghost_comm_.NumGhosts(), 0.0);
+    values_ = Vector(local_size_ + ghost_comm_.NumGhosts(), 0.0);
   }
 
   /// Initialize a ghosted parallel vector from a ghost communicator.
@@ -34,7 +34,7 @@ public:
     : ParallelSTLVector(ghost_comm.LocalSize(), ghost_comm.GlobalSize(), ghost_comm.Communicator()),
       ghost_comm_(ghost_comm)
   {
-    values_.assign(local_size_ + ghost_comm_.NumGhosts(), 0.0);
+    values_ = Vector(local_size_ + ghost_comm_.NumGhosts(), 0.0);
   }
 
   /// Copy constructor.
@@ -68,7 +68,7 @@ public:
   }
 
   /// Return a vector containing the locally owned data and ghost data.
-  std::vector<double> MakeGhostedLocalVector() const { return values_; }
+  Vector<double> MakeGhostedLocalVector() const { return values_; }
 
   /**
    * Return the value of the parallel vector for the specified global index.

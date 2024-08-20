@@ -21,10 +21,10 @@ struct NLKEigenDiffContext : public NonLinearSolverContext
 
   size_t diff_num_local_dofs_;
 
-  std::vector<double> phi_l_;
-  std::vector<double> phi_lph_i_;
-  std::vector<double> phi_lph_ip1_;
-  std::vector<double> Sf_;
+  Vector<double> phi_l_;
+  Vector<double> phi_lph_i_;
+  Vector<double> phi_lph_ip1_;
+  Vector<double> Sf_;
   double k_l = 1.0;
 
   explicit NLKEigenDiffContext(DiffusionMIPSolver& diff_solver,
@@ -38,25 +38,25 @@ struct NLKEigenDiffContext : public NonLinearSolverContext
   {
   }
 
-  std::vector<double> PhiVecToSTLVec(Vec phi) const
+  Vector<double> PhiVecToSTLVec(Vec phi) const
   {
-    std::vector<double> output(diff_num_local_dofs_, 0.0);
+    Vector<double> output(diff_num_local_dofs_, 0.0);
 
     const double* phi_raw;
     VecGetArrayRead(phi, &phi_raw);
     for (size_t i = 0; i < diff_num_local_dofs_; ++i)
-      output[i] = phi_raw[i];
+      output(i) = phi_raw[i];
     VecRestoreArrayRead(phi, &phi_raw);
 
     return output;
   }
 
-  void STLVecToPhiVec(const std::vector<double>& input, Vec phi) const
+  void STLVecToPhiVec(const Vector<double>& input, Vec phi) const
   {
     double* phi_raw;
     VecGetArray(phi, &phi_raw);
     for (size_t i = 0; i < diff_num_local_dofs_; ++i)
-      phi_raw[i] = input[i];
+      phi_raw[i] = input(i);
     VecRestoreArray(phi, &phi_raw);
   }
 

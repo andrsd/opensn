@@ -49,10 +49,10 @@ public:
   const double* Data() const override;
 
   /// Returns a constant reference to the local data of the vector.
-  const std::vector<double>& LocalSTLData() const;
+  const Vector<double>& LocalSTLData() const;
 
   /// Returns a reference to the local data of the vector.
-  std::vector<double>& LocalSTLData();
+  Vector<double>& LocalSTLData();
 
   /**
    * Read only accessor to the entry at the given local index of the local vector.
@@ -71,19 +71,19 @@ public:
   double& operator[](int64_t local_id) override;
 
   /// Return a vector containing the locally owned data.
-  std::vector<double> MakeLocalVector() override;
+  Vector<double> MakeLocalVector() override;
 
   /// Set the entries of the locally owned portion of the parallel vector to the given value.
   void Set(double value) override;
 
   /// Set the entries of the locally owned portion of the parallel vector to the given STL vector.
-  void Set(const std::vector<double>& local_vector) override;
+  void Set(const Vector<double>& local_vector) override;
 
   /**
    * Copies a contiguous block of data from the source STL vector to the current vector starting at
    * local_offset. The input STL vector must have exactly num_values entries.
    */
-  void BlockSet(const std::vector<double>& y, int64_t local_offset, int64_t num_values) override;
+  void BlockSet(const Vector<double>& y, int64_t local_offset, int64_t num_values) override;
 
   /// Sets the local values of one vector equal to another. The sizes must be compatible.
   void CopyLocalValues(const ParallelVector& y) override;
@@ -124,8 +124,12 @@ public:
    * This routine goes through the given global id-value pairs and calls SetValue for each.
    */
   void SetValues(const std::vector<int64_t>& global_ids,
+                 const Vector<double>& values,
+                 VecOpType op_type);
+
+  void SetValues(const std::vector<int64_t>& global_ids,
                  const std::vector<double>& values,
-                 VecOpType op_type) override;
+                 VecOpType op_type);
 
   /// In place adding of vectors. The sizes must be compatible.
   void operator+=(const ParallelVector& y) override;
@@ -159,7 +163,7 @@ public:
 protected:
   const std::vector<uint64_t> extents_;
 
-  std::vector<double> values_;
+  Vector<double> values_;
 
   using Operation = std::pair<int64_t, double>;
   std::vector<Operation> set_cache_;

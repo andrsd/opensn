@@ -11,6 +11,7 @@
 #include "modules/linear_boltzmann_solvers/lbs_solver/lbs_structs.h"
 #include "framework/math/spatial_discretization/spatial_discretization.h"
 #include "framework/math/linear_solver/linear_solver.h"
+#include "framework/math/vector.h"
 #include "framework/physics/solver_base/solver.h"
 #include <petscksp.h>
 #include <chrono>
@@ -144,46 +145,46 @@ public:
   size_t GlobalNodeCount() const;
 
   /// Read/write access to source moments vector.
-  std::vector<double>& QMomentsLocal();
+  Vector<double>& QMomentsLocal();
 
   /// Read access to source moments vector.
-  const std::vector<double>& QMomentsLocal() const;
+  const Vector<double>& QMomentsLocal() const;
 
   /// Read/write access to exterior src moments vector.
-  std::vector<double>& ExtSrcMomentsLocal();
+  Vector<double>& ExtSrcMomentsLocal();
 
   /// Read access to exterior src moments vector.
-  const std::vector<double>& ExtSrcMomentsLocal() const;
+  const Vector<double>& ExtSrcMomentsLocal() const;
 
   /// Read/write access to last updated flux vector.
-  std::vector<double>& PhiOldLocal();
+  Vector<double>& PhiOldLocal();
 
   /// Read access to last updated flux vector.
-  const std::vector<double>& PhiOldLocal() const;
+  const Vector<double>& PhiOldLocal() const;
 
   /// Read/write access to newest updated flux vector.
-  std::vector<double>& PhiNewLocal();
+  Vector<double>& PhiNewLocal();
 
   /// Read access to newest updated flux vector.
-  const std::vector<double>& PhiNewLocal() const;
+  const Vector<double>& PhiNewLocal() const;
 
   /// Read/write access to newest updated precursors vector.
-  std::vector<double>& PrecursorsNewLocal();
+  Vector<double>& PrecursorsNewLocal();
 
   /// Read access to newest updated precursors vector.
-  const std::vector<double>& PrecursorsNewLocal() const;
+  const Vector<double>& PrecursorsNewLocal() const;
 
   /// Read/write access to newest updated angular flux vector.
-  std::vector<std::vector<double>>& PsiNewLocal();
+  std::vector<Vector<double>>& PsiNewLocal();
 
   /// Read access to newest updated angular flux vector.
-  const std::vector<std::vector<double>>& PsiNewLocal() const;
+  const std::vector<Vector<double>>& PsiNewLocal() const;
 
   /// Read/write access to the cell-wise densities.
-  std::vector<double>& DensitiesLocal();
+  Vector<double>& DensitiesLocal();
 
   /// Read access to the cell-wise densities.
-  const std::vector<double>& DensitiesLocal() const;
+  const Vector<double>& DensitiesLocal() const;
 
   /// Returns the sweep boundaries as a read only reference
   const std::map<uint64_t, std::shared_ptr<SweepBoundary>>& SweepBoundaries() const;
@@ -220,33 +221,32 @@ public:
    * Creates a vector from a lbs primary stl vector where only the scalar moments are mapped to the
    * DOFs needed by WGDSA.
    */
-  std::vector<double> WGSCopyOnlyPhi0(const LBSGroupset& groupset,
-                                      const std::vector<double>& phi_in);
+  Vector<double> WGSCopyOnlyPhi0(const LBSGroupset& groupset, const Vector<double>& phi_in);
 
   /// From the WGDSA DOFs, projects the scalar moments back into a primary STL vector.
   void GSProjectBackPhi0(const LBSGroupset& groupset,
-                         const std::vector<double>& input,
-                         std::vector<double>& output);
+                         const Vector<double>& input,
+                         Vector<double>& output);
 
   /// Assembles a delta-phi vector on the first moment.
   void AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                   const std::vector<double>& phi_in,
-                                   std::vector<double>& delta_phi_local);
+                                   const Vector<double>& phi_in,
+                                   Vector<double>& delta_phi_local);
 
   /// DAssembles a delta-phi vector on the first moment.
   void DisAssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                      const std::vector<double>& delta_phi_local,
-                                      std::vector<double>& ref_phi_new);
+                                      const Vector<double>& delta_phi_local,
+                                      Vector<double>& ref_phi_new);
 
   /// Assembles a delta-phi vector on the first moment.
   void AssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                   const std::vector<double>& phi_in,
-                                   std::vector<double>& delta_phi_local);
+                                   const Vector<double>& phi_in,
+                                   Vector<double>& delta_phi_local);
 
   /// DAssembles a delta-phi vector on the first moment.
   void DisAssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                      const std::vector<double>& delta_phi_local,
-                                      std::vector<double>& ref_phi_new);
+                                      const Vector<double>& delta_phi_local,
+                                      Vector<double>& ref_phi_new);
 
   bool RestartsEnabled() { return options_.write_restart_time_interval > 0; }
 
@@ -261,32 +261,31 @@ public:
   void ReadRestartData();
 
   /// Writes a full angular flux vector to file.
-  void WriteAngularFluxes(const std::vector<std::vector<double>>& src,
+  void WriteAngularFluxes(const std::vector<Vector<double>>& src,
                           const std::string& file_base) const;
 
   /// Reads a full angular flux vector from a file into the specified vector.
-  void ReadAngularFluxes(const std::string& file_base,
-                         std::vector<std::vector<double>>& dest) const;
+  void ReadAngularFluxes(const std::string& file_base, std::vector<Vector<double>>& dest) const;
 
   /// Writes a groupset angular flux vector to file.
   void WriteGroupsetAngularFluxes(const LBSGroupset& groupset,
-                                  const std::vector<double>& src,
+                                  const Vector<double>& src,
                                   const std::string& file_base) const;
 
   /// Reads the groupset angular fluxes from a file into the specified vector.
   void ReadGroupsetAngularFluxes(const std::string& file_base,
                                  const LBSGroupset& groupset,
-                                 std::vector<double>& dest) const;
+                                 Vector<double>& dest) const;
 
   /// Makes a source-moments vector from scattering and fission based on the latest phi-solution.
-  std::vector<double> MakeSourceMomentsFromPhi();
+  Vector<double> MakeSourceMomentsFromPhi();
 
   /// Writes a given flux moments vector to file.
-  void WriteFluxMoments(const std::vector<double>& src, const std::string& file_base) const;
+  void WriteFluxMoments(const Vector<double>& src, const std::string& file_base) const;
 
   /// Reads a flux moments vector from a file into the specified vector.
   void ReadFluxMoments(const std::string& file_base,
-                       std::vector<double>& dest,
+                       Vector<double>& dest,
                        bool single_file = false) const;
 
   /// Copy relevant section of phi_old to the field functions.
@@ -301,19 +300,19 @@ public:
    * Compute the total fission production in the problem.
    * \author Zachary Hardy.
    */
-  double ComputeFissionProduction(const std::vector<double>& phi);
+  double ComputeFissionProduction(const Vector<double>& phi);
 
   /**
    * Computes the total fission rate in the problem.
    * \author Zachary Hardy.
    */
-  double ComputeFissionRate(const std::vector<double>& phi);
+  double ComputeFissionRate(const Vector<double>& phi);
 
   /// Compute the steady state delayed neutron precursor concentrations.
   void ComputePrecursors();
 
   /// Sets a value to the zeroth (scalar) moment of the vector.
-  virtual void SetPhiVectorScalarValues(std::vector<double>& phi_vector, double value);
+  virtual void SetPhiVectorScalarValues(Vector<double>& phi_vector, double value);
 
   /// Scales a flux moment vector. For sweep methods the delayed angular fluxes will also be scaled.
   virtual void ScalePhiVector(PhiSTLOption which_phi, double value);
@@ -328,8 +327,8 @@ public:
 
   /// Assembles a vector for a given groupset from a source vector.
   virtual void GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
-                                             const std::vector<double>& x,
-                                             std::vector<double>& y);
+                                             const Vector<double>& x,
+                                             Vector<double>& y);
 
   /// Assembles a vector for a given groupset from a source vector.
   virtual void GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
@@ -340,13 +339,13 @@ public:
   virtual void SetGroupScopedPETScVecFromPrimarySTLvector(int first_group_id,
                                                           int last_group_id,
                                                           Vec x,
-                                                          const std::vector<double>& y);
+                                                          const Vector<double>& y);
 
   /// Assembles a vector for a given groupset from a source vector.
   virtual void SetPrimarySTLvectorFromGroupScopedPETScVec(int first_group_id,
                                                           int last_group_id,
                                                           Vec x,
-                                                          std::vector<double>& y);
+                                                          Vector<double>& y);
 
   /// Assembles a PETSc vector from multiple groupsets.
   virtual void SetMultiGSPETScVecFromPrimarySTLvector(const std::vector<int>& groupset_ids,
@@ -433,11 +432,11 @@ protected:
   uint64_t local_node_count_ = 0;
   uint64_t glob_node_count_ = 0;
 
-  std::vector<double> q_moments_local_, ext_src_moments_local_;
-  std::vector<double> phi_new_local_, phi_old_local_;
-  std::vector<std::vector<double>> psi_new_local_;
-  std::vector<double> precursor_new_local_;
-  std::vector<double> densities_local_;
+  Vector<double> q_moments_local_, ext_src_moments_local_;
+  Vector<double> phi_new_local_, phi_old_local_;
+  std::vector<Vector<double>> psi_new_local_;
+  Vector<double> precursor_new_local_;
+  Vector<double> densities_local_;
 
   SetSourceFunction active_set_source_function_;
 

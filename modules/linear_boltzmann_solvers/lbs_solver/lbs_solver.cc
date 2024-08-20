@@ -264,85 +264,85 @@ LBSSolver::GlobalNodeCount() const
   return glob_node_count_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::QMomentsLocal()
 {
   return q_moments_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::QMomentsLocal() const
 {
   return q_moments_local_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::ExtSrcMomentsLocal()
 {
   return ext_src_moments_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::ExtSrcMomentsLocal() const
 {
   return ext_src_moments_local_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::PhiOldLocal()
 {
   return phi_old_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::PhiOldLocal() const
 {
   return phi_old_local_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::PhiNewLocal()
 {
   return phi_new_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::PhiNewLocal() const
 {
   return phi_new_local_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::PrecursorsNewLocal()
 {
   return phi_new_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::PrecursorsNewLocal() const
 {
   return phi_new_local_;
 }
 
-std::vector<std::vector<double>>&
+std::vector<Vector<double>>&
 LBSSolver::PsiNewLocal()
 {
   return psi_new_local_;
 }
 
-const std::vector<std::vector<double>>&
+const std::vector<Vector<double>>&
 LBSSolver::PsiNewLocal() const
 {
   return psi_new_local_;
 }
 
-std::vector<double>&
+Vector<double>&
 LBSSolver::DensitiesLocal()
 {
   return densities_local_;
 }
 
-const std::vector<double>&
+const Vector<double>&
 LBSSolver::DensitiesLocal() const
 {
   return densities_local_;
@@ -588,11 +588,11 @@ LBSSolver::SetOptions(const InputParameters& params)
         boundary_preferences_.clear();
 
         // Set all solutions to zero.
-        phi_old_local_.assign(phi_old_local_.size(), 0.0);
-        phi_new_local_.assign(phi_new_local_.size(), 0.0);
+        phi_old_local_ = Vector(phi_old_local_.size(), 0.0);
+        phi_new_local_ = Vector(phi_new_local_.size(), 0.0);
         for (auto& psi : psi_new_local_)
-          psi.assign(psi.size(), 0.0);
-        precursor_new_local_.assign(precursor_new_local_.size(), 0.0);
+          psi = Vector(psi.size(), 0.0);
+        precursor_new_local_ = Vector(precursor_new_local_.size(), 0.0);
       }
     }
   }
@@ -848,7 +848,7 @@ LBSSolver::PerformInputChecks()
     OpenSnLogicalError("Cannot deduce geometry type from mesh.");
 
   // Assign placeholder unit densities
-  densities_local_.assign(grid_ptr_->local_cells.size(), 1.0);
+  densities_local_ = Vector(grid_ptr_->local_cells.size(), 1.0);
 }
 
 void
@@ -1251,9 +1251,9 @@ LBSSolver::InitializeParrays()
   log.LogAllVerbose1() << "LBS Number of phi unknowns: " << local_unknown_count;
 
   // Size local vectors
-  q_moments_local_.assign(local_unknown_count, 0.0);
-  phi_old_local_.assign(local_unknown_count, 0.0);
-  phi_new_local_.assign(local_unknown_count, 0.0);
+  q_moments_local_ = Vector(local_unknown_count, 0.0);
+  phi_old_local_ = Vector(local_unknown_count, 0.0);
+  phi_new_local_ = Vector(local_unknown_count, 0.0);
 
   // Setup groupset psi vectors
   psi_new_local_.clear();
@@ -1263,7 +1263,7 @@ LBSSolver::InitializeParrays()
     if (options_.save_angular_flux)
     {
       size_t num_ang_unknowns = discretization_->GetNumLocalDOFs(groupset.psi_uk_man_);
-      psi_new_local_.back().assign(num_ang_unknowns, 0.0);
+      psi_new_local_.back() = Vector(num_ang_unknowns, 0.0);
     }
   }
 
@@ -1271,7 +1271,7 @@ LBSSolver::InitializeParrays()
   if (options_.use_precursors)
   {
     size_t num_precursor_dofs = grid_ptr_->local_cells.size() * max_precursors_per_material_;
-    precursor_new_local_.assign(num_precursor_dofs, 0.0);
+    precursor_new_local_ = Vector(num_precursor_dofs, 0.0);
   }
 
   // Read Restart data
@@ -1662,8 +1662,8 @@ LBSSolver::CleanUpWGDSA(LBSGroupset& groupset)
     groupset.wgdsa_solver_ = nullptr;
 }
 
-std::vector<double>
-LBSSolver::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<double>& phi_in)
+Vector<double>
+LBSSolver::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const Vector<double>& phi_in)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::WGSCopyOnlyPhi0");
 
@@ -1687,7 +1687,7 @@ LBSSolver::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<double
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
       double* output_mapped = &output_phi_local[dphi_map];
-      const double* phi_in_mapped = &phi_in[phi_map];
+      const double* phi_in_mapped = &phi_in(phi_map);
 
       for (size_t g = 0; g < gss; g++)
       {
@@ -1701,8 +1701,8 @@ LBSSolver::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<double
 
 void
 LBSSolver::GSProjectBackPhi0(const LBSGroupset& groupset,
-                             const std::vector<double>& input,
-                             std::vector<double>& output)
+                             const Vector<double>& input,
+                             Vector<double>& output)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::GSProjectBackPhi0");
 
@@ -1723,8 +1723,8 @@ LBSSolver::GSProjectBackPhi0(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i, dphi_uk_man, 0, 0);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double* input_mapped = &input[dphi_map];
-      double* output_mapped = &output[phi_map];
+      const double* input_mapped = &input(dphi_map);
+      double* output_mapped = &output(phi_map);
 
       for (int g = 0; g < gss; g++)
         output_mapped[g] = input_mapped[g];
@@ -1734,8 +1734,8 @@ LBSSolver::GSProjectBackPhi0(const LBSGroupset& groupset,
 
 void
 LBSSolver::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                       const std::vector<double>& phi_in,
-                                       std::vector<double>& delta_phi_local)
+                                       const Vector<double>& phi_in,
+                                       Vector<double>& delta_phi_local)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::AssembleWGDSADeltaPhiVector");
 
@@ -1747,7 +1747,7 @@ LBSSolver::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
   const size_t gss = groupset.groups_.size();
 
   delta_phi_local.clear();
-  delta_phi_local.assign(sdm.GetNumLocalDOFs(dphi_uk_man), 0.0);
+  delta_phi_local = Vector(sdm.GetNumLocalDOFs(dphi_uk_man), 0.0);
 
   for (const auto& cell : grid_ptr_->local_cells)
   {
@@ -1760,8 +1760,8 @@ LBSSolver::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i, dphi_uk_man, 0, 0);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      double* delta_phi_mapped = &delta_phi_local[dphi_map];
-      const double* phi_in_mapped = &phi_in[phi_map];
+      double* delta_phi_mapped = &delta_phi_local(dphi_map);
+      const double* phi_in_mapped = &phi_in(phi_map);
 
       for (size_t g = 0; g < gss; g++)
       {
@@ -1773,8 +1773,8 @@ LBSSolver::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
 
 void
 LBSSolver::DisAssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                          const std::vector<double>& delta_phi_local,
-                                          std::vector<double>& ref_phi_new)
+                                          const Vector<double>& delta_phi_local,
+                                          Vector<double>& ref_phi_new)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::DisAssembleWGDSADeltaPhiVector");
 
@@ -1795,8 +1795,8 @@ LBSSolver::DisAssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i, dphi_uk_man, 0, 0);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double* delta_phi_mapped = &delta_phi_local[dphi_map];
-      double* phi_new_mapped = &ref_phi_new[phi_map];
+      const double* delta_phi_mapped = &delta_phi_local(dphi_map);
+      double* phi_new_mapped = &ref_phi_new(phi_map);
 
       for (int g = 0; g < gss; g++)
         phi_new_mapped[g] += delta_phi_mapped[g];
@@ -1879,8 +1879,8 @@ LBSSolver::CleanUpTGDSA(LBSGroupset& groupset)
 
 void
 LBSSolver::AssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                       const std::vector<double>& phi_in,
-                                       std::vector<double>& delta_phi_local)
+                                       const Vector<double>& phi_in,
+                                       Vector<double>& delta_phi_local)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::AssembleTGDSADeltaPhiVector");
 
@@ -1891,7 +1891,7 @@ LBSSolver::AssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
   const size_t gss = groupset.groups_.size();
 
   delta_phi_local.clear();
-  delta_phi_local.assign(local_node_count_, 0.0);
+  delta_phi_local = Vector(local_node_count_, 0.0);
 
   for (const auto& cell : grid_ptr_->local_cells)
   {
@@ -1904,8 +1904,8 @@ LBSSolver::AssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, 0);
 
-      double& delta_phi_mapped = delta_phi_local[dphi_map];
-      const double* phi_in_mapped = &phi_in[phi_map];
+      double& delta_phi_mapped = delta_phi_local(dphi_map);
+      const double* phi_in_mapped = &phi_in(phi_map);
 
       for (size_t g = 0; g < gss; ++g)
       {
@@ -1922,8 +1922,8 @@ LBSSolver::AssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
 
 void
 LBSSolver::DisAssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                          const std::vector<double>& delta_phi_local,
-                                          std::vector<double>& ref_phi_new)
+                                          const Vector<double>& delta_phi_local,
+                                          Vector<double>& ref_phi_new)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::DisAssembleTGDSADeltaPhiVector");
 
@@ -1947,8 +1947,8 @@ LBSSolver::DisAssembleTGDSADeltaPhiVector(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double delta_phi_mapped = delta_phi_local[dphi_map];
-      double* phi_new_mapped = &ref_phi_new[phi_map];
+      const double delta_phi_mapped = delta_phi_local(dphi_map);
+      double* phi_new_mapped = &ref_phi_new(phi_map);
 
       for (int g = 0; g < gss; ++g)
         phi_new_mapped[g] += delta_phi_mapped * xi_g[gsi + g];
@@ -2034,7 +2034,7 @@ LBSSolver::ReadRestartData()
 }
 
 void
-LBSSolver::WriteAngularFluxes(const std::vector<std::vector<double>>& src,
+LBSSolver::WriteAngularFluxes(const std::vector<Vector<double>>& src,
                               const std::string& file_base) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::WriteAngularFluxes");
@@ -2105,7 +2105,7 @@ LBSSolver::WriteAngularFluxes(const std::vector<std::vector<double>>& src,
           for (uint64_t g = 0; g < num_gs_groups; ++g)
           {
             const uint64_t dof_map = discretization_->MapDOFLocal(cell, i, uk_man, n, g);
-            const double value = src[groupset_id][dof_map];
+            const double value = src[groupset_id](dof_map);
 
             file.write((char*)&cell.global_id_, sizeof(uint64_t));
             file.write((char*)&i, sizeof(uint64_t));
@@ -2118,8 +2118,7 @@ LBSSolver::WriteAngularFluxes(const std::vector<std::vector<double>>& src,
 }
 
 void
-LBSSolver::ReadAngularFluxes(const std::string& file_base,
-                             std::vector<std::vector<double>>& dest) const
+LBSSolver::ReadAngularFluxes(const std::string& file_base, std::vector<Vector<double>>& dest) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ReadAngularFluxes");
 
@@ -2206,7 +2205,7 @@ LBSSolver::ReadAngularFluxes(const std::string& file_base,
 
       const auto& cell = grid_ptr_->cells[cell_global_id];
       const auto imap = discretization_->MapDOFLocal(cell, node, uk_man, angle, group);
-      psi[imap] = value;
+      psi(imap) = value;
     } // for dof
   }   // for groupset gs
   file.close();
@@ -2214,7 +2213,7 @@ LBSSolver::ReadAngularFluxes(const std::string& file_base,
 
 void
 LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset,
-                                      const std::vector<double>& src,
+                                      const Vector<double>& src,
                                       const std::string& file_base) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::WriteGroupsetAngularFluxes");
@@ -2278,7 +2277,7 @@ LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset,
         for (uint64_t g = 0; g < num_gs_groups; ++g)
         {
           const uint64_t dof_map = discretization_->MapDOFLocal(cell, i, uk_man, n, g);
-          const double value = src[dof_map];
+          const double value = src(dof_map);
 
           file.write((char*)&cell.global_id_, sizeof(uint64_t));
           file.write((char*)&i, sizeof(uint64_t));
@@ -2292,7 +2291,7 @@ LBSSolver::WriteGroupsetAngularFluxes(const LBSGroupset& groupset,
 void
 LBSSolver::ReadGroupsetAngularFluxes(const std::string& file_base,
                                      const LBSGroupset& groupset,
-                                     std::vector<double>& dest) const
+                                     Vector<double>& dest) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ReadGroupsetAngularFluxes");
 
@@ -2338,7 +2337,7 @@ LBSSolver::ReadGroupsetAngularFluxes(const std::string& file_base,
                          " for groupset " + std::to_string(groupset.id_) + ".");
 
   // Read the angular flux data
-  dest.assign(num_local_gs_dofs, 0.0);
+  dest = Vector(num_local_gs_dofs, 0.0);
   for (uint64_t dof = 0; dof < num_local_gs_dofs; ++dof)
   {
     uint64_t cell_global_id;
@@ -2355,19 +2354,19 @@ LBSSolver::ReadGroupsetAngularFluxes(const std::string& file_base,
 
     const auto& cell = grid_ptr_->cells[cell_global_id];
     const auto imap = discretization_->MapDOFLocal(cell, node, uk_man, angle, group);
-    dest[imap] = psi_value;
+    dest(imap) = psi_value;
   }
   file.close();
 }
 
-std::vector<double>
+Vector<double>
 LBSSolver::MakeSourceMomentsFromPhi()
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::MakeSourceMomentsFromPhi");
 
   size_t num_local_dofs = discretization_->GetNumLocalDOFs(flux_moments_uk_man_);
 
-  std::vector<double> source_moments(num_local_dofs, 0.0);
+  Vector<double> source_moments(num_local_dofs, 0.0);
   for (auto& groupset : groupsets_)
   {
     active_set_source_function_(groupset,
@@ -2382,7 +2381,7 @@ LBSSolver::MakeSourceMomentsFromPhi()
 }
 
 void
-LBSSolver::WriteFluxMoments(const std::vector<double>& src, const std::string& file_base) const
+LBSSolver::WriteFluxMoments(const Vector<double>& src, const std::string& file_base) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::WriteFluxMoments");
 
@@ -2472,7 +2471,7 @@ LBSSolver::WriteFluxMoments(const std::vector<double>& src, const std::string& f
         {
           const uint64_t cell_global_id = cell.global_id_;
           const uint64_t dof_map = discretization_->MapDOFLocal(cell, i, uk_man, m, g);
-          const double value = src[dof_map];
+          const double value = src(dof_map);
 
           file.write((char*)&cell_global_id, sizeof(uint64_t));
           file.write((char*)&i, sizeof(uint64_t));
@@ -2485,7 +2484,7 @@ LBSSolver::WriteFluxMoments(const std::vector<double>& src, const std::string& f
 
 void
 LBSSolver::ReadFluxMoments(const std::string& file_base,
-                           std::vector<double>& dest,
+                           Vector<double>& dest,
                            bool single_file) const
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ReadFluxMoments");
@@ -2589,7 +2588,7 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
   }   // for c (cell in file)
 
   // Read the flux moments data
-  dest.assign(num_local_dofs, 0.0);
+  dest = Vector(num_local_dofs, 0.0);
   for (size_t dof = 0; dof < num_local_dofs; ++dof)
   {
     uint64_t cell_global_id;
@@ -2609,7 +2608,7 @@ LBSSolver::ReadFluxMoments(const std::string& file_base,
       const auto& cell = grid_ptr_->cells[cell_global_id];
       const auto& imap = file_cell_nodal_mapping.at(cell_global_id).at(node);
       const auto dof_map = discretization_->MapDOFLocal(cell, imap, uk_man, moment, group);
-      dest[dof_map] = flux_value;
+      dest(dof_map) = flux_value;
     } // if cell is local
   }   // for dof
   file.close();
@@ -2641,7 +2640,7 @@ LBSSolver::UpdateFieldFunctions()
         const int64_t imapA = sdm.MapDOFLocal(cell, i, phi_uk_man, m, g);
         const int64_t imapB = sdm.MapDOFLocal(cell, i);
 
-        data_vector_local[imapB] = phi_old_local_[imapA];
+        data_vector_local[imapB] = phi_old_local_(imapA);
       } // for node
     }   // for cell
 
@@ -2679,7 +2678,7 @@ LBSSolver::UpdateFieldFunctions()
           // const double kappa_g = xs->Kappa()[g];
           const double kappa_g = options_.power_default_kappa;
 
-          nodal_power += kappa_g * sigma_fg * phi_old_local_[imapB + g];
+          nodal_power += kappa_g * sigma_fg * phi_old_local_(imapB + g);
         } // for g
 
         data_vector_local[imapA] = nodal_power;
@@ -2741,9 +2740,9 @@ LBSSolver::SetPhiFromFieldFunctions(PhiSTLOption which_phi,
           const int64_t imapB = sdm.MapDOFLocal(cell, i, phi_uk_man, m, g);
 
           if (which_phi == PhiSTLOption::PHI_OLD)
-            phi_old_local_[imapB] = ff_data[imapA];
+            phi_old_local_(imapB) = ff_data(imapA);
           else if (which_phi == PhiSTLOption::PHI_NEW)
-            phi_new_local_[imapB] = ff_data[imapA];
+            phi_new_local_(imapB) = ff_data(imapA);
         } // for node
       }   // for cell
     }     // for g
@@ -2751,7 +2750,7 @@ LBSSolver::SetPhiFromFieldFunctions(PhiSTLOption which_phi,
 }
 
 double
-LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
+LBSSolver::ComputeFissionProduction(const Vector<double>& phi)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ComputeFissionProduction");
 
@@ -2785,11 +2784,11 @@ LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
       {
         const auto& prod = F[g];
         for (size_t gp = 0; gp <= last_grp; ++gp)
-          local_production += prod[gp] * phi[uk_map + gp] * IntV_ShapeI;
+          local_production += prod[gp] * phi(uk_map + gp) * IntV_ShapeI;
 
         if (options_.use_precursors)
           for (unsigned int j = 0; j < xs.NumPrecursors(); ++j)
-            local_production += nu_delayed_sigma_f[g] * phi[uk_map + g] * IntV_ShapeI;
+            local_production += nu_delayed_sigma_f[g] * phi(uk_map + g) * IntV_ShapeI;
       }
     } // for node
   }   // for cell
@@ -2802,7 +2801,7 @@ LBSSolver::ComputeFissionProduction(const std::vector<double>& phi)
 }
 
 double
-LBSSolver::ComputeFissionRate(const std::vector<double>& phi)
+LBSSolver::ComputeFissionRate(const Vector<double>& phi)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ComputeFissionRate");
 
@@ -2833,7 +2832,7 @@ LBSSolver::ComputeFissionRate(const std::vector<double>& phi)
 
       // Loop over groups
       for (size_t g = first_grp; g <= last_grp; ++g)
-        local_fission_rate += sigma_f[g] * phi[uk_map + g] * IntV_ShapeI;
+        local_fission_rate += sigma_f[g] * phi(uk_map + g) * IntV_ShapeI;
     } // for node
   }   // for cell
 
@@ -2851,7 +2850,7 @@ LBSSolver::ComputePrecursors()
 
   const size_t J = max_precursors_per_material_;
 
-  precursor_new_local_.assign(precursor_new_local_.size(), 0.0);
+  precursor_new_local_ = Vector(precursor_new_local_.size(), 0.0);
 
   // Loop over cells
   for (const auto& cell : grid_ptr_->local_cells)
@@ -2880,8 +2879,8 @@ LBSSolver::ComputePrecursors()
 
         // Loop over groups
         for (unsigned int g = 0; g < groups_.size(); ++g)
-          precursor_new_local_[dof] +=
-            coeff * nu_delayed_sigma_f[g] * phi_new_local_[uk_map + g] * node_V_fraction;
+          precursor_new_local_(dof) +=
+            coeff * nu_delayed_sigma_f[g] * phi_new_local_(uk_map + g) * node_V_fraction;
       } // for node i
     }   // for precursor j
 
@@ -2889,7 +2888,7 @@ LBSSolver::ComputePrecursors()
 }
 
 void
-LBSSolver::SetPhiVectorScalarValues(std::vector<double>& phi_vector, double value)
+LBSSolver::SetPhiVectorScalarValues(Vector<double>& phi_vector, double value)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetPhiVectorScalarValues");
 
@@ -2906,7 +2905,7 @@ LBSSolver::SetPhiVectorScalarValues(std::vector<double>& phi_vector, double valu
     {
       const int64_t dof_map = sdm.MapDOFLocal(cell, i, flux_moments_uk_man_, 0, 0);
 
-      double* phi = &phi_vector[dof_map];
+      double* phi = &phi_vector(dof_map);
 
       for (size_t g = first_grp; g <= final_grp; ++g)
         phi[g] = value;
@@ -2919,7 +2918,7 @@ LBSSolver::ScalePhiVector(PhiSTLOption which_phi, double value)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::ScalePhiVector");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -2942,7 +2941,7 @@ LBSSolver::SetGSPETScVecFromPrimarySTLvector(const LBSGroupset& groupset,
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetGSPETScVecFromPrimarySTLvector");
 
-  const std::vector<double>* y_ptr;
+  const Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -2975,7 +2974,7 @@ LBSSolver::SetGSPETScVecFromPrimarySTLvector(const LBSGroupset& groupset,
         for (int g = 0; g < gss; g++)
         {
           index++;
-          x_ref[index] = (*y_ptr)[mapping + g]; // Offset on purpose
+          x_ref[index] = (*y_ptr)(mapping + g); // Offset on purpose
         }                                       // for g
       }                                         // for moment
     }                                           // for dof
@@ -2991,7 +2990,7 @@ LBSSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& groupset,
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetPrimarySTLvectorFromGSPETScVec");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -3024,7 +3023,7 @@ LBSSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& groupset,
         for (int g = 0; g < gss; g++)
         {
           index++;
-          (*y_ptr)[mapping + g] = x_ref[index];
+          (*y_ptr)(mapping + g) = x_ref[index];
         } // for g
       }   // for moment
     }     // for dof
@@ -3035,8 +3034,8 @@ LBSSolver::SetPrimarySTLvectorFromGSPETScVec(const LBSGroupset& groupset,
 
 void
 LBSSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
-                                         const std::vector<double>& x,
-                                         std::vector<double>& y)
+                                         const Vector<double>& x,
+                                         Vector<double>& y)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::GSScopedCopyPrimarySTLvectors");
 
@@ -3054,7 +3053,7 @@ LBSSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
         size_t mapping = transport_view.MapDOF(i, m, gsi);
         for (int g = 0; g < gss; g++)
         {
-          y[mapping + g] = x[mapping + g];
+          y(mapping + g) = x(mapping + g);
         } // for g
       }   // for moment
     }     // for dof
@@ -3068,7 +3067,7 @@ LBSSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::GSScopedCopyPrimarySTLvectors");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (to_which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -3081,7 +3080,7 @@ LBSSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
       throw std::logic_error("GSScopedCopyPrimarySTLvectors");
   }
 
-  std::vector<double>* x_src_ptr;
+  Vector<double>* x_src_ptr;
   switch (from_which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -3108,7 +3107,7 @@ LBSSolver::GSScopedCopyPrimarySTLvectors(const LBSGroupset& groupset,
         size_t mapping = transport_view.MapDOF(i, m, gsi);
         for (int g = 0; g < gss; g++)
         {
-          (*y_ptr)[mapping + g] = (*x_src_ptr)[mapping + g];
+          (*y_ptr)(mapping + g) = (*x_src_ptr)(mapping + g);
         } // for g
       }   // for moment
     }     // for dof
@@ -3119,7 +3118,7 @@ void
 LBSSolver::SetGroupScopedPETScVecFromPrimarySTLvector(int first_group_id,
                                                       int last_group_id,
                                                       Vec x,
-                                                      const std::vector<double>& y)
+                                                      const Vector<double>& y)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetGroupScopedPETScVecFromPrimarySTLvector");
 
@@ -3143,7 +3142,7 @@ LBSSolver::SetGroupScopedPETScVecFromPrimarySTLvector(int first_group_id,
         for (int g = 0; g < gss; g++)
         {
           index++;
-          x_ref[index] = y[mapping + g]; // Offset on purpose
+          x_ref[index] = y(mapping + g); // Offset on purpose
         }                                // for g
       }                                  // for moment
     }                                    // for dof
@@ -3156,7 +3155,7 @@ void
 LBSSolver::SetPrimarySTLvectorFromGroupScopedPETScVec(int first_group_id,
                                                       int last_group_id,
                                                       Vec x,
-                                                      std::vector<double>& y)
+                                                      Vector<double>& y)
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetPrimarySTLvectorFromGroupScopedPETScVec");
 
@@ -3180,7 +3179,7 @@ LBSSolver::SetPrimarySTLvectorFromGroupScopedPETScVec(int first_group_id,
         for (int g = 0; g < gss; g++)
         {
           index++;
-          y[mapping + g] = x_ref[index];
+          y(mapping + g) = x_ref[index];
         } // for g
       }   // for moment
     }     // for dof
@@ -3196,7 +3195,7 @@ LBSSolver::SetMultiGSPETScVecFromPrimarySTLvector(const std::vector<int>& groups
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetMultiGSPETScVecFromPrimarySTLvector");
 
-  const std::vector<double>* y_ptr;
+  const Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -3233,7 +3232,7 @@ LBSSolver::SetMultiGSPETScVecFromPrimarySTLvector(const std::vector<int>& groups
           for (int g = 0; g < gss; g++)
           {
             index++;
-            x_ref[index] = (*y_ptr)[mapping + g]; // Offset on purpose
+            x_ref[index] = (*y_ptr)(mapping + g); // Offset on purpose
           }                                       // for g
         }                                         // for moment
       }                                           // for dof
@@ -3250,7 +3249,7 @@ LBSSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom(const std::vector<int>& gr
 {
   CALI_CXX_MARK_SCOPE("LBSSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom");
 
-  std::vector<double>* y_ptr;
+  Vector<double>* y_ptr;
   switch (which_phi)
   {
     case PhiSTLOption::PHI_NEW:
@@ -3287,7 +3286,7 @@ LBSSolver::SetPrimarySTLvectorFromMultiGSPETScVecFrom(const std::vector<int>& gr
           for (int g = 0; g < gss; g++)
           {
             index++;
-            (*y_ptr)[mapping + g] = x_ref[index];
+            (*y_ptr)(mapping + g) = x_ref[index];
           } // for g
         }   // for moment
       }     // for dof

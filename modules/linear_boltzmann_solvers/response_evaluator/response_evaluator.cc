@@ -132,11 +132,11 @@ ResponseEvaluator::SetBufferOptions(const InputParameters& params)
 
   const auto prefixes = params.GetParam("file_prefixes");
 
-  std::vector<double> phi;
+  Vector<double> phi;
   if (prefixes.Has("flux_moments"))
     lbs_solver_.ReadFluxMoments(prefixes.GetParamValue<std::string>("flux_moments"), phi);
 
-  std::vector<std::vector<double>> psi;
+  std::vector<Vector<double>> psi;
   if (prefixes.Has("angular_fluxes"))
     lbs_solver_.ReadAngularFluxes(prefixes.GetParamValue<std::string>("angular_fluxes"), psi);
 
@@ -340,7 +340,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
           const auto dof_map = transport_view.MapDOF(i, 0, 0);
           const auto& V_i = fe_values.intV_shapeI(i);
           for (size_t g = 0; g < num_groups; ++g)
-            local_response += src[g] * phi_dagger[dof_map + g] * V_i;
+            local_response += src[g] * phi_dagger(dof_map + g) * V_i;
         }
       }
     } // for cell
@@ -389,7 +389,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
 
                   for (size_t gsg = 0; gsg < num_gs_groups; ++gsg)
                     local_response +=
-                      weight * psi_dagger[gs][dof_map + gsg] * psi_bndry[num_gs_groups * n + gsg];
+                      weight * psi_dagger[gs](dof_map + gsg) * psi_bndry[num_gs_groups * n + gsg];
                 } // if outgoing
               }
             } // for face node fi
@@ -417,7 +417,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
         const auto dof_map = transport_view.MapDOF(i, 0, 0);
         const auto& shape_val = subscriber.shape_values(i);
         for (size_t g = 0; g < num_groups; ++g)
-          local_response += vol_wt * shape_val * src[g] * phi_dagger[dof_map + g];
+          local_response += vol_wt * shape_val * src[g] * phi_dagger(dof_map + g);
       } // for node i
     }   // for subscriber
 
@@ -437,7 +437,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
         const auto dof_map = transport_view.MapDOF(i, 0, 0);
         const auto& vals = distributed_source(cell, nodes[i], num_groups);
         for (size_t g = 0; g < num_groups; ++g)
-          local_response += vals[g] * phi_dagger[dof_map + g] * V_i;
+          local_response += vals[g] * phi_dagger(dof_map + g) * V_i;
       }
     }
 

@@ -1171,7 +1171,7 @@ MGDiffusionSolver::UpdateFieldFunctions()
   const auto& OneDOFPerNode = sdm_ptr_->UNITARY_UNKNOWN_MANAGER;
   for (int g = 0; g < num_groups_; ++g)
   {
-    std::vector<double> data_vector;
+    Vector<double> data_vector;
     sdm_ptr_->LocalizePETScVector(x_[g], data_vector, OneDOFPerNode);
 
     auto& ff = field_functions_.at(g);

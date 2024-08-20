@@ -157,12 +157,12 @@ KSPMonitorRelativeToRHS(KSP ksp, PetscInt n, PetscReal rnorm, void*)
 }
 
 void
-CopyVecToSTLvector(Vec x, std::vector<double>& data, size_t N, bool resize_STL)
+CopyVecToSTLvector(Vec x, Vector<double>& data, size_t N, bool resize_STL)
 {
   if (resize_STL)
   {
     data.clear();
-    data.assign(N, 0.0);
+    data = Vector(N, 0.0);
   }
   else
     OpenSnLogicalErrorIf(data.size() < N,
@@ -178,12 +178,12 @@ CopyVecToSTLvector(Vec x, std::vector<double>& data, size_t N, bool resize_STL)
 }
 
 void
-CopyVecToSTLvectorWithGhosts(Vec x, std::vector<double>& data, size_t N, bool resize_STL)
+CopyVecToSTLvectorWithGhosts(Vec x, Vector<double>& data, size_t N, bool resize_STL)
 {
   if (resize_STL)
   {
     data.clear();
-    data.assign(N, 0.0);
+    data = Vector(N, 0.0);
   }
   else
     OpenSnLogicalErrorIf(data.size() != N,

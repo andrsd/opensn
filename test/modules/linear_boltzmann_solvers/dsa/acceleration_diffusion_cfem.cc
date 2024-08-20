@@ -154,8 +154,8 @@ acceleration_Diffusion_CFEM(const InputParameters&)
   opensn::log.Log() << "Done constructing solver" << std::endl;
 
   // Assemble and solve
-  std::vector<double> q_vector(num_local_dofs, 1.0);
-  std::vector<double> x_vector(num_local_dofs, 0.0);
+  Vector<double> q_vector(num_local_dofs, 1.0);
+  Vector<double> x_vector(num_local_dofs, 0.0);
 
   solver.AssembleAand_b(q_vector);
   solver.Solve(x_vector);

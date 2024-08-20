@@ -121,6 +121,14 @@ Scaled(const Vector<TYPE>& a, TYPE alpha)
 /// Sets a constant value to a vector.
 void Set(std::vector<double>& x, const double& val);
 
+template <typename TYPE>
+void
+Set(Vector<TYPE>& x, const TYPE& val)
+{
+  for (auto i = 0; i < x.Rows(); i++)
+    x(i) = val;
+}
+
 /// Add vector to this vector
 template <typename TYPE>
 Vector<TYPE>
@@ -216,12 +224,6 @@ Dot(const Vector<TYPE>& x, const Vector<TYPE>& y)
     val += x(i) * y(i);
   return val;
 }
-
-/// Adds two vectors component-wise.
-std::vector<double> operator+(const std::vector<double>& a, const std::vector<double>& b);
-
-/// Subtracts two vectors component-wise.
-std::vector<double> operator-(const std::vector<double>& a, const std::vector<double>& b);
 
 /// Returns the transpose of a matrix.
 template <typename TYPE>

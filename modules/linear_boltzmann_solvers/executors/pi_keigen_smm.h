@@ -29,13 +29,13 @@ public:
   void Execute() override;
 
 protected:
-  void ComputeClosures(const std::vector<std::vector<double>>& psi);
-  std::vector<double> ComputeSourceCorrection() const;
+  void ComputeClosures(const std::vector<Vector<double>>& psi);
+  Vector<double> ComputeSourceCorrection() const;
 
   void AssembleDiffusionBCs() const;
-  std::vector<double> AssembleDiffusionRHS(const std::vector<double>& q0) const;
-  std::vector<double> SetNodalDiffusionFissionSource(const std::vector<double>& phi0) const;
-  std::vector<double> SetNodalDiffusionScatterSource(const std::vector<double>& phi0) const;
+  Vector<double> AssembleDiffusionRHS(const Vector<double>& q0) const;
+  Vector<double> SetNodalDiffusionFissionSource(const Vector<double>& phi0) const;
+  Vector<double> SetNodalDiffusionScatterSource(const Vector<double>& phi0) const;
 
   void ComputeAuxiliaryUnitCellMatrices();
   void ComputeBoundaryFactors();
@@ -46,8 +46,7 @@ protected:
    * \param[in] input A transport flux moments vector to transfer data from.
    * \param[out] output A vector to place the transferred data.
    */
-  void TransferTransportToDiffusion(const std::vector<double>& input,
-                                    std::vector<double>& output) const;
+  void TransferTransportToDiffusion(const Vector<double>& input, Vector<double>& output) const;
 
   /**
    * Transfer a diffusion scalar flux vector to a transport flux moments vector.
@@ -55,15 +54,13 @@ protected:
    * \param[in] input A diffusion scalar flux vector to transfer data from.
    * \param[out] output A transport flux moments vector to transfer data to.
    */
-  void TransferDiffusionToTransport(const std::vector<double>& input,
-                                    std::vector<double>& output) const;
+  void TransferDiffusionToTransport(const Vector<double>& input, Vector<double>& output) const;
 
-  double CheckScalarFluxConvergence(const std::vector<double>& phi_new,
-                                    const std::vector<double>& phi_old);
+  double CheckScalarFluxConvergence(const Vector<double>& phi_new, const Vector<double>& phi_old);
 
 protected:
   unsigned int dimension_;
-  std::vector<std::vector<double>>& psi_new_local_;
+  std::vector<Vector<double>>& psi_new_local_;
 
   // Second moment closures
   UnknownManager tensor_uk_man_;
@@ -105,12 +102,11 @@ protected:
    * \param uk_man The unknown manager for the PWLD unknowns.
    * \param ghost_info The ghost node info for the PWLC unknowns.
    */
-  static std::vector<double>
-  ComputeNodallyAveragedPWLDVector(const std::vector<double>& pwld_vector,
-                                   const SpatialDiscretization& pwld,
-                                   const SpatialDiscretization& pwlc,
-                                   const UnknownManager& uk_man,
-                                   const GhostInfo& ghost_info);
+  static Vector<double> ComputeNodallyAveragedPWLDVector(const Vector<double>& pwld_vector,
+                                                         const SpatialDiscretization& pwld,
+                                                         const SpatialDiscretization& pwlc,
+                                                         const UnknownManager& uk_man,
+                                                         const GhostInfo& ghost_info);
 
   static std::vector<int64_t> MakePWLDGhostIndices(const SpatialDiscretization& pwld,
                                                    const UnknownManager& uk_man);

@@ -149,7 +149,7 @@ SimTest03_PWLC(const InputParameters&)
   opensn::log.Log() << "Done solving";
 
   // Extract PETSc vector
-  std::vector<double> field;
+  Vector<double> field;
   sdm.LocalizePETScVector(x, field, OneDofPerNode);
 
   // Clean up

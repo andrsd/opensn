@@ -5,6 +5,7 @@
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "lua/framework/console/console.h"
+#include <limits>
 
 using namespace opensn;
 
@@ -184,10 +185,10 @@ math_SDM_Test01_Continuous(const InputParameters& input_parameters)
     opensn::log.Log() << "Converged";
 
   // Extract PETSc vector
-  std::vector<double> field;
+  Vector<double> field;
   sdm.LocalizePETScVector(x, field, OneDofPerNode);
 
-  double local_max = field.front();
+  auto local_max = std::numeric_limits<double>::lowest();
   for (auto val : field)
     local_max = std::max(val, local_max);
 

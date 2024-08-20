@@ -13,14 +13,14 @@ class CellMapping;
 class CbcSweepChunk : public SweepChunk
 {
 public:
-  CbcSweepChunk(std::vector<double>& destination_phi,
-                std::vector<double>& destination_psi,
+  CbcSweepChunk(Vector<double>& destination_phi,
+                Vector<double>& destination_psi,
                 const MeshContinuum& grid,
                 const SpatialDiscretization& discretization,
                 const std::vector<UnitCellMatrices>& unit_cell_matrices,
                 std::vector<CellLBSView>& cell_transport_views,
-                const std::vector<double>& densities,
-                const std::vector<double>& source_moments,
+                const Vector<double>& densities,
+                const Vector<double>& source_moments,
                 const LBSGroupset& groupset,
                 const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                 int num_moments,

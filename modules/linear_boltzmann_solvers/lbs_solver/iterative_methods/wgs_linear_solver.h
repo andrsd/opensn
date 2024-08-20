@@ -35,7 +35,7 @@ protected:
   void SetInitialGuess() override;
   void PostSolveCallback() override;
 
-  std::vector<double> saved_q_moments_local_;
+  Vector<double> saved_q_moments_local_;
 };
 
 } // namespace opensn

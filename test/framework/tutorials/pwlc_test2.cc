@@ -159,7 +159,7 @@ SimTest04_PWLC(const InputParameters& params)
     opensn::log.Log() << "Converged";
 
   // Extract PETSc vector
-  std::vector<double> field;
+  Vector<double> field;
   sdm.LocalizePETScVector(x, field, OneDofPerNode);
 
   // Clean up
@@ -194,7 +194,7 @@ SimTest04_PWLC(const InputParameters& params)
     for (size_t j = 0; j < num_nodes; ++j)
     {
       const int64_t jmap = sdm.MapDOFLocal(cell, j);
-      nodal_phi[j] = field_wg[jmap];
+      nodal_phi[j] = field_wg(jmap);
     } // for j
 
     // Quadrature loop

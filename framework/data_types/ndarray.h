@@ -352,6 +352,15 @@ public:
   /// Returns true if the array has no elements.
   bool empty() const noexcept { return size_ == 0; }
 
+  void clear()
+  {
+    delete[] base_;
+    base_ = nullptr;
+    size_ = 0;
+    dimensions_.clear();
+    strides_.clear();
+  }
+
   /// Returns an iterator pointing to the beginning of the array.
   T* begin() const noexcept { return base_; }
 

@@ -16,10 +16,10 @@ SweepChunkPwlrz::SweepChunkPwlrz(const MeshContinuum& grid,
                                  const std::vector<UnitCellMatrices>& unit_cell_matrices,
                                  const std::vector<UnitCellMatrices>& secondary_unit_cell_matrices,
                                  std::vector<CellLBSView>& cell_transport_views,
-                                 const std::vector<double>& densities,
-                                 std::vector<double>& destination_phi,
-                                 std::vector<double>& destination_psi,
-                                 const std::vector<double>& source_moments,
+                                 const Vector<double>& densities,
+                                 Vector<double>& destination_phi,
+                                 Vector<double>& destination_psi,
+                                 const Vector<double>& source_moments,
                                  LBSGroupset& groupset,
                                  const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                                  int num_moments,
@@ -55,7 +55,7 @@ SweepChunkPwlrz::SweepChunkPwlrz(const MeshContinuum& grid,
 
   //  allocate storage for sweeping dependency
   const unsigned int n_dof = discretization_primary.GetNumLocalDOFs(unknown_manager_);
-  psi_sweep_.resize(n_dof);
+  psi_sweep_.Resize(n_dof);
 
   //  initialise mappings from direction linear index
   for (const auto& dir_set : curvilinear_product_quadrature->GetDirectionMap())
@@ -108,7 +108,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
     const auto& face_orientations = spds.CellFaceOrientations()[cell_local_id];
     std::vector<double> face_mu_values(cell_num_faces);
 
-    const auto& rho = densities_[cell.local_id_];
+    const auto& rho = densities_(cell.local_id_);
     const auto& sigma_t = xs_.at(cell.material_id_)->SigmaTotal();
 
     // Get cell matrices
@@ -147,7 +147,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
           const auto jr =
             discretization_.MapDOFLocal(cell, j, unknown_manager_, polar_level, gs_gi);
           for (int gsg = 0; gsg < gs_ss_size; ++gsg)
-            b[gsg](i) += fac_streaming_operator * Maux(i, j) * psi_sweep_[jr + gsg];
+            b[gsg](i) += fac_streaming_operator * Maux(i, j) * psi_sweep_(jr + gsg);
         }
       }
 
@@ -252,7 +252,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
           for (int m = 0; m < num_moments_; ++m)
           {
             const size_t ir = cell_transport_view.MapDOF(i, m, static_cast<int>(gs_gi + gsg));
-            temp_src += m2d_op[m][direction_num] * source_moments_[ir];
+            temp_src += m2d_op[m][direction_num] * source_moments_(ir);
           }
           source[i] = temp_src;
         }
@@ -285,7 +285,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
         {
           const size_t ir = cell_transport_view.MapDOF(i, m, gs_gi);
           for (int gsg = 0; gsg < gs_ss_size; ++gsg)
-            output_phi[ir + gsg] += wn_d2m * b[gsg](i);
+            output_phi(ir + gsg) += wn_d2m * b[gsg](i);
         }
       }
 
@@ -294,7 +294,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
       {
         auto& output_psi = GetDestinationPsi();
         double* cell_psi_data =
-          &output_psi[discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0)];
+          &output_psi(discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0));
 
         for (size_t i = 0; i < cell_num_nodes; ++i)
         {
@@ -363,7 +363,7 @@ SweepChunkPwlrz::Sweep(AngleSet& angle_set)
       {
         const auto ir = discretization_.MapDOFLocal(cell, i, unknown_manager_, polar_level, gs_gi);
         for (int gsg = 0; gsg < gs_ss_size; ++gsg)
-          psi_sweep_[ir + gsg] = f0 * b[gsg](i) - f1 * psi_sweep_[ir + gsg];
+          psi_sweep_(ir + gsg) = f0 * b[gsg](i) - f1 * psi_sweep_(ir + gsg);
       }
     } // for angleset/subset
   }   // for cell
