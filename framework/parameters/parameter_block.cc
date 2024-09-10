@@ -3,7 +3,9 @@
 
 #include "framework/parameters/parameter_block.h"
 #include <algorithm>
+#include <memory>
 #include <sstream>
+#include <iostream>
 
 namespace opensn
 {
@@ -37,7 +39,7 @@ ParameterBlock::SetBlockName(const std::string& name)
 }
 
 ParameterBlock::ParameterBlock(const std::string& name)
-  : type_(ParameterBlockType::BLOCK), name_(name)
+  : type_(ParameterBlockType::BLOCK), name_(name), value_ptr_(nullptr)
 {
 }
 
@@ -45,10 +47,8 @@ ParameterBlock::ParameterBlock(const ParameterBlock& other)
 {
   type_ = other.type_;
   name_ = other.name_;
-
   if (other.value_ptr_)
-    value_ptr_ = std::make_unique<Varying>(*other.value_ptr_);
-
+    value_ptr_ = other.value_ptr_->Copy();
   parameters_ = other.parameters_;
   error_origin_scope_ = other.error_origin_scope_;
 }
@@ -60,10 +60,8 @@ ParameterBlock::operator=(const ParameterBlock& other)
   {
     type_ = other.type_;
     name_ = other.name_;
-
     if (other.value_ptr_)
-      value_ptr_ = std::make_unique<Varying>(*other.value_ptr_);
-
+      value_ptr_ = other.value_ptr_->Copy();
     parameters_ = other.parameters_;
     error_origin_scope_ = other.error_origin_scope_;
   }
@@ -118,29 +116,29 @@ ParameterBlock::Name() const
   return name_;
 }
 
-const Varying&
-ParameterBlock::Value() const
-{
-  switch (this->Type())
-  {
-    case ParameterBlockType::BOOLEAN:
-    case ParameterBlockType::FLOAT:
-    case ParameterBlockType::STRING:
-    case ParameterBlockType::INTEGER:
-    {
-      if (value_ptr_ == nullptr)
-        throw std::runtime_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) +
-                                 ": Uninitialized Varying value for block " + this->Name());
-      return *value_ptr_;
-    }
-    default:
-      throw std::logic_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) + ":\"" +
-                             this->Name() +
-                             "\""
-                             " Called for block of type " +
-                             ParameterBlockTypeName(this->Type()) + " which has no value.");
-  }
-}
+// const Varying&
+// ParameterBlock::Value() const
+// {
+//   switch (this->Type())
+//   {
+//     case ParameterBlockType::BOOLEAN:
+//     case ParameterBlockType::FLOAT:
+//     case ParameterBlockType::STRING:
+//     case ParameterBlockType::INTEGER:
+//     {
+//       if (value_ptr_ == nullptr)
+//         throw std::runtime_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) +
+//                                  ": Uninitialized Varying value for block " + this->Name());
+//       return *value_ptr_;
+//     }
+//     default:
+//       throw std::logic_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) + ":\"" +
+//                              this->Name() +
+//                              "\""
+//                              " Called for block of type " +
+//                              ParameterBlockTypeName(this->Type()) + " which has no value.");
+//   }
+// }
 
 size_t
 ParameterBlock::NumParameters() const
@@ -315,6 +313,36 @@ ParameterBlock::GetParam(size_t index) const
   }
 }
 
+std::string
+ParameterBlock::PrintValueStr(bool with_type) const
+{
+  std::stringstream outstr;
+
+  switch (type_)
+  {
+    case ParameterBlockType::BOOLEAN:
+      outstr << (GetValue<bool>() ? "true" : "false");
+      break;
+
+    case ParameterBlockType::FLOAT:
+      outstr << GetValue<double>() << (with_type ? "(double)" : "");
+      break;
+
+    case ParameterBlockType::STRING:
+      outstr << "\"" << GetValue<std::string>() << "\"";
+      break;
+
+    case ParameterBlockType::INTEGER:
+      outstr << GetIntegerValue();
+      break;
+
+    default:
+      break;
+  }
+
+  return outstr.str();
+}
+
 //  NOLINTBEGIN(misc-no-recursion)
 void
 ParameterBlock::RecursiveDumpToString(std::string& outstr, const std::string& offset) const
@@ -323,7 +351,7 @@ ParameterBlock::RecursiveDumpToString(std::string& outstr, const std::string& of
   outstr += offset + "{\n";
 
   if (HasValue())
-    outstr += value_ptr_->PrintStr();
+    outstr += PrintValueStr();
 
   for (const auto& param : parameters_)
   {
@@ -333,28 +361,28 @@ ParameterBlock::RecursiveDumpToString(std::string& outstr, const std::string& of
       case ParameterBlockType::BOOLEAN:
       {
         outstr += offset + "  " + param.Name() + " = ";
-        const bool value = param.Value().BoolValue();
+        const auto value = param.GetValue<bool>();
         outstr += std::string(value ? "true" : "false") + ",\n";
         break;
       }
       case ParameterBlockType::FLOAT:
       {
         outstr += offset + "  " + param.Name() + " = ";
-        const double value = param.Value().FloatValue();
+        const auto value = param.GetValue<double>();
         outstr += std::to_string(value) + ",\n";
         break;
       }
       case ParameterBlockType::STRING:
       {
         outstr += offset + "  " + param.Name() + " = ";
-        const auto& value = param.Value().StringValue();
+        const auto value = param.GetValue<std::string>();
         outstr += "\"" + value + "\",\n";
         break;
       }
       case ParameterBlockType::INTEGER:
       {
         outstr += offset + "  " + param.Name() + " = ";
-        const int64_t value = param.Value().IntegerValue();
+        const auto value = param.GetValue<int64_t>();
         outstr += std::to_string(value) + ",\n";
         break;
       }
@@ -379,7 +407,7 @@ ParameterBlock::RecursiveDumpToJSON(std::string& outstr) const
 {
   if (HasValue())
   {
-    outstr += value_ptr_->PrintStr(false);
+    outstr += PrintValueStr(false);
     return;
   }
 
@@ -392,28 +420,28 @@ ParameterBlock::RecursiveDumpToJSON(std::string& outstr) const
       case ParameterBlockType::BOOLEAN:
       {
         outstr += "\"" + param.Name() + "\" = ";
-        const bool value = param.Value().BoolValue();
+        const bool value = param.GetValue<bool>();
         outstr += std::string(value ? "true" : "false") + ",\n";
         break;
       }
       case ParameterBlockType::FLOAT:
       {
         outstr += "\"" + param.Name() + "\" = ";
-        const double value = param.Value().FloatValue();
+        const double value = param.GetValue<double>();
         outstr += std::to_string(value) + ",\n";
         break;
       }
       case ParameterBlockType::STRING:
       {
         outstr += "\"" + param.Name() + "\" = ";
-        const auto& value = param.Value().StringValue();
+        const auto& value = param.GetValue<std::string>();
         outstr += "\"" + value + "\",\n";
         break;
       }
       case ParameterBlockType::INTEGER:
       {
         outstr += "\"" + param.Name() + "\" = ";
-        const int64_t value = param.Value().IntegerValue();
+        const int64_t value = param.GetIntegerValue();
         outstr += std::to_string(value) + ",\n";
         break;
       }
@@ -430,5 +458,79 @@ ParameterBlock::RecursiveDumpToJSON(std::string& outstr) const
   outstr += (this->Type() == ParameterBlockType::ARRAY ? "]" : "}");
 }
 // NOLINTEND(misc-no-recursion)
+
+// Integer values
+
+int64_t
+ParameterBlock::GetIntegerValue() const
+{
+  if (value_ptr_ == nullptr)
+    throw std::logic_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) +
+                           ": Value not available for block type " +
+                           ParameterBlockTypeName(Type()));
+
+  auto ptr = std::dynamic_pointer_cast<Parameter<int64_t>>(value_ptr_);
+  if (ptr)
+    return ptr->Get();
+  else
+    throw std::runtime_error(std::string("Parameter ") + name_ + " is not an integer (" +
+                             value_ptr_->Type() + ").");
+}
+
+template <>
+uint64_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+uint32_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+int32_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+uint16_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+int16_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+uint8_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+int8_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
+
+template <>
+size_t
+ParameterBlock::GetValue() const
+{
+  return GetIntegerValue();
+}
 
 } // namespace opensn

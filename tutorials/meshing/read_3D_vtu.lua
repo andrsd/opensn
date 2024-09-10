@@ -9,13 +9,13 @@ We start by reading a 3D vtu file. The resulting mesh and partition is shown bel
 --]]
 -- Setup the mesh
 meshgen = mesh.MeshGenerator.Create({
-  inputs = {
-    mesh.FromFileMeshGenerator.Create({
-      filename = "../../test/assets/mesh/GMSH_AllTets.vtu",
-    }),
-  },
-  partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
+    inputs = {
+        mesh.FromFileMeshGenerator.Create({
+            filename = "../../test/assets/mesh/GMSH_AllTets.vtu",
+        }),
+    },
+    partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
 })
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 mesh.ExportToPVTU("Read_3D_mesh_only")

@@ -14,8 +14,8 @@ length = 2.
 xmin = -length / 2.
 dx = length / n_cells
 for i = 1, (n_cells + 1) do
-  k = i - 1
-  nodes[i] = xmin + k * dx
+    k = i - 1
+    nodes[i] = xmin + k * dx
 end
 
 --[[ @doc
@@ -36,15 +36,15 @@ on where the cell center is located with respect to the various xcuts, ycuts, an
 to avoid issues).
 --]]
 meshgen = mesh.OrthogonalMeshGenerator.Create({
-  node_sets = { nodes, nodes },
-  partitioner = mesh.KBAGraphPartitioner.Create({
-    nx = 2,
-    ny = 2,
-    xcuts = { 0. },
-    ycuts = { 0. },
-  }),
+    node_sets = { nodes, nodes },
+    partitioner = mesh.KBAGraphPartitioner.Create({
+        nx = 2,
+        ny = 2,
+        xcuts = { 0. },
+        ycuts = { 0. },
+    }),
 })
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 --[[ @doc
 ## Material IDs
@@ -68,10 +68,10 @@ mesh.ExportToPVTU("ortho_2D_KBA")
 Now, we use the Parmetis partitioner.
 --]]
 meshgen = mesh.OrthogonalMeshGenerator.Create({
-  node_sets = { nodes, nodes },
-  partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
+    node_sets = { nodes, nodes },
+    partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
 })
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 --[[ @doc
 ## Export the mesh

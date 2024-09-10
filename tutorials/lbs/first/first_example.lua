@@ -31,14 +31,14 @@ For more runtime options, type `path/to/opensn -h` for help.
 -- Check num_procs
 num_procs = 4
 if check_num_procs == nil and number_of_processes ~= num_procs then
-  Log(
-    LOG_0ERROR,
-    "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
-  )
-  os.exit(false)
+    Log(
+        LOG_0ERROR,
+        "Incorrect amount of processors. "
+        .. "Expected "
+        .. tostring(num_procs)
+        .. ". Pass check_num_procs=false to override if possible."
+    )
+    os.exit(false)
 end
 
 --[[ @doc
@@ -55,8 +55,8 @@ length = 2.
 xmin = -length / 2.
 dx = length / n_cells
 for i = 1, (n_cells + 1) do
-  k = i - 1
-  nodes[i] = xmin + k * dx
+    k = i - 1
+    nodes[i] = xmin + k * dx
 end
 --[[ @doc
 ### Orthogonal Mesh Generation
@@ -72,16 +72,16 @@ The resulting mesh and partition is shown below:
 ![Mesh_Partition](images/first_example_mesh_partition.png)
 --]]
 meshgen = mesh.OrthogonalMeshGenerator.Create({
-  node_sets = { nodes, nodes },
-  partitioner = mesh.KBAGraphPartitioner.Create({
-    nx = 2,
-    ny = 2,
-    xcuts = { 0.0 },
-    ycuts = { 0.0 },
-  }),
+    node_sets = { nodes, nodes },
+    partitioner = mesh.KBAGraphPartitioner.Create({
+        nx = 2,
+        ny = 2,
+        xcuts = { 0.0 },
+        ycuts = { 0.0 },
+    }),
 })
 
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 --[[ @doc
 ### Material IDs
@@ -116,7 +116,7 @@ We create a lua table containing the volumetric multigroup source and assign it 
 num_groups = 1
 src = {}
 for g = 1, num_groups do
-  src[g] = 1.0
+    src[g] = 1.0
 end
 mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 
@@ -144,6 +144,7 @@ tolerances, and other solver options.
 --]]
 -- Setup LBS parameters
 lbs_block = {
+<<<<<<< HEAD
   num_groups = num_groups,
   groupsets = {
     {
@@ -154,8 +155,20 @@ lbs_block = {
       l_abs_tol = 1.0e-6,
       l_max_its = 300,
       gmres_restart_interval = 30,
+=======
+    num_groups = num_groups,
+    groupsets = {
+        {
+            groups_from_to = { 0, 0 },
+            angular_quadrature = pquad,
+            angle_aggregation_num_subsets = 1,
+            inner_linear_method = "gmres",
+            l_abs_tol = 1.0e-6,
+            l_max_its = 300,
+            gmres_restart_interval = 30,
+        },
+>>>>>>> c2c74622 (Redoing the lua layer)
     },
-  },
 }
 --[[ @doc
 ### Putting the Linear Boltzmann Solver Together
@@ -164,10 +177,10 @@ We then create the physics solver, initialize it, and execute it.
 phys = lbs.DiscreteOrdinatesSolver.Create(lbs_block)
 
 -- Initialize and Execute Solver
-ss_solver = lbs.SteadyStateSolver.Create({ lbs_solver_handle = phys })
+ss_solver = lbs.SteadyStateSolver.Create({ lbs_solver = phys })
 
-solver.Initialize(ss_solver)
-solver.Execute(ss_solver)
+ss_solver:Initialize()
+ss_solver:Execute()
 
 --[[ @doc
 ## Post-Processing via Field Functions
@@ -180,7 +193,7 @@ The resulting scalar flux is shown below:
 ![Scalar_flux](images/first_example_scalar_flux.png)
 --]]
 -- Retrieve field functions and export them
-fflist, count = lbs.GetScalarFieldFunctionList(phys)
+fflist = lbs.GetScalarFieldFunctionList(phys)
 vtk_basename = "first_example"
 fieldfunc.ExportToVTK(fflist[1], vtk_basename)
 

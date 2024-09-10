@@ -341,17 +341,20 @@ InputParameters::AssignParameters(const ParameterBlock& params)
     if (constraint_tags_.count(input_param.Name()) != 0)
     {
       const auto& constraint = constraint_tags_.at(input_param.Name());
+#if 0
       if (not constraint->IsAllowable(param.Value()))
       {
         err_stream << constraint->OutOfRangeString(input_param.Name(), param.Value());
         err_stream << "\n";
         continue;
       }
+#endif
     } // if constraint
 
     if (log.GetVerbosity() >= 2)
       log.Log0Verbose2() << "Setting parameter " << param_name;
     input_param = param;
+    parameter_valid_[param_name] = true;
   } // for input params
 
   if (not err_stream.str().empty())
@@ -423,7 +426,6 @@ InputParameters::DumpParameters() const
   log.Log() << "DESCRIPTION_END\n";
 
   log.Log() << "DOC_GROUP " << doc_group_;
-
   const std::string sp2 = "  ";
   const std::string sp4 = "    ";
   const auto params = Parameters();
@@ -440,7 +442,7 @@ InputParameters::DumpParameters() const
     {
       log.Log() << sp4 << "TAG OPTIONAL";
       if (type != ParameterBlockType::BLOCK and type != ParameterBlockType::ARRAY)
-        log.Log() << sp4 << "DEFAULT_VALUE " << param.Value().PrintStr();
+        log.Log() << sp4 << "DEFAULT_VALUE " << param.PrintValueStr();
       else if (type == ParameterBlockType::ARRAY)
       {
         std::stringstream outstr;
@@ -448,7 +450,7 @@ InputParameters::DumpParameters() const
         for (size_t k = 0; k < param.NumParameters(); ++k)
         {
           const auto& sub_param = param.GetParam(k);
-          outstr << sub_param.Value().PrintStr() << ", ";
+          outstr << sub_param.PrintValueStr() << ", ";
         }
         log.Log() << outstr.str();
       }
@@ -474,6 +476,16 @@ InputParameters::DumpParameters() const
 
     log.Log() << sp2 << "PARAM_END";
   }
+}
+
+bool
+InputParameters::IsParameterValid(const std::string& param_name) const
+{
+  auto it = parameter_valid_.find(param_name);
+  if (it != parameter_valid_.end())
+    return it->second;
+  else
+    return false;
 }
 
 } // namespace opensn

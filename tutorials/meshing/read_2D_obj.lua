@@ -32,13 +32,13 @@ FYI, had we chosen the KBA partitioner, the partition would have been:
 --]]
 -- Setup the mesh
 meshgen = mesh.MeshGenerator.Create({
-  inputs = {
-    mesh.FromFileMeshGenerator.Create({
-      filename = "./tri_2mat_bc_1542.obj",
-    }),
-  },
-  partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
+    inputs = {
+        mesh.FromFileMeshGenerator.Create({
+            filename = "./tri_2mat_bc_1542.obj",
+        }),
+    },
+    partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
 })
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 mesh.ExportToPVTU("Triangle_1542_mesh_only")
