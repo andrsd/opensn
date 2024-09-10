@@ -13,12 +13,8 @@ using namespace opensn;
 namespace unit_sim_tests
 {
 
-ParameterBlock SimTest93_RayTracing(const InputParameters& params);
-
-RegisterWrapperFunctionInNamespace(unit_tests, SimTest93_RayTracing, nullptr, SimTest93_RayTracing);
-
-ParameterBlock
-SimTest93_RayTracing(const InputParameters&)
+void
+SimTest93_RayTracing()
 {
   const std::string fname = "SimTest93_RayTracing";
   opensn::log.Log() << "SimTest93_RayTracing";
@@ -332,8 +328,8 @@ SimTest93_RayTracing(const InputParameters&)
   for (const auto& ff_ptr : ff_list)
     const_ff_list.push_back(ff_ptr);
   FieldFunctionGridBased::ExportMultipleToVTK("SimTest_93", const_ff_list);
-
-  return ParameterBlock();
 }
+
+BIND_FUNCTION(unit_sim_tests, SimTest93_RayTracing);
 
 } // namespace unit_sim_tests

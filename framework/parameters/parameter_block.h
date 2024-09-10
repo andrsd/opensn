@@ -3,10 +3,11 @@
 
 #pragma once
 
-#include "framework/data_types/varying.h"
 #include <memory>
+#include <stdexcept>
 #include <vector>
 #include <string>
+#include <map>
 
 namespace opensn
 {
@@ -18,6 +19,7 @@ enum class ParameterBlockType
   FLOAT = 3,
   STRING = 4,
   INTEGER = 5,
+  USERDATA = 6,
   ARRAY = 98,
   BLOCK = 99
 };
@@ -39,10 +41,42 @@ class ParameterBlock;
  */
 class ParameterBlock
 {
-private:
+protected:
+  class Value
+  {
+  public:
+    virtual ~Value() = default;
+    virtual std::string Type() const = 0;
+    virtual std::shared_ptr<Value> Copy() const = 0;
+  };
+
+  /// Parameter value
+  template <typename T>
+  class Parameter : public Value
+  {
+  public:
+    /// @returns A read-only reference to the parameter value.
+    const T& Get() const { return value_; }
+
+    /// @returns A writable reference to the parameter value.
+    T& Set() { return value_; }
+
+    inline std::string Type() const override { return std::string(typeid(T).name()); }
+
+    std::shared_ptr<Value> Copy() const override
+    {
+      auto copy = std::make_shared<Parameter<T>>();
+      copy->value_ = value_;
+      return copy;
+    }
+
+    /// Parameter value
+    T value_;
+  };
+
   ParameterBlockType type_ = ParameterBlockType::BLOCK;
   std::string name_;
-  std::unique_ptr<Varying> value_ptr_ = nullptr;
+  std::shared_ptr<Value> value_ptr_;
   std::vector<ParameterBlock> parameters_;
   std::string error_origin_scope_ = "Unknown Scope";
 
@@ -50,7 +84,6 @@ public:
   /// Sets the name of the block.
   void SetBlockName(const std::string& name);
 
-public:
   // Helpers
   template <typename T>
   struct IsBool
@@ -80,7 +113,7 @@ public:
   /// Derived type constructor
   template <typename T>
   ParameterBlock(const std::string& name, const std::vector<T>& array)
-    : type_(ParameterBlockType::ARRAY), name_(name)
+    : type_(ParameterBlockType::ARRAY), name_(name), value_ptr_(nullptr)
   {
     size_t k = 0;
     for (const T& value : array)
@@ -91,21 +124,136 @@ public:
   template <typename T>
   explicit ParameterBlock(const std::string& name, T value) : name_(name)
   {
-    constexpr bool is_supported =
-      IsBool<T>::value or IsFloat<T>::value or IsString<T>::value or IsInteger<T>::value;
+    type_ = ParameterBlockType::USERDATA;
+    auto param = std::make_shared<Parameter<T>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
 
-    static_assert(is_supported, "Value type not supported for parameter block");
+  template <>
+  explicit ParameterBlock(const std::string& name, uint64_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
 
-    if (IsBool<T>::value)
-      type_ = ParameterBlockType::BOOLEAN;
-    if (IsFloat<T>::value)
-      type_ = ParameterBlockType::FLOAT;
-    if (IsString<T>::value)
-      type_ = ParameterBlockType::STRING;
-    if (IsInteger<T>::value)
-      type_ = ParameterBlockType::INTEGER;
+  template <>
+  explicit ParameterBlock(const std::string& name, int64_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
 
-    value_ptr_ = std::make_unique<Varying>(value);
+  template <>
+  explicit ParameterBlock(const std::string& name, uint32_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, int32_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, uint16_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, int16_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, uint8_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, int8_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, size_t value)
+    : type_(ParameterBlockType::INTEGER), name_(name)
+  {
+    auto param = std::make_shared<Parameter<int64_t>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, float value)
+    : type_(ParameterBlockType::FLOAT), name_(name)
+  {
+    auto param = std::make_shared<Parameter<double>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, double value)
+    : type_(ParameterBlockType::FLOAT), name_(name)
+  {
+    auto param = std::make_shared<Parameter<double>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, bool value)
+    : type_(ParameterBlockType::BOOLEAN), name_(name)
+  {
+    auto param = std::make_shared<Parameter<bool>>();
+    param->value_ = value;
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, const char* value)
+    : type_(ParameterBlockType::STRING), name_(name)
+  {
+    auto param = std::make_shared<Parameter<std::string>>();
+    param->value_ = std::string(value);
+    value_ptr_ = param;
+  }
+
+  template <>
+  explicit ParameterBlock(const std::string& name, std::string value)
+    : type_(ParameterBlockType::STRING), name_(name)
+  {
+    auto param = std::make_shared<Parameter<std::string>>();
+    param->value_ = value;
+    value_ptr_ = param;
   }
 
   /// Copy constructor
@@ -132,7 +280,7 @@ public:
   /// Returns a string version of the type.
   std::string TypeName() const;
   std::string Name() const;
-  const Varying& Value() const;
+  // const Varying& Value() const;
 
   /// Returns the number of parameters in a block. This is normally only useful for the ARRAY type.
   size_t NumParameters() const;
@@ -179,7 +327,6 @@ public:
   /// Adds a parameter to the sub-parameter list.
   void AddParameter(ParameterBlock block);
 
-  /// Makes a ParameterBlock and adds it to the sub-parameters list.
   template <typename T>
   void AddParameter(const std::string& name, T value)
   {
@@ -205,7 +352,6 @@ public:
   /// Gets a parameter by index.
   const ParameterBlock& GetParam(size_t index) const;
 
-public:
   /// Returns the value of the parameter.
   template <typename T>
   T GetValue() const
@@ -214,14 +360,13 @@ public:
       throw std::logic_error(error_origin_scope_ + std::string(__PRETTY_FUNCTION__) +
                              ": Value not available for block type " +
                              ParameterBlockTypeName(Type()));
-    try
-    {
-      return Value().GetValue<T>();
-    }
-    catch (const std::exception& exc)
-    {
-      throw std::logic_error(error_origin_scope_ + ":" + Name() + " " + exc.what());
-    }
+
+    auto ptr = std::dynamic_pointer_cast<Parameter<T>>(value_ptr_);
+    if (ptr)
+      return ptr->Get();
+    else
+      throw std::runtime_error(std::string("Parameter ") + name_ + " does not have type " +
+                               std::string(typeid(T).name()));
   }
 
   /// Fetches the parameter with the given name and returns it value.
@@ -353,6 +498,30 @@ public:
 
   /// Print the block tree structure into a designated string.
   void RecursiveDumpToJSON(std::string& outstr) const;
+
+  std::string PrintValueStr(bool with_type = true) const;
+
+private:
+  int64_t GetIntegerValue() const;
 };
+
+//
+
+template <>
+uint64_t ParameterBlock::GetValue() const;
+template <>
+uint32_t ParameterBlock::GetValue() const;
+template <>
+int32_t ParameterBlock::GetValue() const;
+template <>
+uint16_t ParameterBlock::GetValue() const;
+template <>
+int16_t ParameterBlock::GetValue() const;
+template <>
+uint8_t ParameterBlock::GetValue() const;
+template <>
+int8_t ParameterBlock::GetValue() const;
+template <>
+size_t ParameterBlock::GetValue() const;
 
 } // namespace opensn

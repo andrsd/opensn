@@ -4,6 +4,7 @@
 #include "framework/field_functions/field_function_grid_based.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "lua/framework/types.h"
 #include "lua/framework/console/console.h"
 
 using namespace opensn;
@@ -11,29 +12,9 @@ using namespace opensn;
 namespace unit_tests
 {
 
-InputParameters math_SDM_Test01Syntax();
-ParameterBlock math_SDM_Test01_Continuous(const InputParameters& input_parameters);
-
-RegisterWrapperFunctionInNamespace(unit_tests,
-                                   math_SDM_Test01_Continuous,
-                                   math_SDM_Test01Syntax,
-                                   math_SDM_Test01_Continuous);
-
-InputParameters
-math_SDM_Test01Syntax()
+void
+math_SDM_Test01_Continuous(const ParameterBlock& params)
 {
-  InputParameters params;
-
-  params.AddRequiredParameterBlock("arg0", "General parameters");
-
-  return params;
-}
-
-ParameterBlock
-math_SDM_Test01_Continuous(const InputParameters& input_parameters)
-{
-  const ParameterBlock& params = input_parameters.GetParam("arg0");
-
   const bool export_vtk = params.Has("export_vtk") and params.GetParamValue<bool>("export_vtk");
 
   // Get grid
@@ -215,8 +196,8 @@ math_SDM_Test01_Continuous(const InputParameters& input_parameters)
 
     FieldFunctionGridBased::ExportMultipleToVTK("ZSDM_Test", {ff});
   }
-
-  return ParameterBlock{};
 }
+
+BIND_FUNCTION(unit_tests, math_SDM_Test01_Continuous);
 
 } //  namespace unit_tests

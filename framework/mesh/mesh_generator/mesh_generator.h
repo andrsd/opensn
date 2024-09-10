@@ -38,7 +38,6 @@ public:
   /// Final execution step.
   virtual void Execute();
 
-  static InputParameters GetInputParameters();
   explicit MeshGenerator(const InputParameters& params);
 
   /**
@@ -93,8 +92,12 @@ protected:
 
   const double scale_;
   const bool replicated_;
-  std::vector<MeshGenerator*> inputs_;
-  GraphPartitioner* partitioner_ = nullptr;
+  std::vector<std::shared_ptr<MeshGenerator>> inputs_;
+  std::shared_ptr<GraphPartitioner> partitioner_;
+
+public:
+  static InputParameters GetInputParameters();
+  static std::shared_ptr<MeshGenerator> Create(const ParameterBlock& params);
 };
 
 } // namespace opensn

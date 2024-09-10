@@ -116,6 +116,7 @@ protected:
 
 public:
   static InputParameters GetInputParameters();
+  static std::shared_ptr<DiscreteOrdinatesSolver> Create(const ParameterBlock& params);
 
 protected:
   /**

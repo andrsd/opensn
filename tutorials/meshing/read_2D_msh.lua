@@ -22,13 +22,14 @@ When using the Parmetis partitioner, we obtain:
 --]]
 -- Setup the mesh
 meshgen = mesh.MeshGenerator.Create({
-  inputs = {
-    mesh.FromFileMeshGenerator.Create({
-      filename = "../../test/modules/linear_boltzmann_solvers/transport_keigen/c5g7/mesh/2D_c5g7_coarse.msh",
-    }),
-  },
-  partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
+    inputs = {
+        mesh.FromFileMeshGenerator.Create({
+            filename =
+            "../../test/modules/linear_boltzmann_solvers/transport_keigen/c5g7/mesh/2D_c5g7_coarse.msh",
+        }),
+    },
+    partitioner = mesh.PETScGraphPartitioner.Create({ type = "parmetis" }),
 })
-mesh.MeshGenerator.Execute(meshgen)
+meshgen:Execute()
 
 mesh.ExportToPVTU("c5g7_mesh_only")

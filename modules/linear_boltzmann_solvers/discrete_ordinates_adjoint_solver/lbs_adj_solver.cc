@@ -145,11 +145,11 @@ DiscreteOrdinatesAdjointSolver::ComputeInnerProduct()
   // Point sources
   for (const auto& point_source : point_sources_)
   {
-    for (const auto& subscriber : point_source.Subscribers())
+    for (const auto& subscriber : point_source->Subscribers())
     {
       const auto& cell = grid_ptr_->local_cells[subscriber.cell_local_id];
       const auto& transport_view = cell_transport_views_[cell.local_id_];
-      const auto& source_strength = point_source.Strength();
+      const auto& source_strength = point_source->Strength();
       const auto& shape_values = subscriber.shape_values;
 
       for (const auto& group : groups_)
@@ -175,7 +175,7 @@ DiscreteOrdinatesAdjointSolver::ComputeInnerProduct()
   // Volumetric sources
   for (const auto& volumetric_source : volumetric_sources_)
   {
-    for (const auto& local_id : volumetric_source.GetSubscribers())
+    for (const auto& local_id : volumetric_source->GetSubscribers())
     {
       const auto& cell = grid_ptr_->local_cells[local_id];
       const auto& transport_view = cell_transport_views_[local_id];
@@ -185,7 +185,7 @@ DiscreteOrdinatesAdjointSolver::ComputeInnerProduct()
       for (int i = 0; i < transport_view.NumNodes(); ++i)
       {
         // Compute group-wise values for this node
-        const auto src = volumetric_source(cell, nodes[i], num_groups_);
+        const auto src = (*volumetric_source)(cell, nodes[i], num_groups_);
 
         // Contribute to the source moments
         const auto& intV_shapeI = fe_values.intV_shapeI[i];

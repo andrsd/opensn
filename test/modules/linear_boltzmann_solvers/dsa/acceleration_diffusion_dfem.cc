@@ -22,7 +22,7 @@ std::shared_ptr<LuaScalarSpatialFunction>
 CreateFunction(const std::string& function_name)
 {
   ParameterBlock blk;
-  blk.AddParameter("lua_function_name", function_name);
+  blk.AddParameter("function_name", function_name);
   InputParameters params = LuaScalarSpatialFunction::GetInputParameters();
   params.AssignParameters(blk);
   return std::make_shared<LuaScalarSpatialFunction>(params);
@@ -30,15 +30,8 @@ CreateFunction(const std::string& function_name)
 
 } // namespace
 
-ParameterBlock acceleration_Diffusion_DFEM(const InputParameters& params);
-
-RegisterWrapperFunctionInNamespace(unit_tests,
-                                   acceleration_Diffusion_DFEM,
-                                   nullptr,
-                                   acceleration_Diffusion_DFEM);
-
-ParameterBlock
-acceleration_Diffusion_DFEM(const InputParameters&)
+void
+acceleration_Diffusion_DFEM()
 {
   using MatID2XSMap = std::map<int, Multigroup_D_and_sigR>;
   opensn::log.Log() << "SimTest92_DSA";
@@ -230,8 +223,8 @@ acceleration_Diffusion_DFEM(const InputParameters&)
 
   opensn::log.Log() << "Error: " << std::scientific << global_error
                     << " Num-cells: " << grid.GetGlobalNumberOfCells();
-
-  return ParameterBlock();
 }
+
+BIND_FUNCTION(unit_sim_tests, acceleration_Diffusion_DFEM);
 
 } //  namespace unit_sim_tests

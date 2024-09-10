@@ -28,7 +28,7 @@ public:
                              std::unique_ptr<BoundaryFunction> bndry_function,
                              uint64_t boundary_id,
                              CoordinateSystemType coord_type = CoordinateSystemType::CARTESIAN)
-    : SweepBoundary(BoundaryType::ARBITRARY, num_groups, coord_type),
+    : SweepBoundary(LBSBoundaryType::ARBITRARY, num_groups, coord_type),
       boundary_function_(std::move(bndry_function)),
       boundary_id_(boundary_id)
   {

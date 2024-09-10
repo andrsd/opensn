@@ -3,31 +3,25 @@
 
 #pragma once
 
+#include "framework/parameters/parameter_block.h"
+#include "framework/parameters/input_parameters.h"
+#include "framework/logging/log_exceptions.h"
+#include "framework/utils/utils.h"
 extern "C"
 {
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 }
-
-#include "framework/parameters/parameter_block.h"
-#include "framework/parameters/input_parameters.h"
-#include "framework/logging/log_exceptions.h"
-#include "framework/utils/utils.h"
+#include "LuaBridge/LuaBridge.h"
 #include <vector>
 #include <string>
 #include <map>
 #include <stack>
-
-namespace opensn
-{
-class Solver;
-}
+#include <functional>
 
 namespace opensnlua
 {
-
-struct RegistryStatuses;
 
 /// Class for handling the console and scripting.
 class Console
@@ -65,8 +59,34 @@ public:
    * functions.
    */
   void DumpRegister() const;
+
+public:
+  /**
+   * Bind C++ items like classes, functions, etc. to the console
+   *
+   * \param bind Function with the binding code
+   * \return `true`. Need to have a return type so that this can be use with initialization of
+   *         static variables
+   */
+  static bool Bind(std::function<void(lua_State* L)> bind);
 };
 
 extern Console& console;
+
+/**
+ * Bind a C++ function into a lua namespace.
+ *
+ * \param namespace_name Lua namespace name
+ * \param func_name C++ function name
+ */
+#define BIND_FUNCTION(namespace_name, func_name)                                                   \
+  static bool OpenSnJoinWords(reg_var, __COUNTER__) = opensnlua::Console::Bind(                    \
+    [](lua_State* L)                                                                               \
+    {                                                                                              \
+      luabridge::getGlobalNamespace(L)                                                             \
+        .beginNamespace(#namespace_name)                                                           \
+        .addFunction(#func_name, func_name)                                                        \
+        .endNamespace();                                                                           \
+    });
 
 } // namespace opensnlua

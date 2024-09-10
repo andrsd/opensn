@@ -128,4 +128,11 @@ Console::DumpRegister() const
 {
 }
 
+bool
+Console::Bind(std::function<void(lua_State* L)> bind)
+{
+  bind(GetInstance().GetConsoleState());
+  return true;
+}
+
 } // namespace opensnlua

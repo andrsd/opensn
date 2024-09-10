@@ -13,15 +13,8 @@ using namespace opensn;
 namespace unit_sim_tests
 {
 
-ParameterBlock acceleration_Diffusion_CFEM(const InputParameters& params);
-
-RegisterWrapperFunctionInNamespace(unit_tests,
-                                   acceleration_Diffusion_CFEM,
-                                   nullptr,
-                                   acceleration_Diffusion_CFEM);
-
-ParameterBlock
-acceleration_Diffusion_CFEM(const InputParameters&)
+void
+acceleration_Diffusion_CFEM()
 {
   using MatID2XSMap = std::map<int, Multigroup_D_and_sigR>;
   opensn::log.Log() << "SimTest92_DSA";
@@ -172,8 +165,8 @@ acceleration_Diffusion_CFEM(const InputParameters&)
   ff->UpdateFieldVector(x_vector);
 
   FieldFunctionGridBased::ExportMultipleToVTK("SimTest_92b_DSA_PWLC", {ff});
-
-  return ParameterBlock();
 }
+
+BIND_FUNCTION(unit_sim_tests, acceleration_Diffusion_CFEM);
 
 } //  namespace unit_sim_tests

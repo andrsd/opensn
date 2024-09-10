@@ -11,14 +11,13 @@ using namespace opensn;
 namespace unit_sim_tests
 {
 
-/**This is a simple test of the Finite Volume spatial discretization applied
- * to Laplace's problem. */
-ParameterBlock SimTest03_PWLC(const InputParameters& params);
+/**
+ * This is a simple test of the Finite Volume spatial discretization applied
+ * to Laplace's problem.
+ */
 
-RegisterWrapperFunctionInNamespace(unit_sim_tests, SimTest03_PWLC, nullptr, SimTest03_PWLC);
-
-ParameterBlock
-SimTest03_PWLC(const InputParameters&)
+void
+SimTest03_PWLC()
 {
   opensn::log.Log() << "Coding Tutorial 3";
 
@@ -167,8 +166,8 @@ SimTest03_PWLC(const InputParameters&)
   ff->UpdateFieldVector(field);
 
   FieldFunctionGridBased::ExportMultipleToVTK("CodeTut3_PWLC", {ff});
-
-  return ParameterBlock();
 }
+
+BIND_FUNCTION(unit_sim_tests, SimTest03_PWLC);
 
 } // namespace unit_sim_tests

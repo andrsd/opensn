@@ -7,6 +7,7 @@
 #include "framework/object.h"
 #include "framework/logging/log_exceptions.h"
 #include "framework/utils/utils.h"
+#include <memory>
 
 /**
  * Macro for registering an object within the ObjectFactory singleton.
@@ -191,6 +192,26 @@ public:
    * handle to the object.
    */
   size_t MakeRegisteredObjectOfType(const std::string& type, const ParameterBlock& params) const;
+
+  template <class TYPE>
+  std::shared_ptr<TYPE> Create(const std::string& type, const ParameterBlock& params) const
+  {
+    if (object_registry_.count(type) == 0)
+      throw std::logic_error("No registered type \"" + type + "\" found.");
+
+    auto object_entry = object_registry_.at(type);
+    if (not object_entry.constructor_func)
+      throw std::runtime_error(
+        "Object is not constructable since it has no registered constructor");
+
+    auto input_params = object_entry.get_in_params_func();
+    input_params.SetObjectType(type);
+    input_params.SetErrorOriginScope(type);
+    input_params.AssignParameters(params);
+    auto obj = std::make_shared<TYPE>(input_params);
+    obj->PushOntoStack(obj);
+    return obj;
+  }
 
   /// Returns the input parameters of a registered object.
   InputParameters GetRegisteredObjectParameters(const std::string& type) const;

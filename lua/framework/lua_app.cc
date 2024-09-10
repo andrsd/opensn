@@ -27,6 +27,11 @@ LuaApp::LuaApp(const mpi::Communicator& comm)
   : sim_option_interactive_(true), allow_petsc_error_handler_(false)
 {
   opensn::mpi_comm = comm;
+
+  auto& L = Console::GetInstance().GetConsoleState();
+  luabridge::getGlobalNamespace(L)
+    .addVariable("location_id", opensn::mpi_comm.rank())
+    .addVariable("number_of_processes", opensn::mpi_comm.size());
 }
 
 int

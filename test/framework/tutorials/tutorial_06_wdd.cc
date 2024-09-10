@@ -29,12 +29,9 @@ std::vector<double> SetSource(const MeshContinuum& grid,
                               const std::vector<AngularQuadrature::HarmonicIndices>& m_ell_em_map);
 
 /**WDD Sweep. */
-ParameterBlock SimTest06_WDD(const InputParameters&);
 
-RegisterWrapperFunctionInNamespace(unit_testsB, SimTest06_WDD, nullptr, SimTest06_WDD);
-
-ParameterBlock
-SimTest06_WDD(const InputParameters&)
+void
+SimTest06_WDD()
 {
   const std::string fname = "SimTest06_WDD";
 
@@ -328,8 +325,6 @@ SimTest06_WDD(const InputParameters&)
   phi_ff->UpdateFieldVector(m0_phi);
 
   FieldFunctionGridBased::ExportMultipleToVTK("SimTest_06_WDD", {phi_ff});
-
-  return ParameterBlock();
 }
 
 double
@@ -432,5 +427,7 @@ SetSource(const MeshContinuum& grid,
 
   return source_moments;
 }
+
+BIND_FUNCTION(unit_sim_tests, SimTest06_WDD);
 
 } // namespace unit_sim_tests
