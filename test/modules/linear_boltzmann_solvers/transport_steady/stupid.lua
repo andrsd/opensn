@@ -1,13 +1,17 @@
 -- Create Mesh
-widths = { 2. }
+-- widths = { 0.4, 0.6 }
+-- nrefs = { 1, 1 }
+
+widths = { 2 }
 nrefs = { 10 }
 
-Nmat = #widths
+-- Nmat = #widths
+Nmat = 1
 
 nodes = {}
 counter = 1
 nodes[counter] = 0.
-for imat = 1, Nmat do
+for imat = 1, 1 do
     dx = widths[imat] / nrefs[imat]
     for i = 1, nrefs[imat] do
         counter = counter + 1
@@ -19,15 +23,16 @@ meshgen = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes } })
 mesh.MeshGenerator.Execute(meshgen)
 
 -- Set Material IDs
-z_min = 0.0
-z_max = widths[1]
-for imat = 1, Nmat do
-    z_max = z_min + widths[imat]
-    log.Log(LOG_0, "imat=" .. imat .. ", zmin=" .. z_min .. ", zmax=" .. z_max)
-    lv = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, zmin = z_min, zmax = z_max })
-    mesh.SetMaterialIDFromLogicalVolume(lv, imat - 1)
-    z_min = z_max
-end
+-- z_min = 0.0
+-- z_max = widths[1]
+-- for imat = 1, Nmat do
+--     z_max = z_min + widths[imat]
+--     log.Log(LOG_0, "imat=" .. imat .. ", zmin=" .. z_min .. ", zmax=" .. z_max)
+--     lv = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, zmin = z_min, zmax = z_max })
+--     mesh.SetMaterialIDFromLogicalVolume(lv, imat - 1)
+--     z_min = z_max
+-- end
+mesh.SetUniformMaterialID(0)
 
 -- Create materials
 mat_names = { "void" }
@@ -49,6 +54,7 @@ end
 
 -- Angular Quadrature
 gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 64)
+-- gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_LEGENDRE, 2, 4)
 
 -- LBS block option
 num_groups = 1
