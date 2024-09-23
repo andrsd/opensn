@@ -1403,6 +1403,21 @@ LBSSolver::InitializeParrays()
 
     grid_nodal_mappings_.push_back(cell_nodal_mapping);
   } // for local cell
+  // std::cerr << "grid_nodal_mappings_\n";
+  // for (auto & a : grid_nodal_mappings_) {
+  //     for (auto & b : a) {
+  //         std::cerr << "- ass_face = " << b.associated_face_ << "\n";
+  //         std::cerr << "- face_node_mapping =";
+  //         for (auto & c : b.face_node_mapping_)
+  //           std::cerr << " " << c;
+  //         std::cerr << "\n";
+  //         std::cerr << "- cell_node_mapping_ =";
+  //         for (auto & c : b.cell_node_mapping_)
+  //           std::cerr << " " << c;
+  //         std::cerr << "\n";
+  //     }
+  //     std::cerr << "--\n";
+  // }
 
   // Get grid localized communicator set
   grid_local_comm_set_ = grid_ptr_->MakeMPILocalCommunicatorSet();

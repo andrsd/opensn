@@ -8,6 +8,7 @@
 #include "framework/mesh/cell/cell.h"
 #include "framework/logging/log.h"
 #include "caliper/cali.h"
+#include <iostream>
 
 namespace opensn
 {
@@ -134,6 +135,8 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       if (face_orientations[f] != FaceOrientation::INCOMING)
         continue;
 
+      std::cerr << "cell_local_id_ = " << cell_local_id_ << ", f = " << f << std::endl;
+
       const auto& face = cell_->faces_[f];
       const bool is_local_face = cell_transport_view_->IsFaceLocal(f);
       const bool is_boundary_face = not face.has_neighbor_;
@@ -143,12 +146,14 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       const double* psi_local_face_upwnd_data = nullptr;
       if (is_local_face)
       {
+        std::cerr << "is_local_face\n";
         psi_upwnd_data_block = &fluds_->GetLocalUpwindDataBlock();
         psi_local_face_upwnd_data = fluds_->GetLocalCellUpwindPsi(
           *psi_upwnd_data_block, *cell_transport_view_->FaceNeighbor(f));
       }
       else if (not is_boundary_face)
       {
+        std::cerr << "not is_boundary_face\n";
         psi_upwnd_data_block = &fluds_->GetNonLocalUpwindData(cell_->global_id_, f);
       }
 
@@ -168,6 +173,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
           const double* psi = nullptr;
           if (is_local_face)
           {
+            std::cerr << "is_local_face2\n";
             assert(psi_local_face_upwnd_data);
             const unsigned int adj_cell_node = face_nodal_mapping->cell_node_mapping_[fj];
             psi = &psi_local_face_upwnd_data[adj_cell_node * groupset_angle_group_stride_ +
@@ -175,11 +181,14 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
           }
           else if (not is_boundary_face)
           {
+            std::cerr << "not is_boundary_face2\n";
             assert(psi_upwnd_data_block);
             const unsigned int adj_face_node = face_nodal_mapping->face_node_mapping_[fj];
             psi = fluds_->GetNonLocalUpwindPsi(*psi_upwnd_data_block, adj_face_node, as_ss_idx);
           }
           else
+          {
+            std::cerr << "else2\n";
             psi = angle_set.PsiBoundary(face.neighbor_id_,
                                         direction_num,
                                         cell_local_id_,
@@ -188,6 +197,12 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
                                         gs_gi_,
                                         gs_ss_begin_,
                                         surface_source_active_);
+            for (int gsg = 0; gsg < gs_ss_size_; ++gsg)
+            {
+              std::cerr << " " << psi[gsg];
+            }
+            std::cerr << "\n";
+          }
 
           if (not psi)
             continue;
@@ -197,6 +212,15 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
         } // for face node j
       }   // for face node i
     }     // for f
+    // std::cerr << "Amat=\n";
+    // for (auto& i : Amat)
+    // {
+    //   for (auto& j : i)
+    //   {
+    //     std::cerr << " " << j;
+    //   }
+    //   std::cerr << "\n";
+    // }
 
     // Looping over groups, assembling mass terms
     for (int gsg = 0; gsg < gs_ss_size_; ++gsg)

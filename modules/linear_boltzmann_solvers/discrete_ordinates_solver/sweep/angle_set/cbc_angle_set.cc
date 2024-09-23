@@ -117,13 +117,16 @@ CBC_AngleSet::PsiBoundary(uint64_t boundary_id,
                           size_t gs_ss_begin,
                           bool surface_source_active)
 {
+  std::cerr << "a\n";
   if (boundaries_[boundary_id]->IsReflecting())
     return boundaries_[boundary_id]->PsiIncoming(
       cell_local_id, face_num, fi, angle_num, g, gs_ss_begin);
 
+  std::cerr << "surface_source_active = " << surface_source_active << "\n";
   if (not surface_source_active)
     return boundaries_[boundary_id]->ZeroFlux(g);
 
+  std::cerr << "blb\n";
   return boundaries_[boundary_id]->PsiIncoming(
     cell_local_id, face_num, fi, angle_num, g, gs_ss_begin);
 }

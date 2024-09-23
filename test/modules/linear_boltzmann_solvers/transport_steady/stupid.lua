@@ -1,6 +1,6 @@
 -- Create Mesh
--- widths = { 0.4, 0.6 }
--- nrefs = { 1, 1 }
+widths = { 2. }
+nrefs = { 4 }
 
 widths = { 2 }
 nrefs = { 3 }
@@ -61,6 +61,7 @@ gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 4)
 num_groups = 10
 lbs_block = {
     num_groups = num_groups,
+    sweep_type = "CBC",
     groupsets = {
         {
             groups_from_to = { 0, 3 },
@@ -81,6 +82,7 @@ lbs_block = {
     },
     options = {
         scattering_order = 0,
+        save_angular_flux = true,
         spatial_discretization = "pwld",
         boundary_conditions = { { name = "zmin", type = "vacuum" }, { name = "zmax", type = "vacuum" } },
     },
