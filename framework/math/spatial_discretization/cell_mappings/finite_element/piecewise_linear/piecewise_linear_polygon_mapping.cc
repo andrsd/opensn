@@ -95,6 +95,30 @@ PieceWiseLinearPolygonMapping::PieceWiseLinearPolygonMapping(
     }
     node_to_side_map_.push_back(side_mapping);
   }
+
+  for (int side = 0; side < num_of_subtris_; side++)
+  {
+    const CellFace& face = poly_cell.faces_[side];
+    std::cerr << "n = " << face.normal_.PrintStr() << std::endl;
+  }
+
+  // std::cerr << "vtx ids =";
+  // for (auto& i : poly_cell.vertex_ids_)
+  // {
+  //   std::cerr << " " << i;
+  // }
+  // std::cerr << "\n";
+
+  // std::cerr << "node_to_side_map_\n";
+  // for (auto& a : node_to_side_map_)
+  // {
+  //   for (auto& i : a)
+  //   {
+  //     std::cerr << " " << i;
+  //   }
+  //   std::cerr << "\n";
+  // }
+  // std::cerr << "--\n";
 }
 
 double
