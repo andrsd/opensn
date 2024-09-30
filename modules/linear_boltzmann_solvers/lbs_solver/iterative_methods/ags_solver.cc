@@ -74,12 +74,16 @@ AGSSolver::Solve()
   if (lbs_solver_.RestartsEnabled() && lbs_solver_.Options().enable_ags_restart_write)
     lbs_solver_.WriteRestartData();
 
-  std::cerr << "converged = " << converged << std::endl;
-  for (auto& v : lbs_solver_.PhiOldLocal())
-  {
-    std::cout << std::setprecision(15) << v << std::endl;
-  }
-  std::cout << "AGS Solver Done" << std::endl;
+  // std::cerr << "converged = " << converged << std::endl;
+  // for (auto& v : lbs_solver_.PhiOldLocal())
+  // {
+  //   std::cout << std::setprecision(15) << v << std::endl;
+  // }
+  // std::cout << "AGS Solver Done" << std::endl;
+  // for (auto& v : lbs_solver_.PhiNewLocal())
+  // {
+  //   std::cerr << std::setprecision(15) << v << std::endl;
+  // }
 }
 
 double

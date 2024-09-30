@@ -1,6 +1,6 @@
 -- Create Mesh
-widths = { 2. }
-nrefs = { 4 }
+-- widths = { 2. }
+-- nrefs = { 10000 }
 
 widths = { 2 }
 nrefs = { 3 }
@@ -57,6 +57,8 @@ mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, { 5., 0, 0, 0, 0,
 gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 4)
 -- gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_LEGENDRE, 2, 4)
 
+bsrc = { 0.5 }
+
 -- LBS block option
 num_groups = 10
 lbs_block = {
@@ -67,7 +69,7 @@ lbs_block = {
             groups_from_to = { 0, 3 },
             angular_quadrature_handle = gl_quad,
             inner_linear_method = "gmres",
-            l_abs_tol = 1.0e-9,
+            l_abs_tol = 1.0e-12,
             l_max_its = 300,
             gmres_restart_interval = 30,
         },
@@ -84,7 +86,9 @@ lbs_block = {
         scattering_order = 0,
         save_angular_flux = true,
         spatial_discretization = "pwld",
-        boundary_conditions = { { name = "zmin", type = "vacuum" }, { name = "zmax", type = "vacuum" } },
+        -- boundary_conditions = { { name = "zmin", type = "vacuum" }, { name = "zmax", type = "vacuum" } },
+        -- boundary_conditions = { { name = "zmin", type = "reflecting" }, { name = "zmax", type = "reflecting" } },
+        boundary_conditions = { { name = "zmin", type = "isotropic", group_strength = bsrc }, { name = "zmax", type = "vacuum" } },
     },
 }
 
@@ -95,3 +99,5 @@ ss_solver = lbs.SteadyStateSolver.Create({ lbs_solver_handle = phys })
 
 solver.Initialize(ss_solver)
 solver.Execute(ss_solver)
+
+lbs.ComputeBalance(phys)

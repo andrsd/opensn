@@ -743,7 +743,7 @@ DiscreteOrdinatesSolver::ComputeBalance()
   double globl_gain = globl_balance_table.at(5);
 
   log.Log() << "Balance table:\n"
-            << std::setprecision(6) << std::scientific
+            << std::setprecision(15) << std::scientific
             << " Absorption rate             = " << globl_absorption << "\n"
             << " Production rate             = " << globl_production << "\n"
             << " In-flow rate                = " << globl_in_flow << "\n"

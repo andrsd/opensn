@@ -145,11 +145,17 @@ AngleAggregation::InitializeReflectingBCs()
 
         auto& index_map = rbndry.GetReflectedAngleIndexMap();
         for (int nstar = 0; nstar < tot_num_angles; ++nstar)
+        {
+          // std::cerr << "omega_reflected=" << omega_reflected
+          //           << " == " << quadrature_->omegas_[nstar]
+          //           << ", dot = " << omega_reflected.Dot(quadrature_->omegas_[nstar]) <<
+          //           std::endl;
           if (omega_reflected.Dot(quadrature_->omegas_[nstar]) > (1.0 - epsilon))
           {
             index_map[n] = nstar;
             break;
           }
+        }
 
         if (index_map[n] < 0)
           throw std::logic_error(

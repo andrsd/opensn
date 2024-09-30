@@ -5,6 +5,7 @@
 #include "modules/linear_boltzmann_solvers/lbs_solver/lbs_solver.h"
 #include "caliper/cali.h"
 #include <iostream>
+#include <petscviewer.h>
 
 namespace opensn
 {
