@@ -3,18 +3,17 @@
 
 #pragma once
 
-#include "framework/data_types/ndarray.h"
 #include "framework/math/vector.h"
 
 namespace opensn
 {
 
 template <typename TYPE>
-class DenseMatrix : public NDArray<TYPE>
+class DenseMatrix
 {
 public:
   /// Create an empty dense matrix
-  DenseMatrix() : NDArray<TYPE>() {}
+  DenseMatrix() {}
 
   /**
    * Create a dense matrix with specified number of rows and columns
@@ -22,7 +21,7 @@ public:
    * \param rows Number of rows
    * \param cols Number of columns
    */
-  DenseMatrix(unsigned int rows, unsigned int cols) : NDArray<TYPE>({rows, cols}) {}
+  DenseMatrix(unsigned int rows, unsigned int cols) : data_(rows, std::vector<TYPE>(cols)) {}
 
   /**
    * Create a dense matrix with specified number of rows and columns and initialize the element to a
@@ -32,25 +31,35 @@ public:
    * \param cols Number of columns
    * \param intitial_value Value to initialize the matrix elements with
    */
-  DenseMatrix(unsigned int rows, unsigned int cols, TYPE intitial_value)
-    : NDArray<TYPE>({rows, cols}, intitial_value)
+  DenseMatrix(unsigned int rows, unsigned int cols, TYPE initial_value)
+    : data_(rows, std::vector<TYPE>(cols, initial_value))
   {
   }
 
   /// Return the number of rows
-  unsigned int Rows() const { return this->dimension()[0]; }
+  unsigned int Rows() const { return this->data_.size(); }
 
   /// Return the number of columns
-  unsigned int Columns() const { return this->dimension()[1]; }
+  unsigned int Columns() const
+  {
+    if (this->data_.size() > 0)
+      return this->data_[0].size();
+    else
+      return 0;
+  }
 
   /// Set the elements of the matrix to a specified value
-  void Set(TYPE val) { this->set(val); }
+  void Set(TYPE val)
+  {
+    for (auto& row : this->data_)
+      for (auto& elem : row)
+        elem = val;
+  }
 
   /// Set the diagonal of the matrix
   void SetDiagonal(TYPE val)
   {
-    auto dims = this->dimension();
-    auto d = std::min(dims[0], dims[1]);
+    auto d = std::min(Rows(), Columns());
     for (int i = 0; i < d; ++i)
       (*this)(i, i) = val;
   }
@@ -153,6 +162,13 @@ public:
 
     return out.str();
   }
+
+  inline TYPE const& operator()(unsigned int i, unsigned int j) const { return this->data_[i][j]; }
+
+  inline TYPE& operator()(unsigned int i, unsigned int j) { return this->data_[i][j]; }
+
+private:
+  std::vector<std::vector<TYPE>> data_;
 };
 
 /// Returns the transpose of a matrix.

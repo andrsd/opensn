@@ -11,19 +11,19 @@ namespace opensn
 {
 
 template <typename TYPE>
-class Vector : public NDArray<TYPE>
+class Vector
 {
 public:
   /// Create an empty dense (column) vector
-  Vector() : NDArray<TYPE>() {}
+  Vector() {}
 
   /// Create a dense (column) vector with specified number of rows
-  Vector(unsigned int rows) : NDArray<TYPE>({rows}) {}
+  Vector(unsigned int rows) : vals_(rows) {}
 
   /// Create a dense (column) vector with specified number of rows and initialize the elements
-  Vector(unsigned int rows, TYPE intitial_value) : NDArray<TYPE>({rows}, intitial_value) {}
+  Vector(unsigned int rows, TYPE initial_value) : vals_(rows, initial_value) {}
 
-  Vector(const std::vector<TYPE>& in) : NDArray<TYPE>({in.size()})
+  Vector(const std::vector<TYPE>& in) : vals_(in)
   {
     for (auto i = 0; i < in.size(); ++i)
       (*this)(i) = in[i];
@@ -32,20 +32,20 @@ public:
   /// Return the number of rows
   unsigned int Rows() const
   {
-    if (this->empty())
+    if (this->vals_.empty())
       return 0;
     else
-      return this->dimension()[0];
+      return this->vals_.size();
   }
 
   /// Resize the vector
-  void Resize(unsigned int new_size) { this->resize({new_size}); }
+  void Resize(unsigned int new_size) { this->vals_.resize(new_size); }
 
   /// Resize the vector and initialize the new elements with a value
   void Resize(unsigned int new_size, const TYPE& value)
   {
     auto old_size = Rows();
-    this->resize({new_size});
+    this->vals_.resize(new_size);
     if (Rows() > old_size)
     {
       for (auto i = old_size; i < Rows(); ++i)
@@ -54,7 +54,7 @@ public:
   }
 
   /// Set the elements of the vector to a specified value
-  void Set(TYPE val) { this->set(val); }
+  void Set(TYPE val) { this->vals_.assign(this->vals_.size(), val); }
 
   /// Scale the vector with a constant value
   void Scale(TYPE alpha)
@@ -135,13 +135,34 @@ public:
     return out.str();
   }
 
-  std::vector<TYPE> ToStdVector() const
+  std::vector<TYPE> ToStdVector() const { return vals_; }
+
+  TYPE& operator()(unsigned int i)
   {
-    std::vector<TYPE> res(Rows());
-    for (auto i = 0; i < Rows(); ++i)
-      res[i] = (*this)(i);
-    return res;
+    assert(i < Rows());
+    return vals_[i];
   }
+
+  const TYPE& operator()(unsigned int i) const
+  {
+    assert(i < Rows());
+    return vals_[i];
+  }
+
+  /// Returns an iterator pointing to the beginning of the array.
+  typename std::vector<TYPE>::const_iterator begin() const { return vals_.begin(); }
+
+  /// Returns a constant iterator pointing to the beginning of the array.
+  typename std::vector<TYPE>::const_iterator cbegin() const noexcept { return vals_.cbegin(); }
+
+  /// Returns an iterator pointing to the end of the array.
+  typename std::vector<TYPE>::const_iterator end() const { return vals_.end(); }
+
+  /// Returns a constant iterator pointing to the end of the array
+  typename std::vector<TYPE>::const_iterator cend() const noexcept { return vals_.cend(); }
+
+private:
+  std::vector<TYPE> vals_;
 };
 
 /// Scale the vector with a constant value
