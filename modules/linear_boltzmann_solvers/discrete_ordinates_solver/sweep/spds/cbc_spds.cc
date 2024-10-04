@@ -8,6 +8,7 @@
 #include "framework/utils/timer.h"
 #include "framework/runtime.h"
 #include "caliper/cali.h"
+#include <iostream>
 
 namespace opensn
 {
@@ -86,6 +87,11 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega,
     Exit(EXIT_FAILURE);
   }
 
+  // for (auto c : spls_.item_id)
+  // {
+  //   log.Log0Verbose1() << "Cell " << c;
+  // }
+
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Create Task
   //                                                        Dependency Graphs
   // All locations will gather other locations' dependencies
@@ -131,6 +137,16 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega,
   } // for cell in SPLS
 
   opensn::mpi_comm.barrier();
+
+  // for (auto t : task_list_)
+  // {
+  //   std::cout << "Task " << t.reference_id_ << " has " << t.num_dependencies_
+  //             << " dependencies and " << t.successors_.size() << " successors\n";
+  //   std::cout << "Successors:";
+  //   for (auto& s : t.successors_)
+  //     std::cerr << " " << s;
+  //   std::cerr << std::endl;
+  // }
 
   log.Log0Verbose1() << program_timer.GetTimeString() << " Done computing sweep ordering.\n\n";
 }

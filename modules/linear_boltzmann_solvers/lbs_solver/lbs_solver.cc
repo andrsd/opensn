@@ -27,6 +27,7 @@
 #include <fstream>
 #include <cstring>
 #include <cassert>
+#include <stdexcept>
 #include <sys/stat.h>
 
 namespace opensn

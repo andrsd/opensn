@@ -7,6 +7,7 @@
 #include "framework/logging/log.h"
 #include "framework/runtime.h"
 #include <cmath>
+#include <iomanip>
 #include <sstream>
 
 namespace opensn

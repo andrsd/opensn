@@ -1,6 +1,6 @@
 meshgen = mesh.FromFileMeshGenerator.Create({
-    -- filename = "test-2d.obj",
-    filename = "square-tri.e",
+    filename = "test-2d.obj",
+    -- filename = "square-tri.e",
 })
 mesh.MeshGenerator.Execute(meshgen)
 

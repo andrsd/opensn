@@ -5,6 +5,7 @@
 #include "lua/framework/console/console.h"
 #include "lua/framework/math/quadratures/quadratures.h"
 #include "framework/math/quadratures/angular/angular_quadrature.h"
+#include "framework/math/quadratures/angular/product_quadrature.h"
 #include "framework/logging/log.h"
 #include "framework/runtime.h"
 
@@ -27,7 +28,7 @@ OptimizeAngularQuadratureForPolarSymmetry(lua_State* L)
   auto normalization = LuaArgOptional<double>(L, 2, -1.0);
 
   auto& quadrature =
-    opensn::GetStackItem<AngularQuadrature>(opensn::angular_quadrature_stack, handle, fname);
+    opensn::GetStackItem<ProductQuadrature>(opensn::angular_quadrature_stack, handle, fname);
 
   if (normalization > 0.0)
     opensn::log.Log() << "Optimizing angular quadrature for polar symmetry. using "

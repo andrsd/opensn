@@ -86,6 +86,7 @@ CbcSweepChunk::SetCell(const Cell* cell_ptr, AngleSet& angle_set)
   M_ = unit_cell_matrices_[cell_local_id_].intV_shapeI_shapeJ;
   M_surf_ = unit_cell_matrices_[cell_local_id_].intS_shapeI_shapeJ;
   IntS_shapeI_ = unit_cell_matrices_[cell_local_id_].intS_shapeI;
+  std::cerr << "cell = " << cell_local_id_ << std::endl;
 }
 
 void
@@ -135,7 +136,7 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       if (face_orientations[f] != FaceOrientation::INCOMING)
         continue;
 
-      // std::cerr << "cell_local_id_ = " << cell_local_id_ << ", f = " << f << std::endl;
+      std::cerr << "cell_local_id_ = " << cell_local_id_ << ", f = " << f << std::endl;
 
       const auto& face = cell_->faces_[f];
       const bool is_local_face = cell_transport_view_->IsFaceLocal(f);
@@ -259,9 +260,19 @@ CbcSweepChunk::Sweep(AngleSet& angle_set)
       }
 
       // Solve system
-      // for (int i = 0; i < this->cell_num_nodes_; i++)
-      //   std::cerr << b[gsg][i] << "\n";
-      // std::cerr << "==\n";
+      std::cerr << "Atemp\n";
+      for (auto& row : Atemp)
+      {
+        for (auto& v : row)
+        {
+          std::cerr << v << " ";
+        }
+        std::cerr << "\n";
+      }
+      std::cerr << "b\n";
+      for (int i = 0; i < this->cell_num_nodes_; i++)
+        std::cerr << b[gsg][i] << "\n";
+      std::cerr << "==\n";
       GaussElimination(Atemp, b[gsg], static_cast<int>(cell_num_nodes_));
     } // for gsg
 

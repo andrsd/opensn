@@ -1,25 +1,31 @@
-nodesx = {}
-Nx = 1
-Lx = 0.8
-xmin = -Lx / 2
-dx = Lx / Nx
-for i = 1, (Nx + 1) do
-    k = i - 1
-    nodesx[i] = xmin + k * dx
-end
+-- nodesx = {}
+-- Nx = 1
+-- Lx = 0.8
+-- xmin = -Lx / 2
+-- dx = Lx / Nx
+-- for i = 1, (Nx + 1) do
+--     k = i - 1
+--     nodesx[i] = xmin + k * dx
+-- end
 
-nodesy = {}
-Ny = 1
-Ly = 0.8
-ymin = -Ly / 2
-dy = Ly / Ny
-for i = 1, (Ny + 1) do
-    k = i - 1
-    nodesy[i] = ymin + k * dy
-end
+-- nodesy = {}
+-- Ny = 1
+-- Ly = 0.8
+-- ymin = -Ly / 2
+-- dy = Ly / Ny
+-- for i = 1, (Ny + 1) do
+--     k = i - 1
+--     nodesy[i] = ymin + k * dy
+-- end
 
-meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodesx, nodesy } })
-mesh.MeshGenerator.Execute(meshgen1)
+-- meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodesx, nodesy } })
+-- mesh.MeshGenerator.Execute(meshgen1)
+
+meshgen = mesh.FromFileMeshGenerator.Create({
+    filename = "square-tri.e",
+})
+mesh.MeshGenerator.Execute(meshgen)
+
 
 -- Set Material IDs
 vol0 = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, infz = true })
@@ -30,27 +36,28 @@ materials = {}
 materials[1] = mat.AddMaterial("Test Material")
 
 num_groups = 1
-mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, SIMPLE_ONE_GROUP, 0., 0.)
+mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, SIMPLE_ONE_GROUP, 0., 0.9)
 
--- src = {}
+src = {}
 -- for g = 1, num_groups do
 --   src[g] = 0.0
 -- end
--- --src[1] = 1.0
--- mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
+src[1] = 12.0
+mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 
 -- Setup Physics
-pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_CHEBYSHEV, 2, 1)
+pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_CHEBYSHEV, 2, 2)
 aquad.OptimizeForPolarSymmetry(pquad0, 4.0 * math.pi)
 
 lbs_block = {
     num_groups = num_groups,
+    sweep_type = "CBC",
     groupsets = {
         {
             groups_from_to = { 0, 0 },
             angular_quadrature_handle = pquad0,
             angle_aggregation_num_subsets = 1,
-            groupset_num_subsets = 2,
+            groupset_num_subsets = 1,
             inner_linear_method = "gmres",
             l_abs_tol = 1.0e-6,
             l_max_its = 300,
@@ -70,7 +77,8 @@ lbs_options = {
             type = "vacuum",
         },
     },
-    scattering_order = 1,
+    scattering_order = 0,
+    save_angular_flux = true,
     max_ags_iterations = 1,
 }
 

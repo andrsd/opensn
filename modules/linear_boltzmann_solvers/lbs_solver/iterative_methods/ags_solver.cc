@@ -79,11 +79,11 @@ AGSSolver::Solve()
   // {
   //   std::cout << std::setprecision(15) << v << std::endl;
   // }
-  // std::cout << "AGS Solver Done" << std::endl;
-  // for (auto& v : lbs_solver_.PhiNewLocal())
-  // {
-  //   std::cerr << std::setprecision(15) << v << std::endl;
-  // }
+  std::cout << "AGS Solver Done" << std::endl;
+  for (auto& v : lbs_solver_.PhiNewLocal())
+  {
+    std::cerr << std::setprecision(15) << v << std::endl;
+  }
 }
 
 double
