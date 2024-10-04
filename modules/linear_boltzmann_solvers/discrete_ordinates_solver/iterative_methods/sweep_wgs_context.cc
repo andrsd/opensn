@@ -6,6 +6,7 @@
 #include "modules/linear_boltzmann_solvers/lbs_solver/preconditioning/lbs_shell_operations.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include <iostream>
 #include <petscksp.h>
 #include "caliper/cali.h"
 #include <iomanip>

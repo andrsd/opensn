@@ -4,6 +4,7 @@
 #include "modules/linear_boltzmann_solvers/lbs_solver/iterative_methods/wgs_context.h"
 #include "modules/linear_boltzmann_solvers/lbs_solver/lbs_solver.h"
 #include "caliper/cali.h"
+#include <iostream>
 
 namespace opensn
 {
@@ -44,6 +45,11 @@ WGSContext::MatrixAction(Mat& matrix, Vec& action_vector, Vec& action)
   auto& q_moments_local = lbs_solver_.QMomentsLocal();
   q_moments_local.assign(q_moments_local.size(), 0.0);
   set_source_function_(groupset, q_moments_local, lbs_solver.PhiOldLocal(), lhs_src_scope_);
+  // for (auto& v : q_moments_local)
+  // {
+  //   std::cerr << v << std::endl;
+  // }
+  // std::cerr << "WGSContext::MatrixAction: set_source_function_ done" << std::endl;
 
   // Apply transport operator
   gs_context_ptr->ApplyInverseTransportOperator(lhs_src_scope_);

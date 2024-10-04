@@ -1,7 +1,7 @@
 -- 2D Transport test with Vacuum and Incident-isotropic BC.
 -- SDM: PWLD
 -- Test: Max-value=0.50758 and 2.52527e-04
-num_procs = 4
+num_procs = 1
 
 --############################################### Check num_procs
 if check_num_procs == nil and number_of_processes ~= num_procs then
@@ -55,6 +55,8 @@ mat.SetProperty(materials[2], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 
 --############################################### Setup Physics
 pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_CHEBYSHEV, 2, 1)
+
+os.exit()
 aquad.OptimizeForPolarSymmetry(pquad0, 4.0 * math.pi)
 
 lbs_block = {

@@ -7,6 +7,7 @@
 #include "framework/math/quadratures/angular/product_quadrature.h"
 #include "framework/logging/log.h"
 #include "framework/runtime.h"
+#include <iostream>
 #include <memory>
 
 using namespace opensn;
@@ -86,6 +87,31 @@ CreateProductQuadrature(lua_State* L)
     opensn::log.Log() << "Creating Gauss-Legendre-ChebyShev Quadrature\n";
 
     auto new_quad = std::make_shared<AngularQuadratureProdGLC>(Na, Np, verbose);
+    std::cout << "azimuthal angles" << std::endl;
+    for (auto& a : new_quad->azimu_ang_)
+    {
+      std::cout << a << std::endl;
+    }
+    std::cout << "polar angles" << std::endl;
+    for (auto& p : new_quad->polar_ang_)
+    {
+      std::cout << p << std::endl;
+    }
+    std::cout << "weights" << std::endl;
+    for (auto& w : new_quad->weights_)
+    {
+      std::cout << w << std::endl;
+    }
+    std::cout << "omega" << std::endl;
+    for (auto& o : new_quad->omegas_)
+    {
+      std::cout << o << std::endl;
+    }
+    std::cout << "abscissas" << std::endl;
+    for (auto& a : new_quad->abscissae_)
+    {
+      std::cout << a.phi << ", " << a.theta << std::endl;
+    }
 
     opensn::angular_quadrature_stack.push_back(new_quad);
     const size_t index = opensn::angular_quadrature_stack.size() - 1;

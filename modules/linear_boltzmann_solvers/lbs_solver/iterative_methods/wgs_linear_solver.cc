@@ -13,6 +13,7 @@
 #include "caliper/cali.h"
 #include <memory>
 #include <iomanip>
+#include <petscviewer.h>
 
 namespace opensn
 {
@@ -184,6 +185,7 @@ WGSLinearSolver::SetRHS()
 
     // Compute RHS norm
     VecNorm(b_, NORM_2, &context_ptr_->rhs_norm);
+    // VecView(b_, PETSC_VIEWER_STDOUT_SELF);
 
     // Compute precondition RHS norm
     PC pc;

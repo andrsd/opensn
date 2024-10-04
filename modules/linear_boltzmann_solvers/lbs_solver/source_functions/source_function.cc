@@ -7,6 +7,7 @@
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "caliper/cali.h"
+#include <iostream>
 
 namespace opensn
 {
@@ -93,6 +94,7 @@ SourceFunction::operator()(const LBSGroupset& groupset,
           fixed_src_moments_ = &ext_src_moments_local[uk_map];
 
         // Loop over groupset groups
+        // std::cerr << "g: " << gs_i_ << " " << gs_f_ << std::endl;
         for (size_t g = gs_i_; g <= gs_f_; ++g)
         {
           g_ = g;
@@ -103,15 +105,24 @@ SourceFunction::operator()(const LBSGroupset& groupset,
           if (apply_fixed_src_)
             rhs += this->AddSourceMoments();
 
+#if 1
           // Apply scattering sources
           if (ell < S.size())
           {
+            // std::cerr << "Applying scattering sources" << std::endl;
             const auto& S_ell = S[ell];
             // Add Across GroupSet Scattering (AGS)
             if (apply_ags_scatter_src_)
               for (const auto& [_, gp, sigma_sm] : S_ell.Row(g))
+              {
                 if (gp < gs_i_ or gp > gs_f_)
+                {
                   rhs += rho * sigma_sm * phi_im[gp];
+                  // std::cerr << gp << ": rho: " << rho << " sigma_sm: " << sigma_sm
+                  //           << " phi_im: " << phi_im[gp] << std::endl;
+                }
+                // std::cerr << "--" << std::endl;
+              }
 
             // Add Within GroupSet Scattering (WGS)
             if (apply_wgs_scatter_src_)
@@ -121,7 +132,10 @@ SourceFunction::operator()(const LBSGroupset& groupset,
                   if (suppress_wg_scatter_src_ and g_ == gp)
                     continue;
                   rhs += rho * sigma_sm * phi_im[gp];
+                  // std::cerr << gp << ": rho: " << rho << " sigma_sm: " << sigma_sm
+                  //           << " phi_im: " << phi_im[gp] << std::endl;
                 }
+            // std::cerr << "--" << std::endl;
           }
 
           // Apply fission sources
@@ -140,8 +154,10 @@ SourceFunction::operator()(const LBSGroupset& groupset,
             if (lbs_solver_.Options().use_precursors)
               rhs += this->AddDelayedFission(precursors, rho, nu_delayed_sigma_f, &phi[uk_map]);
           }
+#endif
 
           // Add to destination vector
+          // std::cerr << "q[" << uk_map + g << "] += " << rhs << std::endl;
           q[uk_map + g] += rhs;
 
         } // for g
@@ -164,19 +180,26 @@ SourceFunction::AddDelayedFission(const PrecursorList& precursors,
                                   const std::vector<double>& nu_delayed_sigma_f,
                                   const double* phi) const
 {
+  // std::cerr << "Applying delayed fission sources" << std::endl;
   double value = 0.0;
   if (apply_ags_fission_src_)
+  {
+    // std::cerr << "Applying AGS fission sources" << std::endl;
     for (size_t gp = first_grp_; gp <= last_grp_; ++gp)
       if (gp < gs_i_ or gp > gs_f_)
         for (const auto& precursor : precursors)
           value += precursor.emission_spectrum[g_] * precursor.fractional_yield * rho *
                    nu_delayed_sigma_f[gp] * phi[gp];
+  }
 
   if (apply_wgs_fission_src_)
+  {
     for (size_t gp = gs_i_; gp <= gs_f_; ++gp)
       for (const auto& precursor : precursors)
         value += precursor.emission_spectrum[g_] * precursor.fractional_yield * rho *
                  nu_delayed_sigma_f[gp] * phi[gp];
+    // std::cerr << "Applying WGS fission sources" << std::endl;
+  }
 
   return value;
 }

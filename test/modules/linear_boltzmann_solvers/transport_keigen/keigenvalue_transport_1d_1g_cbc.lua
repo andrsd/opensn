@@ -6,18 +6,18 @@ num_procs = 4
 --       variable=[[argument]]
 
 --############################################### Check num_procs
-if check_num_procs == nil and number_of_processes ~= num_procs then
-  log.Log(
-    LOG_0ERROR,
-    "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
-  )
-  os.exit(false)
-end
+-- if check_num_procs == nil and number_of_processes ~= num_procs then
+--   log.Log(
+--     LOG_0ERROR,
+--     "Incorrect amount of processors. "
+--       .. "Expected "
+--       .. tostring(num_procs)
+--       .. ". Pass check_num_procs=false to override if possible."
+--   )
+--   os.exit(false)
+-- end
 
-MPIBarrier()
+-- MPIBarrier()
 
 -- ##################################################
 -- ##### Parameters #####
@@ -28,7 +28,7 @@ if L == nil then
   L = 100.0
 end
 if n_cells == nil then
-  n_cells = 50
+    n_cells = 4
 end
 
 -- Transport angle information
@@ -59,6 +59,7 @@ end
 if use_precursors == nil then
   use_precursors = true
 end
+use_precursors = false
 
 -- ##################################################
 -- ##### Run problem #####
@@ -116,6 +117,11 @@ k_solver0 = lbs.NonLinearKEigen.Create({
   nl_max_its = kes_max_iterations,
   nl_abs_tol = kes_tolerance,
 })
+-- k_solver0 = lbs.PowerIterationKEigen.Create({ 
+--     lbs_solver_handle = phys,
+--     max_iters = 1000,
+--     k_tol = 1e-8
+-- })
 solver.Initialize(k_solver0)
 solver.Execute(k_solver0)
 

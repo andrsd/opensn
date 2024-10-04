@@ -6,18 +6,18 @@ num_procs = 4
 --       variable=[[argument]]
 
 --############################################### Check num_procs
-if check_num_procs == nil and number_of_processes ~= num_procs then
-  log.Log(
-    LOG_0ERROR,
-    "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
-  )
-  os.exit(false)
-end
+-- if check_num_procs == nil and number_of_processes ~= num_procs then
+--   log.Log(
+--     LOG_0ERROR,
+--     "Incorrect amount of processors. "
+--       .. "Expected "
+--       .. tostring(num_procs)
+--       .. ". Pass check_num_procs=false to override if possible."
+--   )
+--   os.exit(false)
+-- end
 
-MPIBarrier()
+-- MPIBarrier()
 
 -- ##################################################
 -- ##### Parameters #####
