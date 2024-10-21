@@ -9,6 +9,7 @@
 #include "framework/runtime.h"
 #include "caliper/cali.h"
 #include <iostream>
+#include <unistd.h>
 
 namespace opensn
 {
@@ -87,10 +88,34 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega,
     Exit(EXIT_FAILURE);
   }
 
+  // mpi_comm.barrier();
+  // if (mpi_comm.rank() == 0)
+  //   std::cerr << "spls:\n";
+  // sleep(mpi_comm.rank());
+  // std::cerr << "[" << mpi_comm.rank() << "]";
   // for (auto c : spls_.item_id)
   // {
-  //   log.Log0Verbose1() << "Cell " << c;
+  //   std::cerr << " " << c;
   // }
+  // std::cerr << std::endl;
+  // mpi_comm.barrier();
+
+  // if (mpi_comm.rank() == 0)
+  //   std::cerr << "location_successors:\n";
+  // sleep(mpi_comm.rank());
+  // std::cerr << "[" << mpi_comm.rank() << "]";
+  // for (auto& v : location_successors_)
+  //   std::cerr << " " << v;
+  // std::cerr << std::endl;
+
+  // mpi_comm.barrier();
+  // if (mpi_comm.rank() == 0)
+  //   std::cerr << "location_dependencies:\n";
+  // sleep(mpi_comm.rank());
+  // std::cerr << "[" << mpi_comm.rank() << "]";
+  // for (auto& v : location_dependencies_)
+  //   std::cerr << " " << v;
+  // std::cerr << std::endl;
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Create Task
   //                                                        Dependency Graphs
@@ -138,15 +163,17 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega,
 
   opensn::mpi_comm.barrier();
 
+  // sleep(opensn::mpi_comm.rank());
   // for (auto t : task_list_)
   // {
-  //   std::cout << "Task " << t.reference_id_ << " has " << t.num_dependencies_
-  //             << " dependencies and " << t.successors_.size() << " successors\n";
-  //   std::cout << "Successors:";
+  //   std::cerr << "[" << mpi_comm.rank() << "] Task " << t.reference_id_ << " has "
+  //             << t.num_dependencies_ << " dependencies and " << t.successors_.size()
+  //             << " successors:";
   //   for (auto& s : t.successors_)
   //     std::cerr << " " << s;
   //   std::cerr << std::endl;
   // }
+  // opensn::mpi_comm.barrier();
 
   log.Log0Verbose1() << program_timer.GetTimeString() << " Done computing sweep ordering.\n\n";
 }

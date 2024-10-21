@@ -3,7 +3,7 @@
 -- nrefs = { 10000 }
 
 widths = { 2 }
-nrefs = { 3 }
+nrefs = { 5 }
 
 -- Nmat = #widths
 Nmat = 1
@@ -35,60 +35,61 @@ mesh.MeshGenerator.Execute(meshgen)
 mesh.SetUniformMaterialID(0)
 
 -- Create materials
-mat_names = { "void" }
 materials = {}
-for imat = 1, Nmat do
-    materials[imat] = mat.AddMaterial(mat_names[imat])
-end
+materials[1] = mat.AddMaterial("void")
 
 -- Add cross sections to materials
-total = { 0. }
-c = { 0. }
-for imat = 1, Nmat do
-    mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, OPENSN_XSFILE, "response_2d_3_mat1.xs")
-    -- mat.SetProperty(materials[imat], TRANSPORT_XSECTIONS, SIMPLE_ONE_GROUP, total[imat], c[imat])
-end
+-- mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, OPENSN_XSFILE, "response_2d_3_mat1.xs")
+mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, SIMPLE_ONE_GROUP, 0., 0.9)
 
--- Create sources in 1st and 4th materials
-mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, { 5., 0, 0, 0, 0, 0, 0, 0, 0, 7. })
--- mat.SetProperty(materials[4], ISOTROPIC_MG_SOURCE, FROM_ARRAY, { 1. })
+-- mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, { 5., 0, 0, 0, 0, 0, 0, 0, 0, 7. })
+mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, { 1. })
 
 -- Angular Quadrature
-gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 4)
+gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 1)
 -- gl_quad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_LEGENDRE, 2, 4)
 
 bsrc = { 0.5 }
 
 -- LBS block option
-num_groups = 10
+num_groups = 1
 lbs_block = {
     num_groups = num_groups,
-    sweep_type = "CBC",
+    sweep_type = "AAH",
     groupsets = {
         {
-            groups_from_to = { 0, 3 },
+            groups_from_to = { 0, 0 },
             angular_quadrature_handle = gl_quad,
             inner_linear_method = "gmres",
             l_abs_tol = 1.0e-12,
             l_max_its = 300,
             gmres_restart_interval = 30,
-        },
-        {
-            groups_from_to = { 4, 9 },
-            angular_quadrature_handle = gl_quad,
-            inner_linear_method = "gmres",
-            l_abs_tol = 1.0e-9,
-            l_max_its = 300,
-            gmres_restart_interval = 30,
         }
+        -- {
+        --     groups_from_to = { 0, 3 },
+        --     angular_quadrature_handle = gl_quad,
+        --     inner_linear_method = "gmres",
+        --     l_abs_tol = 1.0e-12,
+        --     l_max_its = 300,
+        --     gmres_restart_interval = 30,
+        -- },
+        -- {
+        --     groups_from_to = { 4, 9 },
+        --     angular_quadrature_handle = gl_quad,
+        --     inner_linear_method = "gmres",
+        --     l_abs_tol = 1.0e-9,
+        --     l_max_its = 300,
+        --     gmres_restart_interval = 30,
+        -- }
     },
     options = {
         scattering_order = 0,
         save_angular_flux = true,
+        max_ags_iterations = 1,
         spatial_discretization = "pwld",
-        -- boundary_conditions = { { name = "zmin", type = "vacuum" }, { name = "zmax", type = "vacuum" } },
+        boundary_conditions = { { name = "zmin", type = "vacuum" }, { name = "zmax", type = "vacuum" } },
         -- boundary_conditions = { { name = "zmin", type = "reflecting" }, { name = "zmax", type = "reflecting" } },
-        boundary_conditions = { { name = "zmin", type = "isotropic", group_strength = bsrc }, { name = "zmax", type = "vacuum" } },
+        -- boundary_conditions = { { name = "zmin", type = "isotropic", group_strength = bsrc }, { name = "zmax", type = "vacuum" } },
     },
 }
 

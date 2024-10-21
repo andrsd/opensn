@@ -121,6 +121,8 @@ AahSweepChunk::Sweep(AngleSet& angle_set)
         auto& cell_face = cell.faces_[f];
         const bool is_local_face = cell_transport_view.IsFaceLocal(f);
         const bool is_boundary_face = not cell_face.has_neighbor_;
+        std::cerr << "cell " << cell.local_id_ << " face " << f << " is_local_face "
+                  << is_local_face << " is_boundary_face " << is_boundary_face << std::endl;
 
         if (is_local_face)
           ++in_face_counter;

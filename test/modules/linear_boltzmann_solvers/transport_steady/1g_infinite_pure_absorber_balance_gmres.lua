@@ -1,7 +1,7 @@
 -- Infinite, 1-group, pure absorber with balance
 -- Create Mesh
 nodes = {}
-N = 2
+N = 4
 L = 10
 xmin = -L / 2
 dx = L / N
@@ -10,7 +10,8 @@ for i = 1, (N + 1) do
   nodes[i] = xmin + k * dx
 end
 
-meshgen = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes, nodes, nodes } })
+-- meshgen = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes, nodes, nodes } })
+meshgen = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes } })
 mesh.MeshGenerator.Execute(meshgen)
 
 -- Set Material IDs
@@ -48,12 +49,15 @@ lbs_block = {
     boundary_conditions = {
       { name = "xmin", type = "reflecting" },
       { name = "xmax", type = "reflecting" },
-      { name = "ymin", type = "reflecting" },
-      { name = "ymax", type = "reflecting" },
-      { name = "zmin", type = "reflecting" },
-      { name = "zmax", type = "reflecting" },
+      -- { name = "ymin", type = "reflecting" },
+      -- { name = "ymax", type = "reflecting" },
+      -- { name = "zmin", type = "reflecting" },
+      -- { name = "zmax", type = "reflecting" },
     },
+    save_angular_flux = true,
+    scattering_order = 1,
   },
+  sweep_type = "CBC",
 }
 
 phys = lbs.DiscreteOrdinatesSolver.Create(lbs_block)
