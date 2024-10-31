@@ -21,6 +21,9 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   LBSSolver& lbs_solver = gs_context_ptr->lbs_solver;
   LBSGroupset& groupset = gs_context_ptr->groupset;
 
+  std::cerr << "phi_input" << std::endl;
+  VecView(phi_input, PETSC_VIEWER_STDOUT_WORLD);
+
   // Copy PETSc vector to STL
   auto& phi_new_local = gs_context_ptr->lbs_solver.PhiNewLocal();
   lbs_solver.SetPrimarySTLvectorFromGSPETScVec(groupset, phi_input, PhiSTLOption::PHI_NEW);

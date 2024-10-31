@@ -1634,6 +1634,7 @@ LBSSolver::InitWGDSA(LBSGroupset& groupset, bool vaccum_bcs_are_dirichlet)
 
   if (groupset.apply_wgdsa)
   {
+    std::cerr << "activate WGDSA for groupset " << groupset.id << std::endl;
     // Make UnknownManager
     const size_t num_gs_groups = groupset.groups.size();
     opensn::UnknownManager uk_man;
