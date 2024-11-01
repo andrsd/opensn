@@ -21,8 +21,8 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   LBSSolver& lbs_solver = gs_context_ptr->lbs_solver;
   LBSGroupset& groupset = gs_context_ptr->groupset;
 
-  std::cerr << "phi_input" << std::endl;
-  VecView(phi_input, PETSC_VIEWER_STDOUT_WORLD);
+  // std::cerr << "phi_input" << std::endl;
+  // VecView(phi_input, PETSC_VIEWER_STDOUT_WORLD);
 
   // Copy PETSc vector to STL
   auto& phi_new_local = gs_context_ptr->lbs_solver.PhiNewLocal();
@@ -33,6 +33,10 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   {
     std::vector<double> delta_phi_local;
     lbs_solver.AssembleWGDSADeltaPhiVector(groupset, phi_new_local, delta_phi_local);
+
+    // std::cerr << "delta_phi" << std::endl;
+    // for (auto& v : delta_phi_local)
+    //   std::cerr << v << std::endl;
 
     groupset.wgdsa_solver->Assemble_b(delta_phi_local);
     groupset.wgdsa_solver->Solve(delta_phi_local);
@@ -53,6 +57,9 @@ WGDSA_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
 
   // Copy STL vector to PETSc Vec
   lbs_solver.SetGSPETScVecFromPrimarySTLvector(groupset, pc_output, PhiSTLOption::PHI_NEW);
+
+  // std::cerr << "out" << std::endl;
+  // VecView(pc_output, PETSC_VIEWER_STDOUT_WORLD);
 
   return 0;
 }

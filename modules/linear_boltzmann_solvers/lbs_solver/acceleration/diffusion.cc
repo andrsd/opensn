@@ -7,6 +7,7 @@
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include <petscviewer.h>
 
 namespace opensn
 {
@@ -155,26 +156,26 @@ DiffusionSolver::Initialize()
   PCSetType(pc, PCHYPRE);
 
   PCHYPRESetType(pc, "boomeramg");
-  std::vector<std::string> pc_options = {"pc_hypre_boomeramg_agg_nl 1",
-                                         "pc_hypre_boomeramg_P_max 4",
-                                         "pc_hypre_boomeramg_grid_sweeps_coarse 1",
-                                         "pc_hypre_boomeramg_max_levels 25",
-                                         "pc_hypre_boomeramg_relax_type_all symmetric-SOR/Jacobi",
-                                         "pc_hypre_boomeramg_coarsen_type HMIS",
-                                         "pc_hypre_boomeramg_interp_type ext+i"};
+  // std::vector<std::string> pc_options = {"pc_hypre_boomeramg_agg_nl 1",
+  //                                        "pc_hypre_boomeramg_P_max 4",
+  //                                        "pc_hypre_boomeramg_grid_sweeps_coarse 1",
+  //                                        "pc_hypre_boomeramg_max_levels 25",
+  //                                        "pc_hypre_boomeramg_relax_type_all
+  //                                        symmetric-SOR/Jacobi", "pc_hypre_boomeramg_coarsen_type
+  //                                        HMIS", "pc_hypre_boomeramg_interp_type ext+i"};
 
-  if (grid_.Dimension() == 2)
-    pc_options.emplace_back("pc_hypre_boomeramg_strong_threshold 0.6");
-  else if (grid_.Dimension() == 3)
-    pc_options.emplace_back("pc_hypre_boomeramg_strong_threshold 0.8");
+  // if (grid_.Dimension() == 2)
+  //   pc_options.emplace_back("pc_hypre_boomeramg_strong_threshold 0.6");
+  // else if (grid_.Dimension() == 3)
+  //   pc_options.emplace_back("pc_hypre_boomeramg_strong_threshold 0.8");
 
-  for (const auto& option : pc_options)
-    PetscOptionsInsertString(nullptr, ("-" + name_ + option).c_str());
+  // for (const auto& option : pc_options)
+  //   PetscOptionsInsertString(nullptr, ("-" + name_ + option).c_str());
 
-  PetscOptionsInsertString(nullptr, options.additional_options_string.c_str());
+  // PetscOptionsInsertString(nullptr, options.additional_options_string.c_str());
 
-  PCSetFromOptions(pc);
-  KSPSetFromOptions(ksp_);
+  // PCSetFromOptions(pc);
+  // KSPSetFromOptions(ksp_);
 }
 
 void
@@ -185,6 +186,8 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
   VecDuplicate(rhs_, &x);
   VecSet(x, 0.0);
 
+  std::cerr << "use_initial_guess " << use_initial_guess << std::endl;
+
   if (not use_initial_guess)
     KSPSetInitialGuessNonzero(ksp_, PETSC_FALSE);
   else
@@ -193,15 +196,15 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
   KSPSetTolerances(
     ksp_, options.residual_tolerance, options.residual_tolerance, 1.0e50, options.max_iters);
 
-  if (options.perform_symmetry_check)
-  {
-    PetscBool symmetry = PETSC_FALSE;
-    MatIsSymmetric(A_, 1.0e-6, &symmetry);
-    if (symmetry == PETSC_FALSE)
-      throw std::logic_error(fname + ":Symmetry check failed");
-  }
+  // if (options.perform_symmetry_check)
+  // {
+  //   PetscBool symmetry = PETSC_FALSE;
+  //   MatIsSymmetric(A_, 1.0e-6, &symmetry);
+  //   if (symmetry == PETSC_FALSE)
+  //     throw std::logic_error(fname + ":Symmetry check failed");
+  // }
 
-  if (options.verbose)
+  // if (options.verbose)
   {
     KSPMonitorSet(ksp_, &KSPMonitorRelativeToRHS, nullptr, nullptr);
 
@@ -210,21 +213,28 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
     log.Log() << "RHS-norm " << rhs_norm;
   }
 
-  if (use_initial_guess)
-  {
-    double* x_raw;
-    VecGetArray(x, &x_raw);
-    size_t k = 0;
-    for (const auto& value : solution)
-      x_raw[k++] = value;
-    VecRestoreArray(x, &x_raw);
-  }
+  // if (use_initial_guess)
+  // {
+  //   std::cerr << "use_initial_guess" << std::endl;
+  //   double* x_raw;
+  //   VecGetArray(x, &x_raw);
+  //   size_t k = 0;
+  //   for (const auto& value : solution)
+  //     x_raw[k++] = value;
+  //   VecRestoreArray(x, &x_raw);
+  // }
 
+  // std::cerr << "rhs" << std::endl;
+  // VecView(rhs_, PETSC_VIEWER_STDOUT_WORLD);
+  // KSPView(ksp_, PETSC_VIEWER_STDOUT_WORLD);
   // Solve
   KSPSolve(ksp_, rhs_, x);
 
+  // std::cerr << "x" << std::endl;
+  // VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+
   // Print convergence info
-  if (options.verbose)
+  // if (options.verbose)
   {
     double sol_norm;
     VecNorm(x, NORM_2, &sol_norm);

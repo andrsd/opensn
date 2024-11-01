@@ -1025,12 +1025,12 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
   VecAssemblyBegin(rhs_);
   VecAssemblyEnd(rhs_);
 
-  std::cerr << "q_vec" << std::endl;
-  for (auto& v : q_vector)
-    std::cerr << v << std::endl;
+  // std::cerr << "q_vec" << std::endl;
+  // for (auto& v : q_vector)
+  //   std::cerr << v << std::endl;
 
-  std::cerr << "rhs" << std::endl;
-  VecView(rhs_, PETSC_VIEWER_STDOUT_WORLD);
+  // std::cerr << "rhs" << std::endl;
+  // VecView(rhs_, PETSC_VIEWER_STDOUT_WORLD);
 
   if (options.verbose)
     log.Log() << program_timer.GetTimeString() << " Assembly completed";

@@ -6,6 +6,8 @@
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include <iomanip>
+#include <petscksp.h>
+#include <petscviewer.h>
 
 namespace opensn
 {
@@ -131,10 +133,15 @@ KSPMonitorRelativeToRHS(KSP ksp, PetscInt n, PetscReal rnorm, void*)
 {
   Vec Rhs;
   KSPGetRhs(ksp, &Rhs);
+
+  // Vec x;
+  // KSPGetSolution(ksp, &x);
+  // VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+
   double rhs_norm;
-  VecNorm(Rhs, NORM_2, &rhs_norm);
-  if (rhs_norm < 1.0e-12)
-    rhs_norm = 1.0;
+  // VecNorm(Rhs, NORM_2, &rhs_norm);
+  // if (rhs_norm < 1.0e-12)
+  rhs_norm = 1.0;
 
   // Get solver name
   const char* ksp_name;

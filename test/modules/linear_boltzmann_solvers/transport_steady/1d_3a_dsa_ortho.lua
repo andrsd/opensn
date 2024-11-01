@@ -38,6 +38,7 @@ mat.SetProperty(materials[1], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 -- mat.SetProperty(materials[2], ISOTROPIC_MG_SOURCE, FROM_ARRAY, src)
 
 pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_CHEBYSHEV, 2, 2, false)
+-- pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 2, false)
 
 lbs_block = {
   num_groups = num_groups,
@@ -61,8 +62,10 @@ lbs_options = {
   scattering_order = 0,
   max_ags_iterations = 1,
   boundary_conditions = {
-      { name = "zmin", type = "vacuum" },
-      { name = "zmax", type = "vacuum" }
+    -- { name = "zmin", type = "reflecting" },
+    -- { name = "zmax", type = "reflecting" }
+    { name = "zmin", type = "vacuum" },
+    { name = "zmax", type = "vacuum" }
   },
 }
 
