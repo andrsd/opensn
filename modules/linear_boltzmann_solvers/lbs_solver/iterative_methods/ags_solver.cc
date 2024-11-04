@@ -91,7 +91,7 @@ AGSSolver::Solve()
 
   std::cerr << "Final phi" << std::endl;
   for (auto& v : lbs_solver_.PhiNewLocal())
-    std::cerr << v << std::endl;
+    std::cerr << std::setprecision(13) << v << std::endl;
 
   // If restarts are enabled, always write a restart dump upon convergence or when we reach the
   // iteration limit

@@ -30,6 +30,7 @@ phys1 = lbs.DiscreteOrdinatesSolver.Create({
       angle_aggregation_type = "polar",
       angle_aggregation_num_subsets = 1,
       groupset_num_subsets = 1,
+      apply_wgdsa = true,
     },
   },
   options = {
@@ -103,8 +104,8 @@ else
   log.Log(
     LOG_0ERROR,
     'k_method must be specified. "pi", '
-      .. '"pi_scdsa", "pi_scdsa_pwlc", "pi_smm", "pi_smm_pwld", '
-      .. 'or "jfnk"'
+    .. '"pi_scdsa", "pi_scdsa_pwlc", "pi_smm", "pi_smm_pwld", '
+    .. 'or "jfnk"'
   )
   return
 end

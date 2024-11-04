@@ -8,6 +8,7 @@
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include <petscviewer.h>
+#include <petscksp.h>
 
 namespace opensn
 {
@@ -152,10 +153,10 @@ DiffusionSolver::Initialize()
   // Set Pre-conditioner
   PC pc;
   KSPGetPC(ksp_, &pc);
-  //  PCSetType(pc, PCGAMG);
+  // PCSetType(pc, PCGAMG);
   PCSetType(pc, PCHYPRE);
 
-  PCHYPRESetType(pc, "boomeramg");
+  // PCHYPRESetType(pc, "boomeramg");
   // std::vector<std::string> pc_options = {"pc_hypre_boomeramg_agg_nl 1",
   //                                        "pc_hypre_boomeramg_P_max 4",
   //                                        "pc_hypre_boomeramg_grid_sweeps_coarse 1",
@@ -225,8 +226,9 @@ DiffusionSolver::Solve(std::vector<double>& solution, bool use_initial_guess)
   // }
 
   // std::cerr << "rhs" << std::endl;
-  // VecView(rhs_, PETSC_VIEWER_STDOUT_WORLD);
   // KSPView(ksp_, PETSC_VIEWER_STDOUT_WORLD);
+  // MatView(A_, PETSC_VIEWER_STDOUT_WORLD);
+  // VecView(x, PETSC_VIEWER_STDOUT_WORLD);
   // Solve
   KSPSolve(ksp_, rhs_, x);
 

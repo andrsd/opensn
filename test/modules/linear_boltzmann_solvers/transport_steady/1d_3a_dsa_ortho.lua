@@ -49,11 +49,12 @@ lbs_block = {
       angle_aggregation_num_subsets = 1,
       groupset_num_subsets = 1,
       inner_linear_method = "gmres",
-      l_abs_tol = 1.0e-6,
+      l_abs_tol = 1.0e-8,
       l_max_its = 1000,
       gmres_restart_interval = 30,
       apply_wgdsa = true,
-      wgdsa_l_abs_tol = 1.0e-2,
+      wgdsa_verbose = true,
+      wgdsa_l_abs_tol = 1.0e-8,
     }
   },
 }
@@ -62,10 +63,10 @@ lbs_options = {
   scattering_order = 0,
   max_ags_iterations = 1,
   boundary_conditions = {
-    -- { name = "zmin", type = "reflecting" },
-    -- { name = "zmax", type = "reflecting" }
-    { name = "zmin", type = "vacuum" },
-    { name = "zmax", type = "vacuum" }
+    -- { name = "zmin", type = "vacuum" },
+    -- { name = "zmax", type = "vacuum" }
+    { name = "zmin", type = "reflecting" },
+    { name = "zmax", type = "reflecting" }
   },
 }
 

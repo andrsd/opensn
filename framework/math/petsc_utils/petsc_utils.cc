@@ -139,7 +139,7 @@ KSPMonitorRelativeToRHS(KSP ksp, PetscInt n, PetscReal rnorm, void*)
   // VecView(x, PETSC_VIEWER_STDOUT_WORLD);
 
   double rhs_norm;
-  // VecNorm(Rhs, NORM_2, &rhs_norm);
+  VecNorm(Rhs, NORM_2, &rhs_norm);
   // if (rhs_norm < 1.0e-12)
   rhs_norm = 1.0;
 
