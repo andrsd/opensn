@@ -1,5 +1,7 @@
 --- Final k-eigenvalue    :         1.1925596 (265)
 
+k_method = "pi_smm_pwld"
+
 dofile("mesh/gmesh_coarse.lua")
 dofile("materials/materials.lua")
 
@@ -30,7 +32,8 @@ phys1 = lbs.DiscreteOrdinatesSolver.Create({
       angle_aggregation_type = "polar",
       angle_aggregation_num_subsets = 1,
       groupset_num_subsets = 1,
-      apply_wgdsa = true,
+      -- apply_wgdsa = true,
+      -- wgdsa_verbose = true
     },
   },
   options = {
@@ -38,13 +41,13 @@ phys1 = lbs.DiscreteOrdinatesSolver.Create({
       { name = "xmin", type = "reflecting" },
       { name = "ymin", type = "reflecting" },
     },
-    scattering_order = 1,
+    scattering_order = 0,
     verbose_outer_iterations = true,
     verbose_inner_iterations = true,
     power_field_function_on = true,
     power_default_kappa = 1.0,
     power_normalization = 1.0,
-    save_angular_flux = true,
+    save_angular_flux = false,
   },
   sweep_type = "AAH",
 })
@@ -98,7 +101,7 @@ elseif k_method == "jfnk" then
     nl_abs_tol = 1.0e-10,
     nl_rel_tol = 1.0e-10,
     l_max_its = 20,
-    num_initial_power_iterations = 2,
+    -- num_initial_power_iterations = 2,
   })
 else
   log.Log(
