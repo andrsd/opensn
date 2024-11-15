@@ -86,6 +86,7 @@ AGSSolver::Solve()
       phi_old_ = lbs_solver_.PhiNewLocal();
   }
 
+  std::cerr << "snl=" << std::endl;
   for (auto& v : phi_old_)
     std::cerr << std::setprecision(13) << v << std::endl;
 
