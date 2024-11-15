@@ -341,14 +341,18 @@ SPDS::PopulateCellRelationships(const Vector3& omega,
   for (auto& cell : grid_.local_cells)
     cell_face_orientations_[cell.local_id].assign(cell.faces.size(), FOPARALLEL);
 
+  std::cerr << "omega = " << omega.PrintStr() << std::endl;
   for (auto& cell : grid_.local_cells)
   {
+    std::cerr << "cell = " << cell.local_id << std::endl;
     size_t f = 0;
     for (auto& face : cell.faces)
     {
       // Determine if the face is incident
       FaceOrientation orientation = FOPARALLEL;
       const double mu = omega.Dot(face.normal);
+      std::cerr << " - n = " << face.normal.PrintStr() << std::endl;
+      std::cerr << "   mu = " << mu << std::endl;
 
       bool owns_face = true;
       if (face.has_neighbor and cell.global_id > face.neighbor_id)
@@ -415,20 +419,20 @@ SPDS::PopulateCellRelationships(const Vector3& omega,
     } // for face
   }
 
-  for (auto& fff : cell_face_orientations_)
-  {
-    for (auto& ori : fff)
-    {
-      std::cerr << " ";
-      if (ori == FOOUTGOING)
-        std::cerr << "out";
-      else if (ori == FOINCOMING)
-        std::cerr << "in";
-      else
-        std::cerr << "parallel";
-      std::cerr << std::endl;
-    }
-  }
+  // for (auto& fff : cell_face_orientations_)
+  // {
+  //   for (auto& ori : fff)
+  //   {
+  //     std::cerr << " ";
+  //     if (ori == FOOUTGOING)
+  //       std::cerr << "out";
+  //     else if (ori == FOINCOMING)
+  //       std::cerr << "in";
+  //     else
+  //       std::cerr << "parallel";
+  //     std::cerr << std::endl;
+  //   }
+  // }
 
   // Make directed connections
   for (auto& cell : grid_.local_cells)
