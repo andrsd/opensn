@@ -92,6 +92,22 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega, const MeshContinuum& grid, bool allow_c
 
     task_list_.push_back({num_dependencies, succesors, cell.local_id, &cell, false});
   }
+
+  std::cerr << "omega = " << omega.PrintStr() << std::endl;
+  std::cerr << "spls =";
+  for (auto& v : spls_.item_id)
+    std::cerr << " " << v;
+  std::cerr << std::endl;
+  std::cerr << "task_list:" << std::endl;
+  for (auto& it : task_list_)
+  {
+    std::cerr << " - num_dependencies: " << it.num_dependencies << std::endl;
+    std::cerr << "   reference_id: " << it.reference_id << std::endl;
+    std::cerr << "   successors:";
+    for (auto& s : it.successors)
+      std::cerr << " " << s;
+    std::cerr << std::endl;
+  }
 }
 
 const std::vector<Task>&

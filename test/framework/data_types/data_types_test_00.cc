@@ -9,6 +9,10 @@
 
 #include "framework/mpi/mpi_utils.h"
 
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_solver/sweep/spds/aah.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_solver/sweep/spds/spds.h"
+#include "framework/mesh/mesh_continuum/mesh_continuum.h"
+#include <boost/graph/directed_graph.hpp>
 #include <map>
 
 using namespace opensn;
@@ -399,6 +403,27 @@ data_types_Test00(const InputParameters&)
   opensn::log.Log() << dummy.str();
 
   opensn::log.Log() << "GOLD_END";
+
+  ///
+
+  Graph gr(4);
+  boost::add_edge(0, 1, gr);
+  boost::add_edge(1, 2, gr);
+  boost::add_edge(2, 0, gr);
+
+  boost::add_edge(2, 3, gr);
+  boost::add_edge(3, 2, gr);
+
+  MeshContinuum mesh;
+  Vector3 omega(0, 1, 1);
+  SPDS spds(omega, mesh);
+  auto edges = spds.RemoveCyclicDependencies(gr);
+  for (auto& e : edges)
+  {
+    std::cout << e.first << " -> " << e.second << std::endl;
+  }
+
+  ///
 
   return ParameterBlock();
 }

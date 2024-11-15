@@ -441,6 +441,7 @@ Cell::RecomputeCentroidsAndNormals(const MeshContinuum& grid)
       weighted_normal = weighted_normal / total_area;
 
       face.normal = weighted_normal.Normalized();
+      std::cerr << "n = " << face.normal.PrintStr() << std::endl;
     }
   }
 }

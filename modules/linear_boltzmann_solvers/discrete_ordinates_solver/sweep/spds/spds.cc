@@ -415,6 +415,21 @@ SPDS::PopulateCellRelationships(const Vector3& omega,
     } // for face
   }
 
+  for (auto& fff : cell_face_orientations_)
+  {
+    for (auto& ori : fff)
+    {
+      std::cerr << " ";
+      if (ori == FOOUTGOING)
+        std::cerr << "out";
+      else if (ori == FOINCOMING)
+        std::cerr << "in";
+      else
+        std::cerr << "parallel";
+      std::cerr << std::endl;
+    }
+  }
+
   // Make directed connections
   for (auto& cell : grid_.local_cells)
   {

@@ -86,6 +86,9 @@ AGSSolver::Solve()
       phi_old_ = lbs_solver_.PhiNewLocal();
   }
 
+  for (auto& v : phi_old_)
+    std::cerr << std::setprecision(13) << v << std::endl;
+
   // If restarts are enabled, always write a restart dump upon convergence or when we reach the
   // iteration limit
   if (lbs_solver_.RestartsEnabled() && lbs_solver_.Options().enable_ags_restart_write)

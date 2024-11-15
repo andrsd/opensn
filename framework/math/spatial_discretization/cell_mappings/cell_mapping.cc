@@ -22,6 +22,13 @@ CellMapping::CellMapping(const MeshContinuum& grid,
     face_node_mappings_(std::move(face_node_mappings))
 {
   volume_area_function(ref_grid_, cell, volume_, areas_);
+
+  std::cerr << "node_locations =" << std::endl;
+  for (auto& l : node_locations_)
+  {
+    std::cerr << " " << l.PrintStr();
+  }
+  std::cerr << std::endl;
 }
 
 const Cell&
