@@ -138,8 +138,8 @@ SplitFileMeshGenerator::WriteSplitMesh(const std::vector<int64_t>& cell_pids,
   OpenSnLogicalErrorIf(not root_dir_created, "Failed to create directory " + dir_path.string());
 
   const auto& vertex_subs = umesh.GetVertextCellSubscriptions();
-  const auto& raw_cells = umesh.RawCells();
-  const auto& raw_vertices = umesh.Vertices();
+  const auto& raw_cells = umesh.GetRawCells();
+  const auto& raw_vertices = umesh.GetVertices();
 
   uint64_t aux_counter = 0;
   for (int pid = 0; pid < num_parts; ++pid)
@@ -194,14 +194,14 @@ SplitFileMeshGenerator::WriteSplitMesh(const std::vector<int64_t>& cell_pids,
       log.Log() << "Writing part " << pid << " num_local_cells=" << local_cells_needed.size();
 
     // Write mesh attributes and general info
-    const auto& mesh_options = umesh.MeshOptions();
+    const auto& mesh_options = umesh.GetMeshOptions();
 
     WriteBinaryValue(ofile, num_parts); // int
-    WriteBinaryValue<unsigned int>(ofile, umesh.Dimension());
+    WriteBinaryValue<unsigned int>(ofile, umesh.GetDimension());
 
-    WriteBinaryValue(ofile, static_cast<int>(umesh.Type()));
-    WriteBinaryValue(ofile, umesh.Extruded());
-    auto& ortho_attrs = umesh.OrthoAttributes();
+    WriteBinaryValue(ofile, static_cast<int>(umesh.GetType()));
+    WriteBinaryValue(ofile, umesh.IsExtruded());
+    auto& ortho_attrs = umesh.GetOrthoAttributes();
     WriteBinaryValue(ofile, ortho_attrs.Nx); // size_t
     WriteBinaryValue(ofile, ortho_attrs.Ny); // size_t
     WriteBinaryValue(ofile, ortho_attrs.Nz); // size_t
@@ -209,7 +209,7 @@ SplitFileMeshGenerator::WriteSplitMesh(const std::vector<int64_t>& cell_pids,
     WriteBinaryValue(ofile, raw_vertices.size()); // size_t
 
     // Write the boundary map
-    const auto& bndry_map = umesh.BoundaryIDMap();
+    const auto& bndry_map = umesh.GetBoundaryIDMap();
     WriteBinaryValue(ofile, bndry_map.size()); // size_t
     for (const auto& [bid, bname] : bndry_map)
     {
