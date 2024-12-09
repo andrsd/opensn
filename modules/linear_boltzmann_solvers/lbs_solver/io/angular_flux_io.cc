@@ -21,7 +21,7 @@ LBSSolverIO::WriteAngularFluxes(
 
   // Select source vector
   std::vector<std::vector<double>>& src =
-    opt_src.has_value() ? opt_src.value().get() : lbs_solver.PsiNewLocal();
+    opt_src.has_value() ? opt_src.value().get() : lbs_solver.GetPsiNewLocal();
 
   log.Log() << "Writing angular flux to " << file_base;
 
@@ -51,9 +51,9 @@ LBSSolverIO::WriteAngularFluxes(
 
   // Write macro info
   const auto NODES_ONLY = UnknownManager::GetUnitaryUnknownManager();
-  auto& discretization = lbs_solver.SpatialDiscretization();
-  auto& groupsets = lbs_solver.Groupsets();
-  auto& grid = lbs_solver.Grid();
+  auto& discretization = lbs_solver.GetSpatialDiscretization();
+  auto& groupsets = lbs_solver.GetGroupsets();
+  auto& grid = lbs_solver.GetGrid();
   const uint64_t num_local_nodes = discretization.GetNumLocalDOFs(NODES_ONLY);
   const uint64_t num_groupsets = groupsets.size();
 
@@ -107,7 +107,7 @@ LBSSolverIO::ReadAngularFluxes(
 
   // Select destination vector and optionally check size
   std::vector<std::vector<double>>& dest =
-    opt_dest.has_value() ? opt_dest.value().get() : lbs_solver.PsiNewLocal();
+    opt_dest.has_value() ? opt_dest.value().get() : lbs_solver.GetPsiNewLocal();
 
   log.Log() << "Reading angular flux file from" << file_base;
 
@@ -124,9 +124,9 @@ LBSSolverIO::ReadAngularFluxes(
   file.read((char*)&file_num_local_nodes, sizeof(uint64_t));
   file.read((char*)&file_num_groupsets, sizeof(uint64_t));
 
-  auto& discretization = lbs_solver.SpatialDiscretization();
-  auto& groupsets = lbs_solver.Groupsets();
-  auto& grid = lbs_solver.Grid();
+  auto& discretization = lbs_solver.GetSpatialDiscretization();
+  auto& groupsets = lbs_solver.GetGroupsets();
+  auto& grid = lbs_solver.GetGrid();
   const auto NODES_ONLY = UnknownManager::GetUnitaryUnknownManager();
   const uint64_t num_local_nodes = discretization.GetNumLocalDOFs(NODES_ONLY);
   const uint64_t num_groupsets = groupsets.size();

@@ -78,9 +78,9 @@ private:
   {
     CALI_CXX_MARK_SCOPE("LBSVecOps::GroupsetScopedCopy");
 
-    auto& grid = lbs_solver.Grid();
+    auto& grid = lbs_solver.GetGrid();
     auto& cell_transport_views = lbs_solver.GetCellTransportViews();
-    auto num_moments = lbs_solver.NumMoments();
+    auto num_moments = lbs_solver.GetNumMoments();
 
     int64_t idx = -1;
     for (const auto& cell : grid.local_cells)
