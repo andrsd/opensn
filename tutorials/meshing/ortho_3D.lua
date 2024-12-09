@@ -34,7 +34,7 @@ meshgen = mesh.OrthogonalMeshGenerator.Create({
 meshgen:Execute()
 
 -- Set Material IDs
-mesh.SetUniformMaterialID(0)
+grid:SetUniformMaterialID(0)
 
 --[[ @doc
 ## Export the mesh
@@ -56,7 +56,7 @@ meshgen:Execute()
 
 -- Set Material IDs
 vol0 = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, infz = true })
-mesh.SetMaterialIDFromLogicalVolume(vol0, 0, true)
+grid:SetMaterialIDFromLogicalVolume(vol0, 0, true)
 
 --[[ @doc
 ## Export the mesh

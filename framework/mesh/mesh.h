@@ -70,9 +70,6 @@ struct OrthoMeshAttributes
   size_t Nz = 0;
 };
 
-/// Obtains the current mesh from the global stack.
-std::shared_ptr<MeshContinuum> GetCurrentMesh();
-
 } // namespace opensn
 
 #include "framework/mesh/mesh_vector.h"
