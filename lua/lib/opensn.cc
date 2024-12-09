@@ -328,7 +328,7 @@ static bool reg = opensnlua::Console::Bind(
       .addFunction("SetBoundaryIDFromFunction", &MeshSetBoundaryIDFromFunction)
       .addFunction("ExportToPVTU", &MeshExportToPVTU)
       .beginClass<MeshContinuum>("MeshContinuum")
-      .addFunction("Dimension", &MeshContinuum::Dimension)
+      .addFunction("Dimension", &MeshContinuum::GetDimension)
       .addFunction("SetDimension", &MeshContinuum::SetDimension)
       .endClass()
       .beginClass<std::shared_ptr<MeshContinuum>>("MeshContinuumPtr")
