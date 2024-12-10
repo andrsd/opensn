@@ -22,9 +22,9 @@ LBSSolverIO::WriteGroupsetAngularFluxes(
   std::ofstream file(file_name, std::ofstream::binary | std::ofstream::out | std::ofstream::trunc);
   OpenSnLogicalErrorIf(not file.is_open(), "Failed to open " + file_name + ".");
 
-  auto& groupset = lbs_solver.Groupsets().at(groupset_id);
+  auto& groupset = lbs_solver.GetGroupsets().at(groupset_id);
   std::vector<double>& src =
-    opt_src.has_value() ? opt_src.value().get() : lbs_solver.PsiNewLocal().at(groupset_id);
+    opt_src.has_value() ? opt_src.value().get() : lbs_solver.GetPsiNewLocal().at(groupset_id);
 
   log.Log() << "Writing groupset " << groupset_id << " angular flux file to " << file_base;
 
@@ -56,8 +56,8 @@ LBSSolverIO::WriteGroupsetAngularFluxes(
   // Write macro info
   const auto& uk_man = groupset.psi_uk_man_;
   const auto NODES_ONLY = UnknownManager::GetUnitaryUnknownManager();
-  auto& discretization = lbs_solver.SpatialDiscretization();
-  auto& grid = lbs_solver.Grid();
+  auto& discretization = lbs_solver.GetSpatialDiscretization();
+  auto& grid = lbs_solver.GetGrid();
   const uint64_t num_local_nodes = discretization.GetNumLocalDOFs(NODES_ONLY);
   const uint64_t num_gs_angles = groupset.quadrature->abscissae.size();
   const uint64_t num_gs_groups = groupset.groups.size();
@@ -104,10 +104,10 @@ LBSSolverIO::ReadGroupsetAngularFluxes(
   std::ifstream file(file_name, std::ofstream::binary | std::ofstream::in);
   OpenSnLogicalErrorIf(not file.is_open(), "Failed to open " + file_name + ".");
 
-  auto& groupsets = lbs_solver.Groupsets();
+  auto& groupsets = lbs_solver.GetGroupsets();
   auto& groupset = groupsets.at(groupset_id);
   std::vector<double>& dest =
-    opt_dest.has_value() ? opt_dest.value().get() : lbs_solver.PsiNewLocal().at(groupset_id);
+    opt_dest.has_value() ? opt_dest.value().get() : lbs_solver.GetPsiNewLocal().at(groupset_id);
 
   log.Log() << "Reading groupset " << groupset.id << " angular flux file " << file_base;
 
@@ -130,8 +130,8 @@ LBSSolverIO::ReadGroupsetAngularFluxes(
   const auto& uk_man = groupset.psi_uk_man_;
   const auto NODES_ONLY = UnknownManager::GetUnitaryUnknownManager();
 
-  auto& discretization = lbs_solver.SpatialDiscretization();
-  auto& grid = lbs_solver.Grid();
+  auto& discretization = lbs_solver.GetSpatialDiscretization();
+  auto& grid = lbs_solver.GetGrid();
   const uint64_t num_local_nodes = discretization.GetNumLocalDOFs(NODES_ONLY);
   const uint64_t num_gs_angles = groupset.quadrature->abscissae.size();
   const uint64_t num_gs_groups = groupset.groups.size();
