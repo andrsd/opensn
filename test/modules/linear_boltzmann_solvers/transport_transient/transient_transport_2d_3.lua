@@ -8,9 +8,9 @@ if check_num_procs == nil and number_of_processes ~= num_procs then
   log.Log(
     LOG_0ERROR,
     "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
+    .. "Expected "
+    .. tostring(num_procs)
+    .. ". Pass check_num_procs=false to override if possible."
   )
   os.exit(false)
 end
@@ -27,10 +27,10 @@ for i = 1, (N + 1) do
 end
 
 meshgen1 = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes, nodes } })
-meshgen1:Execute()
+grid = meshgen1:Execute()
 
 -- Set Material IDs
-mesh.SetUniformMaterialID(0)
+grid:SetUniformMaterialID(0)
 
 vol0 = logvol.RPPLogicalVolume.Create({
   xmin = -L / 16,
@@ -40,7 +40,7 @@ vol0 = logvol.RPPLogicalVolume.Create({
   zmin = -L / 16,
   zmax = L / 16,
 })
-mesh.SetMaterialIDFromLogicalVolume(vol0, 1, true)
+grid:SetMaterialIDFromLogicalVolume(vol0, 1, true)
 
 mesh.ExportToPVTU("TheMesh")
 
@@ -59,8 +59,8 @@ xs.Set(xs_weak_fuelB_micro, OPENSN_XSFILE, "tests/transport_transient/xs_inf_wea
 
 atom_density = 0.056559
 xs_strong_fuel = xs.MakeScaled(xs_strong_fuel_micro, atom_density) --critical
-xs_weak_fuelA = xs.MakeScaled(xs_weak_fuelA_micro, atom_density) --critical
-xs_weak_fuelB = xs.MakeScaled(xs_weak_fuelB_micro, atom_density) --critical
+xs_weak_fuelA = xs.MakeScaled(xs_weak_fuelA_micro, atom_density)   --critical
+xs_weak_fuelB = xs.MakeScaled(xs_weak_fuelB_micro, atom_density)   --critical
 
 num_groups = 1
 mat.SetProperty(materials[1], TRANSPORT_XSECTIONS, EXISTING, xs_strong_fuel)

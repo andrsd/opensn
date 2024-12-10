@@ -8,9 +8,9 @@ if check_num_procs == nil and number_of_processes ~= num_procs then
   log.Log(
     LOG_0ERROR,
     "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
+    .. "Expected "
+    .. tostring(num_procs)
+    .. ". Pass check_num_procs=false to override if possible."
   )
   os.exit(false)
 end
@@ -30,11 +30,11 @@ meshgen1 = mesh.MeshGenerator.Create({
     ycuts = { 0.0 },
   }),
 })
-meshgen1:Execute()
+grid = meshgen1:Execute()
 
 -- Set Material IDs
 vol0 = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, infz = true })
-mesh.SetMaterialIDFromLogicalVolume(vol0, 0, true)
+grid:SetMaterialIDFromLogicalVolume(vol0, 0, true)
 
 -- Add materials
 materials = {}
@@ -60,6 +60,7 @@ pquad0 = aquad.CreateProductQuadrature(GAUSS_LEGENDRE_CHEBYSHEV, 2, 1)
 aquad.OptimizeForPolarSymmetry(pquad0, 4.0 * math.pi)
 
 lbs_block = {
+  mesh = grid,
   num_groups = num_groups,
   groupsets = {
     {

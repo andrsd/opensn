@@ -175,7 +175,7 @@ public:
   /**
    * Sets material id's using a logical volume.
    */
-  void SetMaterialIDFromLogical(const LogicalVolume& log_vol, bool sense, int mat_id);
+  void SetMaterialIDFromLogical(const LogicalVolume& log_vol, int mat_id, bool sense);
 
   /**
    * Sets boundary id's using a logical volume.
@@ -185,6 +185,8 @@ public:
                                 bool sense = true);
 
   void SetOrthoAttributes(const OrthoMeshAttributes& attrs) { ortho_attributes_ = attrs; }
+
+  void SetupOrthogonalBoundaries();
 
 private:
   /// Spatial dimension

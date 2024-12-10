@@ -53,7 +53,7 @@ assign material IDs to all cells. Here, we have a homogeneous domain, so we assi
 with value 0 for each cell in the spatial domain.
 --]]
 -- Set Material IDs
-mesh.SetUniformMaterialID(0)
+grid:SetUniformMaterialID(0)
 
 --[[ @doc
 ## Export the mesh

@@ -34,9 +34,9 @@ if check_num_procs == nil and number_of_processes ~= num_procs then
   Log(
     LOG_0ERROR,
     "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
+    .. "Expected "
+    .. tostring(num_procs)
+    .. ". Pass check_num_procs=false to override if possible."
   )
   os.exit(false)
 end
@@ -90,7 +90,7 @@ assign material IDs to all cells. Here, we have a homogeneous domain, so we assi
 with value 0 for each cell in the spatial domain.
 --]]
 -- Set Material IDs
-mesh.SetUniformMaterialID(0)
+grid:SetUniformMaterialID(0)
 
 --[[ @doc
 ## Materials
@@ -146,6 +146,7 @@ tolerances, and other solver options.
 --]]
 -- Setup LBS parameters
 lbs_block = {
+  mesh = grid,
   num_groups = num_groups,
   groupsets = {
     {

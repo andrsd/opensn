@@ -9,9 +9,9 @@ if check_num_procs == nil and number_of_processes ~= num_procs then
   log.Log(
     LOG_0ERROR,
     "Incorrect amount of processors. "
-      .. "Expected "
-      .. tostring(num_procs)
-      .. ". Pass check_num_procs=false to override if possible."
+    .. "Expected "
+    .. tostring(num_procs)
+    .. ". Pass check_num_procs=false to override if possible."
   )
   os.exit(false)
 end
@@ -26,8 +26,8 @@ for i = 1, (N + 1) do
 end
 
 meshgen = mesh.OrthogonalMeshGenerator.Create({ node_sets = { nodes } })
-meshgen:Execute()
-mesh.SetUniformMaterialID(0)
+grid = meshgen:Execute()
+grid:SetUniformMaterialID(0)
 
 -- Add materials
 num_groups = 1
@@ -41,6 +41,7 @@ materials[1]:SetTransportXSections(xs1g)
 -- Setup Physics
 pquad = aquad.CreateProductQuadrature(GAUSS_LEGENDRE, 128, -1)
 lbs_block = {
+  mesh = grid,
   num_groups = num_groups,
   groupsets = {
     {
