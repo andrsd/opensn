@@ -15,6 +15,7 @@
 #include "framework/object_factory.h"
 #include <iomanip>
 #include <algorithm>
+#include <petscviewer.h>
 
 namespace opensn
 {
@@ -897,6 +898,8 @@ MGDiffusionSolver::AssembleAbext()
   //  PetscViewerPopFormat(viewer);
   //  PetscViewerDestroy(&viewer);
 
+  MatView(A_[0], PETSC_VIEWER_STDOUT_SELF);
+
   log.Log() << "Done global assembly";
 }
 
@@ -991,6 +994,8 @@ MGDiffusionSolver::Execute()
 
   UpdateFieldFunctions();
   log.Log() << "Done solving multi-group diffusion";
+
+  VecView(x_[0], PETSC_VIEWER_STDOUT_SELF);
 }
 
 void

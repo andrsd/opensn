@@ -23,12 +23,12 @@ CellMapping::CellMapping(const MeshContinuum& grid,
 {
   volume_area_function(ref_grid_, cell, volume_, areas_);
 
-  std::cerr << "node_locations =" << std::endl;
-  for (auto& l : node_locations_)
-  {
-    std::cerr << " " << l.PrintStr();
-  }
-  std::cerr << std::endl;
+  // std::cerr << "node_locations =" << std::endl;
+  // for (auto& l : node_locations_)
+  // {
+  //   std::cerr << " " << l.PrintStr();
+  // }
+  // std::cerr << std::endl;
 }
 
 const Cell&
