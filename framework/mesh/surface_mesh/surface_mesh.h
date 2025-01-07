@@ -3,13 +3,16 @@
 
 #pragma once
 
+#include "framework/object.h"
 #include <stdio.h>
 #include <vector>
-#include "framework/mesh/mesh.h"
-#include "framework/object.h"
 
 namespace opensn
 {
+
+struct Face;
+struct PolyFace;
+struct Edge;
 
 /**
  * Generic surface mesh class.

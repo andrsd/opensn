@@ -16,6 +16,7 @@ namespace opensn
 class MPICommunicatorSet;
 class GridFaceHistogram;
 class MeshGenerator;
+class LogicalVolume;
 
 /**
  * Stores the relevant information for completely defining a computationaldomain.
