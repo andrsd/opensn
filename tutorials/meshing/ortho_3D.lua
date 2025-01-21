@@ -56,7 +56,7 @@ meshgen:Execute()
 
 -- Set block IDs
 vol0 = logvol.RPPLogicalVolume.Create({ infx = true, infy = true, infz = true })
-grid:SetMaterialIDFromLogicalVolume(vol0, 0, true)
+grid:SetBlockIDFromLogicalVolume(vol0, 0, true)
 
 --[[ @doc
 ## Export the mesh
