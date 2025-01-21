@@ -345,7 +345,7 @@ UnpartitionedMesh::BuildMeshConnectivity()
 
         if (cfvids == afvids)
         {
-          face.neighbor = adj_cell->material_id;
+          face.neighbor = adj_cell->block_id;
           break;
         }
       } // for adj_cell_id
@@ -369,7 +369,7 @@ void
 UnpartitionedMesh::PushProxyCell(const std::string& type_str,
                                  const std::string& sub_type_str,
                                  int cell_num_faces,
-                                 int cell_material_id,
+                                 int cell_block_id,
                                  const std::vector<std::vector<uint64_t>>& proxy_faces)
 {
   const std::string fname = __FUNCTION__;
@@ -403,7 +403,7 @@ UnpartitionedMesh::PushProxyCell(const std::string& type_str,
 
   auto cell = std::make_shared<LightWeightCell>(type, sub_type);
 
-  cell->material_id = cell_material_id;
+  cell->block_id = cell_block_id;
 
   // Filter cell-vertex-ids from faces
   std::set<uint64_t> cell_vertex_id_set;

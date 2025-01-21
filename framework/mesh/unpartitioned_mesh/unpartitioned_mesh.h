@@ -32,7 +32,7 @@ public:
     const CellType type;
     const CellType sub_type;
     Vector3 centroid;
-    int material_id = -1;
+    int block_id = -1;
     std::vector<uint64_t> vertex_ids;
     std::vector<LightWeightFace> faces;
 
@@ -118,7 +118,7 @@ public:
   void PushProxyCell(const std::string& type_str,
                      const std::string& sub_type_str,
                      int cell_num_faces,
-                     int cell_material_id,
+                     int cell_block_id,
                      const std::vector<std::vector<uint64_t>>& proxy_faces);
 
   void CleanUp();
