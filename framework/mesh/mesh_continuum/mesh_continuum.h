@@ -169,9 +169,9 @@ public:
   std::pair<Vector3, Vector3> GetLocalBoundingBox() const;
 
   /**
-   * Sets material id's for all cells to the specified material id.
+   * Sets block ID's for all cells to the specified block id.
    */
-  void SetUniformMaterialID(int mat_id);
+  void SetUniformBlockID(int blk_id);
 
   /**
    * Sets material id's using a logical volume.
