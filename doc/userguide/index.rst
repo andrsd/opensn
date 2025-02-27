@@ -5,3 +5,4 @@ Users's Guide
    :maxdepth: 2
 
    mesh_generators
+   logical_volumes
