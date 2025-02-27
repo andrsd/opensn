@@ -23,6 +23,8 @@ protected:
 
   int ProcessArguments(int argc, char** argv);
 
+  int ExecuteFile(int argc, char** argv);
+
   int RunInteractive(int argc, char** argv);
 
   int RunBatch(int argc, char** argv);

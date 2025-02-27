@@ -50,46 +50,7 @@ LuaApp::InitPetSc(int argc, char** argv)
 int
 LuaApp::Run(int argc, char** argv)
 {
-  if (opensn::mpi_comm.rank() == 0)
-  {
-    std::cout << opensn::program << " version " << GetVersionStr() << "\n"
-              << Timer::GetLocalDateTimeString() << " Running " << opensn::program << " with "
-              << opensn::mpi_comm.size() << " processes.\n"
-              << opensn::program << " number of arguments supplied: " << argc - 1 << "\n"
-              << std::endl;
-  }
-
-  int error_code = ProcessArguments(argc, argv);
-
-  if (!error_code)
-  {
-    PetscOptionsSetValue(NULL, "-options_left", "0");
-    InitPetSc(argc, argv);
-    opensn::Initialize();
-    console.FlushConsole();
-
-    if (sim_option_interactive_)
-      error_code = RunInteractive(argc, argv);
-    else
-      error_code = RunBatch(argc, argv);
-
-    opensn::Finalize();
-    PetscFinalize();
-
-    if (opensn::mpi_comm.rank() == 0)
-    {
-      std::cout << "\n"
-                << "Elapsed execution time: " << program_timer.GetTimeString() << "\n"
-                << Timer::GetLocalDateTimeString() << " " << opensn::program
-                << " finished execution." << std::endl;
-    }
-  }
-
-  if (opensn::mpi_comm.rank() == 0)
-    std::cout << std::endl;
-  cali_mgr.flush();
-
-  return error_code;
+  return ProcessArguments(argc, argv);
 }
 
 int
@@ -123,14 +84,22 @@ LuaApp::ProcessArguments(int argc, char** argv)
     {
       if (opensn::mpi_comm.rank() == 0)
         std::cout << options.help({"User"}) << std::endl;
-      return 1;
+      return 0;
     }
 
     if (result.count("help-dev"))
     {
       if (opensn::mpi_comm.rank() == 0)
         std::cout << options.help({"Dev"}) << std::endl;
-      return 1;
+      return 0;
+    }
+
+    if (result.count("dump-object-registry"))
+    {
+      auto descriptions = ObjectFactory::GetInstance().GetObjectDescriptions();
+      auto json = ToJSON(descriptions);
+      std::cout << json << std::endl;
+      return 0;
     }
 
     if (result.count("verbose"))
@@ -145,16 +114,6 @@ LuaApp::ProcessArguments(int argc, char** argv)
     if (result.count("suppress-color"))
       opensn::suppress_color = true;
 
-    if (result.count("dump-object-registry"))
-    {
-      auto descriptions = ObjectFactory::GetInstance().GetObjectDescriptions();
-      auto json = ToJSON(descriptions);
-      // Attention: this goes to stderr so I can redirect it into a file and I don't have to remove
-      // the OpenSn header.  Ideally, this would go into stdout and the header would not be printed.
-      std::cerr << json << std::endl;
-      return 1;
-    }
-
     if (result.count("caliper"))
     {
       opensn::use_caliper = true;
@@ -168,17 +127,19 @@ LuaApp::ProcessArguments(int argc, char** argv)
       }
     }
 
+    if (result.count("lua"))
+    {
+      for (auto larg : result["lua"].as<std::vector<std::string>>())
+        console.GetCommandBuffer().push_back(larg);
+    }
+
     if (result.count("input"))
     {
       opensn::input_path = result["input"].as<std::string>();
       sim_option_interactive_ = false;
     }
 
-    if (result.count("lua"))
-    {
-      for (auto larg : result["lua"].as<std::vector<std::string>>())
-        console.GetCommandBuffer().push_back(larg);
-    }
+    return ExecuteFile(argc, argv);
   }
   catch (const cxxopts::exceptions::exception& e)
   {
@@ -194,6 +155,46 @@ LuaApp::ProcessArguments(int argc, char** argv)
   }
 
   return 0;
+}
+
+int
+LuaApp::ExecuteFile(int argc, char** argv)
+{
+  int error_code = 0;
+  if (opensn::mpi_comm.rank() == 0)
+  {
+    std::cout << opensn::program << " version " << GetVersionStr() << "\n"
+              << Timer::GetLocalDateTimeString() << " Running " << opensn::program << " with "
+              << opensn::mpi_comm.size() << " processes.\n"
+              << opensn::program << " number of arguments supplied: " << argc - 1 << "\n"
+              << std::endl;
+  }
+
+  PetscOptionsSetValue(NULL, "-options_left", "0");
+  InitPetSc(argc, argv);
+  opensn::Initialize();
+  console.FlushConsole();
+
+  if (sim_option_interactive_)
+    error_code = RunInteractive(argc, argv);
+  else
+    error_code = RunBatch(argc, argv);
+
+  opensn::Finalize();
+  PetscFinalize();
+
+  if (opensn::mpi_comm.rank() == 0)
+  {
+    std::cout << "\n"
+              << "Elapsed execution time: " << program_timer.GetTimeString() << "\n"
+              << Timer::GetLocalDateTimeString() << " " << opensn::program << " finished execution."
+              << std::endl;
+  }
+  if (opensn::mpi_comm.rank() == 0)
+    std::cout << std::endl;
+  cali_mgr.flush();
+
+  return error_code;
 }
 
 int
