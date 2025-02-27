@@ -70,6 +70,15 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
     configure_file(${CMAKE_SOURCE_DIR}/tutorials/meshing/index.rst src/tutorials/meshing/index.rst)
     configure_file(${CMAKE_SOURCE_DIR}/tutorials/material/index.rst src/tutorials/material/index.rst)
 
+    set(userguide_files 
+        index.rst
+        mesh_generators.rst
+    )
+    
+    foreach(file IN LISTS userguide_files)
+        configure_file(userguide/${file} src/userguide/${file})
+    endforeach()
+
     copy_files("md" ${CMAKE_SOURCE_DIR}/doc ${CMAKE_BINARY_DIR}/doc/src)
     copy_files("png" ${CMAKE_SOURCE_DIR}/doc ${CMAKE_BINARY_DIR}/doc/src)
     copy_files("gif" ${CMAKE_SOURCE_DIR}/doc ${CMAKE_BINARY_DIR}/doc/src)
@@ -96,6 +105,7 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
         DEPENDS
             ${PROJECT_BINARY_DIR}/doc/conf.py
             ${PROJECT_BINARY_DIR}/doc/xml/index.xml
+            ${PROJECT_BINARY_DIR}/doc/parameters.json
             ${RST_FILES}
     )
 
@@ -115,6 +125,14 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
         COMMAND echo "Open ${PROJECT_BINARY_DIR}/doc/html/index.html in your browser to view the documentation."
     )
 
+    add_custom_command(
+        OUTPUT
+            ${PROJECT_BINARY_DIR}/doc/parameters.json
+        COMMAND
+            opensn --dump-object-registry > ${PROJECT_BINARY_DIR}/doc/parameters.json
+        DEPENDS
+            opensn
+    )
 else()
     add_custom_target(doc)
 

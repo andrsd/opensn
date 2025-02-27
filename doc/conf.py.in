@@ -19,7 +19,8 @@ html_show_sourcelink = False
 extensions = [
     'breathe',
     'sphinxcontrib.bibtex',
-    'myst_parser'
+    'myst_parser',
+    'parameters'
 ]
 breathe_projects = {"opensn": "@PROJECT_BINARY_DIR@/doc/xml/"}
 breathe_default_project = "opensn"
@@ -33,3 +34,7 @@ myst_enable_extensions = [
     "html_admonition",
     "html_image",
 ]
+
+#
+sys.path.insert(0, os.path.abspath("@PROJECT_SOURCE_DIR@/doc"))
+parameters_json_file = '@PROJECT_BINARY_DIR@/doc/parameters.json'
