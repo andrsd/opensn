@@ -72,6 +72,7 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
 
     set(userguide_files 
         index.rst
+        cross_sections.rst
         mesh_generators.rst
         logical_volumes.rst
         post_processors.rst
