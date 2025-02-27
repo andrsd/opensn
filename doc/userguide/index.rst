@@ -6,5 +6,6 @@ Users's Guide
 
    cross_sections
    mesh_generators
+   lbs
    logical_volumes
    post_processors
