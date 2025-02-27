@@ -74,6 +74,7 @@ if(DOXYGEN_FOUND AND NOT ${SPHINX_BUILD} STREQUAL SPHINX_BUILD-NOTFOUND)
         index.rst
         mesh_generators.rst
         logical_volumes.rst
+        post_processors.rst
     )
     
     foreach(file IN LISTS userguide_files)
