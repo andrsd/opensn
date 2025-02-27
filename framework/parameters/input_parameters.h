@@ -165,6 +165,8 @@ public:
    */
   const ParameterBlock& GetParametersAtAssignment() const { return param_block_at_assignment_; }
 
+  bool IsParamRequired(const std::string& param_name) const;
+
   bool IsParameterValid(const std::string& param_name) const;
 
   /// Marks a parameters as deprecated but will only produce a warning.
@@ -184,9 +186,6 @@ public:
 
   /// Sets a tag for the given parameter that will allow its type to be mismatched upon assignment.
   void SetParameterTypeMismatchAllowed(const std::string& param_name);
-
-  /// Dumps the input parameters to stdout.
-  void DumpParameters() const;
 };
 
 } // namespace opensn

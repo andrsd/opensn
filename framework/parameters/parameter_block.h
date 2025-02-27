@@ -360,9 +360,6 @@ public:
    * the reference string.
    */
   void RecursiveDumpToString(std::string& outstr, const std::string& offset = "") const;
-
-  /// Print the block tree structure into a designated string.
-  void RecursiveDumpToJSON(std::string& outstr) const;
 };
 
 } // namespace opensn

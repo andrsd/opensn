@@ -123,11 +123,6 @@ Console::ExecuteFile(const std::string& fileName, int argc, char** argv) const
   return EXIT_SUCCESS;
 }
 
-void
-Console::DumpRegister() const
-{
-}
-
 bool
 Console::Bind(std::function<void(lua_State* L)> bind)
 {

@@ -414,66 +414,13 @@ InputParameters::SetParameterTypeMismatchAllowed(const std::string& param_name)
   type_mismatch_allowed_tags_[param_name] = true;
 }
 
-void
-InputParameters::DumpParameters() const
+bool
+InputParameters::IsParamRequired(const std::string& param_name) const
 {
-  log.Log() << "CLASS_NAME " << class_name_;
-
-  log.Log() << "DESCRIPTION_BEGIN";
-  std::cout << GetGeneralDescription() << "\n";
-  log.Log() << "DESCRIPTION_END\n";
-
-  log.Log() << "DOC_GROUP " << doc_group_;
-  const std::string sp2 = "  ";
-  const std::string sp4 = "    ";
-  const auto params = GetParameters();
-  for (const auto& param : params)
-  {
-    const auto& param_name = param.GetName();
-    log.Log() << sp2 << "PARAM_BEGIN " << param_name;
-
-    const auto type = param.GetType();
-
-    log.Log() << sp4 << "TYPE " << ParameterBlockTypeName(type);
-
-    if (parameter_class_tags_.at(param_name) == InputParameterTag::OPTIONAL)
-    {
-      log.Log() << sp4 << "TAG OPTIONAL";
-      if (type != ParameterBlockType::BLOCK and type != ParameterBlockType::ARRAY)
-        log.Log() << sp4 << "DEFAULT_VALUE " << param.GetValue().PrintStr();
-      else if (type == ParameterBlockType::ARRAY)
-      {
-        std::stringstream outstr;
-        outstr << sp4 << "DEFAULT_VALUE ";
-        for (size_t k = 0; k < param.GetNumParameters(); ++k)
-        {
-          const auto& sub_param = param.GetParam(k);
-          outstr << sub_param.GetValue().PrintStr() << ", ";
-        }
-        log.Log() << outstr.str();
-      }
-    }
-    else
-      log.Log() << sp4 << "TAG REQUIRED";
-
-    if (constraint_tags_.count(param_name) != 0)
-      log.Log() << sp4 << "CONSTRAINTS " << constraint_tags_.at(param_name)->PrintRange();
-
-    if (parameter_doc_string_.count(param_name) != 0)
-    {
-      log.Log() << sp4 << "DOC_STRING_BEGIN";
-      std::cout << parameter_doc_string_.at(param_name) << "\n";
-      log.Log() << sp4 << "DOC_STRING_END";
-    }
-
-    const auto& linkage = GetParameterDocumentationLink(param_name);
-    if (not linkage.empty())
-    {
-      log.Log() << sp4 << "LINKS " << linkage;
-    }
-
-    log.Log() << sp2 << "PARAM_END";
-  }
+  if (parameter_class_tags_.at(param_name) == InputParameterTag::OPTIONAL)
+    return false;
+  else
+    return true;
 }
 
 bool

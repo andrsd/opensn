@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/object_factory.h"
+#include "framework/parameters/parameter_block.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace opensn
 {
@@ -102,37 +106,77 @@ ObjectFactory::GetRegisteredObjectParameters(const std::string& type) const
 }
 
 void
-ObjectFactory::DumpRegister() const
-{
-  log.Log() << "\n\n";
-  for (const auto& [key, entry] : object_registry_)
-  {
-    if (log.GetVerbosity() == 0)
-    {
-      log.Log() << key;
-      continue;
-    }
-
-    log.Log() << "OBJECT_BEGIN " << key;
-
-    if (entry.constructor_func == nullptr)
-      log.Log() << "NOT_CONSTRUCTIBLE";
-
-    const auto in_params = entry.get_in_params_func();
-    in_params.DumpParameters();
-
-    log.Log() << "OBJECT_END\n\n";
-  }
-  log.Log() << "\n\n";
-}
-
-void
 ObjectFactory::AssertRegistryKeyAvailable(const std::string& key,
                                           const std::string& calling_function) const
 {
   if (RegistryHasKey(key))
     OpenSnLogicalError(calling_function + ": Attempted to register Object \"" + key +
                        "\" but an object with the same name is already registered.");
+}
+
+std::vector<ObjectDescription>
+ObjectFactory::GetObjectDescriptions() const
+{
+  std::vector<ObjectDescription> descrs;
+  for (const auto& [key, entry] : object_registry_)
+  {
+    ObjectDescription d;
+    d.name = key;
+    auto in_params = entry.get_in_params_func();
+    for (std::size_t i = 0; i < in_params.GetNumParameters(); ++i)
+    {
+      auto& param = in_params.GetParam(i);
+      ObjectDescription::Parameter p;
+      auto name = param.GetName();
+      const auto type = param.GetType();
+
+      p.name = name;
+      p.type = param.GetTypeName();
+      p.description = in_params.GetParameterDocString(name);
+      p.required = in_params.IsParamRequired(name);
+      if (type != ParameterBlockType::BLOCK and type != ParameterBlockType::ARRAY)
+        p.default_value = param.GetValue().PrintStr();
+      const auto& linkage = in_params.GetParameterDocumentationLink(name);
+      if (not linkage.empty())
+        p.link = linkage;
+      d.parameters.push_back(p);
+    }
+    descrs.push_back(d);
+  }
+
+  return descrs;
+}
+
+std::string
+ToJSON(const std::vector<ObjectDescription>& obj_desc)
+{
+  json classes = json::array();
+
+  for (auto& desc : obj_desc)
+  {
+    json obj;
+    obj["name"] = desc.name;
+
+    json parameters = json::array();
+    for (auto& param : desc.parameters)
+    {
+      json p;
+      p["name"] = param.name;
+      p["type"] = param.type;
+      p["description"] = param.description;
+      p["required"] = param.required;
+      if (not param.default_value.empty())
+        p["default_value"] = param.default_value;
+      if (not param.link.empty())
+        p["link"] = param.link;
+      parameters.push_back(p);
+    }
+    obj["parameters"] = parameters;
+
+    classes.push_back(obj);
+  }
+
+  return classes.dump();
 }
 
 } // namespace opensn

@@ -51,12 +51,6 @@ public:
   /// Flushes any commands in the command buffer.
   void FlushConsole();
 
-  /**
-   * Makes a formatted output, readible by the documentation scripts, of all the lua wrapper
-   * functions.
-   */
-  void DumpRegister() const;
-
 public:
   /**
    * Bind C++ items like classes, functions, etc. to the console

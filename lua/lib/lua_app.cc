@@ -147,8 +147,11 @@ LuaApp::ProcessArguments(int argc, char** argv)
 
     if (result.count("dump-object-registry"))
     {
-      ObjectFactory::GetInstance().DumpRegister();
-      console.DumpRegister();
+      auto descriptions = ObjectFactory::GetInstance().GetObjectDescriptions();
+      auto json = ToJSON(descriptions);
+      // Attention: this goes to stderr so I can redirect it into a file and I don't have to remove
+      // the OpenSn header.  Ideally, this would go into stdout and the header would not be printed.
+      std::cerr << json << std::endl;
       return 1;
     }
 

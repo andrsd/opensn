@@ -65,6 +65,33 @@ namespace opensn
 
 class Object;
 
+/// Structure for storing the description of an object
+///
+/// This is used for generating documentation.
+struct ObjectDescription
+{
+  struct Parameter
+  {
+    /// Parameter name
+    std::string name;
+    /// Parameter type
+    std::string type;
+    /// Description of the parameter
+    std::string description;
+    /// Is the parameter required
+    bool required;
+    /// Default value
+    std::string default_value;
+    /// Link to the documentation
+    std::string link;
+  };
+
+  /// Object name
+  std::string name;
+  /// List of parameters
+  std::vector<Parameter> parameters;
+};
+
 /// Singleton object for handling the registration and making of `Object`s.
 class ObjectFactory
 {
@@ -196,8 +223,8 @@ public:
   /// Returns the input parameters of a registered object.
   InputParameters GetRegisteredObjectParameters(const std::string& type) const;
 
-  /// Dumps the object registry to stdout.
-  void DumpRegister() const;
+  /// Returns the object descriptions of all registered objects.
+  std::vector<ObjectDescription> GetObjectDescriptions() const;
 
 private:
   std::map<std::string, ObjectRegistryEntry> object_registry_;
@@ -223,5 +250,11 @@ private:
   void AssertRegistryKeyAvailable(const std::string& key,
                                   const std::string& calling_function) const;
 };
+
+/// Convert object descriptions to JSON
+///
+/// @param obj_desc Object descriptions (produces by `ObjectFactory::GetObjectDescriptions`)
+/// @return JSON string
+std::string ToJSON(const std::vector<ObjectDescription>& obj_desc);
 
 } // namespace opensn
