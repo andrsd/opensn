@@ -289,7 +289,7 @@ Linear Boltzmann solver
    :template: python.rst
 
    solver.DiscreteOrdinatesProblem
-   solver.DiscreteOrdinatesCurvilinearSolver
+   solver.DiscreteOrdinatesCurvilinearProblem
    solver.DiffusionDFEMSolver
 
 Steady state solver
