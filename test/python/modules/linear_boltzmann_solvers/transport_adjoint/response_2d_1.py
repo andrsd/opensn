@@ -21,7 +21,7 @@ if "opensn_console" not in globals():
     from pyopensn.xs import MultiGroupXS
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature2DXY
-    from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSolver
+    from pyopensn.solver import DiscreteOrdinatesProblem, LBSSteadyStateSolver
     from pyopensn.response import ResponseEvaluator
     from pyopensn.fieldfunc import FieldFunctionGridBased
     from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     )
 
     # Forward solve
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = LBSSteadyStateSolver(lbs_problem=phys)
     ss_solver.Initialize()
     ss_solver.Execute()
 
