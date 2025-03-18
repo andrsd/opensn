@@ -12,8 +12,8 @@
 #include "modules/linear_boltzmann_solvers/executors/pi_keigen.h"
 #include "modules/linear_boltzmann_solvers/executors/pi_keigen_scdsa.h"
 #include "modules/linear_boltzmann_solvers/executors/pi_keigen_smm.h"
-#include "modules/linear_boltzmann_solvers/lbs_solver/io/lbs_solver_io.h"
-#include "modules/linear_boltzmann_solvers/lbs_solver/lbs_solver.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/io/lbs_problem_io.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/lbs_problem.h"
 #include "modules/point_reactor_kinetics/point_reactor_kinetics.h"
 #include <pybind11/numpy.h>
 #include <algorithm>
@@ -84,18 +84,18 @@ WrapLBS(py::module& slv)
 {
   // clang-format off
   // LBS solver
-  auto lbs_solver = py::class_<LBSSolver, std::shared_ptr<LBSSolver>, Solver>(
+  auto lbs_problem = py::class_<LBSProblem, std::shared_ptr<LBSProblem>, Solver>(
     slv,
-    "LBSSolver",
+    "LBSProblem",
     R"(
     Base class for all Linear Boltzmann solvers.
 
-    Wrapper of :cpp:class:`opensn::LBSSolver`.
+    Wrapper of :cpp:class:`opensn::LBSProblem`.
     )"
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "GetScalarFieldFunctionList",
-    [](LBSSolver& self, bool only_scalar_flux)
+    [](LBSProblem& self, bool only_scalar_flux)
     {
       py::list field_function_list_per_group;
       for (std::size_t group = 0; group < self.GetNumGroups(); group++)
@@ -131,18 +131,18 @@ WrapLBS(py::module& slv)
     )",
     py::arg("only_scalar_flux") = true
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "GetPowerFieldFunction",
-    &LBSSolver::GetPowerFieldFunction,
+    &LBSProblem::GetPowerFieldFunction,
     R"(
     Returns the power generation field function, if enabled.
     )"
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "SetOptions",
-    [](LBSSolver& self, py::kwargs& params)
+    [](LBSProblem& self, py::kwargs& params)
     {
-      InputParameters input = LBSSolver::GetOptionsBlock();
+      InputParameters input = LBSProblem::GetOptionsBlock();
       input.AssignParameters(kwargs_to_param_block(params));
       self.SetOptions(input);
     },
@@ -217,9 +217,9 @@ WrapLBS(py::module& slv)
         Clear all volumetric sources.
     )"
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "ComputeFissionRate",
-    [](LBSSolver& self, const std::string& nature)
+    [](LBSProblem& self, const std::string& nature)
     {
       const std::vector<double>* phi_ptr;
       if (nature == "old")
@@ -246,9 +246,9 @@ WrapLBS(py::module& slv)
     )",
     py::arg("nature")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "WriteFluxMoments",
-    [](LBSSolver& self, const std::string& file_base)
+    [](LBSProblem& self, const std::string& file_base)
     {
       LBSSolverIO::WriteFluxMoments(self, file_base);
     },
@@ -262,9 +262,9 @@ WrapLBS(py::module& slv)
     )",
     py::arg("file_base")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "CreateAndWriteSourceMoments",
-    [](LBSSolver& self, const std::string& file_base)
+    [](LBSProblem& self, const std::string& file_base)
     {
       std::vector<double> source_moments = self.MakeSourceMomentsFromPhi();
       LBSSolverIO::WriteFluxMoments(self, file_base, source_moments);
@@ -279,9 +279,9 @@ WrapLBS(py::module& slv)
     )",
     py::arg("file_base")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "ReadFluxMomentsAndMakeSourceMoments",
-    [](LBSSolver& self, const std::string& file_base, bool single_file_flag)
+    [](LBSProblem& self, const std::string& file_base, bool single_file_flag)
     {
       LBSSolverIO::ReadFluxMoments(self, file_base, single_file_flag, self.GetExtSrcMomentsLocal());
       log.Log() << "Making source moments from flux file.";
@@ -303,9 +303,9 @@ WrapLBS(py::module& slv)
     py::arg("file_base"),
     py::arg("single_file_flag")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "ReadSourceMoments",
-    [](LBSSolver& self, const std::string& file_base, bool single_file_flag)
+    [](LBSProblem& self, const std::string& file_base, bool single_file_flag)
     {
       LBSSolverIO::ReadFluxMoments(self, file_base, single_file_flag, self.GetExtSrcMomentsLocal());
     },
@@ -322,9 +322,9 @@ WrapLBS(py::module& slv)
     py::arg("file_base"),
     py::arg("single_file_flag")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "ReadFluxMoments",
-    [](LBSSolver& self, const std::string& file_base, bool single_file_flag)
+    [](LBSProblem& self, const std::string& file_base, bool single_file_flag)
     {
       LBSSolverIO::ReadFluxMoments(self, file_base, single_file_flag);
     },
@@ -341,9 +341,9 @@ WrapLBS(py::module& slv)
     py::arg("file_base"),
     py::arg("single_file_flag")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "WriteAngularFluxes",
-    [](LBSSolver& self, const std::string& file_base)
+    [](LBSProblem& self, const std::string& file_base)
     {
       LBSSolverIO::WriteAngularFluxes(self, file_base);
     },
@@ -357,9 +357,9 @@ WrapLBS(py::module& slv)
     )",
     py::arg("file_base")
   );
-  lbs_solver.def(
+  lbs_problem.def(
     "ReadAngularFluxes",
-    [](LBSSolver& self, const std::string& file_base)
+    [](LBSProblem& self, const std::string& file_base)
     {
       LBSSolverIO::ReadAngularFluxes(self, file_base);
     },
@@ -376,7 +376,7 @@ WrapLBS(py::module& slv)
 
   // discrete ordinate solver
   auto do_solver = py::class_<DiscreteOrdinatesSolver, std::shared_ptr<DiscreteOrdinatesSolver>,
-                              LBSSolver>(
+                              LBSProblem>(
     slv,
     "DiscreteOrdinatesSolver",
     R"(
@@ -415,8 +415,8 @@ WrapLBS(py::module& slv)
     [](DiscreteOrdinatesSolver& self, py::list bnd_names)
     {
       // get the supported boundaries
-      std::map<std::string, std::uint64_t> allowed_bd_names = LBSSolver::supported_boundary_names;
-      std::map<std::uint64_t, std::string> allowed_bd_ids = LBSSolver::supported_boundary_ids;
+      std::map<std::string, std::uint64_t> allowed_bd_names = LBSProblem::supported_boundary_names;
+      std::map<std::uint64_t, std::string> allowed_bd_ids = LBSProblem::supported_boundary_ids;
       // get the boundaries to parse
       std::vector<std::uint64_t> bndry_ids;
       if (bnd_names.size() > 1)
@@ -477,7 +477,7 @@ WrapLBS(py::module& slv)
 
   // diffusion DFEM solver
   auto diffusion_dfem_solver = py::class_<DiffusionDFEMSolver, std::shared_ptr<DiffusionDFEMSolver>,
-                                          LBSSolver>(
+                                          LBSProblem>(
     slv,
     "DiffusionDFEMSolver",
     R"(

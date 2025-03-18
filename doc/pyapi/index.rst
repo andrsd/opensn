@@ -281,7 +281,7 @@ Linear Boltzmann solver
    :nosignatures:
    :template: noinit.rst
 
-   solver.LBSSolver
+   solver.LBSProblem
 
 .. autosummary::
    :toctree: generated
