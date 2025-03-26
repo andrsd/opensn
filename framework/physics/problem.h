@@ -12,39 +12,29 @@
 namespace opensn
 {
 class FieldFunctionGridBased;
-class TimeStepper;
 
-/**
- * \defgroup SolverBase Base class for all solvers
- * \ingroup doc_PhysicsSolver
- */
-class Solver : public Object
+class Problem : public Object
 {
 public:
-  explicit Solver(std::string name);
-  Solver(std::string name, std::initializer_list<BasicOption> options);
-  explicit Solver(const InputParameters& params);
-  virtual ~Solver() = default;
+  explicit Problem(std::string name);
+  Problem(std::string name, std::initializer_list<BasicOption> options);
+  explicit Problem(const InputParameters& params);
+  virtual ~Problem() = default;
 
   std::string GetName() const;
 
   BasicOptions& GetBasicOptions();
   const BasicOptions& GetBasicOptions() const;
 
-  TimeStepper& GetTimeStepper();
-  const TimeStepper& GetTimeStepper() const;
+  std::vector<std::shared_ptr<FieldFunctionGridBased>>& GetFieldFunctions();
+
+  const std::vector<std::shared_ptr<FieldFunctionGridBased>>& GetFieldFunctions() const;
 
   /// Initialize function.
   virtual void Initialize();
 
   /// Execution function.
   virtual void Execute();
-
-  /// Step function*/
-  virtual void Step();
-
-  /// Advance time values function.
-  virtual void Advance();
 
   /// Generalized query for information supporting varying returns.
   virtual ParameterBlock GetInfo(const ParameterBlock& params) const;
@@ -68,7 +58,7 @@ public:
 
 protected:
   BasicOptions basic_options_;
-  std::shared_ptr<TimeStepper> timestepper_ = nullptr;
+  std::vector<std::shared_ptr<FieldFunctionGridBased>> field_functions_;
 
 private:
   const std::string name_;
@@ -76,9 +66,6 @@ private:
 public:
   /// Returns the input parameters.
   static InputParameters GetInputParameters();
-
-private:
-  static std::shared_ptr<TimeStepper> InitTimeStepper(const InputParameters& params);
 };
 
 } // namespace opensn
