@@ -172,7 +172,7 @@ PowerIterationKEigenSCDSASolver::Execute()
   auto phi_temp = phi_old_local_;
 
   /**Lambda for the creation of scattering sources but the input vector is only the zeroth moment*/
-  auto SetLBSScatterSourcePhi0 = [this, &phi_temp](const std::vector<double>& input,
+  auto SetLBSScatterSourcePhi0 = [this, &phi_temp](const std::vector<NDArray<double, 4>>& input,
                                                    const bool additive,
                                                    const bool suppress_wg_scat = false)
   {
@@ -228,7 +228,8 @@ PowerIterationKEigenSCDSASolver::Execute()
     auto phi0_star = CopyOnlyPhi0(front_gs_, phi_new_local_);
 
     // Power Iteration Acceleration
-    SetLBSScatterSourcePhi0(phi0_star - phi0_ell, false);
+    assert(false);
+    // SetLBSScatterSourcePhi0(phi0_star - phi0_ell, false);
     auto Ss0_res = CopyOnlyPhi0(front_gs_, q_moments_local_);
 
     double production_k = lbs_problem->ComputeFissionProduction(phi_new_local_);
@@ -241,7 +242,8 @@ PowerIterationKEigenSCDSASolver::Execute()
 
     for (size_t k = 0; k < accel_pi_max_its_; ++k)
     {
-      ProjectBackPhi0(front_gs_, epsilon_k + phi0_star, phi_temp);
+      assert(false);
+      // ProjectBackPhi0(front_gs_, epsilon_k + phi0_star, phi_temp);
       SetLBSFissionSource(phi_temp, false);
       Scale(q_moments_local_, 1.0 / lambda_k);
 
@@ -251,7 +253,8 @@ PowerIterationKEigenSCDSASolver::Execute()
       // investigation.
       for (int i = 0; i < 1; ++i)
       {
-        SetLBSScatterSourcePhi0(epsilon_k, false, true);
+        assert(false);
+        // SetLBSScatterSourcePhi0(epsilon_k, false, true);
 
         auto Ss0 = CopyOnlyPhi0(front_gs_, q_moments_local_);
 
@@ -262,7 +265,8 @@ PowerIterationKEigenSCDSASolver::Execute()
         epsilon_k = epsilon_kp1;
       }
 
-      ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_star, phi_old_local_);
+      assert(false);
+      // ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_star, phi_old_local_);
 
       double production_kp1 = lbs_problem->ComputeFissionProduction(phi_old_local_);
 
@@ -281,7 +285,8 @@ PowerIterationKEigenSCDSASolver::Execute()
       production_k = production_kp1;
     } // acceleration
 
-    ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_star, phi_new_local_);
+    assert(false);
+    // ProjectBackPhi0(front_gs_, epsilon_kp1 + phi0_star, phi_new_local_);
     LBSVecOps::GSScopedCopyPrimarySTLvectors(
       *lbs_problem, front_gs_, PhiSTLOption::PHI_NEW, PhiSTLOption::PHI_OLD);
 
@@ -338,7 +343,7 @@ PowerIterationKEigenSCDSASolver::Execute()
 
 std::vector<double>
 PowerIterationKEigenSCDSASolver::CopyOnlyPhi0(const LBSGroupset& groupset,
-                                              const std::vector<double>& phi_in)
+                                              const std::vector<NDArray<double, 4>>& phi_in)
 {
   const auto& lbs_sdm = lbs_problem_->GetSpatialDiscretization();
   const auto& diff_sdm = diffusion_solver_->GetSpatialDiscretization();
@@ -355,7 +360,10 @@ PowerIterationKEigenSCDSASolver::CopyOnlyPhi0(const LBSGroupset& groupset,
     phi_data =
       NodallyAveragedPWLDVector(phi_in, lbs_sdm, diff_sdm, phi_uk_man, lbs_pwld_ghost_info_);
   else
-    phi_data = phi_in;
+  {
+    assert(false);
+    // phi_data = phi_in;
+  }
 
   std::vector<double> output_phi_local(diff_num_local_dofs, 0.0);
 
@@ -384,8 +392,8 @@ PowerIterationKEigenSCDSASolver::CopyOnlyPhi0(const LBSGroupset& groupset,
 
 void
 PowerIterationKEigenSCDSASolver::ProjectBackPhi0(const LBSGroupset& groupset,
-                                                 const std::vector<double>& input,
-                                                 std::vector<double>& output)
+                                                 const std::vector<NDArray<double, 4>>& input,
+                                                 std::vector<NDArray<double, 4>>& output)
 {
   const auto& lbs_sdm = lbs_problem_->GetSpatialDiscretization();
   const auto& diff_sdm = diffusion_solver_->GetSpatialDiscretization();
@@ -409,8 +417,11 @@ PowerIterationKEigenSCDSASolver::ProjectBackPhi0(const LBSGroupset& groupset,
       const int64_t diff_phi_map = diff_sdm.MapDOFLocal(cell, i, diff_uk_man, 0, 0);
       const int64_t lbs_phi_map = lbs_sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double* input_mapped = &input[diff_phi_map];
-      double* output_mapped = &output[lbs_phi_map];
+      assert(false);
+      // const double* input_mapped = &input[diff_phi_map];
+      // double* output_mapped = &output[lbs_phi_map];
+      const double* input_mapped = nullptr;
+      double* output_mapped = nullptr;
 
       for (int g = 0; g < gss; ++g)
         output_mapped[g] = input_mapped[g];
@@ -477,7 +488,7 @@ PowerIterationKEigenSCDSASolver::MakePWLDVecGhostCommInfo(const SpatialDiscretiz
 
 std::vector<double>
 PowerIterationKEigenSCDSASolver::NodallyAveragedPWLDVector(
-  const std::vector<double>& input,
+  const std::vector<NDArray<double, 4>>& input,
   const SpatialDiscretization& pwld_sdm,
   const SpatialDiscretization& pwlc_sdm,
   const UnknownManager& uk_man,
@@ -486,7 +497,9 @@ PowerIterationKEigenSCDSASolver::NodallyAveragedPWLDVector(
   const auto& vgc = ghost_info.vector_ghost_communicator;
   const auto& dfem_dof_global2local_map = ghost_info.ghost_global_id_2_local_map;
 
-  auto input_with_ghosts = vgc->MakeGhostedVector(input);
+  assert(false);
+  std::vector<double> input_with_ghosts;
+  // auto input_with_ghosts = vgc->MakeGhostedVector(input);
   vgc->CommunicateGhostEntries(input_with_ghosts);
 
   const auto& grid = pwld_sdm.GetGrid();
@@ -520,7 +533,9 @@ PowerIterationKEigenSCDSASolver::NodallyAveragedPWLDVector(
 
           cfem_dof_global2local_map[dof_cfem_map_global] = dof_cfem_map;
 
-          const double phi_value = input[dof_dfem_map];
+          assert(false);
+          // const double phi_value = input[dof_dfem_map];
+          const double phi_value = 0.;
 
           cont_input[dof_cfem_map] += phi_value;
           cont_input_ctr[dof_cfem_map] += 1.0;
@@ -597,13 +612,16 @@ PowerIterationKEigenSCDSASolver::NodallyAveragedPWLDVector(
 
           const double phi_value = cont_input[dof_cfem_map];
 
-          output[dof_dfem_map] = phi_value;
+          assert(fasle);
+          // output[dof_dfem_map] = phi_value;
         } // for component c
       }   // for unknown u
     }     // for node i
   }       // for local cell
 
-  return output;
+  assert(false);
+  // return output;
+  return {};
 }
 
 } // namespace opensn

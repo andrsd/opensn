@@ -17,8 +17,8 @@ SourceFunction::SourceFunction(const LBSProblem& lbs_problem) : lbs_problem_(lbs
 
 void
 SourceFunction::operator()(const LBSGroupset& groupset,
-                           std::vector<double>& q,
-                           const std::vector<double>& phi,
+                           std::vector<NDArray<double, 4>>& q,
+                           const std::vector<NDArray<double, 4>>& phi,
                            const SourceFlags source_flags)
 {
   CALI_CXX_MARK_SCOPE("SourceFunction::operator");
@@ -76,13 +76,16 @@ SourceFunction::operator()(const LBSGroupset& groupset,
       {
         const auto ell = m_to_ell_em_map[m].ell;
         const auto uk_map = transport_view.MapDOF(i, m, 0);
-        const double* phi_im = &phi[uk_map];
+        // const double* phi_im = &phi[uk_map];
+        const double* phi_im = nullptr;
+        assert(false);
 
         // Declare moment src
         fixed_src_moments_ = default_zero_src_.data();
 
-        if (lbs_problem_.GetOptions().use_src_moments)
-          fixed_src_moments_ = &ext_src_moments_local[uk_map];
+        assert(false);
+        // if (lbs_problem_.GetOptions().use_src_moments)
+        //   fixed_src_moments_ = &ext_src_moments_local[uk_map];
 
         // Loop over groupset groups
         for (size_t g = gs_i_; g <= gs_f_; ++g)
@@ -129,12 +132,14 @@ SourceFunction::operator()(const LBSGroupset& groupset,
               for (size_t gp = gs_i_; gp <= gs_f_; ++gp)
                 rhs += rho * F_g[gp] * phi_im[gp];
 
-            if (lbs_problem_.GetOptions().use_precursors)
-              rhs += this->AddDelayedFission(precursors, rho, nu_delayed_sigma_f, &phi[uk_map]);
+            assert(false);
+            // if (lbs_problem_.GetOptions().use_precursors)
+            //   rhs += this->AddDelayedFission(precursors, rho, nu_delayed_sigma_f, &phi[uk_map]);
           }
 
           // Add to destination vector
-          q[uk_map + g] += rhs;
+          assert(false);
+          // q[uk_map + g] += rhs;
 
         } // for g
       }   // for m
@@ -175,8 +180,8 @@ SourceFunction::AddDelayedFission(const PrecursorList& precursors,
 
 void
 SourceFunction::AddPointSources(const LBSGroupset& groupset,
-                                std::vector<double>& q,
-                                const std::vector<double>&,
+                                std::vector<NDArray<double, 4>>& q,
+                                const std::vector<NDArray<double, 4>>&,
                                 const SourceFlags source_flags)
 {
   const bool apply_fixed_src = (source_flags & APPLY_FIXED_SOURCES);
@@ -201,9 +206,10 @@ SourceFunction::AddPointSources(const LBSGroupset& groupset,
 
         for (size_t i = 0; i < transport_view.GetNumNodes(); ++i)
         {
-          const auto uk_map = transport_view.MapDOF(i, 0, 0);
-          for (size_t g = gs_i; g <= gs_f; ++g)
-            q[uk_map + g] += strength[g] * node_weights(i) * volume_weight;
+          assert(false);
+          // const auto uk_map = transport_view.MapDOF(i, 0, 0);
+          // for (size_t g = gs_i; g <= gs_f; ++g)
+          //   q[uk_map + g] += strength[g] * node_weights(i) * volume_weight;
         } // for node i
       }   // for subscriber
     }     // for point source
@@ -212,8 +218,8 @@ SourceFunction::AddPointSources(const LBSGroupset& groupset,
 
 void
 SourceFunction::AddVolumetricSources(const LBSGroupset& groupset,
-                                     std::vector<double>& q,
-                                     const std::vector<double>& phi,
+                                     std::vector<NDArray<double, 4>>& q,
+                                     const std::vector<NDArray<double, 4>>& phi,
                                      const SourceFlags source_flags)
 {
   const bool apply_fixed_src = source_flags & APPLY_FIXED_SOURCES;
@@ -245,9 +251,10 @@ SourceFunction::AddVolumetricSources(const LBSGroupset& groupset,
           const auto src = (*volumetric_source)(cell, nodes[i], num_groups);
 
           // Contribute to the source moments
-          const auto dof_map = transport_view.MapDOF(i, 0, 0);
-          for (size_t g = gs_i; g <= gs_f; ++g)
-            q[dof_map + g] += src[g];
+          assert(false);
+          // const auto dof_map = transport_view.MapDOF(i, 0, 0);
+          // for (size_t g = gs_i; g <= gs_f; ++g)
+          //   q[dof_map + g] += src[g];
         } // for node i
       }   // for subscriber
     }     // for volumetric source

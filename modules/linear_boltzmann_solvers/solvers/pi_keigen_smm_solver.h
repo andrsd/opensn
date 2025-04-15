@@ -46,7 +46,7 @@ protected:
    * \param[in] input A transport flux moments vector to transfer data from.
    * \param[out] output A vector to place the transferred data.
    */
-  void TransferTransportToDiffusion(const std::vector<double>& input,
+  void TransferTransportToDiffusion(const std::vector<NDArray<double, 4>>& input,
                                     std::vector<double>& output) const;
 
   /**

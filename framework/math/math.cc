@@ -64,10 +64,22 @@ Scale(std::vector<double>& x, const double& val)
 }
 
 void
+Scale(std::vector<NDArray<double, 4>>& x, const double& val)
+{
+  assert(false);
+}
+
+void
 Set(std::vector<double>& x, const double& val)
 {
   for (double& xi : x)
     xi = val;
+}
+
+void
+Set(std::vector<NDArray<double, 4>>& x, const double& val)
+{
+  assert(false);
 }
 
 double

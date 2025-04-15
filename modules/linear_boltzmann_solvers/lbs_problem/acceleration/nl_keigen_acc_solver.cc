@@ -101,9 +101,12 @@ NLKEigenDiffSolver::PostSolveCallback()
   auto delta_phi = nl_context_ptr->PhiVecToSTLVec(x_);
   auto& phi_lph_ip1 = nl_context_ptr->phi_lph_ip1;
 
-  auto phi_lp1_temp = phi_lph_ip1 + delta_phi;
+  assert(false);
+  // auto phi_lp1_temp = phi_lph_ip1 + delta_phi;
+  std::vector<NDArray<double, 4>> phi_lp1_temp;
   lbs_problem.GSProjectBackPhi0(front_gs, phi_lp1_temp, phi_new_local);
-  LBSVecOps::GSScopedCopyPrimarySTLvectors(lbs_problem, front_gs, phi_new_local, phi_old_local);
+  assert(false);
+  // LBSVecOps::GSScopedCopyPrimarySTLvectors(lbs_problem, front_gs, phi_new_local, phi_old_local);
 
   // Compute final k_eff
   double k_eff = nl_context_ptr->kresid_func_context.k_eff;

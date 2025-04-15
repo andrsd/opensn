@@ -58,8 +58,8 @@ public:
    *        and across/within-groups fission.
    */
   virtual void operator()(const LBSGroupset& groupset,
-                          std::vector<double>& q,
-                          const std::vector<double>& phi,
+                          std::vector<NDArray<double, 4>>& q,
+                          const std::vector<NDArray<double, 4>>& phi,
                           SourceFlags source_flags);
 
   virtual double AddSourceMoments() const;
@@ -72,8 +72,8 @@ public:
                                    const double* phi) const;
 
   virtual void AddAdditionalSources(const LBSGroupset& groupset,
-                                    std::vector<double>& q,
-                                    const std::vector<double>& phi,
+                                    std::vector<NDArray<double, 4>>& q,
+                                    const std::vector<NDArray<double, 4>>& phi,
                                     SourceFlags source_flags)
   {
     AddPointSources(groupset, q, phi, source_flags);
@@ -82,14 +82,14 @@ public:
 
   /// Adds point sources to the source moments.
   void AddPointSources(const LBSGroupset& groupset,
-                       std::vector<double>& q,
-                       const std::vector<double>& phi,
+                       std::vector<NDArray<double, 4>>& q,
+                       const std::vector<NDArray<double, 4>>& phi,
                        SourceFlags source_flags);
 
   /// Adds volumetric sources to the source moments.
   void AddVolumetricSources(const LBSGroupset& groupset,
-                            std::vector<double>& q,
-                            const std::vector<double>& phi,
+                            std::vector<NDArray<double, 4>>& q,
+                            const std::vector<NDArray<double, 4>>& phi,
                             SourceFlags source_flags);
 };
 

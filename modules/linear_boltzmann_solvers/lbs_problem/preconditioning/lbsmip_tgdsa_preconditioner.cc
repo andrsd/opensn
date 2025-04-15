@@ -30,10 +30,11 @@ MIP_TGDSA_PreConditionerMult(PC pc, Vec phi_input, Vec pc_output)
   if (groupset.apply_tgdsa)
   {
     std::vector<double> delta_phi_local;
-    solver.AssembleTGDSADeltaPhiVector(groupset, phi_delta, delta_phi_local);
-    groupset.tgdsa_solver->Assemble_b(delta_phi_local);
-    groupset.tgdsa_solver->Solve(delta_phi_local);
-    solver.DisAssembleTGDSADeltaPhiVector(groupset, delta_phi_local, phi_delta);
+    assert(false);
+    // solver.AssembleTGDSADeltaPhiVector(groupset, phi_delta, delta_phi_local);
+    // groupset.tgdsa_solver->Assemble_b(delta_phi_local);
+    // groupset.tgdsa_solver->Solve(delta_phi_local);
+    // solver.DisAssembleTGDSADeltaPhiVector(groupset, delta_phi_local, phi_delta);
   }
 
   // Copy STL vector to PETSc Vec

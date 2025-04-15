@@ -26,14 +26,14 @@ public:
    */
   std::vector<MomentCallbackFunc> moment_callbacks;
 
-  SweepChunk(std::vector<double>& destination_phi,
+  SweepChunk(NDArray<double, 4>& destination_phi,
              std::vector<double>& destination_psi,
              const std::shared_ptr<MeshContinuum> grid,
              const SpatialDiscretization& discretization,
              const std::vector<UnitCellMatrices>& unit_cell_matrices,
              std::vector<CellLBSView>& cell_transport_views,
              const std::vector<double>& densities,
-             const std::vector<double>& source_moments,
+             const NDArray<double, 4>& source_moments,
              const LBSGroupset& groupset,
              const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
              int num_moments,
@@ -89,7 +89,7 @@ protected:
   const std::vector<UnitCellMatrices>& unit_cell_matrices_;
   std::vector<CellLBSView>& cell_transport_views_;
   const std::vector<double>& densities_;
-  const std::vector<double>& source_moments_;
+  const NDArray<double, 4>& source_moments_;
   const LBSGroupset& groupset_;
   const std::map<int, std::shared_ptr<MultiGroupXS>>& xs_;
   const int num_moments_;
@@ -97,7 +97,7 @@ protected:
   const bool save_angular_flux_;
   const size_t groupset_angle_group_stride_;
   const size_t groupset_group_stride_;
-  std::vector<double>& destination_phi_;
+  NDArray<double, 4>& destination_phi_;
   std::vector<double>& destination_psi_;
   bool surface_source_active_ = false;
 };

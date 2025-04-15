@@ -24,9 +24,9 @@ protected:
   double F_prev_;
   bool reset_phi0_;
 
-  std::vector<double>& q_moments_local_;
-  std::vector<double>& phi_old_local_;
-  std::vector<double>& phi_new_local_;
+  std::vector<NDArray<double, 4>>& q_moments_local_;
+  std::vector<NDArray<double, 4>>& phi_old_local_;
+  std::vector<NDArray<double, 4>>& phi_new_local_;
 
   std::vector<LBSGroupset>& groupsets_;
   std::shared_ptr<AGSSolver> ags_solver_;
@@ -45,10 +45,10 @@ public:
 
 protected:
   /// Combines function calls to set fission source.
-  void SetLBSFissionSource(const std::vector<double>& input, bool additive);
+  void SetLBSFissionSource(const std::vector<NDArray<double, 4>>& input, bool additive);
 
   /// Combines function calls to set scattering source source.
-  void SetLBSScatterSource(const std::vector<double>& input,
+  void SetLBSScatterSource(const std::vector<NDArray<double, 4>>& input,
                            bool additive,
                            bool suppress_wg_scat = false);
 

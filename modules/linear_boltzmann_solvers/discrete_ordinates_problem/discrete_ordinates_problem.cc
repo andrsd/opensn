@@ -257,8 +257,9 @@ DiscreteOrdinatesProblem::ReorientAdjointSolution()
 
           for (int g = gsg_i; g <= gsg_f; ++g)
           {
-            phi_new_local_[dof_map + g] *= std::pow(-1.0, ell);
-            phi_old_local_[dof_map + g] *= std::pow(-1.0, ell);
+            assert(false);
+            // phi_new_local_[dof_map + g] *= std::pow(-1.0, ell);
+            // phi_old_local_[dof_map + g] *= std::pow(-1.0, ell);
           } // for group g
         }   // for moment m
 
@@ -302,17 +303,18 @@ DiscreteOrdinatesProblem::ComputeBalance()
   // Get material source
   // This is done using the SetSource routine because it allows a lot of flexibility.
   auto mat_src = phi_new_local_;
-  mat_src.assign(mat_src.size(), 0.0);
-  for (auto& groupset : groupsets_)
-  {
-    q_moments_local_.assign(q_moments_local_.size(), 0.0);
-    active_set_source_function_(groupset,
-                                q_moments_local_,
-                                phi_new_local_,
-                                APPLY_FIXED_SOURCES | APPLY_AGS_FISSION_SOURCES |
-                                  APPLY_WGS_FISSION_SOURCES);
-    LBSVecOps::GSScopedCopyPrimarySTLvectors(*this, groupset, q_moments_local_, mat_src);
-  }
+  assert(false);
+  // mat_src.assign(mat_src.size(), 0.0);
+  // for (auto& groupset : groupsets_)
+  // {
+  //   q_moments_local_.assign(q_moments_local_.size(), 0.0);
+  //   active_set_source_function_(groupset,
+  //                               q_moments_local_,
+  //                               phi_new_local_,
+  //                               APPLY_FIXED_SOURCES | APPLY_AGS_FISSION_SOURCES |
+  //                                 APPLY_WGS_FISSION_SOURCES);
+  //   LBSVecOps::GSScopedCopyPrimarySTLvectors(*this, groupset, q_moments_local_, mat_src);
+  // }
 
   // Compute absorption, material-source and in-flow
   double local_out_flow = 0.0;
@@ -389,8 +391,11 @@ DiscreteOrdinatesProblem::ComputeBalance()
       for (int g = 0; g < num_groups_; ++g)
       {
         size_t imap = transport_view.MapDOF(i, 0, g);
-        double phi_0g = phi_new_local_[imap];
-        double q_0g = mat_src[imap];
+        assert(false);
+        // double phi_0g = phi_new_local_[imap];
+        double phi_0g = 0.;
+        // double q_0g = mat_src[imap];
+        double q_0g = 0.;
 
         local_absorption += sigma_a[g] * phi_0g * IntV_shapeI(i);
         local_production += q_0g * IntV_shapeI(i);
@@ -1076,9 +1081,9 @@ DiscreteOrdinatesProblem::SetSweepChunk(LBSGroupset& groupset)
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,
                                                        densities_local_,
-                                                       phi_new_local_,
+                                                       phi_new_local_[groupset.id],
                                                        psi_new_local_[groupset.id],
-                                                       q_moments_local_,
+                                                       q_moments_local_[groupset.id],
                                                        groupset,
                                                        block_id_to_xs_map_,
                                                        num_moments_,
@@ -1088,14 +1093,14 @@ DiscreteOrdinatesProblem::SetSweepChunk(LBSGroupset& groupset)
   }
   else if (sweep_type_ == "CBC")
   {
-    auto sweep_chunk = std::make_shared<CBCSweepChunk>(phi_new_local_,
+    auto sweep_chunk = std::make_shared<CBCSweepChunk>(phi_new_local_[groupset.id],
                                                        psi_new_local_[groupset.id],
                                                        grid_ptr_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,
                                                        densities_local_,
-                                                       q_moments_local_,
+                                                       q_moments_local_[groupset.id],
                                                        groupset,
                                                        block_id_to_xs_map_,
                                                        num_moments_,

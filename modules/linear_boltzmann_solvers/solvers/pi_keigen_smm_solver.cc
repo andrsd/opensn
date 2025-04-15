@@ -223,6 +223,7 @@ PowerIterationKEigenSMMSolver::Execute()
     // Solve some transport inners
     ags_solver_->Solve();
 
+    assert(false);
     std::vector<double> phi0;
     TransferTransportToDiffusion(phi_new_local_, phi0);
     auto phi0_old = phi0;
@@ -268,7 +269,9 @@ PowerIterationKEigenSMMSolver::Execute()
       // diffusion solution back to the transport discretization.
       std::vector<double> phi;
       TransferDiffusionToTransport(phi0, phi);
-      double F0 = lbs_problem_->ComputeFissionProduction(phi);
+      assert(false);
+      // double F0 = lbs_problem_->ComputeFissionProduction(phi);
+      double F0 = 0.;
       lambda = F0 / F0_old * lambda_old;
 
       // Check for convergence
@@ -292,26 +295,29 @@ PowerIterationKEigenSMMSolver::Execute()
     k_eff_change = std::fabs(k_eff_ / k_eff_ell - 1.0);
     k_eff_ell = k_eff_;
 
-    TransferDiffusionToTransport(phi0, phi_new_local_);
+    assert(false);
+    // TransferDiffusionToTransport(phi0, phi_new_local_);
 
     const double production = lbs_problem_->ComputeFissionProduction(phi_new_local_);
     LBSVecOps::ScalePhiVector(*lbs_problem_, PhiSTLOption::PHI_NEW, lambda / production);
 
-    const auto phi_change = CheckScalarFluxConvergence(phi_new_local_, phi_ell);
-    LBSVecOps::GSScopedCopyPrimarySTLvectors(
-      *lbs_problem_, front_gs_, phi_new_local_, phi_old_local_);
-    LBSVecOps::GSScopedCopyPrimarySTLvectors(*lbs_problem_, front_gs_, phi_new_local_, phi_ell);
+    assert(false);
+    // const auto phi_change = CheckScalarFluxConvergence(phi_new_local_, phi_ell);
+    // LBSVecOps::GSScopedCopyPrimarySTLvectors(
+    //   *lbs_problem_, front_gs_, phi_new_local_, phi_old_local_);
+    // LBSVecOps::GSScopedCopyPrimarySTLvectors(*lbs_problem_, front_gs_, phi_new_local_, phi_ell);
     ++nit;
 
     if (lbs_problem_->GetOptions().verbose_outer_iterations)
     {
-      std::stringstream ss;
-      ss << program_timer.GetTimeString() << " "
-         << "  Iteration " << std::setw(5) << nit << "  k_eff " << std::setw(14)
-         << std::setprecision(10) << k_eff_ << "  k_eff change " << std::setw(12) << k_eff_change
-         << "  phi change " << std::setw(12) << phi_change
-         << (k_eff_change < k_tolerance_ ? " CONVERGED" : "");
-      log.Log() << ss.str();
+      assert(false);
+      // std::stringstream ss;
+      // ss << program_timer.GetTimeString() << " "
+      //    << "  Iteration " << std::setw(5) << nit << "  k_eff " << std::setw(14)
+      //    << std::setprecision(10) << k_eff_ << "  k_eff change " << std::setw(12) << k_eff_change
+      //    << "  phi change " << std::setw(12) << phi_change
+      //    << (k_eff_change < k_tolerance_ ? " CONVERGED" : "");
+      // log.Log() << ss.str();
     }
 
     if (k_eff_change < k_tolerance_)
@@ -817,8 +823,9 @@ PowerIterationKEigenSMMSolver::SetNodalDiffusionFissionSource(const std::vector<
   TransferDiffusionToTransport(phi0, phi);
 
   std::vector<double> Sf(phi.size(), 0.0);
-  active_set_source_function_(
-    front_gs_, Sf, phi, APPLY_AGS_FISSION_SOURCES | APPLY_WGS_FISSION_SOURCES);
+  assert(false);
+  // active_set_source_function_(
+  //   front_gs_, Sf, phi, APPLY_AGS_FISSION_SOURCES | APPLY_WGS_FISSION_SOURCES);
   return Sf;
 }
 
@@ -839,11 +846,12 @@ PowerIterationKEigenSMMSolver::SetNodalDiffusionScatterSource(const std::vector<
   TransferDiffusionToTransport(phi0, phi);
 
   std::vector<double> Ss(phi.size(), 0.0);
-  active_set_source_function_(front_gs_,
-                              Ss,
-                              phi,
-                              APPLY_AGS_SCATTER_SOURCES | APPLY_WGS_SCATTER_SOURCES |
-                                SUPPRESS_WG_SCATTER);
+  assert(false);
+  // active_set_source_function_(front_gs_,
+  //                             Ss,
+  //                             phi,
+  //                             APPLY_AGS_SCATTER_SOURCES | APPLY_WGS_SCATTER_SOURCES |
+  //                               SUPPRESS_WG_SCATTER);
   return Ss;
 }
 
@@ -953,8 +961,8 @@ PowerIterationKEigenSMMSolver::ComputeBoundaryFactors()
 }
 
 void
-PowerIterationKEigenSMMSolver::TransferTransportToDiffusion(const std::vector<double>& input,
-                                                            std::vector<double>& output) const
+PowerIterationKEigenSMMSolver::TransferTransportToDiffusion(
+  const std::vector<NDArray<double, 4>>& input, std::vector<double>& output) const
 {
   const auto& grid = lbs_problem_->GetGrid();
   const auto& pwld = lbs_problem_->GetSpatialDiscretization();
@@ -978,10 +986,11 @@ PowerIterationKEigenSMMSolver::TransferTransportToDiffusion(const std::vector<do
   // If diffusion is PWLC, then nodal averages should be transferred to the PWLC vector,
   // otherwise, the result is a copy
   std::vector<double> mapped_phi;
-  if (pwlc_ptr_)
-    mapped_phi = ComputeNodallyAveragedPWLDVector(input, pwld, diff_sd, phi_uk_man, ghost_info_);
-  else
-    mapped_phi = input;
+  assert(false);
+  // if (pwlc_ptr_)
+  //   mapped_phi = ComputeNodallyAveragedPWLDVector(input, pwld, diff_sd, phi_uk_man, ghost_info_);
+  // else
+  //   mapped_phi = input;
 
   // Go through the cells and transfer the data to the output vector
   output.assign(num_local_diff_dofs, 0.0);

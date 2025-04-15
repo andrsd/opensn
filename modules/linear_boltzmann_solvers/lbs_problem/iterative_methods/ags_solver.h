@@ -43,7 +43,7 @@ public:
 private:
   LBSProblem& lbs_problem_;
   std::vector<std::shared_ptr<LinearSolver>> wgs_solvers_;
-  std::vector<double> phi_old_;
+  std::vector<NDArray<double, 4>> phi_old_;
   int max_iterations_;
   double tolerance_;
   bool verbose_;

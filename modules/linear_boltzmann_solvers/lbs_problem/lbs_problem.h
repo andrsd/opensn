@@ -144,28 +144,28 @@ public:
   size_t GetGlobalNodeCount() const;
 
   /// Read/write access to source moments vector.
-  std::vector<double>& GetQMomentsLocal();
+  std::vector<NDArray<double, 4>>& GetQMomentsLocal();
 
   /// Read access to source moments vector.
-  const std::vector<double>& GetQMomentsLocal() const;
+  const std::vector<NDArray<double, 4>>& GetQMomentsLocal() const;
 
   /// Read/write access to exterior src moments vector.
-  std::vector<double>& GetExtSrcMomentsLocal();
+  std::vector<NDArray<double, 4>>& GetExtSrcMomentsLocal();
 
   /// Read access to exterior src moments vector.
-  const std::vector<double>& GetExtSrcMomentsLocal() const;
+  const std::vector<NDArray<double, 4>>& GetExtSrcMomentsLocal() const;
 
   /// Read/write access to last updated flux vector.
-  std::vector<double>& GetPhiOldLocal();
+  std::vector<NDArray<double, 4>>& GetPhiOldLocal();
 
   /// Read access to last updated flux vector.
-  const std::vector<double>& GetPhiOldLocal() const;
+  const std::vector<NDArray<double, 4>>& GetPhiOldLocal() const;
 
   /// Read/write access to newest updated flux vector.
-  std::vector<double>& GetPhiNewLocal();
+  std::vector<NDArray<double, 4>>& GetPhiNewLocal();
 
   /// Read access to newest updated flux vector.
-  const std::vector<double>& GetPhiNewLocal() const;
+  const std::vector<NDArray<double, 4>>& GetPhiNewLocal() const;
 
   /// Read/write access to newest updated precursors vector.
   std::vector<double>& GetPrecursorsNewLocal();
@@ -221,17 +221,17 @@ public:
    * DOFs needed by WGDSA.
    */
   std::vector<double> WGSCopyOnlyPhi0(const LBSGroupset& groupset,
-                                      const std::vector<double>& phi_in);
+                                      const std::vector<NDArray<double, 4>>& phi_in);
 
   /// From the WGDSA DOFs, projects the scalar moments back into a primary STL vector.
   void GSProjectBackPhi0(const LBSGroupset& groupset,
-                         const std::vector<double>& input,
-                         std::vector<double>& output);
+                         const std::vector<NDArray<double, 4>>& input,
+                         std::vector<NDArray<double, 4>>& output);
 
   /// Assembles a delta-phi vector on the first moment.
   void AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                   const std::vector<double>& phi_in,
-                                   std::vector<double>& delta_phi_local);
+                                   const std::vector<NDArray<double, 4>>& phi_in,
+                                   std::vector<NDArray<double, 4>>& delta_phi_local);
 
   /// DAssembles a delta-phi vector on the first moment.
   void DisAssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
@@ -275,7 +275,7 @@ public:
   /**
    * Compute the total fission production in the problem.
    */
-  double ComputeFissionProduction(const std::vector<double>& phi);
+  double ComputeFissionProduction(const std::vector<NDArray<double, 4>>& phi);
 
   /**
    * Computes the total fission rate in the problem.
@@ -358,8 +358,8 @@ protected:
   uint64_t local_node_count_ = 0;
   uint64_t global_node_count_ = 0;
 
-  std::vector<double> q_moments_local_, ext_src_moments_local_;
-  std::vector<double> phi_new_local_, phi_old_local_;
+  std::vector<NDArray<double, 4>> q_moments_local_, ext_src_moments_local_;
+  std::vector<NDArray<double, 4>> phi_new_local_, phi_old_local_;
   std::vector<std::vector<double>> psi_new_local_;
   std::vector<double> precursor_new_local_;
   std::vector<double> densities_local_;

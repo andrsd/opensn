@@ -13,7 +13,7 @@ double
 ComputePointwisePhiChange(
   LBSProblem& lbs_problem,
   int groupset_id,
-  std::optional<const std::reference_wrapper<std::vector<double>>> opt_phi_old)
+  std::optional<const std::reference_wrapper<std::vector<NDArray<double, 4>>>> opt_phi_old)
 {
   return ComputePointwisePhiChange(lbs_problem, std::vector<int>{groupset_id}, opt_phi_old);
 }
@@ -21,7 +21,7 @@ ComputePointwisePhiChange(
 double
 ComputePointwisePhiChange(
   LBSProblem& lbs_problem,
-  std::optional<const std::reference_wrapper<std::vector<double>>> opt_phi_old)
+  std::optional<const std::reference_wrapper<std::vector<NDArray<double, 4>>>> opt_phi_old)
 {
   return ComputePointwisePhiChange(lbs_problem, std::vector<int>{}, opt_phi_old);
 }
@@ -30,7 +30,7 @@ double
 ComputePointwisePhiChange(
   LBSProblem& lbs_problem,
   std::vector<int> groupset_ids,
-  std::optional<const std::reference_wrapper<std::vector<double>>> opt_phi_old)
+  std::optional<const std::reference_wrapper<std::vector<NDArray<double, 4>>>> opt_phi_old)
 {
   if (groupset_ids.empty())
   {
@@ -39,8 +39,10 @@ ComputePointwisePhiChange(
   }
 
   auto& phi_new = lbs_problem.GetPhiNewLocal();
-  std::vector<double>& phi_old =
-    opt_phi_old.has_value() ? opt_phi_old.value().get() : lbs_problem.GetPhiOldLocal();
+  assert(false);
+  std::vector<double> phi_old;
+  // std::vector<double>& phi_old =
+  //   opt_phi_old.has_value() ? opt_phi_old.value().get() : lbs_problem.GetPhiOldLocal();
 
   auto grid_ptr = lbs_problem.GetGrid();
   auto& cell_transport_views = lbs_problem.GetCellTransportViews();
@@ -59,11 +61,15 @@ ComputePointwisePhiChange(
         for (auto g = 0; g < groupset.groups.size(); ++g)
         {
           auto m0g_idx = transport_view.MapDOF(i, 0, gsi + g);
-          double max_phi = std::max(fabs(phi_new[m0g_idx]), fabs(phi_old[m0g_idx]));
+          assert(false);
+          // double max_phi = std::max(fabs(phi_new[m0g_idx]), fabs(phi_old[m0g_idx]));
+          double max_phi = 0.;
           for (auto m = 0; m < num_moments; ++m)
           {
             auto mng_idx = transport_view.MapDOF(i, m, gsi + g);
-            double delta_phi = std::fabs(phi_new[mng_idx] - phi_old[mng_idx]);
+            assert(false);
+            // double delta_phi = std::fabs(phi_new[mng_idx] - phi_old[mng_idx]);
+            double delta_phi = 0.;
             if (max_phi >= std::numeric_limits<double>::min())
               pw_change = std::max(delta_phi / max_phi, pw_change);
             else
@@ -82,16 +88,20 @@ ComputePointwisePhiChange(
 
 double
 ComputeL2PhiChange(LBSProblem& lbs_problem,
-                   std::optional<const std::reference_wrapper<std::vector<double>>> opt_phi_old)
+                   std::optional<const std::reference_wrapper<std::vector<NDArray<double, 4>>>> opt_phi_old)
 {
   double norm = 0.0;
   auto& phi_new = lbs_problem.GetPhiNewLocal();
-  std::vector<double>& phi_old =
-    opt_phi_old.has_value() ? opt_phi_old.value().get() : lbs_problem.GetPhiOldLocal();
+  assert(false);
+  std::vector<double> phi_old;
+  // std::vector<double>& phi_old =
+  //   opt_phi_old.has_value() ? opt_phi_old.value().get() : lbs_problem.GetPhiOldLocal();
 
   for (auto i = 0; i < phi_new.size(); ++i)
   {
-    double val = phi_new[i] - phi_old[i];
+    assert(false);
+    double val = 0.;
+    // double val = phi_new[i] - phi_old[i];
     norm += val * val;
   }
 

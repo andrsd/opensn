@@ -22,8 +22,8 @@ struct NLKEigenDiffContext : public NonLinearSolverContext
   size_t diff_num_local_dofs;
 
   std::vector<double> phi_l;
-  std::vector<double> phi_lph_i;
-  std::vector<double> phi_lph_ip1;
+  std::vector<NDArray<double, 4>> phi_lph_i;
+  std::vector<NDArray<double, 4>> phi_lph_ip1;
   std::vector<double> Sf;
   double k_l = 1.0;
 

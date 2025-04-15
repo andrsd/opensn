@@ -17,9 +17,9 @@ AAHSweepChunkRZ::AAHSweepChunkRZ(const std::shared_ptr<MeshContinuum> grid,
                                  const std::vector<UnitCellMatrices>& secondary_unit_cell_matrices,
                                  std::vector<CellLBSView>& cell_transport_views,
                                  const std::vector<double>& densities,
-                                 std::vector<double>& destination_phi,
+                                 NDArray<double, 4>& destination_phi,
                                  std::vector<double>& destination_psi,
-                                 const std::vector<double>& source_moments,
+                                 const NDArray<double, 4>& source_moments,
                                  LBSGroupset& groupset,
                                  const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                                  int num_moments,
@@ -248,7 +248,8 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
           for (int m = 0; m < num_moments_; ++m)
           {
             const size_t ir = cell_transport_view.MapDOF(i, m, static_cast<int>(gs_gi + gsg));
-            temp_src += m2d_op[m][direction_num] * source_moments_[ir];
+            assert(false);
+            // temp_src += m2d_op[m][direction_num] * source_moments_[ir];
           }
           source[i] = temp_src;
         }
@@ -280,7 +281,10 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
         {
           const size_t ir = cell_transport_view.MapDOF(i, m, gs_gi);
           for (int gsg = 0; gsg < gs_size; ++gsg)
-            destination_phi_[ir + gsg] += wn_d2m * b[gsg](i);
+          {
+            assert(false);
+            // destination_phi_[ir + gsg] += wn_d2m * b[gsg](i);
+          }
         }
       }
 

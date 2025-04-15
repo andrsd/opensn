@@ -277,49 +277,49 @@ LBSProblem::GetGlobalNodeCount() const
   return global_node_count_;
 }
 
-std::vector<double>&
+std::vector<NDArray<double, 4>>&
 LBSProblem::GetQMomentsLocal()
 {
   return q_moments_local_;
 }
 
-const std::vector<double>&
+const std::vector<NDArray<double, 4>>&
 LBSProblem::GetQMomentsLocal() const
 {
   return q_moments_local_;
 }
 
-std::vector<double>&
+std::vector<NDArray<double, 4>>&
 LBSProblem::GetExtSrcMomentsLocal()
 {
   return ext_src_moments_local_;
 }
 
-const std::vector<double>&
+const std::vector<NDArray<double, 4>>&
 LBSProblem::GetExtSrcMomentsLocal() const
 {
   return ext_src_moments_local_;
 }
 
-std::vector<double>&
+std::vector<NDArray<double, 4>>&
 LBSProblem::GetPhiOldLocal()
 {
   return phi_old_local_;
 }
 
-const std::vector<double>&
+const std::vector<NDArray<double, 4>>&
 LBSProblem::GetPhiOldLocal() const
 {
   return phi_old_local_;
 }
 
-std::vector<double>&
+std::vector<NDArray<double, 4>>&
 LBSProblem::GetPhiNewLocal()
 {
   return phi_new_local_;
 }
 
-const std::vector<double>&
+const std::vector<NDArray<double, 4>>&
 LBSProblem::GetPhiNewLocal() const
 {
   return phi_new_local_;
@@ -618,8 +618,10 @@ LBSProblem::SetOptions(const InputParameters& input)
         boundary_preferences_.clear();
 
         // Set all solutions to zero.
-        phi_old_local_.assign(phi_old_local_.size(), 0.0);
-        phi_new_local_.assign(phi_new_local_.size(), 0.0);
+        for (auto& arr : phi_old_local_)
+          arr.set(0.);
+        for (auto& arr : phi_new_local_)
+          arr.set(0.);
         for (auto& psi : psi_new_local_)
           psi.assign(psi.size(), 0.0);
         precursor_new_local_.assign(precursor_new_local_.size(), 0.0);
@@ -1244,9 +1246,12 @@ LBSProblem::InitializeParrays()
   log.LogAllVerbose1() << "LBS Number of phi unknowns: " << local_unknown_count;
 
   // Size local vectors
-  q_moments_local_.assign(local_unknown_count, 0.0);
-  phi_old_local_.assign(local_unknown_count, 0.0);
-  phi_new_local_.assign(local_unknown_count, 0.0);
+  for (auto& arr : q_moments_local_)
+    arr.set(0.);
+  for (auto& arr : phi_old_local_)
+    arr.set(0.);
+  for (auto& arr : phi_new_local_)
+    arr.set(0.);
 
   // Setup groupset psi vectors
   psi_new_local_.clear();
@@ -1645,7 +1650,8 @@ LBSProblem::CleanUpWGDSA(LBSGroupset& groupset)
 }
 
 std::vector<double>
-LBSProblem::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<double>& phi_in)
+LBSProblem::WGSCopyOnlyPhi0(const LBSGroupset& groupset,
+                            const std::vector<NDArray<double, 4>>& phi_in)
 {
   CALI_CXX_MARK_SCOPE("LBSProblem::WGSCopyOnlyPhi0");
 
@@ -1669,7 +1675,9 @@ LBSProblem::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<doubl
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
       double* output_mapped = &output_phi_local[dphi_map];
-      const double* phi_in_mapped = &phi_in[phi_map];
+      assert(false);
+      const double* phi_in_mapped = nullptr;
+      // const double* phi_in_mapped = &phi_in[phi_map];
 
       for (size_t g = 0; g < gss; ++g)
       {
@@ -1683,8 +1691,8 @@ LBSProblem::WGSCopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<doubl
 
 void
 LBSProblem::GSProjectBackPhi0(const LBSGroupset& groupset,
-                              const std::vector<double>& input,
-                              std::vector<double>& output)
+                              const std::vector<NDArray<double, 4>>& input,
+                              std::vector<NDArray<double, 4>>& output)
 {
   CALI_CXX_MARK_SCOPE("LBSProblem::GSProjectBackPhi0");
 
@@ -1705,8 +1713,11 @@ LBSProblem::GSProjectBackPhi0(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i, dphi_uk_man, 0, 0);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      const double* input_mapped = &input[dphi_map];
-      double* output_mapped = &output[phi_map];
+      assert(false);
+      // const double* input_mapped = &input[dphi_map];
+      // double* output_mapped = &output[phi_map];
+      const double* input_mapped = nullptr;
+      double* output_mapped = nullptr;
 
       for (int g = 0; g < gss; ++g)
         output_mapped[g] = input_mapped[g];
@@ -1716,8 +1727,8 @@ LBSProblem::GSProjectBackPhi0(const LBSGroupset& groupset,
 
 void
 LBSProblem::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
-                                        const std::vector<double>& phi_in,
-                                        std::vector<double>& delta_phi_local)
+                                        const std::vector<NDArray<double, 4>>& phi_in,
+                                        std::vector<NDArray<double, 4>>& delta_phi_local)
 {
   CALI_CXX_MARK_SCOPE("LBSProblem::AssembleWGDSADeltaPhiVector");
 
@@ -1728,8 +1739,9 @@ LBSProblem::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
   const int gsi = groupset.groups.front().id;
   const size_t gss = groupset.groups.size();
 
-  delta_phi_local.clear();
-  delta_phi_local.assign(sdm.GetNumLocalDOFs(dphi_uk_man), 0.0);
+  assert(false);
+  // delta_phi_local.clear();
+  // delta_phi_local.assign(sdm.GetNumLocalDOFs(dphi_uk_man), 0.0);
 
   for (const auto& cell : grid_ptr_->local_cells)
   {
@@ -1742,8 +1754,11 @@ LBSProblem::AssembleWGDSADeltaPhiVector(const LBSGroupset& groupset,
       const int64_t dphi_map = sdm.MapDOFLocal(cell, i, dphi_uk_man, 0, 0);
       const int64_t phi_map = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, gsi);
 
-      double* delta_phi_mapped = &delta_phi_local[dphi_map];
-      const double* phi_in_mapped = &phi_in[phi_map];
+      assert(false);
+      // double* delta_phi_mapped = &delta_phi_local[dphi_map];
+      // const double* phi_in_mapped = &phi_in[phi_map];
+      double* delta_phi_mapped = nullptr;
+      const double* phi_in_mapped = nullptr;
 
       for (size_t g = 0; g < gss; ++g)
       {
@@ -1946,14 +1961,15 @@ LBSProblem::MakeSourceMomentsFromPhi()
   size_t num_local_dofs = discretization_->GetNumLocalDOFs(flux_moments_uk_man_);
 
   std::vector<double> source_moments(num_local_dofs, 0.0);
-  for (auto& groupset : groupsets_)
-  {
-    active_set_source_function_(groupset,
-                                source_moments,
-                                phi_new_local_,
-                                APPLY_AGS_SCATTER_SOURCES | APPLY_WGS_SCATTER_SOURCES |
-                                  APPLY_AGS_FISSION_SOURCES | APPLY_WGS_FISSION_SOURCES);
-  }
+  assert(false);
+  // for (auto& groupset : groupsets_)
+  // {
+  //   active_set_source_function_(groupset,
+  //                               source_moments,
+  //                               phi_new_local_,
+  //                               APPLY_AGS_SCATTER_SOURCES | APPLY_WGS_SCATTER_SOURCES |
+  //                                 APPLY_AGS_FISSION_SOURCES | APPLY_WGS_FISSION_SOURCES);
+  // }
 
   return source_moments;
 }
@@ -1984,7 +2000,8 @@ LBSProblem::UpdateFieldFunctions()
         const int64_t imapA = sdm.MapDOFLocal(cell, i, phi_uk_man, m, g);
         const int64_t imapB = sdm.MapDOFLocal(cell, i);
 
-        data_vector_local[imapB] = phi_new_local_[imapA];
+        // data_vector_local[imapB] = phi_new_local_[imapA];
+        assert(false);
       } // for node
     }   // for cell
 
@@ -2022,7 +2039,8 @@ LBSProblem::UpdateFieldFunctions()
           // const double kappa_g = xs->Kappa()[g];
           const double kappa_g = options_.power_default_kappa;
 
-          nodal_power += kappa_g * sigma_fg * phi_new_local_[imapB + g];
+          // nodal_power += kappa_g * sigma_fg * phi_new_local_[imapB + g];
+          assert(false);
         } // for g
 
         data_vector_local[imapA] = nodal_power;
@@ -2083,10 +2101,11 @@ LBSProblem::SetPhiFromFieldFunctions(PhiSTLOption which_phi,
           const int64_t imapA = sdm.MapDOFLocal(cell, i);
           const int64_t imapB = sdm.MapDOFLocal(cell, i, phi_uk_man, m, g);
 
-          if (which_phi == PhiSTLOption::PHI_OLD)
-            phi_old_local_[imapB] = ff_data[imapA];
-          else if (which_phi == PhiSTLOption::PHI_NEW)
-            phi_new_local_[imapB] = ff_data[imapA];
+          assert(false);
+          // if (which_phi == PhiSTLOption::PHI_OLD)
+          //   phi_old_local_[imapB] = ff_data[imapA];
+          // else if (which_phi == PhiSTLOption::PHI_NEW)
+          //   phi_new_local_[imapB] = ff_data[imapA];
         } // for node
       }   // for cell
     }     // for g
@@ -2094,7 +2113,7 @@ LBSProblem::SetPhiFromFieldFunctions(PhiSTLOption which_phi,
 }
 
 double
-LBSProblem::ComputeFissionProduction(const std::vector<double>& phi)
+LBSProblem::ComputeFissionProduction(const std::vector<NDArray<double, 4>>& phi)
 {
   CALI_CXX_MARK_SCOPE("LBSProblem::ComputeFissionProduction");
 
@@ -2127,12 +2146,14 @@ LBSProblem::ComputeFissionProduction(const std::vector<double>& phi)
       for (size_t g = first_grp; g <= last_grp; ++g)
       {
         const auto& prod = F[g];
-        for (size_t gp = 0; gp <= last_grp; ++gp)
-          local_production += prod[gp] * phi[uk_map + gp] * IntV_ShapeI;
+        assert(false);
+        // for (size_t gp = 0; gp <= last_grp; ++gp)
+        //   local_production += prod[gp] * phi[uk_map + gp] * IntV_ShapeI;
 
-        if (options_.use_precursors)
-          for (unsigned int j = 0; j < xs.GetNumPrecursors(); ++j)
-            local_production += nu_delayed_sigma_f[g] * phi[uk_map + g] * IntV_ShapeI;
+        assert(false);
+        // if (options_.use_precursors)
+        //   for (unsigned int j = 0; j < xs.GetNumPrecursors(); ++j)
+        //     local_production += nu_delayed_sigma_f[g] * phi[uk_map + g] * IntV_ShapeI;
       }
     } // for node
   }   // for cell
@@ -2222,9 +2243,10 @@ LBSProblem::ComputePrecursors()
         const double node_V_fraction = fe_values.intV_shapeI(i) / cell_volume;
 
         // Loop over groups
-        for (unsigned int g = 0; g < groups_.size(); ++g)
-          precursor_new_local_[dof] +=
-            coeff * nu_delayed_sigma_f[g] * phi_new_local_[uk_map + g] * node_V_fraction;
+        assert(false);
+        // for (unsigned int g = 0; g < groups_.size(); ++g)
+        //   precursor_new_local_[dof] +=
+        //     coeff * nu_delayed_sigma_f[g] * phi_new_local_[uk_map + g] * node_V_fraction;
       } // for node i
     }   // for precursor j
 

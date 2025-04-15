@@ -18,7 +18,8 @@ AGSSolver::Solve()
 {
   CALI_CXX_MARK_SCOPE("AGSSolver::Solve");
 
-  std::fill(phi_old_.begin(), phi_old_.end(), 0.0);
+  assert(false);
+  // std::fill(phi_old_.begin(), phi_old_.end(), 0.0);
 
   // Save qmoms to be restored after each iteration. This is necessary for multiple ags iterations
   // to function and for keigen-value problems

@@ -51,21 +51,23 @@ ClassicRichardson::Solve()
     // Apply WGDSA
     if (groupset.apply_wgdsa)
     {
-      std::vector<double> delta_phi;
-      lbs_problem.AssembleWGDSADeltaPhiVector(groupset, phi_new - phi_old, delta_phi);
-      groupset.wgdsa_solver->Assemble_b(delta_phi);
-      groupset.wgdsa_solver->Solve(delta_phi);
-      lbs_problem.DisAssembleWGDSADeltaPhiVector(groupset, delta_phi, phi_new);
+      assert(false);
+      // std::vector<double> delta_phi;
+      // lbs_problem.AssembleWGDSADeltaPhiVector(groupset, phi_new - phi_old, delta_phi);
+      // groupset.wgdsa_solver->Assemble_b(delta_phi);
+      // groupset.wgdsa_solver->Solve(delta_phi);
+      // lbs_problem.DisAssembleWGDSADeltaPhiVector(groupset, delta_phi, phi_new);
     }
 
     // Apply TGDSA
     if (groupset.apply_tgdsa)
     {
-      std::vector<double> delta_phi;
-      lbs_problem.AssembleTGDSADeltaPhiVector(groupset, phi_new - phi_old, delta_phi);
-      groupset.tgdsa_solver->Assemble_b(delta_phi);
-      groupset.tgdsa_solver->Solve(delta_phi);
-      lbs_problem.DisAssembleTGDSADeltaPhiVector(groupset, delta_phi, phi_new);
+      assert(false);
+      // std::vector<double> delta_phi;
+      // lbs_problem.AssembleTGDSADeltaPhiVector(groupset, phi_new - phi_old, delta_phi);
+      // groupset.tgdsa_solver->Assemble_b(delta_phi);
+      // groupset.tgdsa_solver->Solve(delta_phi);
+      // lbs_problem.DisAssembleTGDSADeltaPhiVector(groupset, delta_phi, phi_new);
     }
 
     double pw_phi_change = ComputePointwisePhiChange(lbs_problem, groupset.id);

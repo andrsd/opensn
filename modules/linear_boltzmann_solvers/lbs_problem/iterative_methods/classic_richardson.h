@@ -31,7 +31,7 @@ public:
   void Solve() override;
 
 private:
-  std::vector<double> saved_q_moments_local_;
+  std::vector<NDArray<double, 4>> saved_q_moments_local_;
   std::vector<double> psi_new_, psi_old_;
 };
 

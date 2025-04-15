@@ -82,14 +82,15 @@ LBSReadFluxMomentsAndMakeSourceMoments(std::shared_ptr<LBSProblem> lbs_problem,
                                        const std::string& file_base,
                                        bool single_file_flag)
 {
-  LBSSolverIO::ReadFluxMoments(
-    *lbs_problem, file_base, single_file_flag, lbs_problem->GetExtSrcMomentsLocal());
+  assert(false);
+  // LBSSolverIO::ReadFluxMoments(
+  //   *lbs_problem, file_base, single_file_flag, lbs_problem->GetExtSrcMomentsLocal());
 
-  opensn::log.Log() << "Making source moments from flux file.";
-  auto temp_phi = lbs_problem->GetPhiOldLocal();
-  lbs_problem->GetPhiOldLocal() = lbs_problem->GetExtSrcMomentsLocal();
-  lbs_problem->GetExtSrcMomentsLocal() = lbs_problem->MakeSourceMomentsFromPhi();
-  lbs_problem->GetPhiOldLocal() = temp_phi;
+  // opensn::log.Log() << "Making source moments from flux file.";
+  // auto temp_phi = lbs_problem->GetPhiOldLocal();
+  // lbs_problem->GetPhiOldLocal() = lbs_problem->GetExtSrcMomentsLocal();
+  // lbs_problem->GetExtSrcMomentsLocal() = lbs_problem->MakeSourceMomentsFromPhi();
+  // lbs_problem->GetPhiOldLocal() = temp_phi;
 }
 
 void
@@ -97,8 +98,9 @@ LBSReadSourceMoments(std::shared_ptr<LBSProblem> lbs_problem,
                      const std::string& file_base,
                      bool single_file_flag)
 {
-  LBSSolverIO::ReadFluxMoments(
-    *lbs_problem, file_base, single_file_flag, lbs_problem->GetExtSrcMomentsLocal());
+  assert(false);
+  // LBSSolverIO::ReadFluxMoments(
+  //   *lbs_problem, file_base, single_file_flag, lbs_problem->GetExtSrcMomentsLocal());
 }
 
 void

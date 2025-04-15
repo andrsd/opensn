@@ -73,6 +73,7 @@ MIPWGSContext::ApplyInverseTransportOperator(SourceFlags scope)
   ++counter_applications_of_inv_op;
   auto& mip_solver = *dynamic_cast<DiffusionDFEMSolver&>(lbs_problem).gs_mip_solvers[groupset.id];
 
+  // FIXME: need to do copy, rather then assignment(?)
   lbs_problem.GetPhiNewLocal() = lbs_problem.GetQMomentsLocal();
 
   Vec work_vector;

@@ -41,12 +41,13 @@ public:
   void Execute() override;
 
   /// Copies only the scalar moments from an lbs primary flux moments vector.
-  std::vector<double> CopyOnlyPhi0(const LBSGroupset& groupset, const std::vector<double>& phi_in);
+  std::vector<double> CopyOnlyPhi0(const LBSGroupset& groupset,
+                                   const std::vector<NDArray<double, 4>>& phi_in);
 
   /// Copies back only the scalar moments to a lbs primary flux vector.
   void ProjectBackPhi0(const LBSGroupset& groupset,
-                       const std::vector<double>& input,
-                       std::vector<double>& output);
+                       const std::vector<NDArray<double, 4>>& input,
+                       std::vector<NDArray<double, 4>>& output);
 
   /// Creates a ghost communicator and all associated information.
   GhostInfo MakePWLDVecGhostCommInfo(const SpatialDiscretization& sdm,
@@ -57,7 +58,7 @@ public:
    * makes it continuous by applying nodal averages.
    */
   static std::vector<double>
-  NodallyAveragedPWLDVector(const std::vector<double>& input,
+  NodallyAveragedPWLDVector(const std::vector<NDArray<double, 4>>& input,
                             const SpatialDiscretization& pwld_sdm,
                             const SpatialDiscretization& pwlc_sdm,
                             const UnknownManager& uk_man,

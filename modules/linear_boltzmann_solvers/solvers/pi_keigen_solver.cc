@@ -182,7 +182,7 @@ PowerIterationKEigenSolver::Execute()
 }
 
 void
-PowerIterationKEigenSolver::SetLBSFissionSource(const std::vector<double>& input,
+PowerIterationKEigenSolver::SetLBSFissionSource(const std::vector<NDArray<double, 4>>& input,
                                                 const bool additive)
 {
   if (not additive)
@@ -196,7 +196,7 @@ PowerIterationKEigenSolver::SetLBSFissionSource(const std::vector<double>& input
 }
 
 void
-PowerIterationKEigenSolver::SetLBSScatterSource(const std::vector<double>& input,
+PowerIterationKEigenSolver::SetLBSScatterSource(const std::vector<NDArray<double, 4>>& input,
                                                 const bool additive,
                                                 const bool suppress_wg_scat)
 {
@@ -224,25 +224,26 @@ PowerIterationKEigenSolver::ReadRestartData()
   bool success = (file >= 0);
   if (file >= 0)
   {
-    // Read phi
-    success &= H5ReadDataset1D<double>(file, "phi_old", phi_old_local);
+    assert(false);
+    // // Read phi
+    // success &= H5ReadDataset1D<double>(file, "phi_old", phi_old_local);
 
-    // Read psi
-    int gs_id = 0;
-    for (auto gs : groupsets)
-    {
-      if (gs.angle_agg)
-      {
-        std::string name = "delayed_psi_old_gs" + std::to_string(gs_id);
-        if (H5Has(file, name))
-        {
-          std::vector<double> psi;
-          success &= H5ReadDataset1D<double>(file, name.c_str(), psi);
-          gs.angle_agg->SetOldDelayedAngularDOFsFromSTLVector(psi);
-        }
-      }
-      ++gs_id;
-    }
+    // // Read psi
+    // int gs_id = 0;
+    // for (auto gs : groupsets)
+    // {
+    //   if (gs.angle_agg)
+    //   {
+    //     std::string name = "delayed_psi_old_gs" + std::to_string(gs_id);
+    //     if (H5Has(file, name))
+    //     {
+    //       std::vector<double> psi;
+    //       success &= H5ReadDataset1D<double>(file, name.c_str(), psi);
+    //       gs.angle_agg->SetOldDelayedAngularDOFsFromSTLVector(psi);
+    //     }
+    //   }
+    //   ++gs_id;
+    // }
 
     // Read keff and Fprev
     success &= H5ReadAttribute<double>(file, "keff", k_eff_) and
@@ -271,27 +272,28 @@ PowerIterationKEigenSolver::WriteRestartData()
   bool success = (file >= 0);
   if (file >= 0)
   {
-    // Write phi
-    success &= H5WriteDataset1D<double>(file, "phi_old", phi_old_local);
+    assert(false);
+    // // Write phi
+    // success &= H5WriteDataset1D<double>(file, "phi_old", phi_old_local);
 
-    // Write psi
-    if (options.write_delayed_psi_to_restart)
-    {
-      int gs_id = 0;
-      for (auto gs : lbs_problem_->GetGroupsets())
-      {
-        if (gs.angle_agg)
-        {
-          auto psi = gs.angle_agg->GetOldDelayedAngularDOFsAsSTLVector();
-          if (not psi.empty())
-          {
-            std::string name = "delayed_psi_old_gs" + std::to_string(gs_id);
-            success &= H5WriteDataset1D<double>(file, name, psi);
-          }
-        }
-        ++gs_id;
-      }
-    }
+    // // Write psi
+    // if (options.write_delayed_psi_to_restart)
+    // {
+    //   int gs_id = 0;
+    //   for (auto gs : lbs_problem_->GetGroupsets())
+    //   {
+    //     if (gs.angle_agg)
+    //     {
+    //       auto psi = gs.angle_agg->GetOldDelayedAngularDOFsAsSTLVector();
+    //       if (not psi.empty())
+    //       {
+    //         std::string name = "delayed_psi_old_gs" + std::to_string(gs_id);
+    //         success &= H5WriteDataset1D<double>(file, name, psi);
+    //       }
+    //     }
+    //     ++gs_id;
+    //   }
+    // }
 
     success &= H5CreateAttribute<double>(file, "keff", k_eff_) and
                H5CreateAttribute<double>(file, "Fprev", F_prev_);

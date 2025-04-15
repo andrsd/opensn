@@ -20,8 +20,10 @@ LBSSolverIO::WriteFluxMoments(
   hid_t file_id = H5Fcreate(file_name.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
   OpenSnLogicalErrorIf(file_id < 0, "Failed to open " + file_name + ".");
 
-  std::vector<double>& src =
-    opt_src.has_value() ? opt_src.value().get() : lbs_problem.GetPhiNewLocal();
+  assert(false);
+  std::vector<double> src;
+  // std::vector<double>& src =
+  //   opt_src.has_value() ? opt_src.value().get() : lbs_problem.GetPhiNewLocal();
 
   log.Log() << "Writing flux moments to " << file_base;
 
@@ -102,8 +104,10 @@ LBSSolverIO::ReadFluxMoments(LBSProblem& lbs_problem,
   hid_t file_id = H5Fopen(file_name.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
   OpenSnLogicalErrorIf(file_id < 0, "Failed to open " + file_name + ".");
 
-  std::vector<double>& dest =
-    opt_dest.has_value() ? opt_dest.value().get() : lbs_problem.GetPhiOldLocal();
+  assert(false);
+  std::vector<double> dest;
+  // std::vector<double>& dest =
+  //   opt_dest.has_value() ? opt_dest.value().get() : lbs_problem.GetPhiOldLocal();
 
   log.Log() << "Reading flux moments from " << file_base;
 

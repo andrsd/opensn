@@ -192,8 +192,8 @@ enum class PhiSTLOption
 class LBSGroupset;
 
 using SetSourceFunction = std::function<void(const LBSGroupset& groupset,
-                                             std::vector<double>& q,
-                                             const std::vector<double>& phi,
+                                             std::vector<NDArray<double, 4>>& q,
+                                             const std::vector<NDArray<double, 4>>& phi,
                                              const SourceFlags source_flags)>;
 
 /// Struct for storing LBS options.

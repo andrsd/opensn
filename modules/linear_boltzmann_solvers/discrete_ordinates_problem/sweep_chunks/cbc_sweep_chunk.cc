@@ -12,14 +12,14 @@
 namespace opensn
 {
 
-CBCSweepChunk::CBCSweepChunk(std::vector<double>& destination_phi,
+CBCSweepChunk::CBCSweepChunk(NDArray<double, 4>& destination_phi,
                              std::vector<double>& destination_psi,
                              const std::shared_ptr<MeshContinuum> grid,
                              const SpatialDiscretization& discretization,
                              const std::vector<UnitCellMatrices>& unit_cell_matrices,
                              std::vector<CellLBSView>& cell_transport_views,
                              const std::vector<double>& densities,
-                             const std::vector<double>& source_moments,
+                             const NDArray<double, 4>& source_moments,
                              const LBSGroupset& groupset,
                              const std::map<int, std::shared_ptr<MultiGroupXS>>& xs,
                              int num_moments,
@@ -86,6 +86,7 @@ CBCSweepChunk::SetCell(const Cell* cell_ptr, AngleSet& angle_set)
 void
 CBCSweepChunk::Sweep(AngleSet& angle_set)
 {
+  auto gsn = groupset_.id;
   const auto& m2d_op = groupset_.quadrature->GetMomentToDiscreteOperator();
   const auto& d2m_op = groupset_.quadrature->GetDiscreteToMomentOperator();
 
@@ -203,7 +204,8 @@ CBCSweepChunk::Sweep(AngleSet& angle_set)
         for (int m = 0; m < num_moments_; ++m)
         {
           const size_t ir = cell_transport_view_->MapDOF(i, m, static_cast<int>(gs_gi_ + gsg));
-          temp_src += m2d_op[m][direction_num] * source_moments_[ir];
+          assert(false);
+          // temp_src += m2d_op[m][direction_num] * source_moments_[ir];
         }
         source[i] = temp_src;
       }
@@ -235,7 +237,11 @@ CBCSweepChunk::Sweep(AngleSet& angle_set)
       {
         const size_t ir = cell_transport_view_->MapDOF(i, m, gs_gi_);
         for (int gsg = 0; gsg < gs_size_; ++gsg)
-          destination_phi_[ir + gsg] += wn_d2m * b[gsg](i);
+        {
+          assert(false);
+          // destination_phi_[ir + gsg] += wn_d2m * b[gsg](i);
+          // destination_phi_(cell, i, m, gs_gi_ + gsg) += wn_d2m * b[gsg](i);
+        }
       }
     }
 

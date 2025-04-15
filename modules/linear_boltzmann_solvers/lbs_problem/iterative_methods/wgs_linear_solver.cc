@@ -164,6 +164,7 @@ WGSLinearSolver::SetRHS()
     log.Log() << program_timer.GetTimeString() << " Computing b";
 
   // SetSource for RHS
+  assert(false); // below is a copy really
   saved_q_moments_local_ = lbs_problem.GetQMomentsLocal();
 
   const bool single_richardson =
