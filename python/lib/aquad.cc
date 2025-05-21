@@ -356,7 +356,7 @@ WrapLebedevQuadrature(py::module& aquad)
       [](int order, bool verbose)
       {
         try {
-          // Use the 3-parameter constructor directly
+          // Use the 2-parameter constructor directly
           return std::make_shared<LebedevQuadrature>(order, verbose);
         }
         catch (const std::exception& e) {
@@ -373,8 +373,6 @@ WrapLebedevQuadrature(py::module& aquad)
     ----------
     order: int
         The order of the quadrature.
-    base_path: str
-        Path to the directory containing Lebedev quadrature files.
     verbose: bool, default=False
         Whether to print verbose output during initialization.
     )",

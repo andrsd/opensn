@@ -56,7 +56,7 @@ LebedevQuadrature::LoadFromOrder(int order, bool verbose)
       abscissae.push_back(qpoint);
 
       // Create the direction vector
-      Vector3 omega{x, y, z};
+      Vector3 omega{x / r, y / r, z / r};
       omegas.push_back(omega);
 
       // Store the weight
