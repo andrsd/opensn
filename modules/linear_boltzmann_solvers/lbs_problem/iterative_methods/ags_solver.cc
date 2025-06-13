@@ -78,6 +78,12 @@ AGSSolver::Solve()
     else
       phi_old_ = lbs_problem_.GetPhiNewLocal();
   }
+
+  mpi_comm.barrier();
+  sleep(mpi_comm.rank());
+  std::cerr << "sln = " << std::endl;
+  for (auto& v : lbs_problem_.GetPhiNewLocal())
+    std::cerr << v << std::endl;
 }
 
 } // namespace opensn
