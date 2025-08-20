@@ -356,17 +356,11 @@ WrapLebedevQuadrature(py::module& aquad)
   
   lebedev_quadrature.def(
     py::init(
-      [](int order, bool verbose)
+      [](py::kwargs& params)
       {
-        try {
-          // Use the 2-parameter constructor directly
-          return std::make_shared<LebedevQuadrature>(order, verbose);
-        }
-        catch (const std::exception& e) {
-          // Convert C++ exceptions to Python exceptions
-          PyErr_SetString(PyExc_RuntimeError, e.what());
-          throw py::error_already_set();
-        }
+        static const std::vector<std::string> required_keys = {"order"};
+        static const std::vector<std::pair<std::string, py::object>> optional_keys = {{"verbose", py::bool_(false)}};
+        return construct_from_kwargs<LebedevQuadrature, int, bool>(params, required_keys, optional_keys);
       }
     ),
     R"(
@@ -378,9 +372,7 @@ WrapLebedevQuadrature(py::module& aquad)
         The order of the quadrature.
     verbose: bool, default=False
         Whether to print verbose output during initialization.
-    )",
-    py::arg("order"),
-    py::arg("verbose") = false
+    )" // no more py::args(...) here
   );
   
   lebedev_quadrature.def(
