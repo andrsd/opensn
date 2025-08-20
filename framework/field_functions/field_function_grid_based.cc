@@ -26,11 +26,9 @@ FieldFunctionGridBased::GetInputParameters()
 {
   InputParameters params = FieldFunction::GetInputParameters();
 
-  params.SetDocGroup("DocFieldFunction");
-
   params.AddOptionalParameter("discretization", "FV", "The spatial discretization type to be used");
   params.AddOptionalParameter(
-    "coordinate_system", "cartesian", "Coordinate system to apply to element mappings");
+    "coord_sys", "cartesian", "Coordinate system to apply to element mappings");
   params.AddOptionalParameter("quadrature_order",
                               0,
                               "If supplied, will overwrite the default for the "
@@ -41,7 +39,7 @@ FieldFunctionGridBased::GetInputParameters()
 
   params.ConstrainParameterRange("discretization", AllowableRangeList::New({"FV", "PWLC", "PWLD"}));
   params.ConstrainParameterRange(
-    "coordinate_system", AllowableRangeList::New({"cartesian", "cylindrical", "spherical"}));
+    "coord_sys", AllowableRangeList::New({"cartesian", "cylindrical", "spherical"}));
 
   return params;
 }
@@ -50,8 +48,7 @@ FieldFunctionGridBased::FieldFunctionGridBased(const InputParameters& params)
   : FieldFunction(params),
     discretization_(MakeSpatialDiscretization(params)),
     ghosted_field_vector_(MakeFieldVector(*discretization_, GetUnknownManager())),
-    local_grid_bounding_box_(
-      params.GetParamValue<std::shared_ptr<MeshContinuum>>("mesh")->GetLocalBoundingBox())
+    local_grid_bounding_box_(params.GetSharedPtrParam<MeshContinuum>("mesh")->GetLocalBoundingBox())
 {
   ghosted_field_vector_->Set(params.GetParamValue<double>("initial_value"));
 }
@@ -182,10 +179,10 @@ FieldFunctionGridBased::GetPointValue(const Vector3& point) const
 
             local_point_value[c] += dof_value * shape_values(j);
           } // for node i
-        }   // for component c
-      }     // if inside cell
-    }       // for cell
-  }         // if in bounding box
+        } // for component c
+      } // if inside cell
+    } // for cell
+  } // if in bounding box
 
   // Communicate number of point hits
   size_t global_num_point_hits;
@@ -222,12 +219,12 @@ FieldFunctionGridBased::Evaluate(const Cell& cell, const Vector3& position, int 
 }
 
 void
-FieldFunctionGridBased::ExportMultipleToVTK(
+FieldFunctionGridBased::ExportMultipleToPVTU(
   const std::string& file_base_name,
   const std::vector<std::shared_ptr<const FieldFunctionGridBased>>& ff_list)
 {
-  const std::string fname = "FieldFunctionGridBased::ExportMultipleToVTK";
-  log.Log() << "Exporting field functions to VTK with file base \"" << file_base_name << "\"";
+  const std::string fname = "FieldFunctionGridBased::ExportMultipleToPVTU";
+  log.Log() << "Exporting field functions to PVTU with file base \"" << file_base_name << "\"";
 
   if (ff_list.empty())
     throw std::logic_error(fname + ": Cannot be used with empty field-function"
@@ -315,36 +312,26 @@ FieldFunctionGridBased::ExportMultipleToVTK(
       point_data->AddArray(point_array);
       cell_data->AddArray(cell_array);
     } // for component
-  }   // for ff_ptr
+  } // for ff_ptr
 
   WritePVTUFiles(ugrid, file_base_name);
 
-  log.Log() << "Done exporting field functions to VTK.";
+  log.Log() << "Done exporting field functions to PVTU.";
   opensn::mpi_comm.barrier();
 }
 
 std::shared_ptr<SpatialDiscretization>
 FieldFunctionGridBased::MakeSpatialDiscretization(const InputParameters& params)
 {
-  const auto grid_ptr = params.GetParamValue<std::shared_ptr<MeshContinuum>>("mesh");
+  const auto grid = params.GetSharedPtrParam<MeshContinuum>("mesh");
   const auto sdm_type = params.GetParamValue<std::string>("discretization");
 
   if (sdm_type == "FV")
-    return FiniteVolume::New(grid_ptr);
+    return FiniteVolume::New(grid);
 
-  CoordinateSystemType cs_type = CoordinateSystemType::CARTESIAN;
   std::string cs = "cartesian";
-  if (params.IsParameterValid("coordinate_system"))
-  {
-    cs = params.GetParamValue<std::string>("coordinate_system");
-
-    if (cs == "cartesian")
-      cs_type = CoordinateSystemType::CARTESIAN;
-    if (cs == "cylindrical")
-      cs_type = CoordinateSystemType::CYLINDRICAL;
-    if (cs == "spherical")
-      cs_type = CoordinateSystemType::SPHERICAL;
-  }
+  if (params.IsParameterValid("coord_sys"))
+    cs = params.GetParamValue<std::string>("coord_sys");
 
   QuadratureOrder q_order = QuadratureOrder::SECOND;
 
@@ -360,16 +347,18 @@ FieldFunctionGridBased::MakeSpatialDiscretization(const InputParameters& params)
   {
     if (cs == "cartesian")
       q_order = QuadratureOrder::SECOND;
-    if (cs == "cylindrical")
+    else if (cs == "cylindrical")
       q_order = QuadratureOrder::THIRD;
-    if (cs == "spherical")
+    else if (cs == "spherical")
       q_order = QuadratureOrder::FOURTH;
+    else
+      throw std::logic_error("Unrecognized coordinate system.");
   }
 
   if (sdm_type == "PWLC")
-    return PieceWiseLinearContinuous::New(grid_ptr, q_order, cs_type);
+    return PieceWiseLinearContinuous::New(grid, q_order);
   else if (sdm_type == "PWLD")
-    return PieceWiseLinearDiscontinuous::New(grid_ptr, q_order, cs_type);
+    return PieceWiseLinearDiscontinuous::New(grid, q_order);
 
   // If not returned by now
   OpenSnInvalidArgument("Unsupported discretization \"" + sdm_type + "\"");

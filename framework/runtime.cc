@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/runtime.h"
-#include "framework/event_system/system_wide_event_publisher.h"
-#include "framework/post_processors/post_processor.h"
-#include "framework/event_system/event.h"
 #include "framework/math/math.h"
 #include "framework/object_factory.h"
 #include "framework/logging/log.h"
@@ -30,10 +27,7 @@ std::filesystem::path input_path;
 std::vector<std::shared_ptr<FieldFunctionInterpolation>> field_func_interpolation_stack;
 std::vector<std::shared_ptr<MultiGroupXS>> multigroup_xs_stack;
 std::vector<std::shared_ptr<FieldFunction>> field_function_stack;
-std::vector<std::shared_ptr<Object>> object_stack;
 std::vector<std::shared_ptr<SpatialDiscretization>> sdm_stack;
-std::vector<std::shared_ptr<PostProcessor>> postprocessor_stack;
-std::vector<std::shared_ptr<Function>> function_stack;
 
 int
 Initialize()
@@ -48,8 +42,6 @@ Initialize()
 
   CALI_MARK_BEGIN(opensn::program.c_str());
 
-  SystemWideEventPublisher::GetInstance().PublishEvent(Event("ProgramStart"));
-
   // Disable internal HDF error reporting
   H5Eset_auto2(H5E_DEFAULT, NULL, NULL);
 
@@ -59,15 +51,10 @@ Initialize()
 void
 Finalize()
 {
-  SystemWideEventPublisher::GetInstance().PublishEvent(Event("ProgramExecuted"));
-
   field_func_interpolation_stack.clear();
   multigroup_xs_stack.clear();
   field_function_stack.clear();
-  object_stack.clear();
   sdm_stack.clear();
-  postprocessor_stack.clear();
-  function_stack.clear();
 
   // Flush standard streams
   std::cout.flush();
@@ -77,12 +64,6 @@ Finalize()
   opensn::mpi_comm.barrier();
 
   CALI_MARK_END(opensn::program.c_str());
-}
-
-void
-Exit(int error_code)
-{
-  mpi_comm.abort(error_code);
 }
 
 std::string

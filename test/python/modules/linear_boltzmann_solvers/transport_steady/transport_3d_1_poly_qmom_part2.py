@@ -9,6 +9,7 @@ Test: Max-value=1.01701e-04 and 9.14681e-06
 
 import os
 import sys
+import glob
 
 if "opensn_console" not in globals():
     from mpi4py import MPI
@@ -74,7 +75,7 @@ if __name__ == "__main__":
     mg_src1 = VolumetricSource(block_ids=[1], group_strength=strength)
 
     # Setup Physics
-    pquad = GLCProductQuadrature3DXYZ(4, 8)
+    pquad = GLCProductQuadrature3DXYZ(n_polar=4, n_azimuthal=8, scattering_order=1)
 
     phys = DiscreteOrdinatesProblem(
         mesh=grid,
@@ -94,13 +95,13 @@ if __name__ == "__main__":
         xs_map=[
             {"block_ids": [0, 1], "xs": xs_graphite},
         ],
+        scattering_order=1,
         options={
-            "scattering_order": 1,
             "use_source_moments": True,
             "volumetric_sources": [mg_src0, mg_src1],
         },
     )
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = SteadyStateSolver(problem=phys)
     ss_solver.Initialize()
     phys.ReadSourceMoments("Qmoms", False)
 
@@ -131,3 +132,11 @@ if __name__ == "__main__":
     maxval = curffi.GetValue()
     if rank == 0:
         print(f"Max-value2={maxval:.5e}")
+
+    # Clean up moment files
+    if rank == 0:
+        for file in glob.glob('Qmoms*.h5'):
+            try:
+                os.remove(file)
+            except FileNotFoundError:
+                pass

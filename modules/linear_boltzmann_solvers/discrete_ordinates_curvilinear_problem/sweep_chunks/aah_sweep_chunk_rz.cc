@@ -42,7 +42,7 @@ AAHSweepChunkRZ::AAHSweepChunkRZ(const std::shared_ptr<MeshContinuum> grid,
     normal_vector_boundary_()
 {
   const auto curvilinear_product_quadrature =
-    std::dynamic_pointer_cast<CurvilinearQuadrature>(groupset_.quadrature);
+    std::dynamic_pointer_cast<CurvilinearProductQuadrature>(groupset_.quadrature);
 
   if (curvilinear_product_quadrature == nullptr)
     throw std::invalid_argument("D_DO_RZ_SteadyState::SweepChunkPWL::SweepChunkPWL : "
@@ -87,7 +87,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
   std::vector<double> source(max_num_cell_dofs_);
 
   const auto curvilinear_product_quadrature =
-    std::dynamic_pointer_cast<opensn::CurvilinearQuadrature>(groupset_.quadrature);
+    std::dynamic_pointer_cast<opensn::CurvilinearProductQuadrature>(groupset_.quadrature);
 
   // Loop over each cell
   const auto& spds = angle_set.GetSPDS();
@@ -117,7 +117,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
     // Loop over angles in set (as = angleset, ss = subset)
     const int ni_deploc_face_counter = deploc_face_counter;
     const int ni_preloc_face_counter = preloc_face_counter;
-    const std::vector<size_t>& as_angle_indices = angle_set.GetAngleIndices();
+    const std::vector<std::uint32_t>& as_angle_indices = angle_set.GetAngleIndices();
     for (size_t as_ss_idx = 0; as_ss_idx < as_angle_indices.size(); ++as_ss_idx)
     {
       auto direction_num = as_angle_indices[as_ss_idx];
@@ -233,8 +233,8 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
             for (int gsg = 0; gsg < gs_size; ++gsg)
               b[gsg](i) += psi[gsg] * mu_Nij;
           } // for face node j
-        }   // for face node i
-      }     // for f
+        } // for face node i
+      } // for f
 
       // Looping over groups, assembling mass terms
       for (int gsg = 0; gsg < gs_size; ++gsg)
@@ -346,7 +346,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
               psi[gsg] = b[gsg](i);
           }
         } // for fi
-      }   // for face
+      } // for face
 
       // Update sweeping dependency angular intensity for each polar level (incoming for next
       // interval)
@@ -359,7 +359,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
           psi_sweep_[ir + gsg] = f0 * b[gsg](i) - f1 * psi_sweep_[ir + gsg];
       }
     } // for angleset/subset
-  }   // for cell
+  } // for cell
 }
 
 } // namespace opensn

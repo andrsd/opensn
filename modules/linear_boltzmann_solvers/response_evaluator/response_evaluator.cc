@@ -5,10 +5,10 @@
 #include "modules/linear_boltzmann_solvers/lbs_problem/point_source/point_source.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/volumetric_source/volumetric_source.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/io/lbs_problem_io.h"
-#include "framework/physics/solver.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/logging/log.h"
 #include "framework/object_factory.h"
+#include "framework/runtime.h"
 #include "mpicpp-lite/mpicpp-lite.h"
 
 namespace mpi = mpicpp_lite;
@@ -25,9 +25,8 @@ ResponseEvaluator::GetInputParameters()
   params.SetGeneralDescription(
     "A utility class for evaluating responses using precomputed adjoint solutions "
     "and arbitrary forward sources.");
-  params.SetDocGroup("LBSUtilities");
 
-  params.AddRequiredParameter<std::shared_ptr<Problem>>("lbs_problem",
+  params.AddRequiredParameter<std::shared_ptr<Problem>>("problem",
                                                         "A handle to an existing LBS problem.");
   params.AddOptionalParameterBlock(
     "options", ParameterBlock(), "The specification of adjoint buffers and forward to use.");
@@ -44,8 +43,7 @@ ResponseEvaluator::Create(const ParameterBlock& params)
 }
 
 ResponseEvaluator::ResponseEvaluator(const InputParameters& params)
-  : lbs_problem_(std::dynamic_pointer_cast<LBSProblem>(
-      params.GetParamValue<std::shared_ptr<Problem>>("lbs_problem")))
+  : lbs_problem_(params.GetSharedPtrParam<Problem, LBSProblem>("problem"))
 {
   if (params.IsParameterValid("options"))
   {
@@ -61,7 +59,6 @@ ResponseEvaluator::GetOptionsBlock()
   InputParameters params;
   params.SetGeneralDescription("A block of options for the response evaluator for adding adjoint "
                                "buffers and defining forward sources.");
-  params.SetDocGroup("LBSResponseEvaluator");
 
   params.AddOptionalParameterArray(
     "buffers", {}, "An array of tables containing adjoint buffer specifications.");
@@ -112,7 +109,6 @@ ResponseEvaluator::GetBufferOptionsBlock()
 {
   InputParameters params;
   params.SetGeneralDescription("Options for adding adjoint buffers to the response evaluator.");
-  params.SetDocGroup("LBSResponseEvaluator");
 
   params.AddRequiredParameter<std::string>(
     "name",
@@ -156,7 +152,6 @@ ResponseEvaluator::GetSourceOptionsBlock()
 {
   InputParameters params;
   params.SetGeneralDescription("A table of various forward source specifications.");
-  params.SetDocGroup("LBSResponseEvaluator");
 
   params.AddOptionalParameterArray(
     "material", {}, "An array of tables containing material source specifications.");
@@ -238,7 +233,6 @@ ResponseEvaluator::GetMaterialSourceOptionsBlock()
   InputParameters params;
   params.SetGeneralDescription(
     "Options for adding material-based forward sources to the response evaluator.");
-  params.SetDocGroup("LBSResponseEvaluator");
 
   params.AddRequiredParameter<int>("block_id", "The block id the source belongs to.");
   params.AddRequiredParameterArray("strength", "The group-wise material source strength.");
@@ -366,7 +360,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
         }
       }
     } // for cell
-  }   // if material sources
+  } // if material sources
 
   // Boundary sources
   if (not boundary_sources_.empty())
@@ -418,10 +412,10 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
           }
           ++f;
         } // for face
-      }   // for cell
+      } // for cell
       ++gs;
     } // for groupset
-  }   // if boundary sources
+  } // if boundary sources
 
   // Point sources
   for (const auto& point_source : point_sources_)
@@ -441,7 +435,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
         for (size_t g = 0; g < num_groups; ++g)
           local_response += vol_wt * shape_val * src[g] * phi_dagger[dof_map + g];
       } // for node i
-    }   // for subscriber
+    } // for subscriber
 
   // Volumetric sources
   for (const auto& volumetric_source : volumetric_sources_)

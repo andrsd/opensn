@@ -113,9 +113,11 @@ WrapProductQuadrature(py::module& aquad)
   );
   angular_quadrature_gl_prod_1d_slab.def(
     py::init(
-      [](int n_polar, bool verbose)
+      [](py::kwargs& params)
       {
-        return std::make_shared<GLProductQuadrature1DSlab>(n_polar, verbose);
+        static const std::vector<std::string> required_keys = {"n_polar", "scattering_order"};
+        static const std::vector<std::pair<std::string, py::object>> optional_keys = {{"verbose", py::bool_(false)}};
+        return construct_from_kwargs<GLProductQuadrature1DSlab, int, int, bool>(params, required_keys, optional_keys);
       }
     ),
     R"(
@@ -127,9 +129,7 @@ WrapProductQuadrature(py::module& aquad)
         Number of polar angles.
     verbose: bool, default=False
         Verbosity.
-    )",
-    py::arg("n_polar"),
-    py::arg("verbose") = false
+    )"
   );
 
   // Gauss-Legendre-Chebyshev 2D XY product quadrature
@@ -146,9 +146,11 @@ WrapProductQuadrature(py::module& aquad)
   );
   angular_quadrature_glc_prod_2d_xy.def(
     py::init(
-      [](int n_polar, int n_azimuthal, bool verbose)
+      [](py::kwargs& params)
       {
-        return std::make_shared<GLCProductQuadrature2DXY>(n_polar, n_azimuthal, verbose);
+        static const std::vector<std::string> required_keys = {"n_polar", "n_azimuthal", "scattering_order"};
+        static const std::vector<std::pair<std::string, py::object>> optional_keys = {{"verbose", py::bool_(false)}};
+        return construct_from_kwargs<GLCProductQuadrature2DXY, int, int, int, bool>(params, required_keys, optional_keys);
       }
     ),
     R"(
@@ -162,10 +164,7 @@ WrapProductQuadrature(py::module& aquad)
         Number of azimuthal angles.
     verbose: bool, default=False
         Verbosity.
-    )",
-    py::arg("n_polar"),
-    py::arg("n_azimuthal"),
-    py::arg("verbose") = false
+    )"
   );
 
   // Gauss-Legendre-Chebyshev 3D XYZ product quadrature
@@ -182,9 +181,11 @@ WrapProductQuadrature(py::module& aquad)
   );
   angular_quadrature_glc_prod_3d_xyz.def(
     py::init(
-      [](int n_polar, int n_azimuthal)
+      [](py::kwargs& params)
       {
-        return std::make_shared<GLCProductQuadrature3DXYZ>(n_polar, n_azimuthal);
+        static const std::vector<std::string> required_keys = {"n_polar", "n_azimuthal", "scattering_order"};
+        static const std::vector<std::pair<std::string, py::object>> optional_keys = {{"verbose", py::bool_(false)}};
+        return construct_from_kwargs<GLCProductQuadrature3DXYZ, int, int, int, bool>(params, required_keys, optional_keys);
       }
     ),
     R"(
@@ -196,48 +197,52 @@ WrapProductQuadrature(py::module& aquad)
         Number of polar angles.
     n_azimuthal: int
         Number of azimuthal angles.
-    )",
-    py::arg("n_polar"),
-    py::arg("n_azimuthal")
+    scattering_order: int
+        Scattering order.
+    verbose: bool, default=False
+        Verbosity.
+    )"
   );
   // clang-format on
 }
 
-// Wrap curvilinear quadrature
+// Wrap curvilinear product quadrature
 void
-WrapCurvilinearQuadrature(py::module& aquad)
+WrapCurvilinearProductQuadrature(py::module& aquad)
 {
   // clang-format off
-  // curvilinear quadrature
-  auto curvilinear_quadrature = py::class_<CurvilinearQuadrature,
-                                           std::shared_ptr<CurvilinearQuadrature>,
-                                           ProductQuadrature>(
+  // curvilinear product quadrature
+  auto curvilinear_product_quadrature = py::class_<CurvilinearProductQuadrature,
+                                                   std::shared_ptr<CurvilinearProductQuadrature>,
+                                                   ProductQuadrature>(
     aquad,
-    "CurvilinearQuadrature",
+    "CurvilinearPrductQuadrature",
     R"(
-    Curvilinear quadrature.
+    Curvilinear product quadrature.
 
-    Wrapper of :cpp:class:`opensn::CurvilinearQuadrature`.
+    Wrapper of :cpp:class:`opensn::CurvilinearProductQuadrature`.
     )"
   );
 
-  // Gauss-Legendre-Chebyshev 2D RZ curvilinear quadrature
+  // Gauss-Legendre-Chebyshev 2D RZ curvilinear product quadrature
   auto curvilinear_quadrature_glc_2d_rz = py::class_<GLCProductQuadrature2DRZ,
                                                      std::shared_ptr<GLCProductQuadrature2DRZ>,
-                                                     CurvilinearQuadrature>(
+                                                     CurvilinearProductQuadrature>(
     aquad,
     "GLCProductQuadrature2DRZ",
     R"(
-    Gauss-Legendre-Chebyshev quadrature for 2D, RZ geometry.
+    Gauss-Legendre-Chebyshev product quadrature for 2D, RZ geometry.
 
     Wrapper of :cpp:class:`opensn::GLCProductQuadrature2DRZ`.
     )"
   );
   curvilinear_quadrature_glc_2d_rz.def(
     py::init(
-      [](int n_polar, int n_azimuthal, bool verbose)
+      [](py::kwargs& params)
       {
-        return std::make_shared<GLCProductQuadrature2DRZ>(n_polar, n_azimuthal, verbose);
+        static const std::vector<std::string> required_keys = {"n_polar", "n_azimuthal", "scattering_order"};
+        static const std::vector<std::pair<std::string, py::object>> optional_keys = {{"verbose", py::bool_(false)}};
+        return construct_from_kwargs<GLCProductQuadrature2DRZ, int, int, int, bool>(params, required_keys, optional_keys);
       }
     ),
     R"(
@@ -251,10 +256,7 @@ WrapCurvilinearQuadrature(py::module& aquad)
         Number of azimuthal angles.
     verbose: bool, default=False
         Verbosity.
-    )",
-    py::arg("n_polar"),
-    py::arg("n_azimuthal"),
-    py::arg("verbose") = false
+    )"
   );
   // clang-format on
 }
@@ -278,9 +280,11 @@ WrapSLDFESQuadrature(py::module& aquad)
   );
   simplified_ldfes_quadrature.def(
     py::init(
-      [](int level)
+      [](py::kwargs& params)
       {
-        SimplifiedLDFESQ::Quadrature * quad = new SimplifiedLDFESQ::Quadrature();
+        static const std::vector<std::string> required_keys = {"level", "scattering_order"};
+        auto [level, scattering_order] = extract_args_tuple<int, int>(params, required_keys);
+        std::shared_ptr<SimplifiedLDFESQ::Quadrature> quad(new SimplifiedLDFESQ::Quadrature(scattering_order));
         quad->GenerateInitialRefinement(level);
         return quad;
       }
@@ -292,8 +296,7 @@ WrapSLDFESQuadrature(py::module& aquad)
     ----------
     level: int
         Number of subdivisions of the inscribed cube.
-    )",
-    py::arg("level")
+    )"
   );
   simplified_ldfes_quadrature.def(
     "LocallyRefine",
@@ -407,7 +410,7 @@ py_aquad(py::module& pyopensn)
   WrapQuadraturePointPhiTheta(aquad);
   WrapQuadrature(aquad);
   WrapProductQuadrature(aquad);
-  WrapCurvilinearQuadrature(aquad);
+  WrapCurvilinearProductQuadrature(aquad);
   WrapSLDFESQuadrature(aquad);
   WrapLebedevQuadrature(aquad);
 }

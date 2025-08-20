@@ -14,8 +14,8 @@ if "opensn_console" not in globals():
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../../")))
     from pyopensn.aquad import GLCProductQuadrature2DXY
     from pyopensn.solver import DiscreteOrdinatesProblem, PowerIterationKEigenSolver
-    from pyopensn.solver import PowerIterationKEigenSCDSASolver, PowerIterationKEigenSMMSolver, \
-        NonLinearKEigenSolver
+    from pyopensn.solver import NonLinearKEigenSolver
+    from pyopensn.solver import SCDSAAcceleration, SMMAcceleration
 
 if __name__ == "__main__":
 
@@ -57,7 +57,6 @@ if __name__ == "__main__":
     xss[6].LoadFromOpenSn("materials/XS_fission_chamber.xs")
 
     num_groups = xss[0].num_groups
-    print("Num groups: ", num_groups)
 
     # Create materials
     xs_map = []
@@ -65,7 +64,7 @@ if __name__ == "__main__":
         xs_map.append({"block_ids": [m], "xs": xss[m]})
 
     # Angular quadrature
-    pquad = GLCProductQuadrature2DXY(4, 8)
+    pquad = GLCProductQuadrature2DXY(n_polar=4, n_azimuthal=8, scattering_order=1)
 
     # Solver
     if "scdsa" in k_method or "smm" in k_method:
@@ -90,18 +89,17 @@ if __name__ == "__main__":
             },
         ],
         xs_map=xs_map,
+        scattering_order=0,
         options={
             "boundary_conditions": [
                 {"name": "xmin", "type": "reflecting"},
                 {"name": "ymin", "type": "reflecting"},
             ],
-            "scattering_order": 1,
             "verbose_outer_iterations": True,
             "verbose_inner_iterations": True,
             "power_field_function_on": True,
             "power_default_kappa": 1.0,
             "power_normalization": 1.0,
-            "save_angular_flux": True,
         },
         sweep_type="AAH",
     )
@@ -109,53 +107,69 @@ if __name__ == "__main__":
     # Execute Solver
     if k_method == "pi":
         k_solver = PowerIterationKEigenSolver(
-            lbs_problem=phys,
+            problem=phys,
             k_tol=1.0e-8,
         )
     elif k_method == "pi_scdsa":
-        k_solver = PowerIterationKEigenSCDSASolver(
-            lbs_problem=phys,
-            diff_accel_sdm="pwld",
-            accel_pi_verbose=True,
-            k_tol=1.0e-8,
-            accel_pi_k_tol=1.0e-8,
-            accel_pi_max_its=50,
+        scdsa = SCDSAAcceleration(
+            problem=phys,
+            sdm="pwld",
+            verbose=True,
+            pi_k_tol=1.0e-8,
+            pi_max_its=50
         )
-    elif k_method == "pi_scdsa_pwlc":
-        k_solver = PowerIterationKEigenSCDSASolver(
-            lbs_problem=phys,
-            diff_accel_sdm="pwlc",
-            accel_pi_verbose=True,
+        k_solver = PowerIterationKEigenSolver(
+            problem=phys,
+            acceleration=scdsa,
+            k_tol=1.0e-8
+        )
+    elif k_method == "i_scdsa_pwlc":
+        scdsa = SCDSAAcceleration(
+            problem=phys,
+            sdm="pwlc",
+            verbose=True,
+            pi_k_tol=1.0e-8,
+            pi_max_its=50
+        )
+        k_solver = PowerIterationKEigenSolver(
+            problem=phys,
+            acceleration=scdsa,
             k_tol=1.0e-8,
-            accel_pi_k_tol=1.0e-8,
-            accel_pi_max_its=50,
         )
     elif k_method == "pi_smm":
-        k_solver = PowerIterationKEigenSMMSolver(
-            lbs_problem=phys,
-            accel_pi_verbose=True,
-            k_tol=1.0e-8,
-            accel_pi_k_tol=1.0e-8,
-            accel_pi_max_its=30,
-            diff_sdm="pwlc",
+        smm = SMMAcceleration(
+            problem=phys,
+            verbose=True,
+            pi_k_tol=1.0e-8,
+            pi_max_its=30,
+            sdm="pwlc"
+        )
+        k_solver = PowerIterationKEigenSolver(
+            problem=phys,
+            acceleration=smm,
+            k_tol=1.0e-8
         )
     elif k_method == "pi_smm_pwld":
-        k_solver = PowerIterationKEigenSMMSolver(
-            lbs_problem=phys,
-            accel_pi_verbose=True,
+        smm = SMMAcceleration(
+            problem=phys,
+            verbose=True,
+            pi_k_tol=1.0e-8,
+            pi_max_its=30,
+            sdm="pwld"
+        )
+        k_solver = PowerIterationKEigenSolver(
+            problem=phys,
+            acceleration=smm,
             k_tol=1.0e-8,
-            accel_pi_k_tol=1.0e-8,
-            accel_pi_max_its=30,
-            diff_sdm="pwld",
         )
     elif k_method == "jfnk":
         k_solver = NonLinearKEigenSolver(
-            lbs_problem=phys,
+            problem=phys,
             nl_max_its=50,
-            nl_abs_tol=1.0e-10,
-            nl_rel_tol=1.0e-10,
-            l_max_its=20,
-            num_initial_power_iterations=2,
+            nl_abs_tol=1.0e-9,
+            nl_rel_tol=1.0e-9,
+            l_abs_tol=1.0e-8,
+            l_rel_tol=1.0e-8,
         )
 
     k_solver.Initialize()

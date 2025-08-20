@@ -62,7 +62,6 @@ class CMakeBuilder(build_ext):
         cmake_args = [
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}{os.sep}",
             f"-DCMAKE_BUILD_TYPE={cfg}",
-            "-DOPENSN_WITH_LUA=OFF",
             "-DOPENSN_WITH_PYTHON_MODULE=ON"
         ]
         if sys.platform.startswith("win"):
@@ -127,5 +126,8 @@ if __name__ == "__main__":
         packages=["pyopensn"],
         ext_modules=[CMakeExtension("pyopensn.__init__")],
         cmdclass={"build_ext": CMakeBuilder},
-        install_requires=["mpi4py", "numpy"]
+        install_requires=["mpi4py", "numpy"],
+        extras_require={
+            "dev": ["matplotlib", "nbconvert"],
+        }
     )

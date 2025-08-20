@@ -14,24 +14,24 @@ namespace opensn
 {
 
 class LBSGroupset;
-class LBSProblem;
+class DiscreteOrdinatesProblem;
 
-struct WGSContext : public LinearSolverContext
+struct WGSContext : public LinearSystemContext
 {
-  WGSContext(LBSProblem& lbs_problem,
+  WGSContext(DiscreteOrdinatesProblem& do_problem,
              LBSGroupset& groupset,
              const SetSourceFunction& set_source_function,
              SourceFlags lhs_scope,
              SourceFlags rhs_scope,
              bool log_info);
 
-  virtual void PreSetupCallback(){};
+  virtual void PreSetupCallback() {};
 
-  virtual void SetPreconditioner(KSP& solver){};
+  virtual void SetPreconditioner(KSP& solver) {};
 
-  virtual void PostSetupCallback(){};
+  virtual void PostSetupCallback() {};
 
-  virtual void PreSolveCallback(){};
+  virtual void PreSolveCallback() {};
 
   int MatrixAction(Mat& matrix, Vec& action_vector, Vec& action) override;
 
@@ -43,9 +43,9 @@ struct WGSContext : public LinearSolverContext
    */
   virtual void ApplyInverseTransportOperator(SourceFlags scope) = 0;
 
-  virtual void PostSolveCallback(){};
+  virtual void PostSolveCallback() {};
 
-  LBSProblem& lbs_problem;
+  DiscreteOrdinatesProblem& do_problem;
   LBSGroupset& groupset;
   const SetSourceFunction& set_source_function;
   SourceFlags lhs_src_scope;

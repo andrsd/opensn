@@ -19,8 +19,6 @@ SurfaceMeshLogicalVolume::GetInputParameters()
 {
   InputParameters params = LogicalVolume::GetInputParameters();
 
-  params.SetDocGroup("LuaLogicVolumes");
-
   params.AddRequiredParameter<std::shared_ptr<SurfaceMesh>>(
     "surface_mesh", "Handle to a surface mesh that will represent this object");
 
@@ -36,7 +34,7 @@ SurfaceMeshLogicalVolume::Create(const ParameterBlock& params)
 
 SurfaceMeshLogicalVolume::SurfaceMeshLogicalVolume(const InputParameters& params)
   : LogicalVolume(params),
-    surf_mesh_(params.GetParamValue<std::shared_ptr<SurfaceMesh>>("surface_mesh")),
+    surf_mesh_(params.GetSharedPtrParam<SurfaceMesh>("surface_mesh")),
     xbounds_({1.0e6, -1.0e6}),
     ybounds_({1.0e6, -1.0e6}),
     zbounds_({1.0e6, -1.0e6})
@@ -202,7 +200,7 @@ SurfaceMeshLogicalVolume::Inside(const Vector3& point) const
         } //
 
       } // for inner iter face
-    }   // if sense negative
+    } // if sense negative
 
     if ((closest_distance < distance_to_face) and closest_sense_pos)
       good_to_go = true;

@@ -58,9 +58,9 @@ public:
                               unsigned int fi,
                               unsigned int angle_num);
 
-  virtual void UpdateAnglesReadyStatus(const std::vector<size_t>& angles) {}
+  virtual void UpdateAnglesReadyStatus(const std::vector<std::uint32_t>& angles) {}
 
-  virtual bool CheckAnglesReadyStatus(const std::vector<size_t>& angles) { return true; }
+  virtual bool CheckAnglesReadyStatus(const std::vector<std::uint32_t>& angles) { return true; }
 
   virtual void Setup(const std::shared_ptr<MeshContinuum> grid, const AngularQuadrature& quadrature)
   {
@@ -77,7 +77,7 @@ public:
 class BoundaryFunction
 {
 public:
-  /// Customized boundary function by calling a lua routine.
+  /// Customized boundary function by calling an input routine.
   virtual std::vector<double>
   Evaluate(size_t cell_global_id,
            int cell_block_id,

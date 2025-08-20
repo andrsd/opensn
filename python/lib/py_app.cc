@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 The OpenSn Authors <https://open-sn.github.io/opensn/>
+// SPDX-FileCopyrightText: 2025 The OpenSn Authors <https://open-sn.github.io/opensn/>
 // SPDX-License-Identifier: MIT
 
 #include "python/lib/py_app.h"
@@ -37,7 +37,7 @@ PyApp::PyApp(const mpi::Communicator& comm) : allow_petsc_error_handler_(false)
   console.BindModule(WrapQuadraturePointPhiTheta);
   console.BindModule(WrapQuadrature);
   console.BindModule(WrapProductQuadrature);
-  console.BindModule(WrapCurvilinearQuadrature);
+  console.BindModule(WrapCurvilinearProductQuadrature);
   console.BindModule(WrapSLDFESQuadrature);
   console.BindModule(WrapLebedevQuadrature);
 
@@ -64,12 +64,7 @@ PyApp::PyApp(const mpi::Communicator& comm) : allow_petsc_error_handler_(false)
   console.BindModule(WrapSteadyState);
   console.BindModule(WrapNLKEigen);
   console.BindModule(WrapPIteration);
-  console.BindModule(WrapPRK);
-
-  console.BindModule(WrapDiffusion);
-
-  console.BindModule(WrapPostProcessor);
-  console.BindModule(WrapPrinter);
+  console.BindModule(WrapDiscreteOrdinatesKEigenAcceleration);
 }
 
 int

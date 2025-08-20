@@ -58,7 +58,7 @@ if __name__ == "__main__":
     src1 = VolumetricSource(block_ids=[3], group_strength=[1.])
 
     # Angular Quadrature
-    gl_quad = GLProductQuadrature1DSlab(128)
+    gl_quad = GLProductQuadrature1DSlab(n_polar=128, scattering_order=0)
 
     # LBS block option
     num_groups = 1
@@ -76,9 +76,8 @@ if __name__ == "__main__":
         },
     ]
     solver_dict["xs_map"] = xs_map
+    solver_dict["scattering_order"] = 0
     solver_dict["options"] = {
-        "scattering_order": 0,
-        "spatial_discretization": "pwld",
         "boundary_conditions": [
             {"name": "zmin", "type": "vacuum"},
             {"name": "zmax", "type": "vacuum"}
@@ -90,7 +89,7 @@ if __name__ == "__main__":
     phys1 = DiscreteOrdinatesProblem(**solver_dict)
 
     # Initialize and execute solver
-    ss_solver = SteadyStateSolver(lbs_problem=phys1)
+    ss_solver = SteadyStateSolver(problem=phys1)
     ss_solver.Initialize()
     ss_solver.Execute()
 
@@ -99,7 +98,7 @@ if __name__ == "__main__":
     phys1.WriteAngularFluxes("angular_io")
 
     phys2 = DiscreteOrdinatesProblem(**solver_dict)
-    ss_solver_2 = SteadyStateSolver(lbs_problem=phys2)
+    ss_solver_2 = SteadyStateSolver(problem=phys2)
     ss_solver_2.Initialize()
     phys2.ReadAngularFluxes("angular_io")
 
@@ -114,4 +113,4 @@ if __name__ == "__main__":
     if rank == 0:
         print(f"Leakage-Diff2={leakage_right_diff:.5e}")
 
-    os.system("rm angular_io0.h5")
+    os.remove(f"angular_io{rank}.h5")

@@ -13,15 +13,13 @@ namespace opensn
 
 struct SweepWGSContext : public WGSContext
 {
-  SweepWGSContext(DiscreteOrdinatesProblem& lbs_problem,
+  SweepWGSContext(DiscreteOrdinatesProblem& do_problem,
                   LBSGroupset& groupset,
                   const SetSourceFunction& set_source_function,
                   SourceFlags lhs_scope,
                   SourceFlags rhs_scope,
                   bool log_info,
                   std::shared_ptr<SweepChunk> sweep_chunk);
-
-  void PreSetupCallback() override;
 
   void SetPreconditioner(KSP& solver) override;
 

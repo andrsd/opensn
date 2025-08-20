@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "python/lib/py_wrappers.h"
+#include "framework/runtime.h"
 #include "framework/graphs/graph_partitioner.h"
 #include "framework/graphs/kba_graph_partitioner.h"
 #include "framework/graphs/linear_graph_partitioner.h"
@@ -18,6 +19,7 @@
 #include "framework/mesh/surface_mesh/surface_mesh.h"
 #include "framework/utils/timer.h"
 #include <pybind11/functional.h>
+#include <pybind11/stl.h>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -120,7 +122,14 @@ WrapMesh(py::module& mesh)
   mesh_continuum.def(
     "ComputeVolumePerBlockID",
     &MeshContinuum::ComputeVolumePerBlockID,
-    "Compute volume per block ID."
+    R"(
+    Compute volume per block ID
+
+    Returns
+    -------
+    Dict[int, float]
+        Key is the block ID and the value is the computed volume
+    )"
   );
   mesh_continuum.def(
     "SetBlockIDFromFunction",
@@ -175,84 +184,6 @@ WrapMesh(py::module& mesh)
     )",
     py::arg("func")
   );
-#ifdef __comment__  // to be removed once its uselessness is confirmed
-  mesh_continuum.def(
-    "SetBoundaryIDFromFunction",
-    [](MeshContinuum& self, const std::function<std::string(Vector3, Vector3, std::uint64_t)>& func)
-    {
-      if (mpi_comm.size() != 1)
-      {
-        throw std::logic_error("This function can only be used in serial mode.");
-      }
-      log.Log0Verbose1() << program_timer.GetTimeString()
-                         << " Setting boundary id from Python function.";
-      int local_num_faces_modified = 0;
-      // get boundary ID map
-      std::map<uint64_t, std::string>& grid_boundary_id_map = self.GetBoundaryIDMap();
-      // change local cells
-      for (Cell& cell : self.local_cells)
-      {
-        for (CellFace& face : cell.faces)
-        {
-          if (!face.has_neighbor)
-          {
-            std::string boundary_name = func(face.centroid, face.normal, face.neighbor_id);
-            std::uint64_t boundary_id = self.MakeBoundaryID(boundary_name);
-            if (face.neighbor_id != boundary_id)
-            {
-              face.neighbor_id = boundary_id;
-              ++local_num_faces_modified;
-              if (grid_boundary_id_map.count(boundary_id) == 0)
-              {
-                grid_boundary_id_map[boundary_id] = boundary_name;
-              }
-            }
-          }
-        }
-      }
-      // change ghost cells
-      std::vector<std::uint64_t> ghost_ids = self.cells.GetGhostGlobalIDs();
-      for (std::uint64_t ghost_id : ghost_ids)
-      {
-        Cell& cell = self.cells[ghost_id];
-        for (CellFace& face : cell.faces)
-        {
-          if (!face.has_neighbor)
-          {
-            std::string boundary_name = func(face.centroid, face.normal, face.neighbor_id);
-            std::uint64_t boundary_id = self.MakeBoundaryID(boundary_name);
-            if (face.neighbor_id != boundary_id)
-            {
-              face.neighbor_id = boundary_id;
-              ++local_num_faces_modified;
-              if (grid_boundary_id_map.count(boundary_id) == 0)
-              {
-                grid_boundary_id_map[boundary_id] = boundary_name;
-              }
-            }
-          }
-        }
-      }
-      // print number of modified cells
-      int global_num_faces_modified;
-      mpi_comm.all_reduce(local_num_faces_modified, global_num_faces_modified, mpi::op::sum<int>());
-      log.Log0Verbose1() << program_timer.GetTimeString()
-                         << " Done setting boundary id from lua function. "
-                         << "Number of cells modified = " << global_num_faces_modified << ".";
-    },
-    R"(
-    Set boundary ID from a function.
-
-    Parameters
-    ----------
-    func: Callable[[pyopensn.math.Vector3, pyopensn.math.Vector3, int], str]
-        Function/lambda computing new boundary name from face centroid, normal vector and current
-        neighbor ID.
-        (IDK how on earth users would know what boundary name corresponding to old neighbor ID)???
-    )",
-    py::arg("func")
-  );
-#endif  // __comment__
 
   // surface mesh
   auto surface_mesh = py::class_<SurfaceMesh, std::shared_ptr<SurfaceMesh>>(
@@ -444,6 +375,8 @@ WrapMeshGenerator(py::module& mesh)
         Flag, when set, makes the mesh appear in full fidelity on each process.
     node_sets: List[List[float]]
         Sets of nodes per dimension. Node values must be monotonically increasing.
+    coord_sys: {'cartesian', 'cylindrical', 'spherical'}
+        The coordinate system of the mesh.
     )"
   );
 
@@ -486,6 +419,8 @@ WrapMeshGenerator(py::module& mesh)
         .e files.
     boundary_id_fieldname: str, default=''
         The name of the field storing boundary-ids.
+    coord_sys: {'cartesian', 'cylindrical', 'spherical'}
+        The coordinate system of the mesh.
     )"
   );
 
@@ -578,6 +513,8 @@ WrapMeshGenerator(py::module& mesh)
         PETScGraphPartitioner with a "parmetis" setting.
     replicated_mesh: bool, default=False
         Flag, when set, makes the mesh appear in full fidelity on each process.
+    coord_sys: {'cartesian', 'cylindrical', 'spherical'}
+        The coordinate system of the mesh.
     )"
   );
   // clang-format on

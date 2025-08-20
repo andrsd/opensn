@@ -13,11 +13,11 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/mesh_generator/mesh_generator.h"
 #include "framework/mesh/surface_mesh/surface_mesh.h"
-#include "framework/physics/solver.h"
-#include "framework/post_processors/post_processor.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/acceleration/discrete_ordinates_keigen_acceleration.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/point_source/point_source.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/volumetric_source/volumetric_source.h"
 #include "modules/linear_boltzmann_solvers/response_evaluator/response_evaluator.h"
+#include "modules/solver.h"
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -81,20 +81,18 @@ pyobj_to_param_block(const std::string& key, const py::object& obj)
   TO_PARAMBLOCK(FieldFunction);
   TO_PARAMBLOCK(FieldFunctionInterpolation);
   TO_PARAMBLOCK(GraphPartitioner);
+  TO_PARAMBLOCK(DiscreteOrdinatesKEigenAcceleration);
   TO_PARAMBLOCK(LogicalVolume);
   TO_PARAMBLOCK(MeshContinuum);
   TO_PARAMBLOCK(MeshGenerator);
   TO_PARAMBLOCK(MultiGroupXS);
   TO_PARAMBLOCK(PointSource);
-  TO_PARAMBLOCK(PostProcessor);
   TO_PARAMBLOCK(ResponseEvaluator);
   TO_PARAMBLOCK(Problem);
   TO_PARAMBLOCK(Solver);
   TO_PARAMBLOCK(SurfaceMesh);
   TO_PARAMBLOCK(VolumetricSource);
-
-  // function binder (temporary)
-  TO_PARAMBLOCK(Function);
+  TO_PARAMBLOCK(VectorSpatialFunction);
 
   // throw and return
   throw std::invalid_argument("Unsupported argument type.");

@@ -4,8 +4,6 @@
 """
 3D Transport test with split-mesh + 2D ortho mesh + extruded mesh.
 SDM: PWLD
-Test: Max-value1=6.55387e+00
-      Max-value2=1.02940e+00
 """
 
 import os
@@ -70,6 +68,8 @@ if __name__ == "__main__":
     grid = meshgen.Execute()
     grid.SetUniformBlockID(0)
 
+    vol0 = RPPLogicalVolume(infx=True, infy=True, infz=True)
+
     # Cross sections
     num_groups = 21
     xs_graphite = MultiGroupXS()
@@ -80,10 +80,10 @@ if __name__ == "__main__":
     mg_src = VolumetricSource(block_ids=[1], group_strength=strength)
 
     # Setup Physics
-    pquad = GLCProductQuadrature3DXYZ(8, 8)
+    pquad = GLCProductQuadrature3DXYZ(n_polar=8, n_azimuthal=8, scattering_order=1)
 
     bsrc = [0.0 for _ in range(num_groups)]
-    bsrc[0] = 1.0 / 4.0 / math.pi
+    bsrc[0] = 1.0
 
     phys = DiscreteOrdinatesProblem(
         mesh=grid,
@@ -103,36 +103,38 @@ if __name__ == "__main__":
         xs_map=[
             {"block_ids": [0], "xs": xs_graphite},
         ],
-        sweep_type="CBC",
+        scattering_order=1,
         options={
             "boundary_conditions": [
                 {"name": "xmin", "type": "isotropic", "group_strength": bsrc},
             ],
-            "scattering_order": 1,
             "save_angular_flux": True,
             "volumetric_sources": [mg_src],
         },
     )
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = SteadyStateSolver(problem=phys)
     ss_solver.Initialize()
     ss_solver.Execute()
 
     # Get field functions
     fflist = phys.GetScalarFieldFunctionList()
 
-    pp1 = CellVolumeIntegralPostProcessor(
-        name="max-grp0",
-        field_function=fflist[0],
-        compute_volume_average=True,
-        print_numeric_format="scientific"
-    )
+    ffi1 = FieldFunctionInterpolationVolume()
+    ffi1.SetOperationType("max")
+    ffi1.SetLogicalVolume(vol0)
+    ffi1.AddFieldFunction(fflist[0])
+    ffi1.Initialize()
+    ffi1.Execute()
+    maxval = ffi1.GetValue()
+    if rank == 0:
+        print(f"Max-value-0={maxval:.5e}")
 
-    pp2 = CellVolumeIntegralPostProcessor(
-        name="max-grp19",
-        field_function=fflist[19],
-        compute_volume_average=True,
-        print_numeric_format="scientific"
-    )
-
-    pp1.Execute()
-    pp2.Execute()
+    ffi1 = FieldFunctionInterpolationVolume()
+    ffi1.SetOperationType("max")
+    ffi1.SetLogicalVolume(vol0)
+    ffi1.AddFieldFunction(fflist[19])
+    ffi1.Initialize()
+    ffi1.Execute()
+    maxval = ffi1.GetValue()
+    if rank == 0:
+        print(f"Max-value-19={maxval:.5e}")

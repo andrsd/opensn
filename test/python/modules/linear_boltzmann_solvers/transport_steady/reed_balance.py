@@ -58,7 +58,7 @@ if __name__ == "__main__":
     src1 = VolumetricSource(block_ids=[3], group_strength=[1.])
 
     # Angular Quadrature
-    gl_quad = GLProductQuadrature1DSlab(128)
+    gl_quad = GLProductQuadrature1DSlab(n_polar=128, scattering_order=0)
 
     # LBS block option
     num_groups = 1
@@ -76,9 +76,8 @@ if __name__ == "__main__":
             },
         ],
         xs_map=xs_map,
+        scattering_order=0,
         options={
-            "scattering_order": 0,
-            "spatial_discretization": "pwld",
             "boundary_conditions": [
                 {"name": "zmin", "type": "vacuum"},
                 {"name": "zmax", "type": "vacuum"}
@@ -88,7 +87,7 @@ if __name__ == "__main__":
     )
 
     # Initialize and execute solver
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = SteadyStateSolver(problem=phys)
     ss_solver.Initialize()
     ss_solver.Execute()
 

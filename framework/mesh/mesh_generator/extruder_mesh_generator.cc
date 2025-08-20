@@ -3,6 +3,7 @@
 
 #include "framework/mesh/mesh_generator/extruder_mesh_generator.h"
 #include "framework/object_factory.h"
+#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 namespace opensn
@@ -230,9 +231,10 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
       } // for template cell
       ++k;
     } // for sub-layer n
-  }   // for layer
+  } // for layer
 
   umesh->SetDimension(3);
+  umesh->SetCoordinateSystem(input_umesh->GetCoordinateSystem());
   umesh->SetExtruded(true);
 
   umesh->ComputeCentroids();
@@ -251,7 +253,6 @@ ExtrusionLayer::GetInputParameters()
   InputParameters params;
 
   params.SetGeneralDescription("A collection of parameters defining an extrusion layer.");
-  params.SetDocGroup("doc_MeshGenerators");
 
   params.AddOptionalParameter("h", 1.0, "Layer height. Cannot be specified if \"z\" is specified.");
   params.AddOptionalParameter("n", 1, "Number of sub-layers");
@@ -279,7 +280,6 @@ ExtruderMeshGenerator::GetInputParameters()
     "versa, when pair B is used then the h-levels will be computed automatically. Layers can be "
     "specified with a mixture of Pair A and Pair B. For example: Two main layers, one specified "
     "using a height, and the other specified using a z-level.");
-  params.SetDocGroup("MeshGenerator");
 
   params.AddRequiredParameterArray("layers", "A list of layers");
   params.LinkParameterToBlock("layers", "mesh::ExtrusionLayer");

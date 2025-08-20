@@ -4,8 +4,8 @@
 #pragma once
 
 #include "framework/math/spatial_discretization/spatial_discretization.h"
-#include "framework/math/unknown_manager/unknown_manager.h"
 #include "framework/math/spatial_discretization/finite_element/finite_element_data.h"
+#include "framework/math/unknown_manager/unknown_manager.h"
 
 namespace opensn
 {
@@ -22,10 +22,9 @@ public:
 
 protected:
   explicit FiniteElementBase(const std::shared_ptr<MeshContinuum> grid,
-                             CoordinateSystemType cs_type,
                              SpatialDiscretizationType sdm_type,
                              QuadratureOrder q_order)
-    : SpatialDiscretization(grid, cs_type, sdm_type), q_order_(q_order)
+    : SpatialDiscretization(grid, sdm_type), q_order_(q_order)
   {
   }
 

@@ -3,20 +3,22 @@
 
 #pragma once
 
-#include "framework/physics/solver.h"
+#include "modules/solver.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/wgs_context.h"
 
 namespace opensn
 {
 
-class LBSProblem;
-class AGSSolver;
+class DiscreteOrdinatesProblem;
+class DiscreteOrdinatesKEigenAcceleration;
+class AGSLinearSolver;
 class LinearSolver;
 
 class PowerIterationKEigenSolver : public Solver
 {
 protected:
-  std::shared_ptr<LBSProblem> lbs_problem_;
+  std::shared_ptr<DiscreteOrdinatesProblem> do_problem_;
+  const std::shared_ptr<DiscreteOrdinatesKEigenAcceleration> acceleration_;
 
   size_t max_iters_;
   double k_eff_;
@@ -29,7 +31,7 @@ protected:
   std::vector<double>& phi_new_local_;
 
   std::vector<LBSGroupset>& groupsets_;
-  std::shared_ptr<AGSSolver> ags_solver_;
+  std::shared_ptr<AGSLinearSolver> ags_solver_;
   SetSourceFunction active_set_source_function_;
 
   LBSGroupset& front_gs_;
@@ -40,10 +42,10 @@ public:
   explicit PowerIterationKEigenSolver(const InputParameters& params);
 
   void Initialize() override;
-
   void Execute() override;
+  /// Return the current k-eigenvalue
+  double GetEigenvalue() const { return k_eff_; }
 
-protected:
   /// Combines function calls to set fission source.
   void SetLBSFissionSource(const std::vector<double>& input, bool additive);
 

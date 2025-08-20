@@ -30,36 +30,20 @@ public:
   std::pair<size_t, size_t> GetNumPhiIterativeUnknowns() override;
   void Initialize() override;
 
+  /// Returns the sweep boundaries as a read only reference
+  const std::map<uint64_t, std::shared_ptr<SweepBoundary>>& GetSweepBoundaries() const;
+
   /// Reorient an adjoint solution to account for backwards streaming.
   void ReorientAdjointSolution() override;
 
   /// Zeroes all the outflow data-structures required to compute balance.
   void ZeroOutflowBalanceVars(LBSGroupset& groupset);
 
-  /// Compute balance
-  void ComputeBalance();
-
-  /**
-   * Computes the angular flux based leakage from boundary surfaces.
-   * \param groupset_id The groupset for which to compute the leakage.
-   * \param boundary_id The boundary id for which to perform the integration.
-   *
-   * \return The leakage as a value.
-   */
-  std::vector<double> ComputeLeakage(unsigned int groupset_id, uint64_t boundary_id) const;
-
-  /**
-   * Computes the group-wise angular flux-based leakage from the specified boundaries.
-   *
-   * \param boundary_ids The boundary ids to compute leakages on.
-   * \return A map of boundary ids to group-wise leakages.
-   */
-  std::map<uint64_t, std::vector<double>>
-  ComputeLeakage(const std::vector<uint64_t>& boundary_ids) const;
-
 protected:
   explicit DiscreteOrdinatesProblem(const std::string& name,
                                     std::shared_ptr<MeshContinuum> grid_ptr);
+
+  void InitializeBoundaries() override;
 
   /// Initializes Within-GroupSet solvers.
   void InitializeWGSSolvers() override;
@@ -96,6 +80,16 @@ protected:
 
   std::vector<size_t> verbose_sweep_angles_;
   const std::string sweep_type_;
+  std::map<uint64_t, std::shared_ptr<SweepBoundary>> sweep_boundaries_;
+
+  /// Max level size.
+  std::size_t max_level_size_ = 0;
+  /// Max angle-set size.
+  std::size_t max_angleset_size_ = 0;
+  /// Max group-set size.
+  std::size_t max_groupset_size_ = 0;
+
+  std::shared_ptr<GridFaceHistogram> grid_face_histogram_ = nullptr;
 
 public:
   static InputParameters GetInputParameters();

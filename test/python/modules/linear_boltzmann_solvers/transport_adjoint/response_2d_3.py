@@ -78,13 +78,13 @@ if __name__ == "__main__":
 
     # Create point source (multigroup)
     src = [0.0] * num_groups
-    src[0] = 1.0  # Lua's src[1] becomes index 0 in Python.
+    src[0] = 1.0
 
     loc = [1.25 - 0.5 * ds, 1.5 * ds, 0.0]
     pt_src = PointSource(location=loc, strength=src)
 
     # Create a 2D angular quadrature with 4 polar and 48 azimuthal angles.
-    pquad = GLCProductQuadrature2DXY(4, 48)
+    pquad = GLCProductQuadrature2DXY(n_polar=4, n_azimuthal=48, scattering_order=0)
 
     # Setup physics
     phys = DiscreteOrdinatesProblem(
@@ -104,14 +104,14 @@ if __name__ == "__main__":
             {"block_ids": [0], "xs": xs_1},
             {"block_ids": [1], "xs": xs_2},
         ],
+        scattering_order=0,
         options={
-            "scattering_order": 0,
             "point_sources": [pt_src],
         },
     )
 
     # Forward solve
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = SteadyStateSolver(problem=phys)
     ss_solver.Initialize()
     ss_solver.Execute()
 
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     phys.WriteFluxMoments("adjoint_2d_3")
 
     # Create response evaluator and evaluate response
-    evaluator = ResponseEvaluator(lbs_problem=phys)
+    evaluator = ResponseEvaluator(problem=phys)
     evaluator.SetOptions(
         buffers=[{"name": "buff", "file_prefixes": {"flux_moments": "adjoint_2d_3"}}],
         sources={"point": [pt_src]}

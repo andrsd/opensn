@@ -2,29 +2,33 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/materials/multi_group_xs/multi_group_xs.h"
+#include "framework/runtime.h"
 #include "framework/logging/log.h"
 
 namespace opensn
 {
 
-void
-MultiGroupXS::Initialize(double sigma_t, double c)
+MultiGroupXS
+MultiGroupXS::CreateSimpleOneGroup(double sigma_t, double c)
 {
-  Reset();
+  MultiGroupXS mgxs;
 
-  num_groups_ = 1;
-  sigma_t_.resize(num_groups_, sigma_t);
-  sigma_a_.resize(num_groups_, sigma_t * (1.0 - c));
-  transfer_matrices_.emplace_back(num_groups_, num_groups_);
-  auto& S = transfer_matrices_.back();
-  S.SetDiagonal(std::vector<double>(num_groups_, sigma_t * c));
-  ComputeDiffusionParameters();
+  mgxs.num_groups_ = 1;
+  mgxs.sigma_t_.resize(mgxs.num_groups_, sigma_t);
+  mgxs.sigma_a_.resize(mgxs.num_groups_, sigma_t * (1.0 - c));
+  mgxs.transfer_matrices_.emplace_back(mgxs.num_groups_, mgxs.num_groups_);
+  auto& S = mgxs.transfer_matrices_.back();
+  S.SetDiagonal(std::vector<double>(mgxs.num_groups_, sigma_t * c));
+  mgxs.ComputeDiffusionParameters();
+
+  return mgxs;
 }
 
-void
-MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
+MultiGroupXS
+MultiGroupXS::Combine(
+  const std::vector<std::pair<std::shared_ptr<MultiGroupXS>, double>>& combinations)
 {
-  Reset();
+  MultiGroupXS mgxs;
 
   // Pickup all xs and make sure they are valid
   std::vector<std::shared_ptr<MultiGroupXS>> xsecs;
@@ -37,9 +41,8 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
   // Loop over cross sections
   for (auto& combo : combinations)
   {
-    // Get the cross section from the stack
-    std::shared_ptr<MultiGroupXS> xs;
-    xs = GetStackItemPtr(multigroup_xs_stack, combo.first, std::string(__FUNCTION__));
+    // Get the cross section
+    auto xs = combo.first;
     xsecs.push_back(xs);
 
     // Set the scaling factor
@@ -48,7 +51,7 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
     // Increment densities
     if (xs->IsFissionable())
     {
-      is_fissionable_ = true;
+      mgxs.is_fissionable_ = true;
       Nf_total += xs->GetScalingFactor();
     }
 
@@ -59,14 +62,14 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
                          "All cross sections being combined must have the same group structure.");
 
     // Increment number of precursors
-    n_precs += num_precursors_;
+    n_precs += mgxs.num_precursors_;
   } // for cross section
 
   // Check that the fissile and precursor densities are greater than
   // machine precision. If this condition is not met, the material is assumed
   // to be either not fissile, have zero precursors, or both.
   if (Nf_total < 1.0e-12)
-    is_fissionable_ = false;
+    mgxs.is_fissionable_ = false;
 
   // Check to ensure that all fissionable cross sections contain either
   // prompt/delayed fission data or total fission data
@@ -77,37 +80,38 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
                            "specify precursors.");
 
   // Initialize the data
-  num_groups_ = n_grps;
-  scattering_order_ = 0;
-  num_precursors_ = n_precs;
+  mgxs.num_groups_ = n_grps;
+  mgxs.scattering_order_ = 0;
+  mgxs.num_precursors_ = n_precs;
   for (const auto& xs : xsecs)
-    scattering_order_ = std::max(scattering_order_, xs->GetScatteringOrder());
+    mgxs.scattering_order_ = std::max(mgxs.scattering_order_, xs->GetScatteringOrder());
 
   // Init mandatory cross sections
-  sigma_t_.assign(n_grps, 0.0);
-  sigma_a_.assign(n_grps, 0.0);
+  mgxs.sigma_t_.assign(n_grps, 0.0);
+  mgxs.sigma_a_.assign(n_grps, 0.0);
 
   // Init transfer matrices only if at least one exists
   if (std::any_of(xsecs.begin(),
                   xsecs.end(),
                   [](const std::shared_ptr<MultiGroupXS>& x)
                   { return not x->GetTransferMatrices().empty(); }))
-    transfer_matrices_.assign(scattering_order_ + 1, SparseMatrix(num_groups_, num_groups_));
+    mgxs.transfer_matrices_.assign(mgxs.scattering_order_ + 1,
+                                   SparseMatrix(mgxs.num_groups_, mgxs.num_groups_));
 
   // Init fission data
-  if (is_fissionable_)
+  if (mgxs.is_fissionable_)
   {
-    sigma_f_.assign(n_grps, 0.0);
-    chi_.assign(n_grps, 0.0);
-    nu_sigma_f_.assign(n_grps, 0.0);
-    production_matrix_.assign(num_groups_, std::vector<double>(num_groups_, 0.0));
+    mgxs.sigma_f_.assign(n_grps, 0.0);
+    mgxs.chi_.assign(n_grps, 0.0);
+    mgxs.nu_sigma_f_.assign(n_grps, 0.0);
+    mgxs.production_matrix_.assign(mgxs.num_groups_, std::vector<double>(mgxs.num_groups_, 0.0));
 
     // Init prompt/delayed fission data
     if (n_precs > 0)
     {
-      nu_prompt_sigma_f_.assign(n_grps, 0.0);
-      nu_delayed_sigma_f_.assign(n_grps, 0.0);
-      precursors_.resize(n_precs);
+      mgxs.nu_prompt_sigma_f_.assign(n_grps, 0.0);
+      mgxs.nu_delayed_sigma_f_.assign(n_grps, 0.0);
+      mgxs.precursors_.resize(n_precs);
     }
   }
 
@@ -132,21 +136,21 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
     // fractional densities. The latter is done to preserve a unit spectra.
     for (size_t g = 0; g < n_grps; ++g)
     {
-      sigma_t_[g] += sig_t[g];
-      sigma_a_[g] += sig_a[g];
+      mgxs.sigma_t_[g] += sig_t[g];
+      mgxs.sigma_a_[g] += sig_a[g];
 
       if (xsecs[x]->IsFissionable())
       {
-        sigma_f_[g] += sig_f[g];
-        chi_[g] += ff_i * chi[g];
-        nu_sigma_f_[g] += sig_f[g];
-        for (size_t gp = 0; gp < num_groups_; ++gp)
-          production_matrix_[g][gp] += F[g][gp];
+        mgxs.sigma_f_[g] += sig_f[g];
+        mgxs.chi_[g] += ff_i * chi[g];
+        mgxs.nu_sigma_f_[g] += sig_f[g];
+        for (size_t gp = 0; gp < mgxs.num_groups_; ++gp)
+          mgxs.production_matrix_[g][gp] += F[g][gp];
 
         if (n_precs > 0)
         {
-          nu_prompt_sigma_f_[g] += nu_p_sig_f[g];
-          nu_delayed_sigma_f_[g] += nu_d_sig_f[g];
+          mgxs.nu_prompt_sigma_f_[g] += nu_p_sig_f[g];
+          mgxs.nu_delayed_sigma_f_[g] += nu_d_sig_f[g];
         }
       }
     } // for g
@@ -166,9 +170,9 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
       {
         size_t count = precursor_count + j;
         const auto& precursor = precursors[j];
-        precursors_[count].decay_constant = precursor.decay_constant;
-        precursors_[count].fractional_yield = precursor.fractional_yield * ff_i;
-        precursors_[count].emission_spectrum = precursor.emission_spectrum;
+        mgxs.precursors_[count].decay_constant = precursor.decay_constant;
+        mgxs.precursors_[count].fractional_yield = precursor.fractional_yield * ff_i;
+        mgxs.precursors_[count].emission_spectrum = precursor.emission_spectrum;
       } // for j
 
       precursor_count += xsecs[x]->GetNumPrecursors();
@@ -176,9 +180,9 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
 
     // Set inverse velocity data
     if (x == 0 and xsecs[x]->GetInverseVelocity().empty())
-      inv_velocity_ = xsecs[x]->GetInverseVelocity();
+      mgxs.inv_velocity_ = xsecs[x]->GetInverseVelocity();
     OpenSnLogicalErrorIf(
-      xsecs[x]->GetInverseVelocity() != inv_velocity_,
+      xsecs[x]->GetInverseVelocity() != mgxs.inv_velocity_,
       "All cross sections being combined must have the same group-wise velocities.");
 
     // Combine transfer matrices
@@ -192,9 +196,9 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
     {
       for (size_t m = 0; m < xsecs[x]->GetScatteringOrder() + 1; ++m)
       {
-        auto& Sm = transfer_matrices_[m];
+        auto& Sm = mgxs.transfer_matrices_[m];
         const auto& Sm_other = xsecs[x]->GetTransferMatrix(m);
-        for (size_t g = 0; g < num_groups_; ++g)
+        for (size_t g = 0; g < mgxs.num_groups_; ++g)
         {
           const auto& cols = Sm_other.rowI_indices[g];
           const auto& vals = Sm_other.rowI_values[g];
@@ -205,7 +209,9 @@ MultiGroupXS::Initialize(std::vector<std::pair<int, double>>& combinations)
     }
   } // for cross sections
 
-  ComputeDiffusionParameters();
+  mgxs.ComputeDiffusionParameters();
+
+  return mgxs;
 }
 
 void
@@ -280,7 +286,7 @@ MultiGroupXS::ComputeAbsorption()
         log.Log0Warning() << "Negative absorption cross section encountered in group " << g
                           << " when estimating from the transfer matrices";
     } // for g
-  }   // if scattering present
+  } // if scattering present
 }
 
 void
@@ -314,7 +320,7 @@ MultiGroupXS::ComputeDiffusionParameters()
             break;
           }
       } // for gp
-    }   // if moment 1 available
+    } // if moment 1 available
 
     // Compute transport cross section
     if (sigma_1 >= sigma_t_[g])

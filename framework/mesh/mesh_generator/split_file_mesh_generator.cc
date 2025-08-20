@@ -65,7 +65,7 @@ SplitFileMeshGenerator::Execute()
     log.Log0Warning() << "After creating a split-mesh with mpi-processes < "
                          "num_parts the program will now auto terminate. This is not an error "
                          "and is the default behavior for the SplitFileMeshGenerator.\n";
-    Exit(EXIT_SUCCESS);
+    opensn::mpi_comm.abort(EXIT_SUCCESS);
   }
 
   mpi_comm.barrier();
@@ -146,7 +146,7 @@ SplitFileMeshGenerator::WriteSplitMesh(const std::vector<int64_t>& cell_pids,
     // Write mesh attributes and general info
     WriteBinaryValue(ofile, num_partitions); // int
     WriteBinaryValue<unsigned int>(ofile, umesh.GetDimension());
-
+    WriteBinaryValue(ofile, static_cast<int>(umesh.GetCoordinateSystem()));
     WriteBinaryValue(ofile, static_cast<int>(umesh.GetType()));
     WriteBinaryValue(ofile, umesh.IsExtruded());
     const auto& [Nx, Ny, Nz] = umesh.GetOrthoAttributes();
@@ -254,6 +254,7 @@ SplitFileMeshGenerator::ReadSplitMesh() const
                            " processes.");
 
   info_block.dimension = ReadBinaryValue<unsigned int>(ifile);
+  info_block.coord_sys = static_cast<CoordinateSystemType>(ReadBinaryValue<int>(ifile));
   info_block.mesh_type = static_cast<MeshType>(ReadBinaryValue<int>(ifile));
   info_block.extruded = ReadBinaryValue<bool>(ifile);
   info_block.ortho_attributes.Nx = ReadBinaryValue<size_t>(ifile);
@@ -333,7 +334,6 @@ SplitFileMeshGenerator::GetInputParameters()
     "Generates the mesh only on location 0, thereafter partitions the mesh"
     " but instead of broadcasting the mesh to other locations it creates binary"
     " mesh files for each location.");
-  params.SetDocGroup("doc_MeshGenerators");
 
   params.AddOptionalParameter("num_partitions",
                               0,
@@ -388,6 +388,7 @@ SplitFileMeshGenerator::SetupLocalMesh(SplitMeshInfo& mesh_info)
   }
 
   grid_ptr->SetDimension(mesh_info.dimension);
+  grid_ptr->SetCoordinateSystem(mesh_info.coord_sys);
   grid_ptr->SetType(mesh_info.mesh_type);
   grid_ptr->SetExtruded(mesh_info.extruded);
   grid_ptr->SetOrthoAttributes(mesh_info.ortho_attributes);

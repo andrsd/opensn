@@ -9,10 +9,9 @@
 #include "modules/linear_boltzmann_solvers/lbs_problem/lbs_structs.h"
 #include "framework/math/quadratures/angular/legendre_poly/legendrepoly.h"
 #include "framework/math/quadratures/angular/angular_quadrature.h"
-#include "framework/math/linear_solver/linear_solver.h"
+#include "framework/math/linear_solver/linear_system_solver.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
 #include "framework/utils/utils.h"
-#include "framework/object.h"
 
 namespace opensn
 {
@@ -21,7 +20,7 @@ class DiffusionMIPSolver;
 class LBSProblem;
 
 /// Group set functioning as a collection of groups
-class LBSGroupset : public Object
+class LBSGroupset
 {
 public:
   int id;
@@ -33,7 +32,7 @@ public:
 
   int master_num_ang_subsets;
 
-  LinearSolver::IterativeMethod iterative_method;
+  LinearSystemSolver::IterativeMethod iterative_method;
   AngleAggregationType angleagg_method;
   double residual_tolerance;
   int max_iterations;
@@ -51,6 +50,8 @@ public:
   bool tgdsa_verbose;
   std::string wgdsa_string;
   std::string tgdsa_string;
+
+  void* quad_carrier = nullptr;
 
   std::shared_ptr<DiffusionMIPSolver> wgdsa_solver = nullptr;
   std::shared_ptr<DiffusionMIPSolver> tgdsa_solver = nullptr;
@@ -73,13 +74,15 @@ public:
 
   LBSGroupset();
 
-  /// Computes the discrete to moment operator.
-  void BuildDiscMomOperator(unsigned int scattering_order, GeometryType geometry_type);
-
-  /// Computes the moment to discrete operator.
-  void BuildMomDiscOperator(unsigned int scattering_order, GeometryType geometry_type);
-
   void PrintSweepInfoFile(size_t ev_tag, const std::string& file_name);
+
+  /// Initialize carrier for copying quadrature data to GPU.
+  void InitializeGPUCarriers();
+
+  /// Delete carrier and deallocate memory on GPU.
+  void ResetGPUCarriers();
+
+  ~LBSGroupset();
 
 private:
   void Init(int id);

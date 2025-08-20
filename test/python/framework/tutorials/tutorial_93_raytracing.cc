@@ -7,6 +7,7 @@
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/raytrace/raytracer.h"
 #include "framework/field_functions/field_function_grid_based.h"
+#include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "test/python/src/bindings.h"
 
@@ -170,7 +171,7 @@ SimTest93_RayTracing(std::shared_ptr<MeshContinuum> grid)
 
           phi_tally[dof_map] += ell_k * w_avg;
         } // for moment m
-      }   // for node i
+      } // for node i
 
       shape_values_k = shape_values_kp1;
       weight *= exp(-sigma_t * segment_length_k);
@@ -325,7 +326,7 @@ SimTest93_RayTracing(std::shared_ptr<MeshContinuum> grid)
   std::vector<std::shared_ptr<const FieldFunctionGridBased>> const_ff_list;
   for (const auto& ff_ptr : ff_list)
     const_ff_list.push_back(ff_ptr);
-  FieldFunctionGridBased::ExportMultipleToVTK("SimTest_93", const_ff_list);
+  FieldFunctionGridBased::ExportMultipleToPVTU("SimTest_93", const_ff_list);
 }
 
 } // namespace unit_tests

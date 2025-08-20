@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/discrete_ordinates_problem.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/boundary/reflecting_boundary.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/boundary/vacuum_boundary.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/boundary/isotropic_boundary.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/fluds/cbc_fluds_common_data.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/fluds/cbc_fluds.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/angle_set/cbc_angle_set.h"
@@ -17,6 +20,8 @@
 #include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/classic_richardson.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/source_functions/source_function.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/groupset/lbs_groupset.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/acceleration/wgdsa.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/acceleration/tgdsa.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/math/quadratures/angular/product_quadrature.h"
 #include "framework/logging/log.h"
@@ -45,7 +50,6 @@ DiscreteOrdinatesProblem::GetInputParameters()
   InputParameters params = LBSProblem::GetInputParameters();
 
   params.SetClassName("DiscreteOrdinatesProblem");
-  params.SetDocGroup("lbs__LBSSolver");
 
   params.ChangeExistingParamToOptional("name", "LBSDiscreteOrdinatesProblem");
 
@@ -74,6 +78,12 @@ DiscreteOrdinatesProblem::DiscreteOrdinatesProblem(const InputParameters& params
     verbose_sweep_angles_(params.GetParamVectorValue<size_t>("directions_sweep_order_to_print")),
     sweep_type_(params.GetParamValue<std::string>("sweep_type"))
 {
+  if (use_gpus_ && sweep_type_ == "CBC")
+  {
+    log.Log0Warning() << "Sweep computation on GPUs has not yet been supported for CBC. "
+                      << "Falling back to CPU sweep.\n";
+    use_gpus_ = false;
+  }
 }
 
 DiscreteOrdinatesProblem::~DiscreteOrdinatesProblem()
@@ -82,8 +92,8 @@ DiscreteOrdinatesProblem::~DiscreteOrdinatesProblem()
 
   for (auto& groupset : groupsets_)
   {
-    CleanUpWGDSA(groupset);
-    CleanUpTGDSA(groupset);
+    WGDSA::CleanUp(groupset);
+    TGDSA::CleanUp(groupset);
 
     // Reset sweep orderings
     if (groupset.angle_agg != nullptr)
@@ -114,6 +124,12 @@ DiscreteOrdinatesProblem::GetNumPhiIterativeUnknowns()
   return {num_local_dofs, num_global_dofs};
 }
 
+const std::map<uint64_t, std::shared_ptr<SweepBoundary>>&
+DiscreteOrdinatesProblem::GetSweepBoundaries() const
+{
+  return sweep_boundaries_;
+}
+
 void
 DiscreteOrdinatesProblem::Initialize()
 {
@@ -121,7 +137,10 @@ DiscreteOrdinatesProblem::Initialize()
 
   LBSProblem::Initialize();
 
-  const auto grid_dim = grid_ptr_->GetDimension();
+  // Make face histogram
+  grid_face_histogram_ = grid_->MakeGridFaceHistogram();
+
+  const auto grid_dim = grid_->GetDimension();
   for (auto& groupset : groupsets_)
   {
     const auto quad_dim = groupset.quadrature->GetDimension();
@@ -144,16 +163,139 @@ DiscreteOrdinatesProblem::Initialize()
   {
     InitFluxDataStructures(groupset);
 
-    InitWGDSA(groupset);
-    InitTGDSA(groupset);
+    WGDSA::Init(*this, groupset);
+    TGDSA::Init(*this, groupset);
   }
   InitializeSolverSchemes();
+}
+
+void
+DiscreteOrdinatesProblem::InitializeBoundaries()
+{
+  CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::InitializeBoundaries");
+
+  // Determine boundary-ids involved in the problem
+  std::set<uint64_t> global_unique_bids_set;
+  {
+    std::set<uint64_t> local_unique_bids_set;
+    for (const auto& cell : grid_->local_cells)
+      for (const auto& face : cell.faces)
+        if (not face.has_neighbor)
+          local_unique_bids_set.insert(face.neighbor_id);
+
+    std::vector<uint64_t> local_unique_bids(local_unique_bids_set.begin(),
+                                            local_unique_bids_set.end());
+    std::vector<uint64_t> recvbuf;
+    mpi_comm.all_gather(local_unique_bids, recvbuf);
+
+    global_unique_bids_set = local_unique_bids_set; // give it a head start
+
+    for (uint64_t bid : recvbuf)
+      global_unique_bids_set.insert(bid);
+  }
+
+  // Initialize default incident boundary
+  const size_t G = num_groups_;
+
+  sweep_boundaries_.clear();
+  for (uint64_t bid : global_unique_bids_set)
+  {
+    const bool has_no_preference = boundary_preferences_.count(bid) == 0;
+    const bool has_not_been_set = sweep_boundaries_.count(bid) == 0;
+    if (has_no_preference and has_not_been_set)
+    {
+      sweep_boundaries_[bid] = std::make_shared<VacuumBoundary>(G);
+    } // defaulted
+    else if (has_not_been_set)
+    {
+      const auto& bndry_pref = boundary_preferences_.at(bid);
+      const auto& mg_q = bndry_pref.isotropic_mg_source;
+
+      if (bndry_pref.type == LBSBoundaryType::VACUUM)
+        sweep_boundaries_[bid] = std::make_shared<VacuumBoundary>(G);
+      else if (bndry_pref.type == LBSBoundaryType::ISOTROPIC)
+        sweep_boundaries_[bid] = std::make_shared<IsotropicBoundary>(G, mg_q);
+      else if (bndry_pref.type == LBSBoundaryType::REFLECTING)
+      {
+        // Locally check all faces, that subscribe to this boundary,
+        // have the same normal
+        const double EPSILON = 1.0e-12;
+        std::unique_ptr<Vector3> n_ptr = nullptr;
+        for (const auto& cell : grid_->local_cells)
+          for (const auto& face : cell.faces)
+            if (not face.has_neighbor and face.neighbor_id == bid)
+            {
+              if (not n_ptr)
+                n_ptr = std::make_unique<Vector3>(face.normal);
+              if (std::fabs(face.normal.Dot(*n_ptr) - 1.0) > EPSILON)
+                throw std::logic_error(
+                  "LBSProblem: Not all face normals are, within tolerance, locally the "
+                  "same for the reflecting boundary condition requested");
+            }
+
+        // Now check globally
+        const int local_has_bid = n_ptr != nullptr ? 1 : 0;
+        const Vector3 local_normal = local_has_bid ? *n_ptr : Vector3(0.0, 0.0, 0.0);
+
+        std::vector<int> locJ_has_bid(opensn::mpi_comm.size(), 1);
+        std::vector<double> locJ_n_val(opensn::mpi_comm.size() * 3, 0.0);
+
+        mpi_comm.all_gather(local_has_bid, locJ_has_bid);
+        std::vector<double> lnv = {local_normal.x, local_normal.y, local_normal.z};
+        mpi_comm.all_gather(lnv.data(), 3, locJ_n_val.data(), 3);
+
+        Vector3 global_normal;
+        for (int j = 0; j < opensn::mpi_comm.size(); ++j)
+        {
+          if (locJ_has_bid[j])
+          {
+            int offset = 3 * j;
+            const double* n = &locJ_n_val[offset];
+            const Vector3 locJ_normal(n[0], n[1], n[2]);
+
+            if (local_has_bid)
+              if (std::fabs(local_normal.Dot(locJ_normal) - 1.0) > EPSILON)
+                throw std::logic_error(
+                  "LBSProblem: Not all face normals are, within tolerance, globally the "
+                  "same for the reflecting boundary condition requested");
+
+            global_normal = locJ_normal;
+          }
+        }
+
+        sweep_boundaries_[bid] = std::make_shared<ReflectingBoundary>(
+          G, global_normal, MapGeometryTypeToCoordSys(options_.geometry_type));
+      }
+    } // non-defaulted
+  } // for bndry id
 }
 
 void
 DiscreteOrdinatesProblem::InitializeWGSSolvers()
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::InitializeWGSSolvers");
+
+  // Determine max size and number of matrices along sweep front
+  for (auto& groupset : groupsets_)
+  {
+    // Max groupset size
+    max_groupset_size_ = std::max(max_groupset_size_, groupset.groups.size());
+
+    for (auto& angle_set_group : groupset.angle_agg->angle_set_groups)
+    {
+      for (auto& angleset : angle_set_group.GetAngleSets())
+      {
+        // Max level size
+        const auto& spds = angleset->GetSPDS();
+        const auto& levelized_spls = spds.GetLevelizedLocalSubgrid();
+        for (auto& level : levelized_spls)
+          max_level_size_ = std::max(max_level_size_, level.size());
+
+        // Max angleset size
+        max_angleset_size_ = std::max(max_angleset_size_, angleset->GetAngleIndices().size());
+      }
+    }
+  }
 
   wgs_solvers_.clear(); // this is required
   for (auto& groupset : groupsets_)
@@ -168,8 +310,11 @@ DiscreteOrdinatesProblem::InitializeWGSSolvers()
       options_.verbose_inner_iterations,
       sweep_chunk);
 
-    if (groupset.iterative_method == LinearSolver::IterativeMethod::CLASSIC_RICHARDSON)
-      wgs_solvers_.push_back(std::make_shared<ClassicRichardson>(sweep_wgs_context_ptr));
+    if (groupset.iterative_method == LinearSystemSolver::IterativeMethod::CLASSIC_RICHARDSON)
+    {
+      wgs_solvers_.push_back(std::make_shared<ClassicRichardson>(
+        sweep_wgs_context_ptr, options_.verbose_inner_iterations));
+    }
     else
       wgs_solvers_.push_back(std::make_shared<WGSLinearSolver>(sweep_wgs_context_ptr));
   }
@@ -210,7 +355,7 @@ DiscreteOrdinatesProblem::ReorientAdjointSolution()
         for (int jdir = 0; jdir < num_gs_angles; ++jdir)
         {
           // Angles are opposite if their sum is zero
-          const auto sum = grid_ptr_->GetDimension() == 1
+          const auto sum = grid_->GetDimension() == 1
                              ? Vector3(0.0, 0.0, omegas[idir].z + omegas[jdir].z)
                              : omegas[idir] + omegas[jdir];
           const bool opposite = sum.NormSquare() < 1.0e-8;
@@ -231,13 +376,13 @@ DiscreteOrdinatesProblem::ReorientAdjointSolution()
                                std::to_string(gs) + " not found.");
 
       } // for angle m
-    }   // if saving angular flux
+    } // if saving angular flux
 
     const auto num_gs_groups = groupset.groups.size();
     const auto gsg_i = groupset.groups.front().id;
     const auto gsg_f = groupset.groups.back().id;
 
-    for (const auto& cell : grid_ptr_->local_cells)
+    for (const auto& cell : grid_->local_cells)
     {
       const auto& transport_view = cell_transport_views_[cell.local_id];
       for (int i = 0; i < transport_view.GetNumNodes(); ++i)
@@ -260,7 +405,7 @@ DiscreteOrdinatesProblem::ReorientAdjointSolution()
             phi_new_local_[dof_map + g] *= std::pow(-1.0, ell);
             phi_old_local_[dof_map + g] *= std::pow(-1.0, ell);
           } // for group g
-        }   // for moment m
+        } // for moment m
 
         // Reorient angular flux
         if (options_.save_angular_flux)
@@ -276,7 +421,7 @@ DiscreteOrdinatesProblem::ReorientAdjointSolution()
           }
         }
       } // for node i
-    }   // for cell
+    } // for cell
 
   } // for groupset
 }
@@ -286,315 +431,10 @@ DiscreteOrdinatesProblem::ZeroOutflowBalanceVars(LBSGroupset& groupset)
 {
   CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::ZeroOutflowBalanceVars");
 
-  for (const auto& cell : grid_ptr_->local_cells)
+  for (const auto& cell : grid_->local_cells)
     for (int f = 0; f < cell.faces.size(); ++f)
       for (auto& group : groupset.groups)
         cell_transport_views_[cell.local_id].ZeroOutflow(f, group.id);
-}
-
-void
-DiscreteOrdinatesProblem::ComputeBalance()
-{
-  CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::ComputeBalance");
-
-  opensn::mpi_comm.barrier();
-
-  // Get material source
-  // This is done using the SetSource routine because it allows a lot of flexibility.
-  auto mat_src = phi_new_local_;
-  mat_src.assign(mat_src.size(), 0.0);
-  for (auto& groupset : groupsets_)
-  {
-    q_moments_local_.assign(q_moments_local_.size(), 0.0);
-    active_set_source_function_(groupset,
-                                q_moments_local_,
-                                phi_new_local_,
-                                APPLY_FIXED_SOURCES | APPLY_AGS_FISSION_SOURCES |
-                                  APPLY_WGS_FISSION_SOURCES);
-    LBSVecOps::GSScopedCopyPrimarySTLvectors(*this, groupset, q_moments_local_, mat_src);
-  }
-
-  // Compute absorption, material-source and in-flow
-  double local_out_flow = 0.0;
-  double local_in_flow = 0.0;
-  double local_absorption = 0.0;
-  double local_production = 0.0;
-  for (const auto& cell : grid_ptr_->local_cells)
-  {
-    const auto& cell_mapping = discretization_->GetCellMapping(cell);
-    const auto& transport_view = cell_transport_views_[cell.local_id];
-    const auto& fe_intgrl_values = unit_cell_matrices_[cell.local_id];
-    const size_t num_nodes = transport_view.GetNumNodes();
-    const auto& IntV_shapeI = fe_intgrl_values.intV_shapeI;
-    const auto& IntS_shapeI = fe_intgrl_values.intS_shapeI;
-
-    // Inflow: This is essentially an integration over all faces, all angles, and all groups. For
-    // non-reflective boundaries, only the cosines that are negative are added to the inflow
-    // integral. For reflective boundaries, it is expected that, upon convergence, inflow = outflow
-    // (within numerical tolerances set by the user).
-    for (int f = 0; f < cell.faces.size(); ++f)
-    {
-      const auto& face = cell.faces[f];
-
-      if (not face.has_neighbor) // Boundary face
-      {
-        const auto& bndry = sweep_boundaries_[face.neighbor_id];
-
-        if (bndry->IsReflecting())
-        {
-          for (int g = 0; g < num_groups_; ++g)
-            local_in_flow += transport_view.GetOutflow(f, g);
-        }
-        else
-        {
-          for (const auto& groupset : groupsets_)
-          {
-            for (int n = 0; n < groupset.quadrature->omegas.size(); ++n)
-            {
-              const auto& omega = groupset.quadrature->omegas[n];
-              const double wt = groupset.quadrature->weights[n];
-              const double mu = omega.Dot(face.normal);
-
-              if (mu < 0.0)
-              {
-                for (int fi = 0; fi < face.vertex_ids.size(); ++fi)
-                {
-                  const int i = cell_mapping.MapFaceNode(f, fi);
-                  const auto& IntFi_shapeI = IntS_shapeI[f](i);
-
-                  for (const auto& group : groupset.groups)
-                  {
-                    const int g = group.id;
-                    const double psi = *bndry->PsiIncoming(cell.local_id, f, fi, n, g);
-                    local_in_flow -= mu * wt * psi * IntFi_shapeI;
-                  } // for group
-                }   // for fi
-              }     // if mu < 0
-            }       // for n
-          }         // for groupset
-        }           // if reflecting boundary
-      }             // if boundary
-    }               // for f
-
-    // Outflow: The group-wise outflow was determined during a solve so we just accumulate it here.
-    for (int f = 0; f < cell.faces.size(); ++f)
-      for (int g = 0; g < num_groups_; ++g)
-        local_out_flow += transport_view.GetOutflow(f, g);
-
-    // Absorption and sources
-    const auto& xs = transport_view.GetXS();
-    const auto& sigma_a = xs.GetSigmaAbsorption();
-    for (int i = 0; i < num_nodes; ++i)
-    {
-      for (int g = 0; g < num_groups_; ++g)
-      {
-        size_t imap = transport_view.MapDOF(i, 0, g);
-        double phi_0g = phi_new_local_[imap];
-        double q_0g = mat_src[imap];
-
-        local_absorption += sigma_a[g] * phi_0g * IntV_shapeI(i);
-        local_production += q_0g * IntV_shapeI(i);
-      } // for g
-    }   // for i
-  }     // for cell
-
-  // Compute local balance
-  double local_balance = local_production + local_in_flow - local_absorption - local_out_flow;
-  double local_gain = local_production + local_in_flow;
-  std::vector<double> local_balance_table = {
-    local_absorption, local_production, local_in_flow, local_out_flow, local_balance, local_gain};
-  size_t table_size = local_balance_table.size();
-
-  // Compute global balance
-  std::vector<double> global_balance_table(table_size, 0.0);
-  mpi_comm.all_reduce(
-    local_balance_table.data(), table_size, global_balance_table.data(), mpi::op::sum<double>());
-  double global_absorption = global_balance_table.at(0);
-  double global_production = global_balance_table.at(1);
-  double global_in_flow = global_balance_table.at(2);
-  double global_out_flow = global_balance_table.at(3);
-  double global_balance = global_balance_table.at(4);
-  double global_gain = global_balance_table.at(5);
-
-  log.Log() << "Balance table:\n"
-            << std::setprecision(6) << std::scientific
-            << " Absorption rate             = " << global_absorption << "\n"
-            << " Production rate             = " << global_production << "\n"
-            << " In-flow rate                = " << global_in_flow << "\n"
-            << " Out-flow rate               = " << global_out_flow << "\n"
-            << " Gain (In-flow + Production) = " << global_gain << "\n"
-            << " Balance (Gain - Loss)       = " << global_balance << "\n"
-            << " Balance/Gain, in %          = " << global_balance / global_gain * 100. << "\n";
-
-  opensn::mpi_comm.barrier();
-}
-
-std::vector<double>
-DiscreteOrdinatesProblem::ComputeLeakage(const unsigned int groupset_id,
-                                         const uint64_t boundary_id) const
-{
-  CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::ComputeLeakage");
-
-  // Perform checks
-  OpenSnInvalidArgumentIf(groupset_id < 0 or groupset_id >= groupsets_.size(),
-                          "Invalid groupset id.");
-  OpenSnLogicalErrorIf(not options_.save_angular_flux,
-                       "The option `save_angular_flux` must be set to `true` in order "
-                       "to compute outgoing currents.");
-
-  const auto& sdm = *discretization_;
-  const auto& groupset = groupsets_.at(groupset_id);
-  const auto& psi_uk_man = groupset.psi_uk_man_;
-  const auto& quadrature = groupset.quadrature;
-
-  const auto num_gs_angles = quadrature->omegas.size();
-  const auto num_gs_groups = groupset.groups.size();
-
-  const auto gsi = groupset.groups.front().id;
-  const auto gsf = groupset.groups.back().id;
-
-  // Start integration
-  std::vector<double> local_leakage(num_gs_groups, 0.0);
-  for (const auto& cell : grid_ptr_->local_cells)
-  {
-    const auto& cell_mapping = sdm.GetCellMapping(cell);
-    const auto& fe_values = unit_cell_matrices_[cell.local_id];
-
-    unsigned int f = 0;
-    for (const auto& face : cell.faces)
-    {
-      if (not face.has_neighbor and face.neighbor_id == boundary_id)
-      {
-        const auto& int_f_shape_i = fe_values.intS_shapeI[f];
-        const auto num_face_nodes = cell_mapping.GetNumFaceNodes(f);
-        for (unsigned int fi = 0; fi < num_face_nodes; ++fi)
-        {
-          const auto i = cell_mapping.MapFaceNode(f, fi);
-          for (unsigned int n = 0; n < num_gs_angles; ++n)
-          {
-            const auto& omega = quadrature->omegas[n];
-            const auto& weight = quadrature->weights[n];
-            const auto mu = omega.Dot(face.normal);
-            if (mu > 0.0)
-            {
-              for (unsigned int gsg = 0; gsg < num_gs_groups; ++gsg)
-              {
-                const auto g = gsg + gsi;
-                const auto imap = sdm.MapDOFLocal(cell, i, psi_uk_man, n, g);
-                const auto psi = psi_new_local_[groupset_id][imap];
-                local_leakage[gsg] += weight * mu * psi * int_f_shape_i(i);
-              } // for g
-            }   // outgoing
-          }     // for n
-        }       // for face node
-      }         // if right bndry
-      ++f;
-    } // for face
-  }   // for cell
-
-  // Communicate to obtain global leakage
-  std::vector<double> global_leakage(num_gs_groups, 0.0);
-  mpi_comm.all_reduce(
-    local_leakage.data(), num_gs_groups, global_leakage.data(), mpi::op::sum<double>());
-
-  return global_leakage;
-}
-
-std::map<uint64_t, std::vector<double>>
-DiscreteOrdinatesProblem::ComputeLeakage(const std::vector<uint64_t>& boundary_ids) const
-{
-  CALI_CXX_MARK_SCOPE("DiscreteOrdinatesProblem::ComputeLeakage");
-
-  // Perform checks
-  OpenSnLogicalErrorIf(not options_.save_angular_flux,
-                       "The option `save_angular_flux` must be set to `true` in order "
-                       "to compute outgoing currents.");
-
-  const auto unique_bids = grid_ptr_->GetUniqueBoundaryIDs();
-  for (const auto& bid : boundary_ids)
-  {
-    const auto it = std::find(unique_bids.begin(), unique_bids.end(), bid);
-    OpenSnInvalidArgumentIf(it == unique_bids.end(),
-                            "Boundary ID " + std::to_string(bid) + "not found on grid.");
-  }
-
-  // Initialize local mapping
-  std::map<uint64_t, std::vector<double>> local_leakage;
-  for (const auto& bid : boundary_ids)
-    local_leakage[bid].assign(num_groups_, 0.0);
-
-  // Go through groupsets
-  for (unsigned int gs = 0; gs < groupsets_.size(); ++gs)
-  {
-    const auto& groupset = groupsets_.at(gs);
-    const auto& psi_uk_man = groupset.psi_uk_man_;
-    const auto& quadrature = groupset.quadrature;
-
-    const auto num_gs_angles = quadrature->omegas.size();
-    const auto num_gs_groups = groupset.groups.size();
-    const auto first_gs_group = groupset.groups.front().id;
-
-    const auto& psi_gs = psi_new_local_[gs];
-
-    // Loop over cells for integration
-    for (const auto& cell : grid_ptr_->local_cells)
-    {
-      const auto& cell_mapping = discretization_->GetCellMapping(cell);
-      const auto& fe_values = unit_cell_matrices_.at(cell.local_id);
-
-      unsigned int f = 0;
-      for (const auto& face : cell.faces)
-      {
-        // If face is on the specified boundary...
-        const auto it = std::find(boundary_ids.begin(), boundary_ids.end(), face.neighbor_id);
-        if (not face.has_neighbor and it != boundary_ids.end())
-        {
-          auto& bndry_leakage = local_leakage[face.neighbor_id];
-          const auto& int_f_shape_i = fe_values.intS_shapeI[f];
-          const auto num_face_nodes = cell_mapping.GetNumFaceNodes(f);
-          for (unsigned int fi = 0; fi < num_face_nodes; ++fi)
-          {
-            const auto i = cell_mapping.MapFaceNode(f, fi);
-            for (unsigned int n = 0; n < num_gs_angles; ++n)
-            {
-              const auto& omega = quadrature->omegas[n];
-              const auto& weight = quadrature->weights[n];
-              const auto mu = omega.Dot(face.normal);
-              if (mu <= 0.0)
-                continue;
-
-              const auto coeff = weight * mu * int_f_shape_i(i);
-              for (unsigned int gsg = 0; gsg < num_gs_groups; ++gsg)
-              {
-                const auto g = first_gs_group + gsg;
-                const auto imap = discretization_->MapDOFLocal(cell, i, psi_uk_man, n, gsg);
-                bndry_leakage[g] += coeff * psi_gs[imap];
-              } // for groupset group gsg
-            }   // for angle n
-          }     // for face index fi
-        }       // if face on desired boundary
-        ++f;
-      } // for face
-    }   // for cell
-  }     // for groupset gs
-
-  // Serialize the data
-  std::vector<double> local_data;
-  for (const auto& [bid, bndry_leakage] : local_leakage)
-    for (const auto& val : bndry_leakage)
-      local_data.emplace_back(val);
-
-  // Communicate the data
-  std::vector<double> global_data(local_data.size());
-  mpi_comm.all_reduce(
-    local_data.data(), local_data.size(), global_data.data(), mpi::op::sum<double>());
-
-  // Unpack the data
-  std::map<uint64_t, std::vector<double>> global_leakage;
-  for (unsigned int b = 0; b < boundary_ids.size(); ++b)
-    for (unsigned int g = 0; g < num_groups_; ++g)
-      global_leakage[boundary_ids[b]].push_back(global_data[b * num_groups_ + g]);
-  return global_leakage;
 }
 
 void
@@ -612,7 +452,7 @@ DiscreteOrdinatesProblem::InitializeSweepDataStructures()
     if (quadrature_unq_so_grouping_map_.count(groupset.quadrature) == 0)
     {
       quadrature_unq_so_grouping_map_[groupset.quadrature] = AssociateSOsAndDirections(
-        grid_ptr_, *groupset.quadrature, groupset.angleagg_method, options_.geometry_type);
+        grid_, *groupset.quadrature, groupset.angleagg_method, options_.geometry_type);
     }
 
     if (quadrature_allow_cycles_map_.count(groupset.quadrature) == 0)
@@ -645,7 +485,7 @@ DiscreteOrdinatesProblem::InitializeSweepDataStructures()
         const size_t master_dir_id = so_grouping.front();
         const auto& omega = quadrature->omegas[master_dir_id];
         const auto new_swp_order = std::make_shared<AAH_SPDS>(
-          id, omega, this->grid_ptr_, quadrature_allow_cycles_map_[quadrature]);
+          id, omega, this->grid_, quadrature_allow_cycles_map_[quadrature]);
         quadrature_spds_map_[quadrature].push_back(new_swp_order);
         ++id;
       }
@@ -762,8 +602,8 @@ DiscreteOrdinatesProblem::InitializeSweepDataStructures()
 
         const size_t master_dir_id = so_grouping.front();
         const auto& omega = quadrature->omegas[master_dir_id];
-        const auto new_swp_order = std::make_shared<CBC_SPDS>(
-          omega, this->grid_ptr_, quadrature_allow_cycles_map_[quadrature]);
+        const auto new_swp_order =
+          std::make_shared<CBC_SPDS>(omega, this->grid_, quadrature_allow_cycles_map_[quadrature]);
         quadrature_spds_map_[quadrature].push_back(new_swp_order);
       }
     }
@@ -963,7 +803,7 @@ DiscreteOrdinatesProblem::AssociateSOsAndDirections(const std::shared_ptr<MeshCo
 
       ++so_grouping_id;
     } // for so_grouping
-  }   // map scope
+  } // map scope
 
   return {unq_so_grps, dir_id_to_so_map};
 }
@@ -981,8 +821,8 @@ DiscreteOrdinatesProblem::InitFluxDataStructures(LBSGroupset& groupset)
   const size_t gs_num_grps = groupset.groups.size();
 
   // Passing the sweep boundaries to the angle aggregation
-  groupset.angle_agg = std::make_shared<AngleAggregation>(
-    sweep_boundaries_, gs_num_grps, groupset.quadrature, grid_ptr_);
+  groupset.angle_agg =
+    std::make_shared<AngleAggregation>(sweep_boundaries_, num_groups_, groupset.quadrature, grid_);
 
   AngleSetGroup angle_set_group;
   size_t angle_set_id = 0;
@@ -1024,7 +864,8 @@ DiscreteOrdinatesProblem::InitFluxDataStructures(LBSGroupset& groupset)
                                                         angle_indices,
                                                         sweep_boundaries_,
                                                         options_.max_mpi_message_size,
-                                                        *grid_local_comm_set_);
+                                                        *grid_local_comm_set_,
+                                                        use_gpus_);
 
         angle_set_group.GetAngleSets().push_back(angle_set);
       }
@@ -1047,14 +888,15 @@ DiscreteOrdinatesProblem::InitFluxDataStructures(LBSGroupset& groupset)
                                                         fluds,
                                                         angle_indices,
                                                         sweep_boundaries_,
-                                                        *grid_local_comm_set_);
+                                                        *grid_local_comm_set_,
+                                                        use_gpus_);
 
         angle_set_group.GetAngleSets().push_back(angle_set);
       }
       else
         OpenSnInvalidArgument("Unsupported sweeptype \"" + sweep_type_ + "\"");
     } // for an_ss
-  }   // for so_grouping
+  } // for so_grouping
 
   groupset.angle_agg->angle_set_groups.push_back(std::move(angle_set_group));
 
@@ -1071,7 +913,7 @@ DiscreteOrdinatesProblem::SetSweepChunk(LBSGroupset& groupset)
 
   if (sweep_type_ == "AAH")
   {
-    auto sweep_chunk = std::make_shared<AAHSweepChunk>(grid_ptr_,
+    auto sweep_chunk = std::make_shared<AAHSweepChunk>(grid_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,
@@ -1082,7 +924,12 @@ DiscreteOrdinatesProblem::SetSweepChunk(LBSGroupset& groupset)
                                                        groupset,
                                                        block_id_to_xs_map_,
                                                        num_moments_,
-                                                       max_cell_dof_count_);
+                                                       max_cell_dof_count_,
+                                                       *this,
+                                                       max_level_size_,
+                                                       max_groupset_size_,
+                                                       max_angleset_size_,
+                                                       use_gpus_);
 
     return sweep_chunk;
   }
@@ -1090,7 +937,7 @@ DiscreteOrdinatesProblem::SetSweepChunk(LBSGroupset& groupset)
   {
     auto sweep_chunk = std::make_shared<CBCSweepChunk>(phi_new_local_,
                                                        psi_new_local_[groupset.id],
-                                                       grid_ptr_,
+                                                       grid_,
                                                        *discretization_,
                                                        unit_cell_matrices_,
                                                        cell_transport_views_,

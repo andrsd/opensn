@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 #include "python/lib/py_wrappers.h"
+#include "framework/runtime.h"
 #include "framework/materials/multi_group_xs/multi_group_xs.h"
+#include "framework/materials/multi_group_xs/xsfile.h"
+#include <pybind11/stl.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -40,7 +43,7 @@ WrapMultiGroupXS(py::module& xs)
   multigroup_xs.def(
     "CreateSimpleOneGroup",
     [](MultiGroupXS& self, double sigma_t, double c) {
-      self.Initialize(sigma_t, c);
+      self = MultiGroupXS::CreateSimpleOneGroup(sigma_t, c);
     },
     R"(
     Create a one-group cross section.
@@ -59,7 +62,7 @@ WrapMultiGroupXS(py::module& xs)
     "LoadFromOpenSn",
     [](MultiGroupXS& self, const std::string& file_name)
     {
-      self.Initialize(file_name);
+      self = MultiGroupXS::LoadFromOpenSn(file_name);
     },
     py::arg("file_name"),
     R"(
@@ -98,11 +101,42 @@ WrapMultiGroupXS(py::module& xs)
     )"
   );
   multigroup_xs.def(
+    "Combine",
+    [](MultiGroupXS& self, const std::vector<std::pair<std::shared_ptr<MultiGroupXS>, double>>& combinations)
+    {
+      self = MultiGroupXS::Combine(combinations);
+    },
+    R"(
+    Combine cross-section
+
+    Parameters
+    ----------
+
+    combinations: List[Tuple[pyopensn.xs.MultiGroupXS, float]]
+        List of combinations (cross section, factor)
+
+    Examples
+    --------
+
+    >>> xs_1 = MultiGroupXS()
+    >>> xs_1.CreateSimpleOneGroup(sigma_t=1, c=0.5)
+    >>> xs_2 = MultiGroupXS()
+    >>> xs_2.CreateSimpleOneGroup(sigma_t=2, c=1./3.)
+    >>> xs_combined = MultiGroupXS()
+    >>> combo = [
+    ...     ( xs_1, 0.5 ),
+    ...     ( xs_2, 3.0 )
+    ... ]
+    >>> xs_combined.Combine(combo)
+    )",
+    py::arg("combinations")
+  );
+  multigroup_xs.def(
     "LoadFromOpenMC",
     [](MultiGroupXS& self, const std::string& file_name, const std::string& dataset_name,
        double temperature)
     {
-      self.Initialize(file_name, dataset_name, temperature);
+      self = MultiGroupXS::LoadFromOpenMC(file_name, dataset_name, temperature);
     },
     "Load multi-group cross sections from an OpenMC cross-section file.",
     py::arg("file_name"),

@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: MIT
 
 #include "modules/linear_boltzmann_solvers/solvers/steady_state_solver.h"
-#include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/ags_solver.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/ags_linear_solver.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/lbs_compute.h"
 #include "framework/object_factory.h"
 #include "framework/utils/hdf_utils.h"
+#include "framework/runtime.h"
 #include "caliper/cali.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/lbs_problem.h"
 #include <memory>
@@ -21,9 +23,8 @@ SteadyStateSolver::GetInputParameters()
 
   params.SetGeneralDescription("Implementation of a steady state solver. This solver calls the "
                                "across-groupset (AGS) solver.");
-  params.SetDocGroup("LBSExecutors");
   params.ChangeExistingParamToOptional("name", "SteadyStateSolver");
-  params.AddRequiredParameter<std::shared_ptr<Problem>>("lbs_problem", "An existing lbs problem");
+  params.AddRequiredParameter<std::shared_ptr<Problem>>("problem", "An existing lbs problem");
 
   return params;
 }
@@ -36,9 +37,7 @@ SteadyStateSolver::Create(const ParameterBlock& params)
 }
 
 SteadyStateSolver::SteadyStateSolver(const InputParameters& params)
-  : Solver(params),
-    lbs_problem_(std::dynamic_pointer_cast<LBSProblem>(
-      params.GetParamValue<std::shared_ptr<Problem>>("lbs_problem")))
+  : Solver(params), lbs_problem_(params.GetSharedPtrParam<Problem, LBSProblem>("problem"))
 {
 }
 
@@ -67,7 +66,7 @@ SteadyStateSolver::Execute()
     WriteRestartData();
 
   if (options.use_precursors)
-    lbs_problem_->ComputePrecursors();
+    ComputePrecursors(*lbs_problem_);
 
   if (options.adjoint)
     lbs_problem_->ReorientAdjointSolution();

@@ -54,7 +54,7 @@ if __name__ == "__main__":
     mg_src1 = VolumetricSource(block_ids=[0], group_strength=strength)
 
     # Setup the angular quadrature
-    pquad = GLCProductQuadrature3DXYZ(4, 8)
+    pquad = GLCProductQuadrature3DXYZ(n_polar=4, n_azimuthal=8, scattering_order=0)
 
     # Create and configure the discrete ordinates solver
     phys = DiscreteOrdinatesProblem(
@@ -75,12 +75,12 @@ if __name__ == "__main__":
         xs_map=[
             {"block_ids": [0, 1], "xs": xs_graphite},
         ],
+        scattering_order=0,
         options={
-            "scattering_order": 0,
             "volumetric_sources": [mg_src0, mg_src1],
         }
     )
-    ss_solver = SteadyStateSolver(lbs_problem=phys)
+    ss_solver = SteadyStateSolver(problem=phys)
     ss_solver.Initialize()
     ss_solver.Execute()
 
@@ -114,11 +114,11 @@ if __name__ == "__main__":
 
     if globals().get('master_export', False) is True:
         # Export all phi values
-        vtk_basename = "trqnsport_3d_5_2_cycles_phi"
-        vtk_export_list = []
+        basename = "trqnsport_3d_5_2_cycles_phi"
+        export_list = []
         for i in range(num_groups):
-            vtk_export_list.append(fflist[i][0])
-        FieldFunctionGridBased.ExportMultipleToVTK(vtk_export_list, vtk_basename)
+            export_list.append(fflist[i][0])
+        FieldFunctionGridBased.ExportMultipleToPVTU(export_list, basename)
         # Export phi for group 0 only
-        vtk_basename = "transport_3d_5_2_cyles_phi_g0"
-        FieldFunctionGridBased.ExportMultipleToVTK([fflist[0][0]], vtk_basename)
+        basename = "transport_3d_5_2_cyles_phi_g0"
+        FieldFunctionGridBased.ExportMultipleToPVTU([fflist[0][0]], basename)

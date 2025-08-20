@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.20.2)
+cmake_minimum_required(VERSION 3.25.2)
 
 project(opensn
     VERSION 0.0.1
     LANGUAGES C CXX
 )
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -37,27 +37,15 @@ option(OPENSN_WITH_CUDA "Enable CUDA support" OFF)
 if (OPENSN_WITH_CUDA)
     set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
     find_package(CUDAToolkit 12.0 REQUIRED)
-    add_definitions(-DUSE_CUDA)
     message(STATUS "CUDA support enabled")
     message(STATUS "CUDA architectures detected: ${CMAKE_CUDA_ARCHITECTURES}")
     enable_language(CUDA)
 endif()
-option(OPENSN_WITH_DOCS "Enable documentation" OFF)
-option(OPENSN_WITH_LUA "Build with lua support" OFF)
 option(OPENSN_WITH_PYTHON "Build with python support" ON)
 option(OPENSN_WITH_PYTHON_MODULE "Build with python module" OFF)
 
 if(OPENSN_WITH_PYTHON_MODULE)
     set(OPENSN_WITH_PYTHON ON CACHE BOOL "Python support requested for building module" FORCE)
-endif()
-
-if(OPENSN_WITH_LUA)
-    set(OPENSN_WITH_PYTHON OFF CACHE BOOL "Lua support requested, disabling Python interface" FORCE)
-    set(OPENSN_WITH_PYTHON_MODULE OFF CACHE BOOL "Lua support requested, disabling Python module" FORCE)
-endif()
-
-if (OPENSN_WITH_DOCS AND NOT OPENSN_WITH_PYTHON_MODULE)
-    message(FATAL_ERROR "Python module is required to build documentation!")
 endif()
 
 # dependencies
@@ -68,10 +56,6 @@ find_package(Boost CONFIG)
 if (NOT Boost_FOUND)
     message(STATUS "Boost CONFIG not found, falling back to module mode")
     find_package(Boost REQUIRED)
-endif()
-
-if(OPENSN_WITH_LUA)
-    find_package(Lua 5.3 REQUIRED)
 endif()
 
 find_package(VTK QUIET)
@@ -164,6 +148,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
     list(APPEND OPENSN_CXX_FLAGS "-Wno-unused-variable")
     list(APPEND OPENSN_CXX_FLAGS "-Wno-sign-compare")
     list(APPEND OPENSN_CXX_FLAGS "-Wno-psabi")
+    list(APPEND OPENSN_CXX_FLAGS "-Wno-deprecated-declarations")
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel")
     list(APPEND OPENSN_CXX_FLAGS "-fp-model=precise")
 else()
@@ -178,13 +163,18 @@ file(GLOB_RECURSE LIBOPENSN_SRCS CONFIGURE_DEPENDS
 
 if (OPENSN_WITH_CUDA)
     file(GLOB_RECURSE LIBOPENSN_CUDA_SRCS CONFIGURE_DEPENDS modules/*.cu)
-    list(APPEND LIBOPENSN_SRCS ${LIBOPENSN_CUDA_SRCS})
+    add_library(libopensncuda STATIC ${LIBOPENSN_CUDA_SRCS})
 endif()
 
 add_library(libopensn SHARED ${LIBOPENSN_SRCS})
 
 if (OPENSN_WITH_CUDA)
-    target_compile_options(libopensn PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:--expt-extended-lambda>)
+    target_compile_options(libopensncuda PRIVATE --expt-extended-lambda --expt-relaxed-constexpr)
+    target_compile_features(libopensncuda PUBLIC cuda_std_20)
+    target_compile_definitions(libopensncuda PRIVATE __OPENSN_USE_CUDA__)
+    target_compile_definitions(libopensn PRIVATE __OPENSN_USE_CUDA__)
+    set_property(TARGET libopensncuda PROPERTY POSITION_INDEPENDENT_CODE ON)
+    set_property(TARGET libopensncuda PROPERTY OUTPUT_NAME opensncuda)
 endif()
 
 target_include_directories(libopensn
@@ -202,10 +192,25 @@ target_include_directories(libopensn
     $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
 )
 if (OPENSN_WITH_CUDA)
-    target_include_directories(libopensn PUBLIC $<BUILD_INTERFACE:${MPI_CXX_INCLUDE_DIRS}>)
-endif()
-if (OPENSN_WITH_LUA)
-    target_include_directories(libopensn PUBLIC $<BUILD_INTERFACE:${LUA_INCLUDE_DIRS}>)
+    target_include_directories(libopensncuda PUBLIC $<BUILD_INTERFACE:${MPI_CXX_INCLUDE_DIRS}>)
+    target_compile_options(libopensncuda PRIVATE $<BUILD_INTERFACE:${OPENSN_CXX_FLAGS}>)
+    target_compile_options(libopensncuda PRIVATE $<BUILD_INTERFACE:-diag-suppress 1301>)
+    target_compile_options(libopensncuda PRIVATE $<BUILD_INTERFACE:-Wno-deprecated-declarations -Wno-non-template-friend -Wno-parentheses>)
+    target_include_directories(libopensncuda
+      PRIVATE
+      $<INSTALL_INTERFACE:include/opensn>
+      $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+      $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      ${PROJECT_SOURCE_DIR}
+      ${PROJECT_SOURCE_DIR}/external
+      PUBLIC
+      $<BUILD_INTERFACE:${HDF5_INCLUDE_DIRS}>
+      $<BUILD_INTERFACE:${caliper_INCLUDE_DIR}>
+      $<BUILD_INTERFACE:${PETSC_INCLUDE_DIR}>
+      $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
+  )
+  target_link_libraries(libopensncuda PRIVATE MPI::MPI_CXX)
 endif()
 
 target_link_libraries(libopensn
@@ -217,11 +222,8 @@ target_link_libraries(libopensn
     MPI::MPI_CXX
 )
 if (OPENSN_WITH_CUDA)
-    target_link_libraries(libopensn PRIVATE ${CUDA_LIBRARIES} CUDA::cublas)
-endif()
-if(OPENSN_WITH_LUA)
-    target_link_libraries(libopensn PRIVATE ${LUA_LIBRARIES})
-    target_compile_definitions(libopensn PRIVATE OPENSN_WITH_LUA)
+    target_link_libraries(libopensncuda PRIVATE ${CUDA_LIBRARIES} CUDA::cublas)
+    target_link_libraries(libopensn INTERFACE libopensncuda)
 endif()
 
 target_compile_options(libopensn PRIVATE ${OPENSN_CXX_FLAGS})
@@ -236,21 +238,6 @@ set_target_properties(
         VERSION ${PROJECT_VERSION}
         SOVERSION ${PROJECT_VERSION_MAJOR}
 )
-
-if(OPENSN_WITH_LUA)
-    add_subdirectory(lua)
-    add_subdirectory(test)
-
-    add_custom_target(test
-      COMMAND
-      ${CMAKE_BINARY_DIR}/test/opensn-unit &&
-              ${CMAKE_SOURCE_DIR}/test/run_tests
-              -d ${CMAKE_SOURCE_DIR}/test/lua
-              --exe ${CMAKE_BINARY_DIR}/test/lua/opensn-test
-              -w3
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-endif()
 
 if(OPENSN_WITH_PYTHON)
     add_subdirectory(python)
@@ -272,10 +259,6 @@ if(OPENSN_WITH_PYTHON)
 endif()
 
 configure_file(config.h.in config.h)
-
-if(OPENSN_WITH_DOCS)
-    add_subdirectory(doc)
-endif()
 
 # install
 configure_package_config_file(
@@ -300,6 +283,18 @@ install(
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+
+if(OPENSN_WITH_CUDA)
+    install(
+        TARGETS libopensncuda
+        EXPORT openSnTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+endif()
 
 install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/framework
@@ -332,28 +327,6 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}/OpenSnConfigVersion.cmake"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/opensn
 )
-
-if(OPENSN_WITH_LUA)
-    install(
-        TARGETS opensn libopensnlua
-        EXPORT openSnTargets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
-    )
-
-    install(
-        DIRECTORY ${CMAKE_SOURCE_DIR}/lua
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/opensn
-        FILES_MATCHING PATTERN "*.h"
-    )
-
-    install(
-        DIRECTORY ${CMAKE_SOURCE_DIR}/external/LuaBridge
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/opensn
-        FILES_MATCHING PATTERN "*.h"
-    )
-endif()
 
 if(OPENSN_WITH_PYTHON)
     install(

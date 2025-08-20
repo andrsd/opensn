@@ -3,12 +3,12 @@
 
 #pragma once
 
-#include "framework/math/sparse_matrix/sparse_matrix.h"
+#include "framework/data_types/sparse_matrix/sparse_matrix.h"
 
 namespace opensn
 {
 
-class MultiGroupXS : public std::enable_shared_from_this<MultiGroupXS>
+class MultiGroupXS
 {
 public:
   MultiGroupXS()
@@ -21,19 +21,6 @@ public:
       diffusion_initialized_(false)
   {
   }
-
-  /// Makes a simple material with a 1-group cross-section set.
-  void Initialize(double sigma_t, double c);
-
-  /// Populates the cross section from a combination of others.
-  void Initialize(std::vector<std::pair<int, double>>& combinations);
-
-  /// This method populates transport cross sections from an OpenSn cross-section file.
-  void Initialize(const std::string& file_name);
-
-  /// This method populates transport cross sections from an OpenMC cross-section file.
-  void
-  Initialize(const std::string& file_name, const std::string& dataset_name, double temperature);
 
   /// A struct containing data for a delayed neutron precursor.
   struct Precursor
@@ -183,23 +170,16 @@ private:
 
   void TransposeTransferAndProduction();
 
-  /// Check vector for all non-negative values
-  bool IsNonNegative(const std::vector<double>& vec)
-  {
-    return not std::any_of(vec.begin(), vec.end(), [](double x) { return x < 0.0; });
-  }
-
-  /// Check vector for all strictly positive values
-  bool IsPositive(const std::vector<double>& vec)
-  {
-    return not std::any_of(vec.begin(), vec.end(), [](double x) { return x <= 0.0; });
-  }
-
-  /// Check vector for any non-zero values
-  bool HasNonZero(const std::vector<double>& vec)
-  {
-    return std::any_of(vec.begin(), vec.end(), [](double x) { return x > 0.0; });
-  }
+public:
+  /// Makes a simple material with a 1-group cross-section set.
+  static MultiGroupXS CreateSimpleOneGroup(double sigma_t, double c);
+  static MultiGroupXS LoadFromOpenSn(const std::string& filename);
+  /// This method populates transport cross sections from an OpenMC cross-section file.
+  static MultiGroupXS
+  LoadFromOpenMC(const std::string& filename, const std::string& dataset_name, double temperature);
+  /// Populates the cross section from a combination of others.
+  static MultiGroupXS
+  Combine(const std::vector<std::pair<std::shared_ptr<MultiGroupXS>, double>>& combinations);
 };
 
 } // namespace opensn

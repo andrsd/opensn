@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/graphs/petsc_graph_partitioner.h"
+#include "framework/object_factory.h"
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "petsc.h"
@@ -17,7 +18,6 @@ PETScGraphPartitioner::GetInputParameters()
   InputParameters params = GraphPartitioner::GetInputParameters();
 
   params.SetGeneralDescription("PETSc based partitioning");
-  params.SetDocGroup("Graphs");
 
   params.AddOptionalParameter("type", "parmetis", "The type of PETSc partitioner");
 

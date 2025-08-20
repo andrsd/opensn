@@ -8,32 +8,31 @@
 #include "framework/runtime.h"
 #include "framework/logging/log.h"
 #include "framework/mpi/mpi_utils.h"
+#include <sstream>
 
 namespace opensn
 {
 
 PieceWiseLinearDiscontinuous::PieceWiseLinearDiscontinuous(
-  const std::shared_ptr<MeshContinuum> grid, QuadratureOrder q_order, CoordinateSystemType cs_type)
-  : PieceWiseLinearBase(
-      grid, q_order, SpatialDiscretizationType::PIECEWISE_LINEAR_DISCONTINUOUS, cs_type)
+  const std::shared_ptr<MeshContinuum> grid, QuadratureOrder q_order)
+  : PieceWiseLinearBase(grid, q_order, SpatialDiscretizationType::PIECEWISE_LINEAR_DISCONTINUOUS)
 {
   CreateCellMappings();
-
   OrderNodes();
 }
 
 std::shared_ptr<PieceWiseLinearDiscontinuous>
 PieceWiseLinearDiscontinuous::New(const std::shared_ptr<MeshContinuum> grid,
-                                  QuadratureOrder q_order,
-                                  CoordinateSystemType cs_type)
+                                  QuadratureOrder q_order)
 
 {
   const auto PWLD = SpatialDiscretizationType::PIECEWISE_LINEAR_DISCONTINUOUS;
+
   // First try to find an existing spatial discretization that matches the
   // one requested.
   for (auto& sdm : sdm_stack)
     if (sdm->GetType() == PWLD and sdm->GetGrid() == grid and
-        sdm->GetCoordinateSystemType() == cs_type)
+        sdm->GetGrid()->GetCoordinateSystem() == grid->GetCoordinateSystem())
     {
       auto fe_ptr = std::dynamic_pointer_cast<FiniteElementBase>(sdm);
 
@@ -49,8 +48,8 @@ PieceWiseLinearDiscontinuous::New(const std::shared_ptr<MeshContinuum> grid,
       return sdm_ptr;
     }
 
-  auto new_sdm = std::shared_ptr<PieceWiseLinearDiscontinuous>(
-    new PieceWiseLinearDiscontinuous(grid, q_order, cs_type));
+  auto new_sdm =
+    std::shared_ptr<PieceWiseLinearDiscontinuous>(new PieceWiseLinearDiscontinuous(grid, q_order));
 
   sdm_stack.push_back(new_sdm);
 
@@ -60,18 +59,17 @@ PieceWiseLinearDiscontinuous::New(const std::shared_ptr<MeshContinuum> grid,
 void
 PieceWiseLinearDiscontinuous::OrderNodes()
 {
-  const std::string fname = __FUNCTION__;
   Timer t_stage[6];
 
   t_stage[0].Reset();
   // Check cell views avail
-  size_t num_loc_cells = ref_grid_->local_cells.size();
+  size_t num_loc_cells = grid_->local_cells.size();
 
   // Get local DOF count and set cell_local_block_address
   cell_local_block_address_.resize(num_loc_cells, 0);
 
   uint64_t local_node_count = 0;
-  for (const auto& cell : ref_grid_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = GetCellMapping(cell);
     cell_local_block_address_[cell.local_id] = static_cast<int64_t>(local_node_count);
@@ -99,9 +97,9 @@ PieceWiseLinearDiscontinuous::OrderNodes()
   // Collect ghost cell ids needing block addresses
   std::map<int, std::vector<uint64_t>> ghost_cell_ids_consolidated;
 
-  for (uint64_t global_id : ref_grid_->cells.GetGhostGlobalIDs())
+  for (uint64_t global_id : grid_->cells.GetGhostGlobalIDs())
   {
-    const auto& cell = ref_grid_->cells[global_id];
+    const auto& cell = grid_->cells[global_id];
     const int locI = static_cast<int>(cell.partition_id);
 
     std::vector<uint64_t>& locI_cell_id_list = ghost_cell_ids_consolidated[locI];
@@ -121,7 +119,7 @@ PieceWiseLinearDiscontinuous::OrderNodes()
 
     for (uint64_t cell_global_id : cell_id_list)
     {
-      const auto& cell = ref_grid_->cells[cell_global_id];
+      const auto& cell = grid_->cells[cell_global_id];
 
       const uint64_t cell_block_address =
         local_block_address_ + cell_local_block_address_[cell.local_id];
@@ -139,7 +137,7 @@ PieceWiseLinearDiscontinuous::OrderNodes()
     const auto& global_id_list = ghost_cell_ids_consolidated.at(pid);
 
     if (mapping_list.size() != global_id_list.size())
-      throw std::logic_error(fname + ": Ghost cell mapping error.");
+      throw std::logic_error("PieceWiseLinearDiscontinuous: Ghost cell mapping error");
 
     const size_t list_size = mapping_list.size();
     for (size_t k = 0; k < list_size; ++k)
@@ -167,7 +165,7 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_n
   nodal_nnz_off_diag.resize(local_dof_count, 0);
 
   int lc = 0;
-  for (const auto& cell : ref_grid_->local_cells)
+  for (const auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = GetCellMapping(cell);
     size_t num_nodes = cell_mapping.GetNumNodes();
@@ -182,9 +180,9 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_n
     // Local adjacent cell connections
     for (auto& face : cell.faces)
     {
-      if (face.has_neighbor and face.IsNeighborLocal(ref_grid_.get()))
+      if (face.has_neighbor and face.IsNeighborLocal(grid_.get()))
       {
-        const auto& adj_cell = ref_grid_->cells[face.neighbor_id];
+        const auto& adj_cell = grid_->cells[face.neighbor_id];
         const auto& adj_cell_mapping = GetCellMapping(adj_cell);
 
         for (int i = 0; i < num_nodes; ++i)
@@ -199,16 +197,16 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_n
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NEIGHBORING CONNECTIVITY
   lc = 0;
-  for (auto& cell : ref_grid_->local_cells)
+  for (auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = GetCellMapping(cell);
 
     // Local adjacent cell connections
     for (auto& face : cell.faces)
     {
-      if (face.has_neighbor and (not face.IsNeighborLocal(ref_grid_.get())))
+      if (face.has_neighbor and (not face.IsNeighborLocal(grid_.get())))
       {
-        const auto& adj_cell = ref_grid_->cells[face.neighbor_id];
+        const auto& adj_cell = grid_->cells[face.neighbor_id];
         const auto& adj_cell_mapping = GetCellMapping(adj_cell);
 
         for (int i = 0; i < cell_mapping.GetNumNodes(); ++i)
@@ -244,7 +242,7 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_n
         nodal_nnz_in_diag[ir] = backup_nnz_in_diag[i];
         nodal_nnz_off_diag[ir] = backup_nnz_off_diag[i];
       } // for j
-    }   // for i
+    } // for i
   }
   else if (unknown_manager.dof_storage_type == UnknownStorageType::BLOCK)
   {
@@ -257,7 +255,7 @@ PieceWiseLinearDiscontinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_n
         nodal_nnz_in_diag[ir] = backup_nnz_in_diag[i];
         nodal_nnz_off_diag[ir] = backup_nnz_off_diag[i];
       } // for i
-    }   // for j
+    } // for j
   }
 
   opensn::mpi_comm.barrier();
@@ -308,10 +306,10 @@ PieceWiseLinearDiscontinuous::MapDOF(const Cell& cell,
 
     if (not found)
     {
-      log.LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
-                        << "with global index " << cell.global_id << " and partition-ID "
-                        << cell.partition_id;
-      Exit(EXIT_FAILURE);
+      std::ostringstream oss;
+      oss << "PieceWiseLinearDiscontinuous: Mapping failed for cell (global index = "
+          << cell.global_id << ", partition id = " << cell.partition_id << ")";
+      throw std::runtime_error(oss.str());
     }
 
     if (storage == UnknownStorageType::BLOCK)
@@ -376,10 +374,10 @@ PieceWiseLinearDiscontinuous::MapDOFLocal(const Cell& cell,
 
     if (not found)
     {
-      log.LogAllError() << "SpatialDiscretization_PWL::MapDFEMDOF. Mapping failed for cell "
-                        << "with global index " << cell.global_id << " and partition-ID "
-                        << cell.partition_id;
-      Exit(EXIT_FAILURE);
+      std::stringstream oss;
+      oss << "PieceWiseLinearDiscontinuous: Mapping failed for cell (global index = "
+          << cell.global_id << ", partition id = " << cell.partition_id << ")";
+      throw std::runtime_error(oss.str());
     }
 
     if (storage == UnknownStorageType::BLOCK)

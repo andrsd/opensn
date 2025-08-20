@@ -307,9 +307,10 @@ InputParameters::AssignParameters(const ParameterBlock& params)
 
       if (this->Has(param_name) and (dep_errs.count(param_name) > 0))
       {
-        log.Log0Error() << "Parameter \"" << param_name << "\" has been deprecated.\n"
-                        << dep_errs.at(param_name);
-        Exit(EXIT_FAILURE);
+        std::ostringstream oss;
+        oss << "Parameter \"" << param_name << "\" has been deprecated.\n"
+            << dep_errs.at(param_name);
+        throw std::runtime_error(oss.str());
       }
     }
   }
@@ -335,7 +336,7 @@ InputParameters::AssignParameters(const ParameterBlock& params)
                    << "doc-string: " << GetParameterDocString(param_name);
         continue;
       } // if not mismatch allowed
-    }   // if type mismatch
+    } // if type mismatch
 
     // Check constraint
     if (constraint_tags_.count(input_param.GetName()) != 0)

@@ -94,7 +94,8 @@ hash_djb2a(const std::string_view sv)
   return hash;
 }
 
-inline constexpr uint32_t operator"" _hash(const char* str, size_t len)
+inline constexpr uint32_t
+operator""_hash(const char* str, size_t len)
 {
   return hash_djb2a(std::string_view{str, len});
 }
@@ -114,6 +115,27 @@ ReadBinaryValue(std::ifstream& input_file)
   input_file.read((char*)&value, sizeof(T));
 
   return value;
+}
+
+/// Check vector for all non-negative values
+inline bool
+IsNonNegative(const std::vector<double>& vec)
+{
+  return not std::any_of(vec.begin(), vec.end(), [](double x) { return x < 0.0; });
+}
+
+/// Check vector for all strictly positive values
+inline bool
+IsPositive(const std::vector<double>& vec)
+{
+  return not std::any_of(vec.begin(), vec.end(), [](double x) { return x <= 0.0; });
+}
+
+/// Check vector for any non-zero values
+inline bool
+HasNonZero(const std::vector<double>& vec)
+{
+  return std::any_of(vec.begin(), vec.end(), [](double x) { return x > 0.0; });
 }
 
 } // namespace opensn

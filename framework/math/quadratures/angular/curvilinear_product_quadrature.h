@@ -13,7 +13,7 @@ namespace opensn
  * Base class for curvilinear angular quadratures (product angular quadratures with additional
  * direction-dependent parameters).
  */
-class CurvilinearQuadrature : public ProductQuadrature
+class CurvilinearProductQuadrature : public ProductQuadrature
 {
 protected:
   /// Factor to account for angular diamond differencing.
@@ -25,17 +25,20 @@ protected:
    */
   std::vector<double> fac_streaming_operator_;
 
-  CurvilinearQuadrature(int dimension) : ProductQuadrature(dimension) {}
+  CurvilinearProductQuadrature(int dimension, int scattering_order)
+    : ProductQuadrature(dimension, scattering_order)
+  {
+  }
 
 public:
   const std::vector<double>& GetDiamondDifferenceFactor() const { return fac_diamond_difference_; }
 
   const std::vector<double>& GetStreamingOperatorFactor() const { return fac_streaming_operator_; }
 
-  virtual ~CurvilinearQuadrature() = default;
+  virtual ~CurvilinearProductQuadrature() = default;
 };
 
-class GLCProductQuadrature2DRZ : public CurvilinearQuadrature
+class GLCProductQuadrature2DRZ : public CurvilinearProductQuadrature
 {
 private:
   /**
@@ -53,14 +56,14 @@ private:
   void InitializeParameters();
 
 public:
-  GLCProductQuadrature2DRZ(int Npolar, int Nazimuthal, bool verbose = false);
+  GLCProductQuadrature2DRZ(int Npolar, int Nazimuthal, int scattering_order, bool verbose = false);
 
   virtual ~GLCProductQuadrature2DRZ() = default;
 
-  void MakeHarmonicIndices(unsigned int scattering_order) override;
+  void MakeHarmonicIndices();
 };
 
-class GLProductQuadrature1DSpherical : public CurvilinearQuadrature
+class GLProductQuadrature1DSpherical : public CurvilinearProductQuadrature
 {
 private:
   /// Initialize with one-dimensional quadrature.
@@ -73,11 +76,11 @@ private:
   void InitializeParameters();
 
 public:
-  GLProductQuadrature1DSpherical(int Npolar, bool verbose = false);
+  GLProductQuadrature1DSpherical(int Npolar, int scattering_order, bool verbose = false);
 
   virtual ~GLProductQuadrature1DSpherical() = default;
 
-  void MakeHarmonicIndices(unsigned int scattering_order) override;
+  void MakeHarmonicIndices();
 };
 
 } // namespace opensn

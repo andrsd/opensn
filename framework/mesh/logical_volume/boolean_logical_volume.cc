@@ -17,8 +17,6 @@ BooleanLogicalVolume::GetInputParameters()
 {
   InputParameters params = LogicalVolume::GetInputParameters();
 
-  params.SetDocGroup("LuaLogicVolumes\n");
-
   params.AddRequiredParameterArray(
     "parts",
     "Array of combinatorial logic each entry has the following required params "
@@ -50,7 +48,7 @@ BooleanLogicalVolume::BooleanLogicalVolume(const InputParameters& params) : Logi
 
     part_params.AssignParameters(part);
 
-    auto lv = part_params.GetParamValue<std::shared_ptr<LogicalVolume>>("lv");
+    auto lv = part_params.GetSharedPtrParam<LogicalVolume>("lv", false);
     parts.emplace_back(part_params.GetParamValue<bool>("op"), lv);
   }
 }
@@ -59,8 +57,6 @@ InputParameters
 BooleanLogicalVolumeArgumentPair()
 {
   InputParameters params;
-
-  params.SetDocGroup("mesh__BooleanLogicalVolume");
 
   params.AddRequiredParameter<bool>(
     "op",

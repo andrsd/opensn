@@ -2,20 +2,20 @@
 // SPDX-License-Identifier: MIT
 
 #include "python/lib/py_wrappers.h"
-#include "framework/event_system/physics_event_publisher.h"
+#include "framework/runtime.h"
 #include "framework/field_functions/field_function_grid_based.h"
-#include "framework/physics/solver.h"
-#include "modules/linear_boltzmann_solvers/diffusion_dfem_solver/lbs_mip_solver.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/acceleration/discrete_ordinates_keigen_acceleration.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/acceleration/scdsa_acceleration.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/acceleration/smm_acceleration.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_curvilinear_problem/discrete_ordinates_curvilinear_problem.h"
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/discrete_ordinates_problem.h"
 #include "modules/linear_boltzmann_solvers/solvers/steady_state_solver.h"
 #include "modules/linear_boltzmann_solvers/solvers/nl_keigen_solver.h"
 #include "modules/linear_boltzmann_solvers/solvers/pi_keigen_solver.h"
-#include "modules/linear_boltzmann_solvers/solvers/pi_keigen_scdsa_solver.h"
-#include "modules/linear_boltzmann_solvers/solvers/pi_keigen_smm_solver.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/io/lbs_problem_io.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/lbs_problem.h"
-#include "modules/point_reactor_kinetics/point_reactor_kinetics.h"
+#include "modules/linear_boltzmann_solvers/lbs_problem/lbs_compute.h"
+#include "modules/solver.h"
 #include <pybind11/numpy.h>
 #include <algorithm>
 #include <cstddef>
@@ -38,7 +38,7 @@ WrapProblem(py::module& slv)
     slv,
     "Problem",
     R"(
-    Base class for all problem.
+    Base class for all problems.
 
     Wrapper of :cpp:class:`opensn::Problem`.
     )"
@@ -54,7 +54,14 @@ WrapProblem(py::module& slv)
       }
       return ff_list;
     },
-    "Get the list of field functions."
+    R"(
+    Get the list of field functions.
+
+    Returns
+    -------
+    List[pyopensn.fieldfunc.FieldFunctionGridBased]
+        List of grid-based field functions representing solution data such as scalar fluxes.
+    )"
   );
   // clang-format on
 }
@@ -76,34 +83,22 @@ WrapSolver(py::module& slv)
   );
   solver.def(
     "Initialize",
-    [](Solver & self)
-    {
-      PhysicsEventPublisher::GetInstance().SolverInitialize(self);
-    },
+    &Solver::Initialize,
     "Initialize the solver."
   );
   solver.def(
     "Execute",
-    [](Solver & self)
-    {
-      PhysicsEventPublisher::GetInstance().SolverExecute(self);
-    },
+    &Solver::Execute,
     "Execute the solver."
   );
   solver.def(
     "Step",
-    [](Solver & self)
-    {
-      PhysicsEventPublisher::GetInstance().SolverStep(self);
-    },
+    &Solver::Step,
     "Step the solver."
   );
   solver.def(
     "Advance",
-    [](Solver & self)
-    {
-      PhysicsEventPublisher::GetInstance().SolverAdvance(self);
-    },
+    &Solver::Advance,
     "Advance time values function."
   );
   // clang-format on
@@ -119,7 +114,7 @@ WrapLBS(py::module& slv)
     slv,
     "LBSProblem",
     R"(
-    Base class for all Linear Boltzmann solvers.
+    Base class for all linear Boltzmann problems.
 
     Wrapper of :cpp:class:`opensn::LBSProblem`.
     )"
@@ -150,15 +145,26 @@ WrapLBS(py::module& slv)
       return field_function_list_per_group;
     },
     R"(
-    Return, for each group, a list of field functions corresponding to each moment. Note that the
-    moment index varies more rapidly than the group index.
+    Return field functions grouped by energy group and, optionally, by moment.
 
     Parameters
     ----------
-    only_scalar_flux: bool, default=True
-        If True, only return a list of of field functions corresponding to moment zero-th for each
-        group. The result is only a simple list of field functions. Otherwise, the result will be a
-        list per group of list per moment.
+    only_scalar_flux : bool, default=True
+        If True, returns only the zeroth moment (scalar flux) field function for each group.
+        The result is a flat list of field functions, one per group.
+
+        If False, returns all moment field functions for each group.
+        The result is a nested list where each entry corresponds to a group and contains
+        a list of field functions for all moments (e.g., scalar flux, higher-order moments).
+
+    Returns
+    -------
+    Union[List[pyopensn.fieldfunc.FieldFunctionGridBased], List[List[pyopensn.fieldfunc.FieldFunctionGridBased]]]
+        The structure of the returned list depends on the `only_scalar_flux` flag.
+
+    Notes
+    -----
+    The moment index varies more rapidly than the group index when `only_scalar_flux` is False.
     )",
     py::arg("only_scalar_flux") = true
   );
@@ -178,24 +184,20 @@ WrapLBS(py::module& slv)
       self.SetOptions(input);
     },
     R"(
-    Set options from a large list of parameters.
+    Set problem options from a large list of parameters.
 
     Parameters
     ----------
-    spatial_discretization: str, default='pwld'
-        What spatial discretization to use. Currently only ``pwld`` is supported.
-    scattering_order: int, default=1
-        The level of harmonic expansion for the scattering source.
     max_mpi_message_size: int default=32768
-        The maximum MPI message size used during sweep initialization.
+        The maximum MPI message size used during sweeps.
     restart_writes_enabled: bool, default=False
         Flag that controls writing of restart dumps.
     write_delayed_psi_to_restart: bool, default=True
         Flag that controls writing of delayed angular fluxes to restarts.
     read_restart_path: str, default=''
-        Full path for reading restart dumps including file stem.
+        Full path for reading restart dumps including file basename.
     write_restart_path: str, default=''
-        Full path for writing restart dumps including file stem.
+        Full path for writing restart dumps including file basename.
     write_restart_time_interval: int, default=0
         Time interval in seconds at which restart data is to be written.
     use_precursors: bool, default=False
@@ -250,32 +252,44 @@ WrapLBS(py::module& slv)
   );
   lbs_problem.def(
     "ComputeFissionRate",
-    [](LBSProblem& self, const std::string& nature)
+    [](LBSProblem& self, const std::string& scalar_flux_iterate)
     {
       const std::vector<double>* phi_ptr;
-      if (nature == "old")
+      if (scalar_flux_iterate == "old")
       {
         phi_ptr = &self.GetPhiOldLocal();
       }
-      else if (nature == "new")
+      else if (scalar_flux_iterate == "new")
       {
         phi_ptr = &self.GetPhiNewLocal();
       }
       else
       {
-        throw std::invalid_argument("Unknown nature type \"" + nature + "\".");
+        throw std::invalid_argument("Unknown scalar_flux_iterate value: \"" + scalar_flux_iterate + "\".");
       }
-      return self.ComputeFissionRate(*phi_ptr);
+      return ComputeFissionRate(self, *phi_ptr);
     },
     R"(
-    ???
+    Computes the total fission rate.
 
     Parameters
     ----------
-    nature: {'old', 'new'}
-        ???
+    scalar_flux_iterate : {'old', 'new'}
+        Specifies which scalar flux vector to use in the calculation.
+            - 'old': Use the previous scalar flux iterate.
+            - 'new': Use the current scalar flux iterate.
+
+    Returns
+    -------
+    float
+        The total fission rate.
+
+    Raises
+    ------
+    ValueError
+        If `scalar_flux_iterate` is not 'old' or 'new'.
     )",
-    py::arg("nature")
+    py::arg("scalar_flux_iterate")
   );
   lbs_problem.def(
     "WriteFluxMoments",
@@ -284,12 +298,12 @@ WrapLBS(py::module& slv)
       LBSSolverIO::WriteFluxMoments(self, file_base);
     },
     R"(
-    ???
+    Write flux moments to file.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     )",
     py::arg("file_base")
   );
@@ -301,12 +315,12 @@ WrapLBS(py::module& slv)
       LBSSolverIO::WriteFluxMoments(self, file_base, source_moments);
     },
     R"(
-    ???
+    Write source moments from latest flux iterate to file.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     )",
     py::arg("file_base")
   );
@@ -322,14 +336,14 @@ WrapLBS(py::module& slv)
       self.GetPhiOldLocal() = temp_phi;
     },
     R"(
-    ???
+    Read flux moments and compute corresponding source moments.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     single_file_flag: bool
-        ???
+        True if all flux moments are in a single file.
     )",
     py::arg("file_base"),
     py::arg("single_file_flag")
@@ -341,14 +355,14 @@ WrapLBS(py::module& slv)
       LBSSolverIO::ReadFluxMoments(self, file_base, single_file_flag, self.GetExtSrcMomentsLocal());
     },
     R"(
-    ???
+    Read source moments from file.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     single_file_flag: bool
-        ???
+        True if all source moments are in a single file.
     )",
     py::arg("file_base"),
     py::arg("single_file_flag")
@@ -360,14 +374,14 @@ WrapLBS(py::module& slv)
       LBSSolverIO::ReadFluxMoments(self, file_base, single_file_flag);
     },
     R"(
-    ???
+    Read flux moment data.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     single_file_flag: bool
-        ???
+        True if all flux moments are in a single file.
     )",
     py::arg("file_base"),
     py::arg("single_file_flag")
@@ -379,12 +393,12 @@ WrapLBS(py::module& slv)
       LBSSolverIO::WriteAngularFluxes(self, file_base);
     },
     R"(
-    ???
+    Write angular flux data to file.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     )",
     py::arg("file_base")
   );
@@ -395,12 +409,12 @@ WrapLBS(py::module& slv)
       LBSSolverIO::ReadAngularFluxes(self, file_base);
     },
     R"(
-    ???
+    Read angular fluxes from file.
 
     Parameters
     ----------
     file_base: str
-        ???
+        File basename.
     )",
     py::arg("file_base")
   );
@@ -411,10 +425,11 @@ WrapLBS(py::module& slv)
     slv,
     "DiscreteOrdinatesProblem",
     R"(
-    Base class for discrete ordinates solvers.
+    Base class for discrete ordinates problems in Cartesian geometry.
 
-    This class mostly establishes utilities related to sweeping. From here, steady-state, transient,
-    adjoint, and k-eigenvalue solver can be derived.
+    This class implements the algorithms necessary to solve a problem using the discrete ordinates method.
+    When paired with a solver base, the result is a solver instance configured for a specific problem type
+    (steady-state, transient, adjoint, k-eigenvalue, etc.).
 
     Wrapper of :cpp:class:`opensn::DiscreteOrdinatesProblem`.
     )"
@@ -427,18 +442,38 @@ WrapLBS(py::module& slv)
       }
     ),
     R"(
-    Construct a discrete ordinates solver object.
+    Construct a discrete ordinates problem with Cartesian geometry.
 
     Parameters
     ----------
-    ???
+    mesh : MeshContinuum
+        The spatial mesh.
+    num_groups : int
+        The total number of energy groups.
+    groupsets : List[Dict], default=[]
+        A list of input parameter blocks, each block provides the iterative properties for a
+        groupset.
+    xs_map : List[Dict], default=[]
+        A list of mappings from block ids to cross-section definitions.
+    scattering_order: int, default=0
+        The level of harmonic expansion for the scattering source.
+    options : Dict, default={}
+        A block of optional configuration parameters. See `SetOptions` for available settings.
+    sweep_type : str, default="AAH"
+        The sweep type to use. Must be one of `AAH` or `CBC`. Defaults to `AAH`.
+    use_gpus : bool, default=False
+        A flag specifying whether GPU acceleration is used for the sweep. Currently, only ``AAH`` is
+        supported.
     )"
   );
   do_problem.def(
     "ComputeBalance",
-    &DiscreteOrdinatesProblem::ComputeBalance,
+    [](DiscreteOrdinatesProblem& self)
+    {
+      ComputeBalance(self);
+    },
     R"(
-    ???
+    Compute and print particle balance for the problem.
     )"
   );
   do_problem.def(
@@ -462,7 +497,7 @@ WrapLBS(py::module& slv)
         bndry_ids = self.GetGrid()->GetUniqueBoundaryIDs();
       }
       // compute the leakage
-      std::map<std::uint64_t, std::vector<double>> leakage = self.ComputeLeakage(bndry_ids);
+      std::map<std::uint64_t, std::vector<double>> leakage = ComputeLeakage(self, bndry_ids);
       // convert result to native Python
       py::dict result;
       for (const auto& [bndry_id, gr_wise_leakage] : leakage)
@@ -476,25 +511,39 @@ WrapLBS(py::module& slv)
       return result;
     },
     R"(
-    ???
+    Compute leakage for the problem.
 
     Parameters
     ----------
-    bnd_names: List[str]
-        ???
+    bnd_names : List[str]
+        A list of boundary names for which leakage should be computed.
+
+    Returns
+    -------
+    Dict[str, numpy.ndarray]
+        A dictionary mapping boundary names to group-wise leakage vectors.
+        Each array contains the outgoing angular flux (per group) integrated over
+        the corresponding boundary surface.
+
+    Raises
+    ------
+    RuntimeError
+        If `save_angular_flux` option was not enabled during problem setup.
+
+    ValueError
+        If one or more boundary ids are not present on the current mesh.
     )",
     py::arg("bnd_names")
   );
 
   // discrete ordinates curvilinear problem
   auto do_curvilinear_problem = py::class_<DiscreteOrdinatesCurvilinearProblem,
-                                          std::shared_ptr<DiscreteOrdinatesCurvilinearProblem>,
-                                          DiscreteOrdinatesProblem>(
+                                           std::shared_ptr<DiscreteOrdinatesCurvilinearProblem>,
+                                           DiscreteOrdinatesProblem>(
     slv,
     "DiscreteOrdinatesCurvilinearProblem",
     R"(
-    A neutral particle transport solver in point-symmetric and axial-symmetric curvilinear
-    coordinates.
+    Base class for discrete ordinates problems in curvilinear geometry.
 
     Wrapper of :cpp:class:`opensn::DiscreteOrdinatesCurvilinearProblem`.
     )"
@@ -507,41 +556,32 @@ WrapLBS(py::module& slv)
       }
         ),
     R"(
-    Construct a discrete curvilinear ordinates solver object.
+    .. warning::
+       DiscreteOrdinatesCurvilinearProblem is **experimental** and should be used with caution!
+
+    Construct a discrete ordinates problem for curvilinear geometry.
 
     Parameters
     ----------
-    ???
+    mesh : MeshContinuum
+        The spatial mesh.
+    coord_system : int
+        Coordinate system to use. Must be set to 2 (cylindrical coordinates).
+    num_groups : int
+        The total number of energy groups.
+    groupsets : list of dict
+        A list of input parameter blocks, each block provides the iterative properties for a
+        groupset.
+    xs_map : list of dict
+        A list of mappings from block ids to cross-section definitions.
+    scattering_order: int, default=0
+        The level of harmonic expansion for the scattering source.
+    options : dict, optional
+        A block of optional configuration parameters. See `SetOptions` for available settings.
+    sweep_type : str, optional
+        The sweep type to use. Must be one of `AAH` or `CBC`. Defaults to `AAH`.
     )"
   );
-
-  // diffusion DFEM solver
-  auto diffusion_dfem_solver = py::class_<DiffusionDFEMSolver, std::shared_ptr<DiffusionDFEMSolver>,
-                                          LBSProblem>(
-    slv,
-    "DiffusionDFEMSolver",
-    R"(
-    ???
-
-    Wrapper of :cpp:class:`opensn::DiffusionDFEMSolver`.
-    )"
-  );
-  diffusion_dfem_solver.def(
-    py::init(
-      [](py::kwargs& params)
-      {
-        return DiffusionDFEMSolver::Create(kwargs_to_param_block(params));
-      }
-    ),
-    R"(
-    Construct a diffusion DFEM solver object.
-
-    Parameters
-    ----------
-    ???
-    )"
-  );
-  // clang-format on
 }
 
 // Wrap steady-state solver
@@ -555,7 +595,7 @@ WrapSteadyState(py::module& slv)
     slv,
     "SteadyStateSolver",
     R"(
-    ???
+    Steady state solver.
 
     Wrapper of :cpp:class:`opensn::SteadyStateSolver`.
     )"
@@ -568,11 +608,12 @@ WrapSteadyState(py::module& slv)
       }
     ),
     R"(
-    Construct a steady state solver object.
+    Construct a steady state solver.
 
     Parameters
     ----------
-    ???
+    pyopensn.solver.LBSProblem : LBSProblem
+        Existing LBSProblem instance.
     )"
   );
   // clang-format on
@@ -589,7 +630,7 @@ WrapNLKEigen(py::module& slv)
     slv,
     "NonLinearKEigenSolver",
     R"(
-    ???
+    Non-linear k-eigenvalue solver.
 
     Wrapper of :cpp:class:`opensn::NonLinearKEigenSolver`.
     )"
@@ -602,11 +643,43 @@ WrapNLKEigen(py::module& slv)
       }
         ),
     R"(
-    Construct a non-linear k-eigen solver object.
+    Construct a non-linear k-eigenvalue solver.
 
     Parameters
     ----------
-    ???
+    lbs_problem: pyopensn.solver.LBSProblem
+        Existing LBSProblem instance.
+    nl_abs_tol: float, default=1.0e-8
+        Non-linear absolute tolerance.
+    nl_rel_tol: float, default=1.0e-8
+        Non-linear relative tolerance.
+    nl_sol_tol: float, default=1.0e-50
+        Non-linear solution tolerance.
+    nl_max_its: int, default=50
+        Non-linear algorithm maximum iterations.
+    l_abs_tol: float, default=1.0e-8
+        Linear absolute tolerance.
+    l_rel_tol: float, default=1.0e-8
+        Linear relative tolerance.
+    l_div_tol: float, default=1.0e6
+        Linear divergence tolerance.
+    l_max_its: int, default=50
+        Linear algorithm maximum iterations.
+    l_gmres_restart_intvl: int, default=30
+        GMRES restart interval.
+    l_gmres_breakdown_tol: float, default=1.0e6
+        GMRES breakdown tolerance.
+    reset_phi0: bool, default=True
+        If true, reinitializes scalar fluxes to 1.0.
+    num_initial_power_iterations: int, default=0
+        Number of initial power iterations before the non-linear solve.
+    )"
+  );
+  non_linear_k_eigen_solver.def(
+    "GetEigenvalue",
+    &NonLinearKEigenSolver::GetEigenvalue,
+    R"(
+    Return the current k‑eigenvalue.
     )"
   );
   // clang-format on
@@ -623,7 +696,7 @@ WrapPIteration(py::module& slv)
     slv,
     "PowerIterationKEigenSolver",
     R"(
-    ???
+    Power iteration k-eigenvalue solver.
 
     Wrapper of :cpp:class:`opensn::PowerIterationKEigenSolver`.
     )"
@@ -636,165 +709,142 @@ WrapPIteration(py::module& slv)
       }
     ),
     R"(
-    Construct a power iteration k-eigen solver object.
+    Construct a power iteration k-eigen solver.
 
     Parameters
     ----------
-    ???
+    problem: pyopensn.solver.LBSProblem
+        Existing DiscreteOrdinatesProblem instance.
+    acceleration: pyopensn.solver.DiscreteOrdinatesKEigenAcceleration
+        Optional DiscreteOrdinatesKEigenAcceleration instance for acceleration.
+    max_iters: int, default = 1000
+        Maximum power iterations allowed.
+    k_tol: float, default = 1.0e-10
+        Tolerance on the k-eigenvalue.
+    reset_solution: bool, default=True
+        If true, initialize flux moments to 1.0.
+    reset_phi0: bool, default=True
+        If true, reinitializes scalar fluxes to 1.0.
     )"
   );
-
-  // power iteration k-eigen SCDSA solver
-  auto pi_k_eigen_scdsa_solver = py::class_<PowerIterationKEigenSCDSASolver,
-                                            std::shared_ptr<PowerIterationKEigenSCDSASolver>,
-                                            PowerIterationKEigenSolver>(
-    slv,
-    "PowerIterationKEigenSCDSASolver",
+  pi_k_eigen_solver.def(
+    "GetEigenvalue",
+    &PowerIterationKEigenSolver::GetEigenvalue,
     R"(
-    ???
-
-    Wrapper of :cpp:class:`opensn::PowerIterationKEigenSCDSASolver`.
-    )"
-  );
-  pi_k_eigen_scdsa_solver.def(
-    py::init(
-      [](py::kwargs& params)
-      {
-        return PowerIterationKEigenSCDSASolver::Create(kwargs_to_param_block(params));
-      }
-    ),
-    R"(
-    Construct a power iteration k-eigen SCDSA solver object.
-
-    Parameters
-    ----------
-    ???
-    )"
-  );
-
-  // power iteration k-eigen SMM solver
-  auto pi_k_eigen_smm_solver = py::class_<PowerIterationKEigenSMMSolver,
-                                          std::shared_ptr<PowerIterationKEigenSMMSolver>,
-                                          PowerIterationKEigenSolver>(
-    slv,
-    "PowerIterationKEigenSMMSolver",
-    R"(
-    ???
-
-    Wrapper of :cpp:class:`opensn::PowerIterationKEigenSMMSolver`.
-    )"
-  );
-  pi_k_eigen_smm_solver.def(
-    py::init(
-      [](py::kwargs& params)
-      {
-        return PowerIterationKEigenSMMSolver::Create(kwargs_to_param_block(params));
-      }
-    ),
-    R"(
-    Construct a power iteration k-eigen SMM solver object.
-
-    Parameters
-    ----------
-    ???
+    Return the current k‑eigenvalue.
     )"
   );
   // clang-format on
 }
 
-// Wrap PRK solver
+// Wrap LBS solver
 void
-WrapPRK(py::module& slv)
+WrapDiscreteOrdinatesKEigenAcceleration(py::module& slv)
 {
   // clang-format off
-  // point reactor kineatic solver
-  auto prk_solver = py::class_<PRKSolver, std::shared_ptr<PRKSolver>, Solver>(
+  // DiscreteOrdinatesKEigenAcceleration base
+  auto acceleration = py::class_<DiscreteOrdinatesKEigenAcceleration,
+                                     std::shared_ptr<DiscreteOrdinatesKEigenAcceleration>>(
     slv,
-    "PRKSolver",
+    "LBSAccelertion",
     R"(
-    General transient solver for point kinetics.
+    Base class for LBS acceleration methods.
 
-    Wrapper of :cpp:class:`opensn::PRKSolver`.
+    Wrapper of :cpp:class:`opensn::DiscreteOrdinatesKEigenAcceleration`.
     )"
   );
-  prk_solver.def(
+
+  // SCDSA acceleration
+  auto scdsa_acceleration = py::class_<SCDSAAcceleration,
+                                       std::shared_ptr<SCDSAAcceleration>,
+                                       DiscreteOrdinatesKEigenAcceleration>(
+    slv,
+    "SCDSAAcceleration",
+    R"(
+    Construct an SCDSA accelerator for the power iteration k-eigenvalue solver.
+
+    Wrapper of :cpp:class:`opensn::SCDSAAcceleration`.
+    )"
+  );
+  scdsa_acceleration.def(
     py::init(
       [](py::kwargs& params)
       {
-        return PRKSolver::Create(kwargs_to_param_block(params));
+        return SCDSAAcceleration::Create(kwargs_to_param_block(params));
       }
     ),
     R"(
-    Construct a point reactor kineatic solver object.
+    SCDSA acceleration for the power iteration k-eigenvalue solver.
 
     Parameters
     ----------
-    ???
+    problem: pyopensn.solver.LBSProblem
+        Existing DiscreteOrdinatesProblem instance.
+    l_abs_tol: float, defauilt=1.0e-10
+        Absolute residual tolerance.
+    max_iters: int, default=100
+        Maximum allowable iterations.
+    verbose: bool, default=False
+        If true, enables verbose output.
+    petsc_options: str, default="ssss"
+        Additional PETSc options.
+    pi_max_its: int, default=50
+        Maximum allowable iterations for inner power iterations.
+    pi_k_tol: float, default=1.0e-10
+        k-eigenvalue tolerance for the inner power iterations.
+    sdm: str, default="pwld"
+        Spatial discretization method to use for the diffusion solver. Valid choices are:
+            - 'pwld' : Piecewise Linear Discontinuous
+            - 'pwlc' : Piecewise Linear Continuous
     )"
   );
-  prk_solver.def(
-    "GetPopulationPrev",
-    &PRKSolver::GetPopulationPrev,
+
+  // SMM acceleration
+  auto smm_acceleration = py::class_<SMMAcceleration,
+                                     std::shared_ptr<SMMAcceleration>,
+                                     DiscreteOrdinatesKEigenAcceleration>(
+    slv,
+    "SMMAcceleration",
     R"(
-    Get the population at the previous time step.
+    Construct an SMM accelerator for the power iteration k-eigenvalue solver.
+
+    Wrapper of :cpp:class:`opensn::SMMAcceleration`.
     )"
   );
-  prk_solver.def(
-    "GetPopulationNew",
-    &PRKSolver::GetPopulationNew,
+  smm_acceleration.def(
+    py::init(
+      [](py::kwargs& params)
+      {
+        return SMMAcceleration::Create(kwargs_to_param_block(params));
+      }
+    ),
     R"(
-    Get the population at the next time step.
+    SMM acceleration for the power iteration k-eigenvalue solver.
+    .. warning::
+       SMM acceleration is **experimental** and should be used with caution!
+       SMM accleration only supports problems with isotropic scattering.
+
+    Parameters
+    ----------
+    problem: pyopensn.solver.LBSProblem
+        Existing DiscreteOrdinatesProblem instance.
+    l_abs_tol: float, defauilt=1.0e-10
+        Absolute residual tolerance.
+    max_iters: int, default=100
+        Maximum allowable iterations.
+    verbose: bool, default=False
+        If true, enables verbose output.
+    petsc_options: str, default="ssss"
+        Additional PETSc options.
+    pi_max_its: int, default=50
+        Maximum allowable iterations for inner power iterations.
+    pi_k_tol: float, default=1.0e-10
+        k-eigenvalue tolerance for the inner power iterations.
+    sdm: str, default="pwld"
+        Spatial discretization method to use for the diffusion solver. Valid choices are:
+            - 'pwld' : Piecewise Linear Discontinuous
+            - 'pwlc' : Piecewise Linear Continuous
     )"
-  );
-  prk_solver.def(
-    "GetPeriod",
-    &PRKSolver::GetPeriod,
-    R"(
-    Get the period computed for the last time step.
-    )"
-  );
-  prk_solver.def(
-    "GetTimePrev",
-    &PRKSolver::GetTimePrev,
-    R"(
-    Get the time computed for the last time step.
-    )"
-  );
-  prk_solver.def(
-    "GetTimeNew",
-    &PRKSolver::GetTimeNew,
-    R"(
-    Get the time computed for the next time step.
-    )"
-  );
-  prk_solver.def(
-    "GetSolutionPrev",
-    [](PRKSolver& self)
-    {
-      return convert_vector(self.GetSolutionPrev());
-    },
-    R"(
-    Get the solution at the previous time step.
-    )"
-  );
-  prk_solver.def(
-    "GetSolutionNew",
-    [](PRKSolver& self)
-    {
-      return convert_vector(self.GetSolutionNew());
-    },
-    R"(
-    Get the solution at the next time step.
-    )"
-  );
-  prk_solver.def(
-    "SetRho",
-    &PRKSolver::SetRho,
-    R"(
-    Set the value of rho.
-    ??? (what is rho?)
-    )",
-    py::arg("rho")
   );
   // clang-format on
 }
@@ -810,7 +860,7 @@ py_solver(py::module& pyopensn)
   WrapSteadyState(slv);
   WrapNLKEigen(slv);
   WrapPIteration(slv);
-  WrapPRK(slv);
+  WrapDiscreteOrdinatesKEigenAcceleration(slv);
 }
 
 } // namespace opensn

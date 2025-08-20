@@ -13,10 +13,8 @@ namespace opensn
 {
 
 PieceWiseLinearContinuous::PieceWiseLinearContinuous(const std::shared_ptr<MeshContinuum> grid,
-                                                     QuadratureOrder q_order,
-                                                     CoordinateSystemType cs_type)
-  : PieceWiseLinearBase(
-      grid, q_order, SpatialDiscretizationType::PIECEWISE_LINEAR_CONTINUOUS, cs_type)
+                                                     QuadratureOrder q_order)
+  : PieceWiseLinearBase(grid, q_order, SpatialDiscretizationType::PIECEWISE_LINEAR_CONTINUOUS)
 {
   CreateCellMappings();
 
@@ -24,17 +22,15 @@ PieceWiseLinearContinuous::PieceWiseLinearContinuous(const std::shared_ptr<MeshC
 }
 
 std::shared_ptr<PieceWiseLinearContinuous>
-PieceWiseLinearContinuous::New(const std::shared_ptr<MeshContinuum> grid,
-                               QuadratureOrder q_order,
-                               CoordinateSystemType cs_type)
+PieceWiseLinearContinuous::New(const std::shared_ptr<MeshContinuum> grid, QuadratureOrder q_order)
 
 {
   const auto PWLC = SpatialDiscretizationType::PIECEWISE_LINEAR_CONTINUOUS;
-  // First try to find an existing spatial discretization that matches the
-  // one requested.
+
+  // First try to find an existing spatial discretization that matches the one requested.
   for (auto& sdm : sdm_stack)
     if (sdm->GetType() == PWLC and sdm->GetGrid() == grid and
-        sdm->GetCoordinateSystemType() == cs_type)
+        sdm->GetGrid()->GetCoordinateSystem() == grid->GetCoordinateSystem())
     {
       auto fe_ptr = std::dynamic_pointer_cast<FiniteElementBase>(sdm);
 
@@ -50,8 +46,8 @@ PieceWiseLinearContinuous::New(const std::shared_ptr<MeshContinuum> grid,
       return sdm_ptr;
     }
 
-  auto new_sdm = std::shared_ptr<PieceWiseLinearContinuous>(
-    new PieceWiseLinearContinuous(grid, q_order, cs_type));
+  auto new_sdm =
+    std::shared_ptr<PieceWiseLinearContinuous>(new PieceWiseLinearContinuous(grid, q_order));
 
   sdm_stack.push_back(new_sdm);
 
@@ -61,11 +57,10 @@ PieceWiseLinearContinuous::New(const std::shared_ptr<MeshContinuum> grid,
 void
 PieceWiseLinearContinuous::OrderNodes()
 {
-  const std::string fname = __FUNCTION__;
   // Build set of local scope nodes
   // ls_node_id = local scope node id
   std::set<uint64_t> ls_node_ids_set;
-  for (const auto& cell : ref_grid_->local_cells)
+  for (const auto& cell : grid_->local_cells)
     for (uint64_t node_id : cell.vertex_ids)
       ls_node_ids_set.insert(node_id);
 
@@ -81,10 +76,10 @@ PieceWiseLinearContinuous::OrderNodes()
 
   // Now we add the partitions associated with the
   // ghost cells.
-  const auto ghost_cell_ids = ref_grid_->cells.GetGhostGlobalIDs();
+  const auto ghost_cell_ids = grid_->cells.GetGhostGlobalIDs();
   for (const uint64_t ghost_id : ghost_cell_ids)
   {
-    const auto& ghost_cell = ref_grid_->cells[ghost_id];
+    const auto& ghost_cell = grid_->cells[ghost_id];
     for (const uint64_t vid : ghost_cell.vertex_ids)
       ls_node_ids_psubs[vid].insert(ghost_cell.partition_id);
   } // for ghost_id
@@ -142,7 +137,7 @@ PieceWiseLinearContinuous::OrderNodes()
 
     for (const uint64_t node_id : node_list)
       if (node_mapping_.count(node_id) == 0)
-        throw std::logic_error("Error mapping query node.");
+        throw std::logic_error("PieceWiseLinearContinuous: Error mapping query node");
       else
       {
         const int64_t mapping = node_mapping_.at(node_id);
@@ -165,7 +160,7 @@ PieceWiseLinearContinuous::OrderNodes()
       const auto& mappings = nonlocal_node_ids_map_mapped.at(pid);
 
       if (mappings.size() != node_list.size())
-        throw std::logic_error("mappings.size() != node_list.size()");
+        throw std::logic_error("PieceWiseLinearContinuous: mappings.size() != node_list.size()");
 
       const size_t num_nodes = node_list.size();
       for (size_t i = 0; i < num_nodes; ++i)
@@ -177,11 +172,13 @@ PieceWiseLinearContinuous::OrderNodes()
   }
   catch (const std::out_of_range& oor)
   {
-    throw std::out_of_range(fname + ": Processing non-local mapping failed.");
+    throw std::out_of_range("PieceWiseLinearContinuous: Processing non-local mapping failed");
   }
   catch (const std::logic_error& lerr)
   {
-    throw std::logic_error(fname + ": Processing non-local mapping failed." + lerr.what());
+    std::ostringstream oss;
+    oss << "PieceWiseLinearContinuous: Processing non-local mapping failed: " << lerr.what();
+    throw std::logic_error(oss.str());
   }
 }
 
@@ -226,17 +223,11 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
 
   // Writes a message on ir error
   auto IR_MAP_ERROR = []()
-  {
-    log.LogAllError() << "PWL-MapCFEMDOF: ir Mapping error node ";
-    Exit(EXIT_FAILURE);
-  };
+  { throw std::runtime_error("PieceWiseLinearContinuous: ir mapping error"); };
 
   // Writes a message on jr error
   auto JR_MAP_ERROR = []()
-  {
-    log.LogAllError() << "PWL-MapCFEMDOF: jr Mapping error node ";
-    Exit(EXIT_FAILURE);
-  };
+  { throw std::runtime_error("PieceWiseLinearContinuous: jr mapping error"); };
 
   // Checks whether an integer is already in a vector
   auto IS_VALUE_IN_VECTOR = [](const std::vector<int64_t>& vec, int64_t val)
@@ -251,8 +242,6 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
     return already_there;
   };
 
-  //**************************************** END OF UTILITIES
-
   // Build local sparsity pattern
   log.Log0Verbose1() << "Building local sparsity pattern.";
   std::vector<std::vector<int64_t>> nodal_connections(local_base_block_size_);
@@ -263,7 +252,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
   nodal_nnz_in_diag.resize(local_base_block_size_, 0);
   nodal_nnz_off_diag.resize(local_base_block_size_, 0);
 
-  for (auto& cell : ref_grid_->local_cells)
+  for (auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = GetCellMapping(cell);
     for (unsigned int i = 0; i < cell_mapping.GetNumNodes(); ++i)
@@ -292,9 +281,9 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
           else
             nodal_nnz_off_diag[il] += 1;
         } // for j
-      }   // if i local
-    }     // for i
-  }       // for cell
+      } // if i local
+    } // for i
+  } // for cell
 
   // Build non-local sparsity pattern
   log.Log0Verbose1() << "Building non-local sparsity pattern.";
@@ -306,7 +295,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
   using ROWJLINKS = std::pair<int64_t, std::vector<int64_t>>;
   std::vector<ROWJLINKS> ir_links;
 
-  for (auto& cell : ref_grid_->local_cells)
+  for (auto& cell : grid_->local_cells)
   {
     const auto& cell_mapping = GetCellMapping(cell);
 
@@ -353,8 +342,8 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
         }
 
       } // if i not local
-    }   // for i
-  }     // for cell
+    } // for i
+  } // for cell
 
   // Build communication structure
   log.Log0Verbose1() << "Building communication structure.";
@@ -446,7 +435,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
         nodal_nnz_in_diag[ir] = backup_nnz_in_diag[i];
         nodal_nnz_off_diag[ir] = backup_nnz_off_diag[i];
       } // for j
-    }   // for i
+    } // for i
   }
   else if (unknown_manager.dof_storage_type == UnknownStorageType::BLOCK)
   {
@@ -459,7 +448,7 @@ PieceWiseLinearContinuous::BuildSparsityPattern(std::vector<int64_t>& nodal_nnz_
         nodal_nnz_in_diag[ir] = backup_nnz_in_diag[i];
         nodal_nnz_off_diag[ir] = backup_nnz_off_diag[i];
       } // for i
-    }   // for j
+    } // for j
   }
 }
 
@@ -608,7 +597,7 @@ PieceWiseLinearContinuous::GetGhostDOFIndices(const UnknownManager& unknown_mana
 
         dof_ids.push_back(address);
       } // for c
-    }   // for u
+    } // for u
   }
 
   return dof_ids;

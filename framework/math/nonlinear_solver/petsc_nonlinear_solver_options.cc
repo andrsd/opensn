@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 
 #include "framework/math/nonlinear_solver/petsc_nonlinear_solver_options.h"
-#include "framework/object_factory.h"
 
 namespace opensn
 {
@@ -10,10 +9,9 @@ namespace opensn
 InputParameters
 PETScNonLinearSolverOptions::GetInputParameters()
 {
-  InputParameters params = Object::GetInputParameters();
+  InputParameters params;
 
   params.SetGeneralDescription("Options available on NonLinearSolver");
-  params.SetDocGroup("LuaMath");
 
   params.AddOptionalParameter("name", "NonLinearSolver", "A name to assign to the solver.");
 
@@ -59,8 +57,7 @@ PETScNonLinearSolverOptions::GetInputParameters()
 }
 
 PETScNonLinearSolverOptions::PETScNonLinearSolverOptions(const InputParameters& params)
-  : Object(params),
-    nl_method(params.GetParamValue<std::string>("nl_method")),
+  : nl_method(params.GetParamValue<std::string>("nl_method")),
     l_method(params.GetParamValue<std::string>("l_method")),
     pc_options(params.GetParam("pc_options")),
     petsc_snes_type(params.GetParamValue<std::string>("petsc_snes_type")),

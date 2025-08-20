@@ -14,8 +14,7 @@
 namespace opensn
 {
 MeshGenerator::MeshGenerator(const InputParameters& params)
-  : Object(params),
-    scale_(params.GetParamValue<double>("scale")),
+  : scale_(params.GetParamValue<double>("scale")),
     replicated_(params.GetParamValue<bool>("replicated_mesh"))
 {
   // Convert input handles
@@ -25,7 +24,7 @@ MeshGenerator::MeshGenerator(const InputParameters& params)
 
   // Set partitioner
   if (params.IsParameterValid("partitioner"))
-    partitioner_ = params.GetParamValue<std::shared_ptr<GraphPartitioner>>("partitioner");
+    partitioner_ = params.GetSharedPtrParam<GraphPartitioner>("partitioner");
   else
   {
     const auto& factory = ObjectFactory::GetInstance();
@@ -155,6 +154,7 @@ MeshGenerator::SetupMesh(const std::shared_ptr<UnpartitionedMesh>& input_umesh,
   } // for raw_cell
 
   grid_ptr->SetDimension(input_umesh->GetDimension());
+  grid_ptr->SetCoordinateSystem(input_umesh->GetCoordinateSystem());
   grid_ptr->SetType(input_umesh->GetType());
   grid_ptr->SetExtruded(input_umesh->IsExtruded());
   grid_ptr->SetOrthoAttributes(input_umesh->GetOrthoAttributes());
@@ -223,10 +223,9 @@ OpenSnRegisterObjectInNamespace(mesh, MeshGenerator);
 InputParameters
 MeshGenerator::GetInputParameters()
 {
-  InputParameters params = Object::GetInputParameters();
+  InputParameters params;
 
   params.SetGeneralDescription("The base class for all mesh generators");
-  params.SetDocGroup("doc_MeshGenerators");
 
   params.AddOptionalParameter("scale", 1.0, "Uniform scale to apply to the mesh after reading.");
 

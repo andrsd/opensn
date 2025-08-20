@@ -6,8 +6,8 @@
 #include "framework/math/quadratures/spatial/spatial_quadrature.h"
 #include "framework/math/quadratures/angular/angular_quadrature.h"
 #include "framework/math/unknown_manager/unknown_manager.h"
-#include "framework/math/vector.h"
-#include "framework/math/dense_matrix.h"
+#include "framework/data_types/vector.h"
+#include "framework/data_types/dense_matrix.h"
 #include <cmath>
 #include <cmath>
 #include <cstdio>
@@ -26,15 +26,6 @@ class SpatialDiscretization_PWLD;
 class SpatialDiscretization_PWLC;
 
 using MatVec3 = std::vector<std::vector<Vector3>>;
-
-/// Coordinate system type.
-enum class CoordinateSystemType
-{
-  UNDEFINED = 0,
-  CARTESIAN = 1,
-  CYLINDRICAL = 2,
-  SPHERICAL = 3,
-};
 
 /// Spatial discretization type.
 enum class SpatialDiscretizationType

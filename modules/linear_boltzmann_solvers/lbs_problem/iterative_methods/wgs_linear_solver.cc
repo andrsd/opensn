@@ -4,7 +4,7 @@
 #include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/wgs_linear_solver.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/iterative_methods/wgs_convergence_test.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/lbs_vecops.h"
-#include "modules/linear_boltzmann_solvers/lbs_problem/lbs_problem.h"
+#include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/discrete_ordinates_problem.h"
 #include "framework/math/petsc_utils/petsc_utils.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
@@ -35,29 +35,21 @@ WGSLinearSolver::~WGSLinearSolver()
 void
 WGSLinearSolver::PreSetupCallback()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::PreSetupCallback");
-
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   gs_context_ptr->PreSetupCallback();
 }
 
 void
 WGSLinearSolver::SetConvergenceTest()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetConvergenceTest");
-
   KSPSetConvergenceTest(ksp_, &GSConvergenceTest, nullptr, nullptr);
 }
 
 void
 WGSLinearSolver::SetSystemSize()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetSystemSize");
-
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
   const auto sizes = gs_context_ptr->GetSystemSize();
-
   num_local_dofs_ = sizes.first;
   num_global_dofs_ = sizes.second;
 }
@@ -65,8 +57,6 @@ WGSLinearSolver::SetSystemSize()
 void
 WGSLinearSolver::SetSystem()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetSystem");
-
   if (IsSystemSet())
     return;
 
@@ -95,49 +85,48 @@ WGSLinearSolver::SetSystem()
 void
 WGSLinearSolver::SetPreconditioner()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetPreconditioner");
-
   if (IsSystemSet())
     return;
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   gs_context_ptr->SetPreconditioner(ksp_);
 }
 
 void
 WGSLinearSolver::PostSetupCallback()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::PostSetupCallback");
-
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   gs_context_ptr->PostSetupCallback();
 }
 
 void
 WGSLinearSolver::PreSolveCallback()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::PreSolveCallback");
-
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
+  auto& groupset = gs_context_ptr->groupset;
+  auto& do_problem = gs_context_ptr->do_problem;
+  if (do_problem.GetOptions().verbose_inner_iterations)
+  {
+    log.Log() << "\n\n"
+              << "********** Solving groupset " << groupset.id << " with "
+              << this->GetIterativeMethodName() << "\n\n"
+              << "Quadrature number of angles: " << groupset.quadrature->abscissae.size() << "\n"
+              << "Groups " << groupset.groups.front().id << " " << groupset.groups.back().id
+              << "\n\n";
+  }
   gs_context_ptr->PreSolveCallback();
 }
 
 void
 WGSLinearSolver::SetInitialGuess()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetInitialGuess");
-
   // If the norm of the initial guess is large enough, the initial guess will be used, otherwise it
   // is assumed to be zero.
 
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   auto& groupset = gs_context_ptr->groupset;
-  auto& lbs_problem = gs_context_ptr->lbs_problem;
+  auto& do_problem = gs_context_ptr->do_problem;
 
-  LBSVecOps::SetGSPETScVecFromPrimarySTLvector(lbs_problem, groupset, x_, PhiSTLOption::PHI_OLD);
+  LBSVecOps::SetGSPETScVecFromPrimarySTLvector(do_problem, groupset, x_, PhiSTLOption::PHI_OLD);
 
   double init_guess_norm = 0.0;
   VecNorm(x_, NORM_2, &init_guess_norm);
@@ -156,34 +145,33 @@ WGSLinearSolver::SetRHS()
   CALI_CXX_MARK_SCOPE("WGSLinearSolver::SetRHS");
 
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   auto& groupset = gs_context_ptr->groupset;
-  auto& lbs_problem = gs_context_ptr->lbs_problem;
+  auto& do_problem = gs_context_ptr->do_problem;
 
   if (gs_context_ptr->log_info)
     log.Log() << program_timer.GetTimeString() << " Computing b";
 
   // SetSource for RHS
-  saved_q_moments_local_ = lbs_problem.GetQMomentsLocal();
+  saved_q_moments_local_ = do_problem.GetQMomentsLocal();
 
   const bool single_richardson =
-    groupset.iterative_method == LinearSolver::IterativeMethod::PETSC_RICHARDSON and
+    groupset.iterative_method == LinearSystemSolver::IterativeMethod::PETSC_RICHARDSON and
     tolerance_options.maximum_iterations == 1;
 
   if (not single_richardson)
   {
     const auto scope = gs_context_ptr->rhs_src_scope | ZERO_INCOMING_DELAYED_PSI;
     gs_context_ptr->set_source_function(
-      groupset, lbs_problem.GetQMomentsLocal(), lbs_problem.GetPhiOldLocal(), scope);
+      groupset, do_problem.GetQMomentsLocal(), do_problem.GetPhiOldLocal(), scope);
 
     // Apply transport operator
     gs_context_ptr->ApplyInverseTransportOperator(scope);
 
     // Assemble PETSc vector
-    LBSVecOps::SetGSPETScVecFromPrimarySTLvector(lbs_problem, groupset, b_, PhiSTLOption::PHI_NEW);
+    LBSVecOps::SetGSPETScVecFromPrimarySTLvector(do_problem, groupset, b_, PhiSTLOption::PHI_NEW);
 
     // Compute RHS norm
-    VecNorm(b_, NORM_2, &context_ptr_->rhs_norm);
+    VecNorm(b_, NORM_2, &gs_context_ptr->rhs_norm);
 
     // Compute precondition RHS norm
     PC pc;
@@ -191,7 +179,7 @@ WGSLinearSolver::SetRHS()
     Vec temp_vec;
     VecDuplicate(b_, &temp_vec);
     PCApply(pc, b_, temp_vec);
-    VecNorm(temp_vec, NORM_2, &context_ptr_->rhs_preconditioned_norm);
+    VecNorm(temp_vec, NORM_2, &gs_context_ptr->rhs_preconditioned_norm);
     VecDestroy(&temp_vec);
   }
   // If we have a single richardson iteration then the user probably wants
@@ -202,16 +190,16 @@ WGSLinearSolver::SetRHS()
   {
     const auto scope = gs_context_ptr->rhs_src_scope | gs_context_ptr->lhs_src_scope;
     gs_context_ptr->set_source_function(
-      groupset, lbs_problem.GetQMomentsLocal(), lbs_problem.GetPhiOldLocal(), scope);
+      groupset, do_problem.GetQMomentsLocal(), do_problem.GetPhiOldLocal(), scope);
 
     // Apply transport operator
     gs_context_ptr->ApplyInverseTransportOperator(scope);
 
     // Assemble PETSc vector
-    LBSVecOps::SetGSPETScVecFromPrimarySTLvector(lbs_problem, groupset, x_, PhiSTLOption::PHI_NEW);
+    LBSVecOps::SetGSPETScVecFromPrimarySTLvector(do_problem, groupset, x_, PhiSTLOption::PHI_NEW);
 
     // Compute RHS norm
-    VecNorm(x_, NORM_2, &context_ptr_->rhs_norm);
+    VecNorm(x_, NORM_2, &gs_context_ptr->rhs_norm);
 
     // Compute precondition RHS norm
     PC pc;
@@ -219,7 +207,7 @@ WGSLinearSolver::SetRHS()
     Vec temp_vec;
     VecDuplicate(x_, &temp_vec);
     PCApply(pc, x_, temp_vec);
-    VecNorm(temp_vec, NORM_2, &context_ptr_->rhs_preconditioned_norm);
+    VecNorm(temp_vec, NORM_2, &gs_context_ptr->rhs_preconditioned_norm);
     VecDestroy(&temp_vec);
 
     SetKSPSolveSuppressionFlag(true);
@@ -229,10 +217,6 @@ WGSLinearSolver::SetRHS()
 void
 WGSLinearSolver::PostSolveCallback()
 {
-  CALI_CXX_MARK_SCOPE("WGSLinearSolver::PostSolveCallback");
-
-  // We simply restore the q_moments_local vector.
-
   // Get convergence reason
   if (not GetKSPSolveSuppressionFlag())
   {
@@ -245,15 +229,13 @@ WGSLinearSolver::PostSolveCallback()
 
   // Copy x to local solution
   auto gs_context_ptr = std::dynamic_pointer_cast<WGSContext>(context_ptr_);
-
   auto& groupset = gs_context_ptr->groupset;
-  auto& lbs_problem = gs_context_ptr->lbs_problem;
-
-  LBSVecOps::SetPrimarySTLvectorFromGSPETScVec(lbs_problem, groupset, x_, PhiSTLOption::PHI_NEW);
-  LBSVecOps::SetPrimarySTLvectorFromGSPETScVec(lbs_problem, groupset, x_, PhiSTLOption::PHI_OLD);
+  auto& do_problem = gs_context_ptr->do_problem;
+  LBSVecOps::SetPrimarySTLvectorFromGSPETScVec(do_problem, groupset, x_, PhiSTLOption::PHI_NEW);
+  LBSVecOps::SetPrimarySTLvectorFromGSPETScVec(do_problem, groupset, x_, PhiSTLOption::PHI_OLD);
 
   // Restore saved q_moms
-  lbs_problem.GetQMomentsLocal() = saved_q_moments_local_;
+  do_problem.GetQMomentsLocal() = saved_q_moments_local_;
 
   // Context specific callback
   gs_context_ptr->PostSolveCallback();

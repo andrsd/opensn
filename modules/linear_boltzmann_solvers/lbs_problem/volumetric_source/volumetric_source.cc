@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: MIT
 
 #include "modules/linear_boltzmann_solvers/lbs_problem/volumetric_source/volumetric_source.h"
-#include "framework/math/functions/function.h"
 #include "modules/linear_boltzmann_solvers/lbs_problem/lbs_problem.h"
+#include "framework/math/functions/function.h"
 #include "framework/mesh/cell/cell.h"
 #include "framework/mesh/mesh_continuum/mesh_continuum.h"
 #include "framework/mesh/logical_volume/logical_volume.h"
-#include "framework/math/functions/vector_spatial_function.h"
 #include "framework/runtime.h"
 #include "framework/object_factory.h"
 #include <memory>
@@ -17,17 +16,17 @@ namespace opensn
 
 OpenSnRegisterObjectInNamespace(lbs, VolumetricSource);
 
+int VolumetricSource::next_id_ = 0;
+
 InputParameters
 VolumetricSource::GetInputParameters()
 {
-  InputParameters params = Object::GetInputParameters();
+  InputParameters params;
 
   params.SetGeneralDescription("General implementation of an arbitrary multi-group "
-                               "volumetric source. A volumetric source is given by a "
-                               "logical volume and a Lua function handle. Currently, only "
-                               "isotropic volumetric sources are allowed.");
+                               "volumetric source. Currently, only isotropic volumetric "
+                               "sources are allowed.");
   params.SetClassName("Volumetric Source");
-  params.SetDocGroup("LBSUtilities");
 
   params.AddOptionalParameterArray(
     "block_ids",
@@ -41,9 +40,9 @@ VolumetricSource::GetInputParameters()
     "logical_volume",
     std::shared_ptr<LogicalVolume>{},
     "Handle to the logical volume the volumetric source is defined within.");
-  params.AddOptionalParameter<std::shared_ptr<Function>>(
+  params.AddOptionalParameter<std::shared_ptr<VectorSpatialFunction>>(
     "func",
-    std::shared_ptr<Function>{},
+    std::shared_ptr<VectorSpatialFunction>{},
     "SpatialMaterialFunction object to be used to define the source.");
 
   return params;
@@ -57,11 +56,11 @@ VolumetricSource::Create(const ParameterBlock& params)
 }
 
 VolumetricSource::VolumetricSource(const InputParameters& params)
-  : block_ids_(params.GetParamVectorValue<int>("block_ids")),
-    logvol_(params.GetParamValue<std::shared_ptr<LogicalVolume>>("logical_volume")),
+  : id_(next_id_++),
+    block_ids_(params.GetParamVectorValue<int>("block_ids")),
+    logvol_(params.GetSharedPtrParam<LogicalVolume>("logical_volume", false)),
     strength_(params.GetParamVectorValue<double>("group_strength")),
-    function_(std::dynamic_pointer_cast<VectorSpatialFunction>(
-      params.GetParamValue<std::shared_ptr<Function>>("func")))
+    function_(params.GetSharedPtrParam<VectorSpatialFunction>("func", false))
 {
   if (not logvol_ and block_ids_.empty())
     throw std::invalid_argument("A volumetric source must be defined with a logical volume, "
@@ -112,9 +111,10 @@ VolumetricSource::Initialize(const LBSProblem& lbs_problem)
   num_local_subsribers_ = subscribers_.size();
   mpi_comm.all_reduce(num_local_subsribers_, num_global_subscribers_, mpi::op::sum<size_t>());
 
-  log.LogAll() << "Volumetric source has " << num_local_subsribers_
-               << " subscribing cells on processor " << opensn::mpi_comm.rank() << ".";
-  log.Log() << "Volumetric source has " << num_global_subscribers_ << " total subscribing cells.";
+  log.LogAllVerbose1() << "Volumetric source #" << id_ << " has " << num_local_subsribers_
+                       << " subscribing cells on processor " << opensn::mpi_comm.rank() << ".";
+  log.Log() << "Volumetric source #" << id_ << " has " << num_global_subscribers_
+            << " total subscribing cells.";
 }
 
 std::vector<double>
@@ -125,7 +125,7 @@ VolumetricSource::operator()(const Cell& cell, const Vector3& xyz, const int num
   else if (not function_)
     return strength_;
   else
-    return function_->Evaluate(xyz, num_groups);
+    return (*function_)(xyz, num_groups);
 }
 
 } // namespace opensn

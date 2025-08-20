@@ -9,11 +9,9 @@ namespace opensn
 InputParameters
 SpatialQuadrature::GetInputParameters()
 {
-  InputParameters params = Object::GetInputParameters();
+  InputParameters params;
 
-  params.SetGeneralDescription("\\defgroup math__Quadrature\n"
-                               "\\ingroup LuaQuadrature\n"
-                               "Base class for spatial quadratures");
+  params.SetGeneralDescription("Base class for spatial quadratures");
 
   params.AddRequiredParameter<int>("order", "Quadrature order.");
 
