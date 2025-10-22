@@ -26,9 +26,9 @@ if "opensn_console" not in globals():
 if __name__ == "__main__":
 
     # Check number of processors
-    num_procs = 4
-    if size != num_procs:
-        sys.exit(f"Incorrect number of processors. Expected {num_procs} processors but got {size}.")
+    # num_procs = 4
+    # if size != num_procs:
+    #     sys.exit(f"Incorrect number of processors. Expected {num_procs} processors but got {size}.")
 
     # Setup mesh
     meshgen = FromFileMeshGenerator(
@@ -42,6 +42,7 @@ if __name__ == "__main__":
         )
     )
     grid = meshgen.Execute()
+    grid.SetOrthogonalBoundaries()
 
     # Cross-section data
     vol0 = RPPLogicalVolume(infx=True, infy=True, infz=True)

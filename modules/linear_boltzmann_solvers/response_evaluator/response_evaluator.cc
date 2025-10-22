@@ -11,6 +11,7 @@
 #include "framework/object_factory.h"
 #include "framework/runtime.h"
 #include "mpicpp-lite/mpicpp-lite.h"
+#include <stdexcept>
 
 namespace mpi = mpicpp_lite;
 
@@ -267,7 +268,9 @@ ResponseEvaluator::SetBoundarySourceOptions(const InputParameters& params)
   const auto bndry_name = params.GetParamValue<std::string>("name");
   const auto bndry_type = params.GetParamValue<std::string>("type");
 
-  const auto bid = LBSProblem::supported_boundary_names.at(bndry_name);
+  auto grid = do_problem_->GetGrid();
+  const auto bnd_name_map = grid->GetBoundaryNameMap();
+  const auto bid = bnd_name_map.at(bndry_name);
   if (bndry_type == "isotropic")
   {
     OpenSnInvalidArgumentIf(not params.Has("group_strength"),

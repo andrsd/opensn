@@ -71,7 +71,7 @@ public:
   /// Flag indicating whether face has a neighbor
   bool has_neighbor = false;
   /// If face has neighbor, contains the global_id, otherwise, contains boundary_id.
-  uint64_t neighbor_id = 0;
+  uint64_t neighbor_id = static_cast<uint64_t>(-1);
 
   /// The average/geometric normal
   Vector3 normal;
