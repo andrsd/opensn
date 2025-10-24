@@ -39,6 +39,16 @@ public:
     raw_data_.insert(raw_data_.end(), dest.data(), dest.data() + num_bytes);
   }
 
+  template <>
+  void Write(const std::string& value)
+  {
+    const size_t num_bytes = value.size();
+    Write<size_t>(num_bytes);
+    std::vector<std::byte> dest(num_bytes);
+    std::memcpy(dest.data(), value.data(), num_bytes);
+    raw_data_.insert(raw_data_.end(), dest.data(), dest.data() + num_bytes);
+  }
+
   /**
    * Uses the template type `T` to convert `sizeof(T)` number of bytes to
    * a value of type `T`. The bytes are pulled from the internal byte-array
@@ -65,6 +75,17 @@ public:
     offset_ += num_bytes;
 
     return value;
+  }
+
+  template <>
+  std::string Read()
+  {
+    auto num_bytes = Read<size_t>();
+    std::string str;
+    str.resize(num_bytes);
+    std::memcpy(str.data(), &raw_data_[offset_], num_bytes);
+    offset_ += num_bytes;
+    return str;
   }
 
   /**

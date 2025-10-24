@@ -21,6 +21,7 @@ TEST_F(ByteArrayTest, WriteRead)
   barr.Write<double>(v3a.x);
   barr.Write<double>(v3a.y);
   barr.Write<double>(v3a.z);
+  barr.Write<std::string>("hello, world!");
 
   EXPECT_DOUBLE_EQ(barr.Read<double>(), 1.01234567890123456789);
   EXPECT_EQ(barr.Read<int>(), -15600700);
@@ -30,9 +31,11 @@ TEST_F(ByteArrayTest, WriteRead)
   auto vec3_y = barr.Read<double>();
   auto vec3_z = barr.Read<double>();
   Vector3 vec3b(vec3_x, vec3_y, vec3_z);
+  auto hello = barr.Read<std::string>();
   EXPECT_DOUBLE_EQ(vec3_x, 3.0);
   EXPECT_DOUBLE_EQ(vec3_y, 2.0);
   EXPECT_DOUBLE_EQ(vec3_z, 1.0);
+  EXPECT_EQ(hello, "hello, world!");
 }
 
 TEST_F(ByteArrayTest, Seek)
