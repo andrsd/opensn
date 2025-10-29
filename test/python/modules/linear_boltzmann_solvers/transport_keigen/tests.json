@@ -10,6 +10,13 @@
         "wordnum": 4,
         "gold": 0.99954,
         "abs_tol": 1e-05
+      },
+      {
+        "type": "KeyValuePair",
+        "key": "Max-pd=",
+        "wordnum": 2,
+        "goldvalue": 0.031,
+        "abs_tol": 1e-4
       }
     ]
   },

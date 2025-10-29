@@ -15,8 +15,10 @@ if "opensn_console" not in globals():
     rank = MPI.COMM_WORLD.rank
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../../")))
     from pyopensn.mesh import OrthogonalMeshGenerator
+    from pyopensn.logvol import RPPLogicalVolume
     from pyopensn.xs import MultiGroupXS
     from pyopensn.aquad import GLProductQuadrature1DSlab
+    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.solver import DiscreteOrdinatesProblem, NonLinearKEigenSolver
 
 if __name__ == "__main__":
@@ -81,6 +83,8 @@ if __name__ == "__main__":
             "use_precursors": use_precursors,
             "verbose_inner_iterations": False,
             "verbose_outer_iterations": True,
+            "power_field_function_on": True,
+            "power_normalization": 2.
         }
     )
     k_solver = NonLinearKEigenSolver(
@@ -90,3 +94,15 @@ if __name__ == "__main__":
     )
     k_solver.Initialize()
     k_solver.Execute()
+
+    vol0 = RPPLogicalVolume(infx=True, infy=True, infz=True)
+    ff_pd = phys.GetPowerFieldFunction()
+    curffi = FieldFunctionInterpolationVolume()
+    curffi.SetOperationType("max")
+    curffi.SetLogicalVolume(vol0)
+    curffi.AddFieldFunction(ff_pd)
+    curffi.Initialize()
+    curffi.Execute()
+    max_pd = curffi.GetValue()
+    if rank == 0:
+        print(f"Max-pd={max_pd:.5f}")
