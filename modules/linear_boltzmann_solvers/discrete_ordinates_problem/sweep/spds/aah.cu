@@ -15,17 +15,17 @@ AAH_SPDS::CopySPLSDataOnDevice()
   // compute offset and total size to allocate on GPU
   contiguous_offset_.reserve(levelized_spls_.size());
   std::size_t total_size = 0;
-  for (const std::vector<int>& level : levelized_spls_)
+  for (const std::vector<uint64_t>& level : levelized_spls_)
   {
     contiguous_offset_.push_back(total_size);
     total_size += level.size();
   }
   // allocate and copy data
-  crb::DeviceMemory<std::uint32_t> device_levelized_spls(total_size);
+  crb::DeviceMemory<std::uint64_t> device_levelized_spls(total_size);
   for (std::size_t l = 0; l < levelized_spls_.size(); ++l)
   {
-    const std::vector<int>& level = levelized_spls_[l];
-    crb::HostVector<std::uint32_t> host_level(level.begin(), level.end());
+    const std::vector<uint64_t>& level = levelized_spls_[l];
+    crb::HostVector<std::uint64_t> host_level(level.begin(), level.end());
     crb::copy(device_levelized_spls, host_level, level.size(), 0, contiguous_offset_[l]);
   }
   // release ownership back to the class
@@ -37,7 +37,7 @@ AAH_SPDS::FreeDeviceData()
 {
   if (device_levelized_spls_)
   {
-    crb::DeviceMemory<std::uint32_t> device_levelized_spls(device_levelized_spls_);
+    crb::DeviceMemory<std::uint64_t> device_levelized_spls(device_levelized_spls_);
     device_levelized_spls.reset();
     contiguous_offset_.clear();
   }

@@ -115,7 +115,7 @@ struct MeshView
     cell_data = reinterpret_cast<const char*>(offset_cell_data + num_cells);
   }
 
-  __inline_host_dev__ void GetCellView(CellView& cell, const std::uint32_t& cell_index)
+  __inline_host_dev__ void GetCellView(CellView& cell, const std::uint64_t& cell_index)
   {
     cell.Update(cell_data + offset_cell_data[cell_index]);
   }

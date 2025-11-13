@@ -25,7 +25,7 @@ class SpatialDiscretization;
  * for the cell.
  */
 constexpr std::pair<const std::uint64_t*, std::uint64_t>
-GetCellDataIndex(const std::uint64_t* device_node_indexes, const std::uint32_t& cell_local_idx)
+GetCellDataIndex(const std::uint64_t* device_node_indexes, const std::uint64_t& cell_local_idx)
 {
   const std::uint64_t* cell_data =
     device_node_indexes + static_cast<std::uint64_t>(2 * cell_local_idx);

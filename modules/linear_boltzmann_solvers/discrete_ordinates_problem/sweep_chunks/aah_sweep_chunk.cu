@@ -21,7 +21,7 @@ namespace gpu_kernel
 
 /// Kernel performing the sweep
 __global__ void
-UnsaturatedKernel(Arguments args, const std::uint32_t* level, double* saved_psi)
+UnsaturatedKernel(Arguments args, const std::uint64_t* level, double* saved_psi)
 {
   // reference to indexes
   const unsigned int& cell_idx = blockIdx.x;
@@ -29,7 +29,7 @@ UnsaturatedKernel(Arguments args, const std::uint32_t* level, double* saved_psi)
   const unsigned int& group_idx = threadIdx.x;
   unsigned int angle_group_idx = angle_idx * args.groupset_size + group_idx;
   // get cell view
-  std::uint32_t cell_local_idx = level[cell_idx];
+  std::uint64_t cell_local_idx = level[cell_idx];
   CellView cell;
   MeshView(args.mesh_data).GetCellView(cell, cell_local_idx);
   // skip when cell has no nodes
@@ -108,7 +108,7 @@ AAHSweepChunk::GPUSweep(AngleSet& angle_set)
   }
   // retrieve SPDS levels
   const AAH_SPDS& spds = dynamic_cast<const AAH_SPDS&>(angle_set.GetSPDS());
-  const std::vector<std::vector<int>>& levelized_spls = spds.GetLevelizedLocalSubgrid();
+  const std::vector<std::vector<uint64_t>>& levelized_spls = spds.GetLevelizedLocalSubgrid();
   // loop over each level based on saturation status
   unsigned int block_size_x = groupset_.groups.size(), block_size_y = angle_set.GetNumAngles();
   if (block_size_x * block_size_y <= gpu_kernel::threshold)
@@ -117,7 +117,7 @@ AAHSweepChunk::GPUSweep(AngleSet& angle_set)
     {
       // perform the sweep on device
       std::size_t level_size = levelized_spls[level].size();
-      const std::uint32_t* level_data = spds.GetDeviceLevelVector(level);
+      const std::uint64_t* level_data = spds.GetDeviceLevelVector(level);
       gpu_kernel::UnsaturatedKernel<<<level_size, {block_size_x, block_size_y}>>>(
         args, level_data, saved_psi.get());
     }
@@ -128,7 +128,7 @@ AAHSweepChunk::GPUSweep(AngleSet& angle_set)
     {
       // perform the sweep on device
       std::size_t level_size = levelized_spls[level].size();
-      const std::uint32_t* level_data = spds.GetDeviceLevelVector(level);
+      const std::uint64_t* level_data = spds.GetDeviceLevelVector(level);
       gpu_kernel::SaturatedKernel<<<level_size, 256>>>(args, level_data, saved_psi.get());
     }
   }

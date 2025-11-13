@@ -30,12 +30,12 @@ void
 AAHD_FLUDSCommonData::ComputeNodeIndexForNonDelayedLocalFaces(const SpatialDiscretization& sdm)
 {
   // get the topological levels
-  const std::vector<std::vector<int>>& topological_levels = spds_.GetLevelizedLocalSubgrid();
+  const std::vector<std::vector<uint64_t>>& topological_levels = spds_.GetLevelizedLocalSubgrid();
   if (topological_levels.empty())
     return;
   // initialize the set of FAS edges
-  std::set<std::pair<int, int>> fas_edges(spds_.GetLocalSweepFAS().begin(),
-                                          spds_.GetLocalSweepFAS().end());
+  std::set<std::pair<uint64_t, uint64_t>> fas_edges(spds_.GetLocalSweepFAS().begin(),
+                                                    spds_.GetLocalSweepFAS().end());
   // for each level
   const MeshContinuum& grid = *(spds_.GetGrid());
   std::vector<AAHD_DirectedEdgeNode> local_node_stack(1, AAHD_DirectedEdgeNode());
@@ -67,8 +67,8 @@ AAHD_FLUDSCommonData::ComputeNodeIndexForNonDelayedLocalFaces(const SpatialDiscr
         if (orientation != FaceOrientation::OUTGOING || !(face.IsNeighborLocal(&grid)))
           continue;
         // check if the face is not in the FAS
-        std::uint32_t neighbor_local_idx = face.GetNeighborLocalID(&grid);
-        if (fas_edges.contains(std::pair<int, int>(cell_local_idx, neighbor_local_idx)))
+        auto neighbor_local_idx = face.GetNeighborLocalID(&grid);
+        if (fas_edges.contains(std::pair<uint64_t, uint64_t>(cell_local_idx, neighbor_local_idx)))
           continue;
         // for each node on the face, initialize face node
         std::uint32_t num_face_nodes = sdm.GetCellMapping(cell).GetNumFaceNodes(f);
