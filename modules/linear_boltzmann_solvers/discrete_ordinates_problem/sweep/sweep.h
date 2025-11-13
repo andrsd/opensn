@@ -45,7 +45,7 @@ struct Task
 /// Stage Task Dependency Graphs
 struct STDG
 {
-  std::vector<int> item_id;
+  std::vector<uint64_t> item_id;
 };
 
 /// Communicates location by location dependencies.

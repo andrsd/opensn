@@ -15,10 +15,10 @@
 namespace opensn
 {
 
-std::vector<std::pair<int, int>>
+std::vector<std::pair<Vertex, Vertex>>
 SPDS::FindApproxMinimumFAS(Graph& g, std::vector<Vertex>& scc_vertices)
 {
-  std::vector<std::pair<int, int>> edges_to_remove;
+  std::vector<std::pair<uint64_t, uint64_t>> edges_to_remove;
 
   // Compute delta for a vertex
   auto GetVertexDelta = [&](auto v, const Graph& g)
@@ -39,7 +39,7 @@ SPDS::FindApproxMinimumFAS(Graph& g, std::vector<Vertex>& scc_vertices)
     return delta;
   };
 
-  std::vector<size_t> s1, s2, s;
+  std::vector<Vertex> s1, s2, s;
   bool done = false;
   while (!done)
   {
@@ -115,17 +115,17 @@ SPDS::FindApproxMinimumFAS(Graph& g, std::vector<Vertex>& scc_vertices)
   }
 
   s.reserve(s1.size() + s2.size());
-  for (size_t u : s1)
+  for (auto u : s1)
     s.push_back(u);
-  for (size_t u : s2)
+  for (auto u : s2)
     s.push_back(u);
 
-  for (size_t u : scc_vertices)
+  for (auto u : scc_vertices)
   {
     // Loop through outgoing edges
     for (auto ei = boost::out_edges(u, g).first; ei != boost::out_edges(u, g).second; ++ei)
     {
-      size_t v = boost::target(*ei, g);
+      auto v = boost::target(*ei, g);
 
       // Check if v appears earlier in the sequence (i.e., is before u in s)
       auto pos_u = std::find(s.begin(), s.end(), u);
@@ -210,18 +210,18 @@ SPDS::FindSCCs(Graph& g)
   return SCCs;
 }
 
-std::vector<std::pair<size_t, size_t>>
+std::vector<std::pair<uint64_t, uint64_t>>
 SPDS::RemoveCyclicDependencies(Graph& g)
 {
   using OutEdgeIterator = boost::graph_traits<Graph>::out_edge_iterator;
 
-  std::vector<std::pair<size_t, size_t>> edges_to_remove;
+  std::vector<std::pair<uint64_t, uint64_t>> edges_to_remove;
 
   auto sccs = FindSCCs(g);
 
   while (not sccs.empty())
   {
-    std::vector<std::pair<size_t, size_t>> tmp_edges_to_remove;
+    std::vector<std::pair<Vertex, Vertex>> tmp_edges_to_remove;
 
     for (auto scc : sccs)
     {
@@ -326,7 +326,7 @@ void
 SPDS::PopulateCellRelationships(const Vector3& omega,
                                 std::set<int>& location_dependencies,
                                 std::set<int>& location_successors,
-                                std::vector<std::set<std::pair<int, double>>>& cell_successors)
+                                std::vector<std::set<std::pair<uint64_t, double>>>& cell_successors)
 {
   CALI_CXX_MARK_SCOPE("SPDS::PopulateCellRelationships");
 

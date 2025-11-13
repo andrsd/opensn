@@ -45,19 +45,19 @@ public:
   void FreeDeviceData();
 
   /// Get level vector on device
-  std::uint32_t* GetDeviceLevelVector(std::size_t level) const
+  std::uint64_t* GetDeviceLevelVector(std::size_t level) const
   {
     return device_levelized_spls_ + contiguous_offset_[level];
   }
 
   /// Returns the global sweep FAS as a vector of edges.
-  std::vector<int> GetGlobalSweepFAS() { return global_sweep_fas_; }
+  std::vector<uint64_t> GetGlobalSweepFAS() { return global_sweep_fas_; }
 
   /**
    * Sets the global sweep FAS.
    * \param edges A vector of edges representing the FAS.
    */
-  void SetGlobalSweepFAS(std::vector<int>& edges) { global_sweep_fas_ = edges; }
+  void SetGlobalSweepFAS(std::vector<uint64_t>& edges) { global_sweep_fas_ = edges; }
 
   /// Destructor.
   ~AAH_SPDS() override;
@@ -72,9 +72,9 @@ private:
   /// Levelized global sweep task dependency graph.
   std::vector<STDG> global_sweep_planes_;
   /// Vector of edges representing the FAS used to break cycles in the global sweep graph.
-  std::vector<int> global_sweep_fas_;
+  std::vector<uint64_t> global_sweep_fas_;
   /// Levelized SPLS structure on GPU (only visible to GPU implementation).
-  std::uint32_t* device_levelized_spls_ = nullptr;
+  std::uint64_t* device_levelized_spls_ = nullptr;
   /// Per-level offset into the contiguous level data.
   std::vector<std::uint64_t> contiguous_offset_;
 };
