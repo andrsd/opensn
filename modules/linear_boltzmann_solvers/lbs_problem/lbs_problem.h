@@ -82,9 +82,9 @@ public:
   /// Returns the number of moments for the solver. This will only be non-zero after initialization.
   size_t GetNumMoments() const;
 
-  size_t GetMaxCellDOFCount() const;
+  unsigned int GetMaxCellDOFCount() const;
 
-  size_t GetMinCellDOFCount() const;
+  unsigned int GetMinCellDOFCount() const;
 
   bool UseGPUs() const;
 
@@ -342,8 +342,8 @@ protected:
 
   UnknownManager flux_moments_uk_man_;
 
-  size_t max_cell_dof_count_ = 0;
-  size_t min_cell_dof_count_ = 0;
+  unsigned int max_cell_dof_count_ = 0;
+  unsigned int min_cell_dof_count_ = 0;
   uint64_t local_node_count_ = 0;
   uint64_t global_node_count_ = 0;
 

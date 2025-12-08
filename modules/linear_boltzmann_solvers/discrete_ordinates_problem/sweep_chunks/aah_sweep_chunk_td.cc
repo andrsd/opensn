@@ -23,10 +23,11 @@ AAHSweepChunkTD::AAHSweepChunkTD(DiscreteOrdinatesProblem& problem, LBSGroupset&
                problem.GetQMomentsLocal(),
                groupset,
                problem.GetBlockID2XSMap(),
-               static_cast<int>(problem.GetNumMoments()),
-               static_cast<int>(problem.GetMaxCellDOFCount()),
-               static_cast<int>(problem.GetMinCellDOFCount())),
+               problem.GetNumMoments(),
+               problem.GetMaxCellDOFCount(),
+               problem.GetMinCellDOFCount()),
     problem_(problem),
+    max_level_size_(problem.GetMaxLevelSize()),
     psi_old_(problem.GetPsiOldLocal()[groupset.id]),
     use_gpus_(problem.UseGPUs())
 {
@@ -164,7 +165,7 @@ AAHSweepChunkTD::CPUSweep(AngleSet& angle_set)
         }
       }
 
-    const double* psi_old =
+      const double* psi_old =
         &psi_old_[discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0)];
       for (size_t gsg = 0; gsg < gs_size; ++gsg)
       {
@@ -172,12 +173,12 @@ AAHSweepChunkTD::CPUSweep(AngleSet& angle_set)
         for (size_t i = 0; i < cell_num_nodes; ++i)
         {
           double temp_src = 0.0;
-          for (int m = 0; m < num_moments_; ++m)
+          for (std::size_t m = 0; m < num_moments_; ++m)
           {
             const size_t ir = cell_transport_view.MapDOF(i, m, gs_gi + gsg);
             temp_src += m2d_op[direction_num][m] * source_moments_[ir];
           }
-          const size_t imap = 
+          const size_t imap =
             i * groupset_angle_group_stride_ + direction_num * groupset_group_stride_;
           source[i] = temp_src;
           if (include_rhs_time_term_)
@@ -199,7 +200,7 @@ AAHSweepChunkTD::CPUSweep(AngleSet& angle_set)
         GaussElimination(Atemp, b[gsg], static_cast<int>(cell_num_nodes));
       }
 
-      for (int m = 0; m < num_moments_; ++m)
+      for (std::size_t m = 0; m < num_moments_; ++m)
       {
         const double wn_d2m = d2m_op[direction_num][m];
         for (size_t i = 0; i < cell_num_nodes; ++i)
@@ -216,10 +217,10 @@ AAHSweepChunkTD::CPUSweep(AngleSet& angle_set)
           &destination_psi_[discretization_.MapDOFLocal(cell, 0, groupset_.psi_uk_man_, 0, 0)];
         for (size_t i = 0; i < cell_num_nodes; ++i)
         {
-          const size_t imap = 
+          const size_t imap =
             i * groupset_angle_group_stride_ + direction_num * groupset_group_stride_;
           for (size_t gsg = 0; gsg < gs_size; ++gsg)
-            psi_new[imap + gsg] = inv_theta * ( b[gsg](i) + (theta - 1.0) * psi_old[imap + gsg] );
+            psi_new[imap + gsg] = inv_theta * (b[gsg](i) + (theta - 1.0) * psi_old[imap + gsg]);
         }
       }
 
