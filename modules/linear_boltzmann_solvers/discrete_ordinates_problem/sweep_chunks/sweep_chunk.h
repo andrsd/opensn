@@ -85,6 +85,9 @@ public:
   /// Returns the surface src-active flag.
   bool IsSurfaceSourceActive() const { return surface_source_active_; }
 
+  /// Include contribution from previous psi_n in RHS source term
+  void IncludeRHSTimeTerm(bool status) { include_rhs_time_term_ = status; }
+
   virtual ~SweepChunk() = default;
 
 protected:
@@ -105,6 +108,7 @@ protected:
   std::vector<double>& destination_phi_;
   std::vector<double>& destination_psi_;
   bool surface_source_active_ = false;
+  bool include_rhs_time_term_ = true;
 };
 
 } // namespace opensn
