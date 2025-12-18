@@ -29,7 +29,7 @@ public:
   std::ifstream file_;
   std::size_t num_groups_;
   unsigned int scattering_order_;
-  size_t num_precursors_;
+  std::size_t num_precursors_;
   std::vector<MultiGroupXS::Precursor> precursors_;
   std::vector<double> inv_velocity_;
   std::vector<double> e_bounds_;

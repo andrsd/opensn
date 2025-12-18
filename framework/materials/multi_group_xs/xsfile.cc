@@ -273,7 +273,7 @@ XSFile::Read()
                    ls,
                    ln);
 
-        for (size_t j = 0; j < num_precursors_; ++j)
+        for (std::size_t j = 0; j < num_precursors_; ++j)
         {
           OpenSnLogicalErrorIf(not HasNonZero(emission_spectra_[j]),
                                "Delayed emission spectrum for precursor " + std::to_string(j) +

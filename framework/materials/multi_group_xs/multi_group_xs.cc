@@ -166,9 +166,9 @@ MultiGroupXS::Combine(
     if (xsecs[x]->GetNumPrecursors() > 0)
     {
       const auto& precursors = xsecs[x]->GetPrecursors();
-      for (size_t j = 0; j < xsecs[x]->GetNumPrecursors(); ++j)
+      for (std::size_t j = 0; j < xsecs[x]->GetNumPrecursors(); ++j)
       {
-        size_t count = precursor_count + j;
+        std::size_t count = precursor_count + j;
         const auto& precursor = precursors[j];
         mgxs.precursors_[count].decay_constant = precursor.decay_constant;
         mgxs.precursors_[count].fractional_yield = precursor.fractional_yield * ff_i;

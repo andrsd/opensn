@@ -55,7 +55,7 @@ ComputeFissionProduction(LBSProblem& lbs_problem, const std::vector<double>& phi
           local_production += prod[gp] * phi[uk_map + gp] * IntV_ShapeI;
 
         if (options.use_precursors)
-          for (unsigned int j = 0; j < xs.GetNumPrecursors(); ++j)
+          for (std::size_t j = 0; j < xs.GetNumPrecursors(); ++j)
             local_production += nu_delayed_sigma_f[g] * phi[uk_map + g] * IntV_ShapeI;
       }
     } // for node
@@ -145,7 +145,7 @@ ComputePrecursors(LBSProblem& lbs_problem)
     const auto& nu_delayed_sigma_f = xs.GetNuDelayedSigmaF();
 
     // Loop over precursors
-    for (uint64_t j = 0; j < xs.GetNumPrecursors(); ++j)
+    for (std::size_t j = 0; j < xs.GetNumPrecursors(); ++j)
     {
       size_t dof = cell.local_id * J + j;
       const auto& precursor = precursors[j];
