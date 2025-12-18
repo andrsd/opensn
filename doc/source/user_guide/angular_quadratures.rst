@@ -1,0 +1,1 @@
+../../../dev/source/user_guide/angular_quadratures.rst
