@@ -63,7 +63,7 @@ public:
   size_t GetNumMoments() const;
 
   /// Returns the number of groups for the solver. This will only be non-zero after initialization.
-  size_t GetNumGroups() const;
+  std::size_t GetNumGroups() const;
 
   /// Returns the scattering order for the solver. This will only be non-zero after initialization.
   unsigned int GetScatteringOrder() const;
@@ -265,7 +265,7 @@ protected:
   LBSOptions options_;
   GeometryType geometry_type_ = GeometryType::INVALID;
   size_t num_moments_ = 0;
-  size_t num_groups_ = 0;
+  std::size_t num_groups_ = 0;
   unsigned int scattering_order_ = 0;
   size_t num_precursors_ = 0;
   size_t max_precursors_per_material_ = 0;
