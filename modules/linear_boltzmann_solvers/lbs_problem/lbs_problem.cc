@@ -391,7 +391,7 @@ LBSProblem::GetBoundaryPreferences()
   return boundary_preferences_;
 }
 
-std::pair<size_t, size_t>
+std::pair<std::uint64_t, std::uint64_t>
 LBSProblem::GetNumPhiIterativeUnknowns()
 {
   const auto& sdm = *discretization_;
