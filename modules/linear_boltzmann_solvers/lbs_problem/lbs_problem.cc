@@ -396,7 +396,7 @@ LBSProblem::GetNumPhiIterativeUnknowns()
 {
   const auto& sdm = *discretization_;
   const size_t num_local_phi_dofs = sdm.GetNumLocalDOFs(flux_moments_uk_man_);
-  const size_t num_global_phi_dofs = sdm.GetNumGlobalDOFs(flux_moments_uk_man_);
+  const auto num_global_phi_dofs = sdm.GetNumGlobalDOFs(flux_moments_uk_man_);
 
   return {num_local_phi_dofs, num_global_phi_dofs};
 }
