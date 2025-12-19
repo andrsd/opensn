@@ -295,7 +295,7 @@ protected:
   size_t max_cell_dof_count_ = 0;
   size_t min_cell_dof_count_ = 0;
   uint64_t local_node_count_ = 0;
-  uint64_t global_node_count_ = 0;
+  std::uint64_t global_node_count_ = 0;
 
   std::vector<double> q_moments_local_, ext_src_moments_local_;
   std::vector<double> phi_new_local_, phi_old_local_;
