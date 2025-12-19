@@ -11,36 +11,39 @@ namespace opensn
 {
 
 Vec
-CreateVector(int64_t local_size, int64_t global_size)
+CreateVector(int64_t local_size, std::uint64_t global_size)
 {
+  auto gm = static_cast<PetscInt>(global_size);
   Vec x = nullptr;
   VecCreate(opensn::mpi_comm, &x);
   VecSetType(x, VECMPI);
-  VecSetSizes(x, local_size, global_size);
+  VecSetSizes(x, local_size, gm);
   VecSetOption(x, VEC_IGNORE_NEGATIVE_INDICES, PETSC_TRUE);
 
   return x;
 }
 
 void
-CreateVector(Vec& x, int64_t local_size, int64_t global_size)
+CreateVector(Vec& x, int64_t local_size, std::uint64_t global_size)
 {
+  auto gm = static_cast<PetscInt>(global_size);
   VecCreate(opensn::mpi_comm, &x);
   VecSetType(x, VECMPI);
-  VecSetSizes(x, local_size, global_size);
+  VecSetSizes(x, local_size, gm);
   VecSetOption(x, VEC_IGNORE_NEGATIVE_INDICES, PETSC_TRUE);
 }
 
 Vec
 CreateVectorWithGhosts(int64_t local_size,
-                       int64_t global_size,
+                       std::uint64_t global_size,
                        int64_t nghosts,
                        const std::vector<PetscInt>& ghost_indices)
 {
+  auto gm = static_cast<PetscInt>(global_size);
   Vec x = nullptr;
   VecCreateGhost(opensn::mpi_comm,
                  local_size,
-                 global_size,
+                 gm,
                  nghosts,
                  (ghost_indices.empty()) ? NULL : ghost_indices.data(),
                  &x);
@@ -51,12 +54,13 @@ CreateVectorWithGhosts(int64_t local_size,
 }
 
 Mat
-CreateSquareMatrix(int64_t local_size, int64_t global_size)
+CreateSquareMatrix(int64_t local_size, std::uint64_t global_size)
 {
+  auto gm = static_cast<PetscInt>(global_size);
   Mat A = nullptr;
   MatCreate(opensn::mpi_comm, &A);
   MatSetType(A, MATMPIAIJ);
-  MatSetSizes(A, local_size, local_size, global_size, global_size);
+  MatSetSizes(A, local_size, local_size, gm, gm);
 
   MatMPIAIJSetPreallocation(A, 1, nullptr, 0, nullptr);
   MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);
@@ -66,11 +70,12 @@ CreateSquareMatrix(int64_t local_size, int64_t global_size)
 }
 
 void
-CreateSquareMatrix(Mat& A, int64_t local_size, int64_t global_size)
+CreateSquareMatrix(Mat& A, int64_t local_size, std::uint64_t global_size)
 {
+  auto gm = static_cast<PetscInt>(global_size);
   MatCreate(opensn::mpi_comm, &A);
   MatSetType(A, MATMPIAIJ);
-  MatSetSizes(A, local_size, local_size, global_size, global_size);
+  MatSetSizes(A, local_size, local_size, gm, gm);
 
   MatMPIAIJSetPreallocation(A, 1, nullptr, 0, nullptr);
   MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);
