@@ -247,7 +247,7 @@ DiscreteOrdinatesProblem::Initialize()
     psi_new_local_.emplace_back();
     if (options_.save_angular_flux)
     {
-      size_t num_ang_unknowns = discretization_->GetNumLocalDOFs(groupset.psi_uk_man_);
+      auto num_ang_unknowns = discretization_->GetNumLocalDOFs(groupset.psi_uk_man_);
       psi_new_local_.back().assign(num_ang_unknowns, 0.0);
     }
   }

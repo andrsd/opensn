@@ -27,7 +27,7 @@ DiffusionSolver::DiffusionSolver(std::string name,
     bcs_(std::move(bcs)),
     mat_id_2_xs_map_(std::move(map_mat_id_2_xs)),
     unit_cell_matrices_(unit_cell_matrices),
-    num_local_dofs_(static_cast<int64_t>(sdm_.GetNumLocalDOFs(uk_man_))),
+    num_local_dofs_(sdm_.GetNumLocalDOFs(uk_man_)),
     num_global_dofs_(sdm_.GetNumGlobalDOFs(uk_man_)),
     A_(nullptr),
     rhs_(nullptr),
@@ -84,7 +84,7 @@ DiffusionSolver::AddToRHS(const std::vector<double>& values)
 
   PetscScalar* rhs_ptr = nullptr;
   VecGetArray(rhs_, &rhs_ptr);
-  for (size_t i = 0; i < num_local_dofs; ++i)
+  for (std::uint64_t i = 0; i < num_local_dofs; ++i)
     rhs_ptr[i] += values[i];
   VecRestoreArray(rhs_, &rhs_ptr);
 }
