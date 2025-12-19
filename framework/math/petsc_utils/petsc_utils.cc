@@ -38,14 +38,15 @@ CreateVector(Vec& x, std::uint64_t local_size, std::uint64_t global_size)
 Vec
 CreateVectorWithGhosts(std::uint64_t local_size,
                        std::uint64_t global_size,
-                       int64_t nghosts,
+                       std::uint64_t nghosts,
                        const std::vector<PetscInt>& ghost_indices)
 {
   auto lm = static_cast<PetscInt>(local_size);
   auto gm = static_cast<PetscInt>(global_size);
+  auto ngh = static_cast<PetscInt>(nghosts);
   Vec x = nullptr;
   VecCreateGhost(
-    opensn::mpi_comm, lm, gm, nghosts, (ghost_indices.empty()) ? NULL : ghost_indices.data(), &x);
+    opensn::mpi_comm, lm, gm, ngh, (ghost_indices.empty()) ? NULL : ghost_indices.data(), &x);
 
   VecSetOption(x, VEC_IGNORE_NEGATIVE_INDICES, PETSC_TRUE);
 

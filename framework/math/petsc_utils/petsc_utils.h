@@ -74,7 +74,7 @@ void CreateVector(Vec& x, std::uint64_t local_size, std::uint64_t global_size);
  */
 Vec CreateVectorWithGhosts(std::uint64_t local_size,
                            std::uint64_t global_size,
-                           int64_t nghosts,
+                           std::uint64_t nghosts,
                            const std::vector<PetscInt>& ghost_indices);
 
 /**
