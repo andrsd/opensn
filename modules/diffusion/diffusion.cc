@@ -135,10 +135,8 @@ DiffusionSolver::Initialize()
   {
     auto ghost_ids = sdm_.GetGhostDOFIndices(uk_man_);
     std::vector<int64_t> ghids(ghost_ids.begin(), ghost_ids.end());
-    rhs_ = CreateVectorWithGhosts(num_local_dofs_,
-                                  num_global_dofs_,
-                                  static_cast<int64_t>(sdm_.GetNumGhostDOFs(uk_man_)),
-                                  ghids);
+    rhs_ = CreateVectorWithGhosts(
+      num_local_dofs_, num_global_dofs_, sdm_.GetNumGhostDOFs(uk_man_), ghids);
   }
 
   opensn::mpi_comm.barrier();
