@@ -149,7 +149,7 @@ GLCProductQuadrature2DXY::GLCProductQuadrature2DXY(int Npolar,
   for (auto i = 0; i < Nazimuthal; ++i)
     azimu_ang.emplace_back(M_PI * (2 * (i + 1) - 1) / Nazimuthal);
 
-  // Create polar angles (only take the half of the GL nodes < M_PI/2)
+  // Create polar angles
   const int half = Npolar / 2;
   polar_ang.resize(half);
   for (int j = 0; j < half; ++j)
