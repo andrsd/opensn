@@ -135,7 +135,7 @@ protected:
 
 private:
   void CreateFLUDSCommonDataForDevice();
-  std::shared_ptr<FLUDS> CreateFLUDSForDevice(std::size_t num_groups,
+  std::shared_ptr<FLUDS> CreateFLUDSForDevice(unsigned int num_groups,
                                               std::size_t num_angles,
                                               const FLUDSCommonData& common_data);
 
