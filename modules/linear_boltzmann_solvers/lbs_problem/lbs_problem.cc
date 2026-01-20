@@ -221,12 +221,6 @@ LBSProblem::GetMaxPrecursorsPerMaterial() const
   return max_precursors_per_material_;
 }
 
-const std::vector<LBSGroup>&
-LBSProblem::GetGroups() const
-{
-  return groups_;
-}
-
 std::vector<LBSGroupset>&
 LBSProblem::GetGroupsets()
 {
@@ -712,7 +706,7 @@ LBSProblem::PrintSimHeader()
            << "Initializing " << GetName() << "\n\n"
            << "Scattering order    : " << scattering_order_ << "\n"
            << "Number of moments   : " << num_moments_ << "\n"
-           << "Number of groups    : " << groups_.size() << "\n"
+           << "Number of groups    : " << num_groups_ << "\n"
            << "Number of groupsets : " << groupsets_.size() << "\n\n";
 
     for (const auto& groupset : groupsets_)
@@ -723,7 +717,7 @@ LBSProblem::PrintSimHeader()
       constexpr int groups_per_line = 12;
       for (size_t i = 0; i < groups.size(); ++i)
       {
-        outstr << std::setw(5) << groups[i].id << ' ';
+        outstr << std::setw(5) << groups[i] << ' ';
         if ((i + 1) % groups_per_line == 0)
           outstr << '\n';
       }
@@ -761,8 +755,6 @@ LBSProblem::InitializeGroupsets(const InputParameters& params)
   // Initialize groups
   if (num_groups_ == 0)
     throw std::invalid_argument(GetName() + ": Number of groups must be > 0");
-  for (size_t g = 0; g < num_groups_; ++g)
-    groups_.emplace_back(static_cast<int>(g));
 
   // Initialize groupsets
   const auto& groupsets_array = params.GetParam("groupsets");
@@ -844,10 +836,10 @@ LBSProblem::InitializeMaterials()
   {
     mat->SetAdjointMode(options_.adjoint);
 
-    OpenSnLogicalErrorIf(mat->GetNumGroups() < groups_.size(),
+    OpenSnLogicalErrorIf(mat->GetNumGroups() < num_groups_,
                          "Cross-sections for block \"" + std::to_string(blk_id) +
                            "\" have fewer groups (" + std::to_string(mat->GetNumGroups()) +
-                           ") than the simulation (" + std::to_string(groups_.size()) + "). " +
+                           ") than the simulation (" + std::to_string(num_groups_) + "). " +
                            "Cross-sections must have at least as many groups as the simulation.");
   }
 
@@ -947,7 +939,7 @@ LBSProblem::InitializeParrays()
   flux_moments_uk_man_.unknowns.clear();
   for (size_t m = 0; m < num_moments_; ++m)
   {
-    flux_moments_uk_man_.AddUnknown(UnknownType::VECTOR_N, groups_.size());
+    flux_moments_uk_man_.AddUnknown(UnknownType::VECTOR_N, num_groups_);
     flux_moments_uk_man_.unknowns.back().name = "m" + std::to_string(m);
   }
 
@@ -956,8 +948,7 @@ LBSProblem::InitializeParrays()
   global_node_count_ = discretization_->GetNumGlobalNodes();
 
   // Compute num of unknowns
-  size_t num_grps = groups_.size();
-  size_t local_unknown_count = local_node_count_ * num_grps * num_moments_;
+  size_t local_unknown_count = local_node_count_ * num_groups_ * num_moments_;
 
   log.LogAllVerbose1() << "LBS Number of phi unknowns: " << local_unknown_count;
 
@@ -1035,7 +1026,7 @@ LBSProblem::InitializeParrays()
     min_cell_dof_count_ = std::min(min_cell_dof_count_, static_cast<unsigned int>(num_nodes));
     cell_transport_views_.emplace_back(cell_phi_address,
                                        num_nodes,
-                                       num_grps,
+                                       num_groups_,
                                        num_moments_,
                                        num_faces,
                                        *block_id_to_xs_map_[cell.block_id],
@@ -1044,7 +1035,7 @@ LBSProblem::InitializeParrays()
                                        face_locality,
                                        neighbor_cell_ptrs,
                                        cell_on_boundary);
-    block_MG_counter += num_nodes * num_grps * num_moments_;
+    block_MG_counter += num_nodes * num_groups_ * num_moments_;
   } // for local cell
 
   // Populate grid nodal mappings
@@ -1096,7 +1087,7 @@ LBSProblem::InitializeFieldFunctions()
   // Initialize Field Functions for flux moments
   phi_field_functions_local_map_.clear();
 
-  for (size_t g = 0; g < groups_.size(); ++g)
+  for (size_t g = 0; g < num_groups_; ++g)
   {
     for (size_t m = 0; m < num_moments_; ++m)
     {
@@ -1266,7 +1257,7 @@ LBSProblem::UpdateFieldFunctions()
         const auto imapB = sdm.MapDOFLocal(cell, i, phi_uk_man, 0, 0);
 
         double nodal_power = 0.0;
-        for (size_t g = 0; g < groups_.size(); ++g)
+        for (size_t g = 0; g < num_groups_; ++g)
         {
           const double sigma_fg = xs->GetSigmaFission()[g];
           // const double kappa_g = xs->Kappa()[g];
@@ -1297,7 +1288,7 @@ LBSProblem::UpdateFieldFunctions()
     // scale scalar flux if neccessary
     if (scale_factor != 1.0)
     {
-      for (size_t g = 0; g < groups_.size(); ++g)
+      for (size_t g = 0; g < num_groups_; ++g)
       {
         const size_t phi_ff_index = phi_field_functions_local_map_.at({g, size_t{0}});
         auto& phi_ff_ptr = field_functions_.at(phi_ff_index);
