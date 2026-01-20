@@ -216,7 +216,7 @@ AAHSweepChunk::CPUSweep_FixedN(AngleSet& angle_set)
   CALI_CXX_MARK_SCOPE("AAHSweepChunk::CPUSweep_FixedN");
 
   const size_t gs_size = groupset_.groups.size();
-  const auto gs_gi = groupset_.groups.front().id;
+  const auto gs_gi = groupset_.groups.front();
 
   int deploc_face_counter = -1;
   int preloc_face_counter = -1;

@@ -101,7 +101,7 @@ void
 AAHSweepChunk::CPUSweep_Generic(AngleSet& angle_set)
 {
   auto gs_size = groupset_.groups.size();
-  auto gs_gi = groupset_.groups.front().id;
+  auto gs_gi = groupset_.groups.front();
 
   int deploc_face_counter = -1;
   int preloc_face_counter = -1;

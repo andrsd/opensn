@@ -39,7 +39,7 @@ gpu_kernel::Arguments::Arguments(DiscreteOrdinatesProblem& problem,
   // copy groupset data to GPU
   groupset_size = groupset.groups.size();
   groupset_start = groupset.groups.front().id;
-  num_groups = problem.GetGroups().size();
+  num_groups = problem.GetNumGroups();
   // copy FLUDS data to GPU and retrieve the pointer set
   flud_data =
     fluds.PrepareForSweep(*(problem.GetGrid()), angle_set, groupset, is_surface_source_active);
