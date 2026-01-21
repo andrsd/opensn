@@ -81,7 +81,7 @@ LBSSolverIO::WriteAngularFluxes(
 
     auto groupset_id = groupset.id;
     auto num_gs_dirs = quadrature->omegas.size();
-    auto num_gs_groups = groupset.groups.size();
+    auto num_gs_groups = groupset.GetNumGroups();
 
     const auto group_name = "groupset_" + std::to_string(groupset_id);
     H5CreateGroup(file_id, group_name);
@@ -209,7 +209,7 @@ LBSSolverIO::ReadAngularFluxes(
     const auto& quadrature = groupset.quadrature;
 
     const auto num_gs_dirs = quadrature->omegas.size();
-    const auto num_gs_groups = groupset.groups.size();
+    const auto num_gs_groups = groupset.GetNumGroups();
     OpenSnLogicalErrorIf(file_num_gs_dirs != num_gs_dirs,
                          "Incompatible number of groupset angles found in file " + file_name +
                            " for groupset " + std::to_string(gs) + ".");

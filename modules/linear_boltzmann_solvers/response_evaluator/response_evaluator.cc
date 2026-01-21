@@ -396,7 +396,7 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
       const auto& uk_man = groupset.psi_uk_man_;
       const auto& quadrature = groupset.quadrature;
       const auto& num_gs_angles = quadrature->omegas.size();
-      const auto& num_gs_groups = groupset.groups.size();
+      const auto& num_gs_groups = groupset.GetNumGroups();
 
       for (const auto& cell : grid->local_cells)
       {
@@ -494,8 +494,8 @@ ResponseEvaluator::EvaluateBoundaryCondition(const uint64_t boundary_id,
                                              const double /*unused*/) const
 {
   const auto num_gs_angles = groupset.quadrature->omegas.size();
-  const auto num_gs_groups = groupset.groups.size();
-  const auto first_group = groupset.groups.front();
+  const auto num_gs_groups = groupset.GetNumGroups();
+  const auto first_group = groupset.first_group;
 
   std::vector<double> psi;
   const auto& bc = boundary_sources_.at(boundary_id);

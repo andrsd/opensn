@@ -9,8 +9,8 @@ namespace opensn
 void
 SweepChunk::ZeroDestinationPhi()
 {
-  const auto gsi = groupset_.groups.front();
-  const auto gss = groupset_.groups.size();
+  const auto gsi = groupset_.first_group;
+  const auto gss = groupset_.GetNumGroups();
 
   for (const auto& cell : grid_->local_cells)
   {
