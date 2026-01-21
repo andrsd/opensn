@@ -255,7 +255,7 @@ AAHD_FLUDS::CopyBoundaryPsiToDevice(MeshContinuum& grid,
     const CellFace& face =
       grid.local_cells[face_node.GetCellIndex()].faces[face_node.GetFaceIndex()];
     // get start group index in the groupset
-    auto gs_gi = groupset.groups.front();
+    auto gs_gi = groupset.first_group;
     // get destination pointer in the host vector
     double* dest =
       boundary_psi_.host_storage.data() + node_index.GetIndex() * num_groups_and_angles_;
