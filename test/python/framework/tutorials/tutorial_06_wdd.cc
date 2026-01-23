@@ -206,7 +206,7 @@ SimTest06_WDD(std::shared_ptr<MeshContinuum> grid)
     {
       double rhs = 0.0;
       // Source moments
-      for (size_t m = 0; m < num_moments; ++m)
+      for (unsigned int m = 0; m < num_moments; ++m)
       {
         const auto dof_map = sdm.MapDOFLocal(cell, 0, phi_uk_man, m, g);
         rhs += source_moments[dof_map] * m2d[d][m];
@@ -230,7 +230,7 @@ SimTest06_WDD(std::shared_ptr<MeshContinuum> grid)
       double psi_ijk = rhs / lhs;
 
       // Accumulate flux-moments
-      for (size_t m = 0; m < num_moments; ++m)
+      for (unsigned int m = 0; m < num_moments; ++m)
       {
         const auto dof_map = sdm.MapDOFLocal(cell, 0, phi_uk_man, m, g);
         phi_new[dof_map] += d2m[d][m] * psi_ijk;
@@ -343,7 +343,7 @@ ComputeRelativePWChange(const std::shared_ptr<MeshContinuum> grid,
 
       const double* phi_new_m0 = &in_phi_new[m0_map];
       const double* phi_old_m0 = &in_phi_old[m0_map];
-      for (size_t m = 0; m < num_moments; ++m)
+      for (unsigned int m = 0; m < num_moments; ++m)
       {
         const auto m_map = sdm.MapDOFLocal(cell, i, phi_uk_man, m, 0);
 
@@ -394,7 +394,7 @@ SetSource(const std::shared_ptr<MeshContinuum> grid,
 
     for (size_t i = 0; i < num_nodes; ++i)
     {
-      for (size_t m = 0; m < num_moments; ++m)
+      for (unsigned int m = 0; m < num_moments; ++m)
       {
         const auto dof_map = sdm.MapDOFLocal(cell, i, phi_uk_man, m, 0);
         const auto ell = m_ell_em_map[m].ell;
