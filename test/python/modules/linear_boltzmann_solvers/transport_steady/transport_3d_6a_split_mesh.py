@@ -18,7 +18,6 @@ if "opensn_console" not in globals():
     from pyopensn.mesh import SplitFileMeshGenerator, OrthogonalMeshGenerator
     from pyopensn.xs import MultiGroupXS
     from pyopensn.logvol import RPPLogicalVolume
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature3DXYZ
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
@@ -116,25 +115,24 @@ if __name__ == "__main__":
     ss_solver.Initialize()
     ss_solver.Execute()
 
-    # Get field functions
-    fflist = phys.GetScalarFluxFieldFunction()
-
-    ffi1 = FieldFunctionInterpolationVolume()
-    ffi1.SetOperationType("max")
-    ffi1.SetLogicalVolume(vol0)
-    ffi1.AddFieldFunction(fflist[0])
-    ffi1.Initialize()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=0
+    )
     ffi1.Execute()
-    maxval = ffi1.GetValue()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value-0={maxval:.5e}")
 
-    ffi1 = FieldFunctionInterpolationVolume()
-    ffi1.SetOperationType("max")
-    ffi1.SetLogicalVolume(vol0)
-    ffi1.AddFieldFunction(fflist[19])
-    ffi1.Initialize()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=19
+    )
     ffi1.Execute()
-    maxval = ffi1.GetValue()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value-19={maxval:.5e}")

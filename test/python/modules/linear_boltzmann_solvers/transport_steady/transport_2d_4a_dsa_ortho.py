@@ -112,25 +112,25 @@ if __name__ == "__main__":
     ss_solver.Execute()
 
     vol2 = RPPLogicalVolume(infx=True, infy=True, infz=True)
-    fflist = phys.GetScalarFluxFieldFunction()
 
-    ffi1 = FieldFunctionInterpolationVolume()
-    curffi = ffi1
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol2)
-    curffi.AddFieldFunction(fflist[39])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol2],
+        group=39
+    )
+    ffi1.Execute()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value1={maxval:.5f}")
 
-    curffi = ffi1
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol2)
-    curffi.AddFieldFunction(fflist[120])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol2],
+        group=120
+    )
+    ffi1.Execute()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value1={maxval:.5f}")

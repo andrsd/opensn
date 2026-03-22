@@ -25,8 +25,8 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature2DXY
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 else:
     barrier = MPIBarrier
 
@@ -100,14 +100,14 @@ if __name__ == "__main__":
     )
 
     def scalar_sum_over(problem, logical_volume):
-        ff = problem.GetScalarFluxFieldFunction(only_scalar_flux=False)[0][0]
-        ffi = FieldFunctionInterpolationVolume()
-        ffi.SetOperationType("sum")
-        ffi.SetLogicalVolume(logical_volume)
-        ffi.AddFieldFunction(ff)
-        ffi.Initialize()
+        ffi = VolumePostprocessor(
+            problem=problem,
+            value_type="integral",
+            logical_volumes=[logical_volume],
+            group=0
+        )
         ffi.Execute()
-        return ffi.GetValue()
+        return ffi.GetValue()[0][0]
 
     ss_solver = SteadyStateSourceSolver(problem=phys)
     ss_solver.Initialize()

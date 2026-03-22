@@ -18,8 +18,8 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import LebedevQuadrature3DXYZ
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 
 if __name__ == "__main__":
 
@@ -81,8 +81,6 @@ if __name__ == "__main__":
     ss_solver.Initialize()
     ss_solver.Execute()
 
-    fflist = phys.GetScalarFluxFieldFunction(only_scalar_flux=False)
-
     logvol = RPPLogicalVolume(
         xmin=0., xmax=length / 2,
         ymin=0., ymax=length / 2,
@@ -91,22 +89,24 @@ if __name__ == "__main__":
 
     logvol_whole_domain = RPPLogicalVolume(infx=True, infy=True, infz=True)
 
-    ffi = FieldFunctionInterpolationVolume()
-    ffi.SetOperationType("avg")
-    ffi.SetLogicalVolume(logvol)
-    ffi.AddFieldFunction(fflist[0][0])
-    ffi.Initialize()
+    ffi = VolumePostprocessor(
+        problem=phys,
+        value_type="avg",
+        logical_volumes=[logvol],
+        group=0
+    )
     ffi.Execute()
-    val = ffi.GetValue()
+    val = ffi.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value1={val:.5e}")
 
-    ffi = FieldFunctionInterpolationVolume()
-    ffi.SetOperationType("max")
-    ffi.SetLogicalVolume(logvol_whole_domain)
-    ffi.AddFieldFunction(fflist[0][0])
-    ffi.Initialize()
+    ffi = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[logvol_whole_domain],
+        group=0
+    )
     ffi.Execute()
-    val_whole = ffi.GetValue()
+    val_whole = ffi.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value2={val_whole:.5e}")

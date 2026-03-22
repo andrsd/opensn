@@ -23,8 +23,8 @@ if "opensn_console" not in globals():
     from pyopensn.aquad import GLCProductQuadrature2DXY
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
     from pyopensn.response import ResponseEvaluator
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 else:
     barrier = MPIBarrier
 
@@ -118,18 +118,16 @@ if __name__ == "__main__":
     ss_solver.Initialize()
     ss_solver.Execute()
 
-    # Field functions
-    fflist = phys.GetScalarFluxFieldFunction(only_scalar_flux=False)
-
     # Define QoI region and compute forward QoI
     qoi_vol = RPPLogicalVolume(xmin=0.5, xmax=0.8333, ymin=4.16666, ymax=4.33333, infz=True)
-    ffi = FieldFunctionInterpolationVolume()
-    ffi.SetOperationType("sum")
-    ffi.SetLogicalVolume(qoi_vol)
-    ffi.AddFieldFunction(fflist[0][0])
-    ffi.Initialize()
+    ffi = VolumePostprocessor(
+        problem=phys,
+        value_type="integral",
+        logical_volumes=[qoi_vol],
+        group=0
+    )
     ffi.Execute()
-    fwd_qoi = ffi.GetValue()
+    fwd_qoi = ffi.GetValue()[0][0]
 
     # Create adjoint source and switch to adjoint mode
     adj_src = VolumetricSource(logical_volume=qoi_vol, group_strength=[1.0])

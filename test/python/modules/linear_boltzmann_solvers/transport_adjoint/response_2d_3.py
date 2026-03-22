@@ -34,7 +34,6 @@ if "opensn_console" not in globals():
     from pyopensn.aquad import GLCProductQuadrature2DXY
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
     from pyopensn.response import ResponseEvaluator
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.math import VectorSpatialFunction
 else:
     barrier = MPIBarrier
@@ -118,16 +117,15 @@ if __name__ == "__main__":
     # Compute QoI for each group and sum them
     fwd_qois = []
     fwd_qoi_sum = 0.0
-    fflist = phys.GetScalarFluxFieldFunction(only_scalar_flux=False)
     for g in range(num_groups):
-        ff = fflist[g][0]
-        ffi = FieldFunctionInterpolationVolume()
-        ffi.SetOperationType("sum")  # OP_SUM operation
-        ffi.SetLogicalVolume(qoi_vol)
-        ffi.AddFieldFunction(ff)
-        ffi.Initialize()
+        ffi = VolumePostprocessor(
+            problem=phys,
+            value_type="integral",
+            logical_volumes=[qoi_vol],
+            group=g
+        )
         ffi.Execute()
-        value = ffi.GetValue()
+        value = ffi.GetValue()[0][0]
         fwd_qois.append(value)
         fwd_qoi_sum += value
 

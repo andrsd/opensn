@@ -16,7 +16,7 @@ if "opensn_console" not in globals():
     from pyopensn.xs import MultiGroupXS
     from pyopensn.aquad import GLCProductQuadrature3DXYZ
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionGridBased, FieldFunctionInterpolationVolume
+    from pyopensn.fieldfunc import FieldFunctionGridBased
     from pyopensn.logvol import SphereLogicalVolume
 
 if __name__ == "__main__":
@@ -73,13 +73,14 @@ if __name__ == "__main__":
     vol0 = SphereLogicalVolume(r=1.1, x=0., y=0., z=0.)
     fflist = phys.GetScalarFluxFieldFunction()
 
-    ffi1 = FieldFunctionInterpolationVolume()
-    ffi1.SetOperationType("sum")
-    ffi1.SetLogicalVolume(vol0)
-    ffi1.AddFieldFunction(fflist[0])
-    ffi1.Initialize()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="integral",
+        logical_volumes=[vol0],
+        group=0
+    )
     ffi1.Execute()
-    maxval = ffi1.GetValue()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Sum={maxval:.5f}")
 

@@ -21,7 +21,6 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature2DRZ
     from pyopensn.solver import DiscreteOrdinatesCurvilinearProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
 
 
 if __name__ == "__main__":
@@ -71,23 +70,23 @@ if __name__ == "__main__":
     solver.Initialize()
     solver.Execute()
 
-    fflist = problem.GetScalarFluxFieldFunction(only_scalar_flux=False)
-
-    ffi_g0 = FieldFunctionInterpolationVolume()
-    ffi_g0.SetOperationType("max")
-    ffi_g0.SetLogicalVolume(vol)
-    ffi_g0.AddFieldFunction(fflist[0][0])
-    ffi_g0.Initialize()
+    ffi_g0 = VolumePostprocessor(
+        problem=problem,
+        value_type="max",
+        logical_volumes=[vol],
+        group=0
+    )
     ffi_g0.Execute()
-    phi_g0 = ffi_g0.GetValue()
+    phi_g0 = ffi_g0.GetValue()[0][0]
 
-    ffi_g1 = FieldFunctionInterpolationVolume()
-    ffi_g1.SetOperationType("max")
-    ffi_g1.SetLogicalVolume(vol)
-    ffi_g1.AddFieldFunction(fflist[1][0])
-    ffi_g1.Initialize()
+    ffi_g1 = VolumePostprocessor(
+        problem=problem,
+        value_type="max",
+        logical_volumes=[vol],
+        group=1
+    )
     ffi_g1.Execute()
-    phi_g1 = ffi_g1.GetValue()
+    phi_g1 = ffi_g1.GetValue()[0][0]
 
     if rank == 0:
         print(f"G0_MAX {phi_g0:.12e}")

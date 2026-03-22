@@ -20,7 +20,6 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature2DRZ
     from pyopensn.solver import DiscreteOrdinatesCurvilinearProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
 
 
 if __name__ == "__main__":
@@ -67,15 +66,15 @@ if __name__ == "__main__":
     solver.Execute()
 
     vol = RPPLogicalVolume(xmin=0.0, xmax=1.0, ymin=0.0, ymax=2.0, infz=True)
-    fflist = problem.GetScalarFluxFieldFunction(only_scalar_flux=False)
 
-    ffi_max = FieldFunctionInterpolationVolume()
-    ffi_max.SetOperationType("max")
-    ffi_max.SetLogicalVolume(vol)
-    ffi_max.AddFieldFunction(fflist[0][0])
-    ffi_max.Initialize()
+    ffi_max = VolumePostprocessor(
+        problem=problem,
+        value_type="max",
+        logical_volumes=[vol],
+        group=0
+    )
     ffi_max.Execute()
-    phi_max = ffi_max.GetValue()
+    phi_max = ffi_max.GetValue()[0][0]
 
     if rank == 0:
         print(f"PHI_MAX {phi_max:.12e}")

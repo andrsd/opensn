@@ -121,24 +121,24 @@ if __name__ == "__main__":
 
     # Volume integrations
     vol0 = RPPLogicalVolume(infx=True, infy=True, infz=True)
-    ffi1 = FieldFunctionInterpolationVolume()
-    curffi = ffi1
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol0)
-    curffi.AddFieldFunction(fflist[0][0])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=0
+    )
+    ffi1.Execute()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value1={maxval:.5f}")
 
-    ffi2 = FieldFunctionInterpolationVolume()
-    curffi = ffi2
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol0)
-    curffi.AddFieldFunction(fflist[159][0])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi2 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=159
+    )
+    ffi2.Execute()
+    maxval = ffi2.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value2={maxval:.5e}")

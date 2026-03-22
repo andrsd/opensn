@@ -31,8 +31,8 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature3DXYZ
     from pyopensn.solver import DiscreteOrdinatesProblem, TransientSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 
 if __name__ == "__main__":
 
@@ -107,26 +107,27 @@ if __name__ == "__main__":
     solver.Initialize()
     solver.Execute()
 
-    fflist = phys.GetScalarFluxFieldFunction()
     monitor_volume = RPPLogicalVolume(infx=True, infy=True, infz=True)
 
     # Group 0
-    ff_interp_g0 = FieldFunctionInterpolationVolume()
-    ff_interp_g0.SetOperationType("max")
-    ff_interp_g0.SetLogicalVolume(monitor_volume)
-    ff_interp_g0.AddFieldFunction(fflist[0])
-    ff_interp_g0.Initialize()
+    ff_interp_g0 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[monitor_volume],
+        group=0
+    )
     ff_interp_g0.Execute()
-    flux_max_g0 = ff_interp_g0.GetValue()
+    flux_max_g0 = ff_interp_g0.GetValue()[0][0]
 
     # Group 1
-    ff_interp_g1 = FieldFunctionInterpolationVolume()
-    ff_interp_g1.SetOperationType("max")
-    ff_interp_g1.SetLogicalVolume(monitor_volume)
-    ff_interp_g1.AddFieldFunction(fflist[1])
-    ff_interp_g1.Initialize()
+    ff_interp_g1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[monitor_volume],
+        group=1
+    )
     ff_interp_g1.Execute()
-    flux_max_g1 = ff_interp_g1.GetValue()
+    flux_max_g1 = ff_interp_g1.GetValue()[0][0]
 
     if rank == 0:
         print("Max phi0(2s) = {:.6f}".format(flux_max_g0))

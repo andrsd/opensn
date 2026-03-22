@@ -22,20 +22,20 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLProductQuadrature1DSlab
     from pyopensn.solver import DiscreteOrdinatesProblem, TransientSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 
 
 def max_phi(phys):
-    fflist = phys.GetScalarFluxFieldFunction()
     monitor_volume = RPPLogicalVolume(infx=True, infy=True, infz=True)
-    field_interp = FieldFunctionInterpolationVolume()
-    field_interp.SetOperationType("max")
-    field_interp.SetLogicalVolume(monitor_volume)
-    field_interp.AddFieldFunction(fflist[0])
-    field_interp.Initialize()
+    field_interp = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[monitor_volume],
+        group=0
+    )
     field_interp.Execute()
-    return field_interp.GetValue()
+    return field_interp.GetValue()[0][0]
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ if "opensn_console" not in globals():
     from pyopensn.aquad import GLProductQuadrature1DSlab
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
     from pyopensn.fieldfunc import FieldFunctionGridBased
-    from pyopensn.fieldfunc import FieldFunctionInterpolationLine, FieldFunctionInterpolationVolume
+    from pyopensn.fieldfunc import FieldFunctionInterpolationLine
     from pyopensn.context import EnableCaliper
     from pyopensn.math import Vector3
     from pyopensn.logvol import RPPLogicalVolume

@@ -18,7 +18,6 @@ if "opensn_console" not in globals():
     from pyopensn.aquad import GLCProductQuadrature2DXY
     from pyopensn.logvol import RPPLogicalVolume
     from pyopensn.solver import DiscreteOrdinatesProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
 
 if __name__ == "__main__":
 
@@ -106,29 +105,26 @@ if __name__ == "__main__":
     ss_solver.Initialize()
     ss_solver.Execute()
 
-    # Get field functions
-    fflist = phys.GetScalarFluxFieldFunction()
-
     # Volume integrations
-    ffi1 = FieldFunctionInterpolationVolume()
-    curffi = ffi1
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol0)
-    curffi.AddFieldFunction(fflist[0])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=0
+    )
+    ffi1.Execute()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value1={maxval:.5f}")
 
     # Volume integrations
-    ffi1 = FieldFunctionInterpolationVolume()
-    curffi = ffi1
-    curffi.SetOperationType("max")
-    curffi.SetLogicalVolume(vol0)
-    curffi.AddFieldFunction(fflist[160])
-    curffi.Initialize()
-    curffi.Execute()
-    maxval = curffi.GetValue()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=160
+    )
+    ffi1.Execute()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-value2={maxval:.5e}")

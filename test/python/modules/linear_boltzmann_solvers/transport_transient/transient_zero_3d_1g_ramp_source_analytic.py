@@ -22,8 +22,8 @@ if "opensn_console" not in globals():
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature3DXYZ
     from pyopensn.solver import DiscreteOrdinatesProblem, TransientSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
 
 
 def ramp_q(time_value: float, q0: float, t_ramp: float) -> float:
@@ -117,15 +117,15 @@ if __name__ == "__main__":
         solver.Advance()
         current_time = target_time
 
-    fflist = phys.GetScalarFluxFieldFunction()
     monitor_volume = RPPLogicalVolume(infx=True, infy=True, infz=True)
-    field_interp = FieldFunctionInterpolationVolume()
-    field_interp.SetOperationType("max")
-    field_interp.SetLogicalVolume(monitor_volume)
-    field_interp.AddFieldFunction(fflist[0])
-    field_interp.Initialize()
+    field_interp = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[monitor_volume],
+        group=0
+    )
     field_interp.Execute()
-    phi_num = field_interp.GetValue()
+    phi_num = field_interp.GetValue()[0][0]
 
     phi_exact = analytic_phi(stop_time, q0, t_ramp, sigma_t, v)
     rel_err = abs(phi_num - phi_exact) / phi_exact

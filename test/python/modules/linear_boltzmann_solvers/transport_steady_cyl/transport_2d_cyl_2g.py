@@ -17,11 +17,11 @@ if "opensn_console" not in globals():
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../../")))
     from pyopensn.mesh import OrthogonalMeshGenerator
     from pyopensn.logvol import RPPLogicalVolume
+    from pyopensn.post import VolumePostprocessor
     from pyopensn.xs import MultiGroupXS
     from pyopensn.source import VolumetricSource
     from pyopensn.aquad import GLCProductQuadrature2DRZ
     from pyopensn.solver import DiscreteOrdinatesCurvilinearProblem, SteadyStateSourceSolver
-    from pyopensn.fieldfunc import FieldFunctionInterpolationVolume
 
 if __name__ == "__main__":
 
@@ -89,27 +89,26 @@ if __name__ == "__main__":
     ss_solver.Initialize()
     ss_solver.Execute()
 
-    # Field functions
-    fflist = phys.GetScalarFluxFieldFunction(only_scalar_flux=False)
-
     # Volume integration for energy group 1
-    ffi1 = FieldFunctionInterpolationVolume()
-    ffi1.SetOperationType("max")
-    ffi1.SetLogicalVolume(vol0)
-    ffi1.AddFieldFunction(fflist[0][0])
-    ffi1.Initialize()
+    ffi1 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=0
+    )
     ffi1.Execute()
-    maxval = ffi1.GetValue()
+    maxval = ffi1.GetValue()[0][0]
     if rank == 0:
         print(f"Max-valueG1={maxval:.5f}")
 
     # Volume integration for energy group 2
-    ffi2 = FieldFunctionInterpolationVolume()
-    ffi2.SetOperationType("max")
-    ffi2.SetLogicalVolume(vol0)
-    ffi2.AddFieldFunction(fflist[1][0])
-    ffi2.Initialize()
+    ffi2 = VolumePostprocessor(
+        problem=phys,
+        value_type="max",
+        logical_volumes=[vol0],
+        group=1
+    )
     ffi2.Execute()
-    maxval = ffi2.GetValue()
+    maxval = ffi2.GetValue()[0][0]
     if rank == 0:
         print(f"Max-valueG2={maxval:.5f}")
