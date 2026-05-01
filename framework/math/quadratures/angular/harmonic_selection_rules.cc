@@ -334,11 +334,11 @@ HarmonicSelectionRules::Select3DTriangular(const SelectionParameters& params)
   while (harmonics.size() < nb_dir)
   {
     L++;
-    int ind_M = 1;             // 1=even M, 2=odd M (toggled as M increases)
-    int id_ = 2 * (2 - ind_L); // id=0 for even L, 2 for odd L
+    int ind_M = 1;            // 1=even M, 2=odd M (toggled as M increases)
+    int id = 2 * (2 - ind_L); // id=0 for even L, 2 for odd L
 
     // M=0 cosine first
-    int mode = ind_M + id_; // EE if even L, OE if odd L
+    int mode = ind_M + id; // EE if even L, OE if odd L
     if (nb_C[mode] < ndir_oct)
     {
       harmonics.emplace_back(L, 0);
@@ -352,7 +352,7 @@ HarmonicSelectionRules::Select3DTriangular(const SelectionParameters& params)
     for (int M = 1; M <= L; ++M)
     {
       ind_M = 3 - ind_M; // toggle M parity
-      mode = ind_M + id_;
+      mode = ind_M + id;
 
       // cosine (L, +M)
       if (nb_C[mode] < ndir_oct)

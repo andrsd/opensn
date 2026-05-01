@@ -64,38 +64,38 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
 
   opensn::mpi_comm.barrier();
 
-  const auto& grid_ = do_problem.GetGrid();
-  const auto& discretization_ = do_problem.GetSpatialDiscretization();
-  auto& phi_new_local_ = do_problem.GetPhiNewLocal();
-  const auto& groupsets_ = do_problem.GetGroupsets();
-  auto& q_moments_local_ = do_problem.GetQMomentsLocal();
+  const auto& grid = do_problem.GetGrid();
+  const auto& discretization = do_problem.GetSpatialDiscretization();
+  auto& phi_new_local = do_problem.GetPhiNewLocal();
+  const auto& groupsets = do_problem.GetGroupsets();
+  auto& q_moments_local = do_problem.GetQMomentsLocal();
   auto active_set_source_fn = do_problem.GetActiveSetSourceFunction();
-  const auto& cell_transport_views_ = do_problem.GetCellTransportViews();
-  const auto& cell_outflow_views_ = do_problem.GetCellOutflowViews();
-  const auto& unit_cell_matrices_ = do_problem.GetUnitCellMatrices();
-  const auto& sweep_boundaries_ = do_problem.GetSweepBoundaries();
-  const auto num_groups_ = do_problem.GetNumGroups();
+  const auto& cell_transport_views = do_problem.GetCellTransportViews();
+  const auto& cell_outflow_views = do_problem.GetCellOutflowViews();
+  const auto& unit_cell_matrices = do_problem.GetUnitCellMatrices();
+  const auto& sweep_boundaries = do_problem.GetSweepBoundaries();
+  const auto num_groups = do_problem.GetNumGroups();
   const auto time_dependent = do_problem.IsTimeDependent();
   const auto dt = time_dependent ? do_problem.GetTimeStep() : 0.0;
-  const auto& psi_new_local_ = do_problem.GetPsiNewLocal();
-  const auto& psi_old_local_ = do_problem.GetPsiOldLocal();
+  const auto& psi_new_local = do_problem.GetPsiNewLocal();
+  const auto& psi_old_local = do_problem.GetPsiOldLocal();
 
   // Get material source
   // This is done using the SetSource routine because it allows a lot of flexibility.
-  auto mat_src = phi_new_local_;
+  auto mat_src = phi_new_local;
   mat_src.assign(mat_src.size(), 0.0);
-  for (const auto& groupset : groupsets_)
+  for (const auto& groupset : groupsets)
   {
     do_problem.ZeroQMoments();
     active_set_source_fn(groupset,
-                         q_moments_local_,
-                         phi_new_local_,
+                         q_moments_local,
+                         phi_new_local,
                          APPLY_FIXED_SOURCES | APPLY_AGS_FISSION_SOURCES |
                            APPLY_WGS_FISSION_SOURCES);
     LBSVecOps::GSScopedCopyPrimarySTLvectors( // NOLINT(readability-suspicious-call-argument)
       do_problem,
       groupset,
-      q_moments_local_,
+      q_moments_local,
       mat_src);
   }
 
@@ -106,12 +106,12 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
   double local_production = 0.0;
   double local_initial = 0.0;
   double local_final = 0.0;
-  for (const auto& cell : grid_->local_cells)
+  for (const auto& cell : grid->local_cells)
   {
-    const auto& cell_mapping = discretization_.GetCellMapping(cell);
-    const auto& transport_view = cell_transport_views_[cell.local_id];
-    const auto& outflow_view = cell_outflow_views_[cell.local_id];
-    const auto& fe_intgrl_values = unit_cell_matrices_[cell.local_id];
+    const auto& cell_mapping = discretization.GetCellMapping(cell);
+    const auto& transport_view = cell_transport_views[cell.local_id];
+    const auto& outflow_view = cell_outflow_views[cell.local_id];
+    const auto& fe_intgrl_values = unit_cell_matrices[cell.local_id];
     const size_t num_nodes = transport_view.GetNumNodes();
     const auto& IntV_shapeI = fe_intgrl_values.intV_shapeI;
     const auto& IntS_shapeI = fe_intgrl_values.intS_shapeI;
@@ -126,16 +126,16 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
 
       if (not face.has_neighbor) // Boundary face
       {
-        const auto& bndry = sweep_boundaries_.at(face.neighbor_id);
+        const auto& bndry = sweep_boundaries.at(face.neighbor_id);
 
         if (bndry->IsReflecting())
         {
-          for (unsigned int g = 0; g < num_groups_; ++g)
+          for (unsigned int g = 0; g < num_groups; ++g)
             local_in_flow += outflow_view.Get(f, g);
         }
         else
         {
-          for (const auto& groupset : groupsets_)
+          for (const auto& groupset : groupsets)
           {
             for (size_t n = 0; n < groupset.quadrature->GetNumAngles(); ++n)
             {
@@ -165,7 +165,7 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
 
     // Outflow: The group-wise outflow was determined during a solve so we just accumulate it here.
     for (size_t f = 0; f < cell.faces.size(); ++f)
-      for (unsigned int g = 0; g < num_groups_; ++g)
+      for (unsigned int g = 0; g < num_groups; ++g)
         local_out_flow += outflow_view.Get(f, g);
 
     // Absorption and sources
@@ -174,10 +174,10 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
     const auto& inv_vel = xs.GetInverseVelocity();
     for (size_t i = 0; i < num_nodes; ++i)
     {
-      for (unsigned int g = 0; g < num_groups_; ++g)
+      for (unsigned int g = 0; g < num_groups; ++g)
       {
         auto imap = transport_view.MapDOF(i, 0, g);
-        double phi_0g = phi_new_local_[imap];
+        double phi_0g = phi_new_local[imap];
         double q_0g = mat_src[imap];
 
         local_absorption += sigma_a[g] * phi_0g * IntV_shapeI(i);
@@ -187,7 +187,7 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
 
     if (time_dependent)
     {
-      for (const auto& groupset : groupsets_)
+      for (const auto& groupset : groupsets)
       {
         const auto& quad = groupset.quadrature;
         const auto num_angles = quad->GetNumAngles();
@@ -196,7 +196,7 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
         const size_t groupset_angle_group_stride =
           groupset.psi_uk_man_.GetNumberOfUnknowns() * num_gs_groups;
         const size_t groupset_group_stride = num_gs_groups;
-        const size_t base = discretization_.MapDOFLocal(cell, 0, groupset.psi_uk_man_, 0, 0);
+        const size_t base = discretization.MapDOFLocal(cell, 0, groupset.psi_uk_man_, 0, 0);
 
         for (size_t i = 0; i < num_nodes; ++i)
         {
@@ -209,8 +209,8 @@ ComputeBalanceTable(DiscreteOrdinatesProblem& do_problem, double scaling_factor)
               const size_t imap =
                 base + i * groupset_angle_group_stride + n * groupset_group_stride;
               const double wt = quad->GetWeight(n);
-              phi_old += wt * psi_old_local_[groupset.id][imap + gsg];
-              phi_new += wt * psi_new_local_[groupset.id][imap + gsg];
+              phi_old += wt * psi_old_local[groupset.id][imap + gsg];
+              phi_new += wt * psi_new_local[groupset.id][imap + gsg];
             }
 
             const auto g = first_grp + gsg;
