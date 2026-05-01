@@ -31,7 +31,7 @@ TotalXSCarrier::ComputeSize(LBSProblem& lbs_problem)
     }
     else if (num_groups != xs->GetNumGroups())
     {
-      throw std::runtime_error("Provided cross sections don't have the same number of groups.\n");
+      throw std::runtime_error("Provided cross sections don't have the same number of groups.");
     }
   }
   // compute size

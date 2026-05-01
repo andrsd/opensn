@@ -42,7 +42,7 @@ AAHD_ASynchronousCommunicator::BuildMessageStructure()
   const auto& spds = fluds_.GetSPDS();
   auto* aahd_fluds = dynamic_cast<AAHD_FLUDS*>(&fluds_);
   if (aahd_fluds == nullptr)
-    throw std::runtime_error("AAHD_ASynchronousCommunicator does not get AAHD_FLUDS.\n");
+    throw std::runtime_error("AAHD_ASynchronousCommunicator does not get AAHD_FLUDS.");
   // Predecessor locations
   SetupMessageData(
     spds.GetLocationDependencies(),

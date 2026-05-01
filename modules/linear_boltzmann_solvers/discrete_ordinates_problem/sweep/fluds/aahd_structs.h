@@ -224,7 +224,7 @@ public:
                         (std::uint64_t(packed_neighbor_idx) << 32) | packed_cell_idx);
     }
     else
-      throw std::runtime_error("Non local face node requires cell with different global index.\n");
+      throw std::runtime_error("Non local face node requires cell with different global index.");
   }
 
   /// Comparison operator for ordering.
