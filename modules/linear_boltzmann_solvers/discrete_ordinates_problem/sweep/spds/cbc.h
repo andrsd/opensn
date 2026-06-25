@@ -20,7 +20,7 @@ public:
    * \param grid Reference to the grid.
    * \param allow_cycles Whether cycles are allowed in the local sweep dependency graph.
    */
-  CBC_SPDS(const Vector3& omega, const std::shared_ptr<MeshContinuum>& grid, bool allow_cycles);
+  CBC_SPDS(const Vector3& omega, const std::shared_ptr<Mesh>& grid, bool allow_cycles);
 
   const std::vector<Task>& GetTaskList() const;
 

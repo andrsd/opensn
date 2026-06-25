@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "modules/linear_boltzmann_solvers/discrete_ordinates_problem/sweep/spds/spds.h"
-#include "framework/mesh/mesh_continuum/mesh_continuum.h"
+#include "framework/mesh/mesh/mesh.h"
 #include "framework/logging/log.h"
 #include "framework/utils/timer.h"
 #include "framework/runtime.h"
@@ -32,7 +32,7 @@ struct FaceNeighborInfo
 using FaceNeighborInfoVec = std::vector<std::vector<FaceNeighborInfo>>;
 
 FaceNeighborInfoVec
-GetFaceNeighborInfo(const MeshContinuum& grid)
+GetFaceNeighborInfo(const Mesh& grid)
 {
   FaceNeighborInfoVec info;
   info.resize(grid.GetLocalCellCount());

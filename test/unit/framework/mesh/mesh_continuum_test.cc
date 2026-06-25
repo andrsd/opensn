@@ -1,13 +1,13 @@
 #include "gtest/gtest.h"
 #include "test/unit/common/mesh_builders.h"
-#include "framework/mesh/mesh_continuum/mesh_continuum.h"
+#include "framework/mesh/mesh/mesh.h"
 #include "framework/runtime.h"
 
 using namespace opensn;
 
 /// Helper for the PointInsideCellXD tests
 void
-TestPointInsideCell(const std::shared_ptr<MeshContinuum> grid)
+TestPointInsideCell(const std::shared_ptr<Mesh> grid)
 {
   // Centroid is contained within cell whose centroid it is
   for (const auto& cell : grid->GetLocalCells())
@@ -119,7 +119,7 @@ TEST(MeshContinuumTest, PointInsideCell3D)
 
 /// Helper for the PointInsideCellFaceXD tests
 void
-TestPointInsideCellFace(const std::shared_ptr<MeshContinuum> grid)
+TestPointInsideCellFace(const std::shared_ptr<Mesh> grid)
 {
   // Vertices contained within faces that have those vertices
   for (uint64_t vi = 0; vi < grid->GetGlobalVertexCount(); ++vi)
