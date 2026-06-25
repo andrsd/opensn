@@ -181,7 +181,6 @@ public:
   unsigned int block_id = std::numeric_limits<unsigned int>::max();
 
   Vector3 centroid;
-  double volume = 0.0;
 
   std::vector<uint64_t> vertex_ids;
   std::vector<CellFace> faces;
@@ -196,6 +195,8 @@ public:
   /// Deserializes a cell from a vector of bytes.
   static Cell DeSerialize(const ByteArray& raw, size_t& address);
 };
+
+double ComputeVolume(const Mesh& mesh, const Cell& cell);
 
 } // namespace opensn
 
