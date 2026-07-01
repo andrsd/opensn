@@ -114,7 +114,7 @@ protected:
 private:
   void InitializeAlphaElements(const SPDS& spds, const GridFaceHistogram& grid_face_histogram);
 
-  void SlotDynamics(const Cell& cell,
+  void SlotDynamics(std::uint32_t cell_local_id,
                     const SPDS& spds,
                     const GridFaceHistogram& grid_face_histogram,
                     std::vector<std::vector<std::pair<std::optional<uint64_t>, short>>>& lock_boxes,
@@ -129,13 +129,13 @@ private:
                             uint64_t face_slot,
                             const CellFace& face);
 
-  void LocalIncidentMapping(const Cell& cell,
+  void LocalIncidentMapping(std::uint32_t cell_local_id,
                             const SPDS& spds,
                             std::vector<uint64_t>& local_so_cell_mapping);
 
   void InitializeBetaElements(const SPDS& spds, int tag_index = 0);
 
-  void NonLocalIncidentMapping(const Cell& cell, const SPDS& spds);
+  void NonLocalIncidentMapping(std::uint32_t cell_local_id, const SPDS& spds);
 
   std::vector<std::vector<INCOMING_FACE_INFO>> so_cell_inco_face_dof_indices_;
 
