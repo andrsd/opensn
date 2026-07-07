@@ -60,7 +60,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
-    const auto& cell_mapping = sdm_.GetCellMapping(cell);
+    const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -133,7 +133,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
           const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
           const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
           assert(adj_cell.local_id == adj_cell_local_id);
-          const auto& adj_cell_mapping = sdm_.GetCellMapping(adj_cell);
+          const auto& adj_cell_mapping = sdm_.GetLocalCellMapping(adj_cell_local_id);
           const auto ac_nodes = adj_cell_mapping.GetNodeLocations();
           const size_t acf = Mesh::MapCellFace(cell, adj_cell, f);
           const double hp = HPerpendicular(adj_cell_local_id, acf);
@@ -155,8 +155,8 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
           Vector<PetscInt> adj_idxs(num_face_nodes);
           for (size_t fj = 0; fj < num_face_nodes; ++fj)
           {
-            const auto jp =
-              MapFaceNodeDisc(cell, adj_cell, cc_nodes, ac_nodes, f, acf, fj); // j-plus
+            const auto jp = MapFaceNodeDisc(
+              cell_local_id, adj_cell_local_id, cc_nodes, ac_nodes, f, acf, fj); // j-plus
             adj_idxs(fj) = static_cast<PetscInt>(sdm_.MapDOF(adj_cell, jp, uk_man_, 0, g));
           }
 
@@ -405,7 +405,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
-    const auto& cell_mapping = sdm_.GetCellMapping(cell);
+    const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
     const unsigned int num_groups = uk_man_.unknowns.front().num_components;
@@ -607,7 +607,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
-    const auto& cell_mapping = sdm_.GetCellMapping(cell);
+    const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
     const auto& unit_cell_matrices = unit_cell_matrices_[cell_local_id];
@@ -670,7 +670,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
           const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
           const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
           assert(adj_cell.local_id == adj_cell_local_id);
-          const auto& adj_cell_mapping = sdm_.GetCellMapping(adj_cell);
+          const auto& adj_cell_mapping = sdm_.GetLocalCellMapping(adj_cell_local_id);
           const auto ac_nodes = adj_cell_mapping.GetNodeLocations();
           const size_t acf = Mesh::MapCellFace(cell, adj_cell, f);
           const double hp = HPerpendicular(adj_cell_local_id, acf);
@@ -692,8 +692,8 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
           Vector<PetscInt> adj_idxs(num_face_nodes);
           for (size_t fj = 0; fj < num_face_nodes; ++fj)
           {
-            const auto jp =
-              MapFaceNodeDisc(cell, adj_cell, cc_nodes, ac_nodes, f, acf, fj); // j-plus
+            const auto jp = MapFaceNodeDisc(
+              cell_local_id, adj_cell_local_id, cc_nodes, ac_nodes, f, acf, fj); // j-plus
             adj_idxs(fj) = static_cast<PetscInt>(sdm_.MapDOF(adj_cell, jp, uk_man_, 0, g));
           }
 
@@ -906,7 +906,7 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
-    const auto& cell_mapping = sdm_.GetCellMapping(cell);
+    const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
     const auto& unit_cell_matrices = unit_cell_matrices_[cell_local_id];
@@ -1062,7 +1062,7 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
-    const auto& cell_mapping = sdm_.GetCellMapping(cell);
+    const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
     const auto& unit_cell_matrices = unit_cell_matrices_[cell_local_id];
@@ -1202,7 +1202,7 @@ DiffusionMIPSolver::HPerpendicular(std::uint32_t cell_local_id, unsigned int f)
 {
   const auto& mesh = sdm_.GetGrid();
   const auto& cell = mesh->GetLocalCell(cell_local_id);
-  const auto& cell_mapping = sdm_.GetCellMapping(cell);
+  const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
   double hp = 0.0;
 
   const auto num_faces = cell.faces.size();
@@ -1265,8 +1265,8 @@ DiffusionMIPSolver::HPerpendicular(std::uint32_t cell_local_id, unsigned int f)
 }
 
 int
-DiffusionMIPSolver::MapFaceNodeDisc(const Cell& cur_cell,
-                                    const Cell& adj_cell,
+DiffusionMIPSolver::MapFaceNodeDisc(std::uint32_t cur_cell_local_id,
+                                    std::uint32_t adj_cell_local_id,
                                     const std::vector<Vector3>& cc_node_locs,
                                     const std::vector<Vector3>& ac_node_locs,
                                     size_t ccf,
@@ -1274,8 +1274,8 @@ DiffusionMIPSolver::MapFaceNodeDisc(const Cell& cur_cell,
                                     size_t ccfi,
                                     double epsilon)
 {
-  const auto& cur_cell_mapping = sdm_.GetCellMapping(cur_cell);
-  const auto& adj_cell_mapping = sdm_.GetCellMapping(adj_cell);
+  const auto& cur_cell_mapping = sdm_.GetLocalCellMapping(cur_cell_local_id);
+  const auto& adj_cell_mapping = sdm_.GetLocalCellMapping(adj_cell_local_id);
 
   const int i = cur_cell_mapping.MapFaceNode(ccf, ccfi);
   const auto& node_i_loc = cc_node_locs[i];
