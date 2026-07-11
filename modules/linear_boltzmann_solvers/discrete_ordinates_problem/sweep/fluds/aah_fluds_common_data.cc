@@ -30,7 +30,7 @@ AAH_FLUDSCommonData::InitializeAlphaElements(const SPDS& spds,
                                              const GridFaceHistogram& grid_face_histogram)
 {
 
-  const auto grid = spds.GetGrid();
+  const auto grid = spds.GetMesh();
   const auto& spls = spds.GetLocalSubgrid();
 
   // Initialize face categorization
@@ -120,7 +120,7 @@ AAH_FLUDSCommonData::SlotDynamics(
   std::vector<std::pair<std::optional<uint64_t>, short>>& delayed_lock_box)
 {
 
-  const auto& grid_ptr = spds.GetGrid();
+  const auto& grid_ptr = spds.GetMesh();
   const auto& cell = grid_ptr->GetLocalCell(cell_local_id);
 
   // Local feedback arc set. All edges (u -> v) that need to be removed from the sweep graph to
@@ -310,7 +310,7 @@ AAH_FLUDSCommonData::LocalIncidentMapping(std::uint32_t cell_local_id,
                                           std::vector<uint64_t>& local_so_cell_mapping)
 {
 
-  const auto grid = spds.GetGrid();
+  const auto grid = spds.GetMesh();
   const auto& cell = grid->GetLocalCell(cell_local_id);
   const auto& cell_nodal_mapping = grid_nodal_mappings_[cell_local_id];
   std::vector<std::pair<uint64_t, std::vector<short>>> inco_face_dof_mapping;
@@ -374,7 +374,7 @@ void
 AAH_FLUDSCommonData::InitializeBetaElements(const SPDS& spds, int tag_index /*=0*/)
 {
 
-  const auto grid = spds.GetGrid();
+  const auto grid = spds.GetMesh();
   const auto& spls = spds.GetLocalSubgrid();
 
   // The first two major steps here are: Send delayed successor information
@@ -608,7 +608,7 @@ void
 AAH_FLUDSCommonData::NonLocalIncidentMapping(std::uint32_t cell_local_id, const SPDS& spds)
 {
 
-  const auto grid = spds.GetGrid();
+  const auto grid = spds.GetMesh();
   const auto& cell = grid->GetLocalCell(cell_local_id);
 
   // Loop over faces but process only incident faces
