@@ -93,7 +93,7 @@ CBC_SPDS::CBC_SPDS(const Vector3& omega, const std::shared_ptr<Mesh>& grid, bool
       }
     }
 
-    task_list_.push_back({num_dependencies, successors, cell_local_id, &cell, false});
+    task_list_.push_back({num_dependencies, successors, cell_local_id, false});
   }
 }
 
