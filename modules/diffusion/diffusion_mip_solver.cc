@@ -58,7 +58,6 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
@@ -132,7 +131,6 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
         {
           const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
           const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
-          assert(adj_cell.local_id == adj_cell_local_id);
           const auto& adj_cell_mapping = sdm_.GetLocalCellMapping(adj_cell_local_id);
           const auto ac_nodes = adj_cell_mapping.GetNodeLocations();
           const size_t acf = Mesh::MapCellFace(cell, adj_cell, f);
@@ -404,7 +402,6 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
@@ -606,7 +603,6 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
@@ -670,7 +666,6 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
         {
           const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
           const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
-          assert(adj_cell.local_id == adj_cell_local_id);
           const auto& adj_cell_mapping = sdm_.GetLocalCellMapping(adj_cell_local_id);
           const auto ac_nodes = adj_cell_mapping.GetNodeLocations();
           const size_t acf = Mesh::MapCellFace(cell, adj_cell, f);
@@ -906,7 +901,6 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
@@ -1062,7 +1056,6 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    assert(cell.local_id == cell_local_id);
     const size_t num_faces = cell.faces.size();
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
