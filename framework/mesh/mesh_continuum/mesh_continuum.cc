@@ -809,7 +809,7 @@ MeshContinuum::MakeMPILocalCommunicatorSet() const
   communicators.resize(mpi_comm.size());
 
   for (int locI = 0; locI < mpi_comm.size(); ++locI)
-    communicators[locI] = mpi_comm.create(location_groups[locI], 0);
+    communicators[locI] = mpi_comm.create(location_groups[locI], mpi::Tag{0});
 
   log.Log0Verbose1() << "Done building communicators.";
 

@@ -149,12 +149,12 @@ AAH_ASynchronousCommunicator::ReceiveDelayedData(int angle_set_num)
       assert(tag <= std::numeric_limits<int>::max());
       if (not delayed_preloc_msg_received_[i][m])
       {
-        if (not comm.iprobe(source, tag))
+        if (not comm.iprobe(source, mpi::Tag{tag}))
         {
           all_messages_received = false;
           continue;
         }
-        if (not comm.recv<double>(source, tag, &upstream_psi[block_pos], size).error())
+        if (not comm.recv<double>(source, mpi::Tag{tag}, &upstream_psi[block_pos], size).error())
           delayed_preloc_msg_received_[i][m] = true;
       }
     }
@@ -190,12 +190,12 @@ AAH_ASynchronousCommunicator::ReceiveUpstreamPsi(int angle_set_num)
       assert(tag <= std::numeric_limits<int>::max());
       if (not preloc_msg_received_[i][m])
       {
-        if (not comm.iprobe(source, tag))
+        if (not comm.iprobe(source, mpi::Tag{tag}))
         {
           all_messages_received = false;
           continue;
         }
-        if (not comm.recv<double>(source, tag, &upstream_psi[block_pos], size).error())
+        if (not comm.recv<double>(source, mpi::Tag{tag}, &upstream_psi[block_pos], size).error())
           preloc_msg_received_[i][m] = true;
       }
     }
@@ -225,7 +225,7 @@ AAH_ASynchronousCommunicator::SendDownstreamPsi(int angle_set_num)
       const auto& [dest, size, block_pos] = deploc_msg_data_[i][m];
       int tag = max_num_messages_ * angle_set_num + m;
       assert(tag <= std::numeric_limits<int>::max());
-      deploc_msg_request_[req] = comm.isend(dest, tag, &outgoing_psi[block_pos], size);
+      deploc_msg_request_[req] = comm.isend(dest, mpi::Tag{tag}, &outgoing_psi[block_pos], size);
     }
   }
 }
