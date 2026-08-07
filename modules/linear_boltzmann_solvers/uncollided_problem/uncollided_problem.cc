@@ -469,9 +469,10 @@ UncollidedProblem::BuildSweepOrdering(const SourcePoint& source_point)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    size_t f = 0;
-    for (auto& face : cell.faces)
+
+    for (size_t f = 0; f < cell.faces.size(); ++f)
     {
+      const auto& face = cell.faces[f];
       // Determine if the face is incident
       FaceOrientation orientation = FOPARALLEL;
       Vector3 omega = ComputeOmega(source_point.location, face.centroid);
@@ -494,7 +495,7 @@ UncollidedProblem::BuildSweepOrdering(const SourcePoint& source_point)
         {
           const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
           const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
-          const auto adj_face_idx = face.GetNeighborAdjacentFaceIndex(grid_.get());
+          const auto adj_face_idx = grid_->GetNeighborAdjacentFaceIndex(cell_local_id, f);
           auto& adj_face_ori = cell_face_orientations_[adj_cell_local_id][adj_face_idx];
 
           switch (orientation)
@@ -511,8 +512,6 @@ UncollidedProblem::BuildSweepOrdering(const SourcePoint& source_point)
           }
         }
       }
-
-      ++f;
     } // for face
   }
 
@@ -1266,7 +1265,7 @@ UncollidedProblem::RaytraceNearSourceRegion(const SourcePoint& source_point)
             auto neighbor_vertex_ids = grid_->GetCellConnectivity(neighbor_id);
             const auto& neighbor_mapping = sdm.GetLocalCellMapping(neighbor_id);
 
-            size_t f_ = face.GetNeighborAdjacentFaceIndex(grid_.get());
+            size_t f_ = grid_->GetNeighborAdjacentFaceIndex(cell_local_id, f);
             const size_t neighbor_num_face_nodes = neighbor_mapping.GetNumFaceNodes(f_);
 
             for (size_t fi = 0; fi < num_face_nodes; ++fi)
@@ -1321,7 +1320,7 @@ UncollidedProblem::RaytraceNearSourceRegion(const SourcePoint& source_point)
           continue;
 
         size_t neigh_id = cell.faces[f].GetNeighborLocalID(grid_.get());
-        size_t neigh_face_ind = cell.faces[f].GetNeighborAdjacentFaceIndex(grid_.get());
+        size_t neigh_face_ind = grid_->GetNeighborAdjacentFaceIndex(cell_local_id, f);
         face_leakage = leakages[neigh_id][neigh_face_ind];
       }
 
@@ -1603,7 +1602,7 @@ UncollidedProblem::SweepBulkRegion(const SourcePoint& source_point)
             // Bulk region cell neighbor
             else
             {
-              size_t f_ = cell.faces[f].GetNeighborAdjacentFaceIndex(grid_.get());
+              size_t f_ = grid_->GetNeighborAdjacentFaceIndex(cell_local_id, f);
 
               const Cell& neighbor = grid_->GetLocalCell(neighbor_id);
               auto neighbor_vertex_ids = grid_->GetCellConnectivity(neighbor_id);
