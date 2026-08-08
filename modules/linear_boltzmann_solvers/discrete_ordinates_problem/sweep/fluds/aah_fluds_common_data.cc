@@ -284,7 +284,9 @@ AAH_FLUDSCommonData::SlotDynamics(
       const auto face_slot = deplocI_face_dof_count_[deplocI];
       deplocI_face_dof_count_[deplocI] += num_face_dofs;
       nonlocal_outb_face_deplocI_slot_.emplace_back(deplocI, face_slot);
-      AddFaceViewToDepLocI(deplocI, cell.global_id, face_slot, face);
+      auto face_vertex_ids_span = grid_ptr->GetCellFaceConnectivity(cell_local_id, f);
+      std::vector<uint64_t> face_vertex_ids(face_vertex_ids_span.begin(), face_vertex_ids_span.end());
+      AddFaceViewToDepLocI(deplocI, cell.global_id, face_slot, face_vertex_ids);
     }
   }
 
@@ -296,20 +298,20 @@ void
 AAH_FLUDSCommonData::AddFaceViewToDepLocI(int deplocI,
                                           uint64_t cell_g_index,
                                           uint64_t face_slot,
-                                          const CellFace& face)
+                                          const std::vector<uint64_t>& face_vertex_ids)
 {
   auto& idx_map = deploc_i_cell_idx_[deplocI];
   auto it = idx_map.find(cell_g_index);
   if (it != idx_map.end())
   {
-    deplocI_cell_views_[deplocI][it->second].second.emplace_back(face_slot, face.vertex_ids);
+    deplocI_cell_views_[deplocI][it->second].second.emplace_back(face_slot, face_vertex_ids);
   }
   else
   {
     const size_t pos = deplocI_cell_views_[deplocI].size();
     CompactCellView new_cell_view;
     new_cell_view.first = cell_g_index;
-    new_cell_view.second.emplace_back(face_slot, face.vertex_ids);
+    new_cell_view.second.emplace_back(face_slot, face_vertex_ids);
     deplocI_cell_views_[deplocI].push_back(std::move(new_cell_view));
     idx_map.emplace(cell_g_index, pos);
   }

@@ -296,6 +296,40 @@ Mesh::SetCells(std::vector<Cell>&& local_cells,
   connect_ofst_.push_back(total_len);
 }
 
+void
+Mesh::SetCellFaces(const std::map<std::uint64_t, std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity)
+{
+  face_connect_ofst_.clear();
+  face_vertex_ofst_.clear();
+  face_vertex_ids_.clear();
+
+  face_connect_ofst_.push_back(0);
+  for (const auto& cell : local_cells_)
+  {
+    const auto& faces = cell_face_connectivity.at(cell.global_id);
+    face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
+    for (const auto& face : faces)
+    {
+      face_vertex_ofst_.push_back(face_vertex_ids_.size());
+      for (const auto vid : face)
+        face_vertex_ids_.push_back(vid);
+    }
+  }
+
+  for (const auto& cell : ghost_cells_)
+  {
+    const auto& faces = cell_face_connectivity.at(cell.global_id);
+    face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
+    for (const auto& face : faces)
+    {
+      face_vertex_ofst_.push_back(face_vertex_ids_.size());
+      for (const auto vid : face)
+        face_vertex_ids_.push_back(vid);
+    }
+  }
+  face_vertex_ofst_.push_back(face_vertex_ids_.size());
+}
+
 Cell&
 Mesh::GetGlobalCell(uint64_t cell_global_index)
 {

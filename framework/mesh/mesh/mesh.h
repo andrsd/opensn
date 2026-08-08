@@ -162,6 +162,8 @@ public:
                 std::vector<Cell>&& ghost_cells,
                 const std::map<std::uint64_t, std::vector<uint64_t>>& cell_connectivity);
 
+  void SetCellFaces(const std::map<std::uint64_t, std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity);
+
   /// Returns a reference to a cell given its global cell index.
   Cell& GetGlobalCell(uint64_t cell_global_index);
 
@@ -338,7 +340,7 @@ private:
   /// Offset into `face_vertex_ids_`
   std::vector<std::size_t> face_vertex_ofst_;
   /// Face vertices
-  std::vector<uint64_t> face_vertex_ids_;
+  std::vector<std::uint64_t> face_vertex_ids_;
 
 public:
   /// Returns a new instance of the spatial discretization.
