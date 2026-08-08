@@ -82,7 +82,7 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
   {
     std::string name;
     std::vector<Cell> cells;
-    std::vector<std::vector<uint64_t>> cell_connect;
+    std::vector<std::vector<std::uint64_t>> cell_connect;
     std::vector<std::pair<uint64_t, uint64_t>> edges;
   };
 

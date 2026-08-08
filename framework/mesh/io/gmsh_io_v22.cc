@@ -212,10 +212,10 @@ MeshIO::FromGmshV22(const UnpartitionedMesh::Options& options)
 
   std::vector<Cell> raw_cells;
   raw_cells.reserve(num_elems);
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   cell_connect.reserve(num_elems);
   std::vector<Cell> raw_boundary_cells;
-  std::vector<std::vector<uint64_t>> bnd_cell_connect;
+  std::vector<std::vector<std::uint64_t>> bnd_cell_connect;
 
   for (int n = 0; n < num_elems; n++)
   {

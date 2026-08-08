@@ -156,7 +156,7 @@ public:
   /// Returns the the total number of ghost cells
   size_t GhostCellCount() const { return ghost_cells_.size(); }
 
-  void SetCellConnectivity(const std::vector<std::vector<uint64_t>>& connectivity);
+  void SetCellConnectivity(const std::vector<std::vector<std::uint64_t>>& connectivity);
 
   void SetCells(std::vector<Cell>&& local_cells,
                 std::vector<Cell>&& ghost_cells,

@@ -237,7 +237,7 @@ Mesh::SetOrthogonalBoundaries()
 }
 
 void
-Mesh::SetCellConnectivity(const std::vector<std::vector<uint64_t>>& connectivity)
+Mesh::SetCellConnectivity(const std::vector<std::vector<std::uint64_t>>& connectivity)
 {
   std::size_t total_len = 0;
   for (const auto& cell : connectivity)

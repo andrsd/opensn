@@ -460,9 +460,9 @@ MeshIO::FromGmshV41ASCII(const UnpartitionedMesh::Options& options)
   }
 
   std::vector<Cell> raw_cells;
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   std::vector<Cell> raw_boundary_cells;
-  std::vector<std::vector<uint64_t>> bnd_cell_connect;
+  std::vector<std::vector<std::uint64_t>> bnd_cell_connect;
 
   for (const auto& [element_tag, element_type, physical_reg, node_tags] : element_data)
   {
@@ -650,9 +650,9 @@ MeshIO::FromGmshV41Binary(const UnpartitionedMesh::Options& options, int data_si
   bool mesh_is_2D = true;
 
   std::vector<Cell> raw_cells;
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   std::vector<Cell> raw_boundary_cells;
-  std::vector<std::vector<uint64_t>> bnd_cell_connect;
+  std::vector<std::vector<std::uint64_t>> bnd_cell_connect;
 
   // Scan sections
   file.clear();

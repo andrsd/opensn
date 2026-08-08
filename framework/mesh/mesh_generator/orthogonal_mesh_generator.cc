@@ -746,7 +746,7 @@ OrthogonalMeshGenerator::CreateUnpartitioned1DOrthoMesh(const std::vector<double
   auto n_cells = zverts.size() - 1;
   std::vector<Cell> cells;
   cells.reserve(n_cells);
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   cell_connect.reserve(n_cells);
   const auto max_cz = zverts.size() - 2;
   for (size_t c = 0; c < n_cells; ++c)
@@ -838,7 +838,7 @@ OrthogonalMeshGenerator::CreateUnpartitioned2DOrthoMesh(const std::vector<double
   auto n_cells = (Ny - 1) * (Nx - 1);
   std::vector<Cell> cells;
   cells.reserve(n_cells);
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   cell_connect.reserve(n_cells);
   const auto& vmap = vertex_ij_to_i_map;
   const auto& cmap = cells_ij_to_i_map;
@@ -982,7 +982,7 @@ OrthogonalMeshGenerator::CreateUnpartitioned3DOrthoMesh(const std::vector<double
   auto n_cells = (Nx - 1) * (Ny - 1) * (Nz - 1);
   std::vector<Cell> cells;
   cells.reserve(n_cells);
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   cell_connect.reserve(n_cells);
   const auto& vmap = vertex_ijk_to_i_map;
   const auto& cmap = cells_ijk_to_i_map;

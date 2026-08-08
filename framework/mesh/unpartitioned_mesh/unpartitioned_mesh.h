@@ -68,7 +68,7 @@ public:
   const std::vector<Cell>& GetCells() const { return cells_; }
 
   void SetCells(std::vector<Cell>&& cells,
-                const std::vector<std::vector<uint64_t>>& cell_connectivity);
+                const std::vector<std::vector<std::uint64_t>>& cell_connectivity);
 
   std::span<const uint64_t> GetCellConnectivity(std::uint32_t cell_global_id) const;
 

@@ -815,7 +815,7 @@ MeshIO::FromOpenFOAM(const UnpartitionedMesh::Options& options)
 
   std::vector<Cell> cells;
   cells.reserve(ncells);
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   cell_connect.reserve(ncells);
 
   std::vector<FaceLocation> owner_face_location(n_faces);

@@ -125,7 +125,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
 
   // Build cells
   std::vector<Cell> cells;
-  std::vector<std::vector<uint64_t>> cell_connect;
+  std::vector<std::vector<std::uint64_t>> cell_connect;
   size_t k = 0;
   for (const auto& [height, num_sub_layers] : layers_)
   {
