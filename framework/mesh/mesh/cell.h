@@ -180,8 +180,6 @@ public:
   Vector3 centroid;
   double volume = 0.;
 
-  std::vector<CellFace> faces;
-
 private:
   /// Primary type, i.e. SLAB, POLYGON, POLYHEDRON
   const CellType cell_type_;

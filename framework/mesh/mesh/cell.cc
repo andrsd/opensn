@@ -256,7 +256,6 @@ Cell::operator=(const Cell& other)
   partition_id = other.partition_id;
   centroid = other.centroid;
   block_id = other.block_id;
-  faces = other.faces;
 
   return *this;
 }
@@ -273,8 +272,11 @@ Cell::ComputeGeometricInfo(const Mesh& grid)
   centroid /= static_cast<double>(vertex_ids.size());
 
   // Compute face geometric data
-  for (std::uint32_t f = 0; f < faces.size(); ++f)
-    faces[f].ComputeGeometricInfo(grid, cell_local_id, f);
+  for (std::uint32_t f = 0; f < grid.GetCellFaceCount(); ++f)
+  {
+    auto cell_face = grid.GetCellFace(cell_local_id, f);
+    cell_face.ComputeGeometricInfo(grid, cell_local_id, f);
+  }
 }
 
 void
@@ -355,9 +357,10 @@ Cell::Serialize() const
   raw.Write<CellType>(cell_type_);
   raw.Write<CellType>(cell_sub_type_);
 
-  raw.Write<size_t>(faces.size());
-  for (const auto& face : faces)
-    raw.Append(face.Serialize());
+  // FIXME
+  // raw.Write<size_t>(faces.size());
+  // for (const auto& face : faces)
+  //   raw.Append(face.Serialize());
 
   return raw;
 }
@@ -383,10 +386,11 @@ Cell::DeSerialize(const ByteArray& raw, size_t& address)
   cell.centroid.z = cell_centroid_z;
   cell.block_id = cell_block_id;
 
-  auto num_faces = raw.Read<size_t>(address, &address);
-  cell.faces.reserve(num_faces);
-  for (size_t f = 0; f < num_faces; ++f)
-    cell.faces.push_back(CellFace::DeSerialize(raw, address));
+  // FIXME
+  // auto num_faces = raw.Read<size_t>(address, &address);
+  // cell.faces.reserve(num_faces);
+  // for (size_t f = 0; f < num_faces; ++f)
+  //   cell.faces.push_back(CellFace::DeSerialize(raw, address));
 
   return cell;
 }
@@ -403,12 +407,12 @@ Cell::ToString() const
   outstr << "centroid: " << centroid.PrintStr() << "\n";
   outstr << "block_id: " << block_id << "\n";
 
-  {
-    outstr << "num_faces: " << faces.size() << "\n";
-    size_t f = 0;
-    for (const auto& face : faces)
-      outstr << "Face " << f++ << ":\n" << face.ToString();
-  }
+  // {
+  //   outstr << "num_faces: " << faces.size() << "\n";
+  //   size_t f = 0;
+  //   for (const auto& face : faces)
+  //     outstr << "Face " << f++ << ":\n" << face.ToString();
+  // }
 
   return outstr.str();
 }
