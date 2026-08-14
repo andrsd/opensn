@@ -101,7 +101,7 @@ UnpartitionedMesh::CheckQuality()
     }
     else if (cell.GetType() == CellType::POLYHEDRON)
     {
-      for (size_t f = 0; f < cell.faces.size(); ++f)
+      for (size_t f = 0; f < cell_face_connectivity_[cell_id].size(); ++f)
       {
         const auto& face_vertex_ids = cell_face_connectivity_[cell_id][f];
         if (face_vertex_ids.size() < 2)
@@ -142,7 +142,7 @@ UnpartitionedMesh::CheckQuality()
   {
     if (cell.GetType() == CellType::POLYGON)
     {
-      for (size_t f = 0; f < cell.faces.size(); ++f)
+      for (size_t f = 0; f < cell_face_connectivity_[cell_id].size(); ++f)
       {
         const auto& face_vertex_ids = cell_face_connectivity_[cell_id][f];
         const auto& v0 = vertices_.at(face_vertex_ids[0]);
@@ -155,7 +155,7 @@ UnpartitionedMesh::CheckQuality()
     } // if polygon
     if (cell.GetType() == CellType::POLYHEDRON)
     {
-      for (size_t f = 0; f < cell.faces.size(); ++f)
+      for (size_t f = 0; f < cell_face_connectivity_[cell_id].size(); ++f)
       {
         const auto& face_vertex_ids = cell_face_connectivity_[cell_id][f];
         size_t num_face_verts = face_vertex_ids.size();
@@ -240,8 +240,10 @@ UnpartitionedMesh::SetCells(std::vector<Cell>&& cells,
 
 void
 UnpartitionedMesh::SetCellFaces(
+  std::vector<CellFace>&& faces,
   const std::vector<std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity)
 {
+  faces_ = std::move(faces);
   cell_face_connectivity_ = cell_face_connectivity;
 }
 
@@ -253,10 +255,9 @@ UnpartitionedMesh::BuildMeshConnectivity()
 
   // Reset all cell neighbors
   int num_bndry_faces = 0;
-  for (auto& cell : cells_)
-    for (auto& face : cell.faces)
-      if (not face.has_neighbor)
-        ++num_bndry_faces;
+  for (auto& face : faces_)
+    if (not face.has_neighbor)
+      ++num_bndry_faces;
 
   log.Log0Verbose1() << program_timer.GetTimeString()
                      << " Number of unconnected faces before connectivity: " << num_bndry_faces;
@@ -281,11 +282,12 @@ UnpartitionedMesh::BuildMeshConnectivity()
   {
     uint64_t aux_counter = 0;
     uint64_t cur_cell_id = 0;
+    size_t global_face_idx = 0;
     for (auto& cell : cells_)
     {
-      for (size_t f = 0; f < cell.faces.size(); ++f)
+      for (size_t f = 0; f < cell_face_connectivity_[cur_cell_id].size(); ++f, ++global_face_idx)
       {
-        auto& cur_cell_face = cell.faces[f];
+        auto& cur_cell_face = faces_[global_face_idx];
         if (cur_cell_face.has_neighbor)
           continue;
         const auto& cfvids_vec = cell_face_connectivity_[cur_cell_id][f];
@@ -293,17 +295,21 @@ UnpartitionedMesh::BuildMeshConnectivity()
 
         std::set<size_t> cells_to_search;
         for (uint64_t vid : cfvids)
-          for (uint64_t cell_id : vertex_cell_subscriptions_.at(vid))
-            if (cell_id != cur_cell_id)
-              cells_to_search.insert(cell_id);
+          for (uint64_t search_cell_id : vertex_cell_subscriptions_.at(vid))
+            if (search_cell_id != cur_cell_id)
+              cells_to_search.insert(search_cell_id);
 
         for (uint64_t adj_cell_id : cells_to_search)
         {
           auto& adj_cell = cells_.at(adj_cell_id);
 
-          for (size_t af = 0; af < adj_cell.faces.size(); ++af)
+          size_t adj_global_face_idx = 0;
+          for (size_t i = 0; i < adj_cell_id; ++i)
+             adj_global_face_idx += cell_face_connectivity_[i].size();
+
+          for (size_t af = 0; af < cell_face_connectivity_[adj_cell_id].size(); ++af, ++adj_global_face_idx)
           {
-            auto& adj_cell_face = adj_cell.faces[af];
+            auto& adj_cell_face = faces_[adj_global_face_idx];
             if (adj_cell_face.has_neighbor)
               continue;
             const auto& afvids_vec = cell_face_connectivity_[adj_cell_id][af];
@@ -341,25 +347,28 @@ UnpartitionedMesh::BuildMeshConnectivity()
   // Establish boundary connectivity
   // Make list of internal cells on the boundary
   std::vector<Cell*> internal_cells_on_boundary;
-  for (auto& cell : cells_)
+  size_t g_face_idx = 0;
+  for (size_t c = 0; c < cells_.size(); ++c)
   {
+    auto& cell = cells_[c];
     bool cell_on_boundary = false;
-    for (auto& face : cell.faces)
-      if (not face.has_neighbor)
+    size_t num_faces = cell_face_connectivity_[c].size();
+    for (size_t f = 0; f < num_faces; ++f, ++g_face_idx)
+    {
+      if (not faces_[g_face_idx].has_neighbor)
       {
         cell_on_boundary = true;
-        break;
       }
+    }
 
     if (cell_on_boundary)
       internal_cells_on_boundary.push_back(&cell);
   }
 
   num_bndry_faces = 0;
-  for (const auto& cell : cells_)
-    for (auto& face : cell.faces)
-      if (not face.has_neighbor)
-        ++num_bndry_faces;
+  for (const auto& face : faces_)
+    if (not face.has_neighbor)
+      ++num_bndry_faces;
 
   log.Log0Verbose1() << program_timer.GetTimeString()
                      << " Number of boundary faces "

@@ -302,8 +302,10 @@ Mesh::SetCells(std::vector<Cell>&& local_cells,
 
 void
 Mesh::SetCellFaces(
+  std::vector<CellFace>&& faces,
   const std::map<std::uint64_t, std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity)
 {
+  faces_ = std::move(faces);
   face_connect_ofst_.clear();
   face_vertex_ofst_.clear();
   face_vertex_ids_.clear();
@@ -311,25 +313,33 @@ Mesh::SetCellFaces(
   face_connect_ofst_.push_back(0);
   for (const auto& cell : local_cells_)
   {
-    const auto& faces = cell_face_connectivity.at(cell.global_id);
-    face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
-    for (const auto& face : faces)
-    {
-      face_vertex_ofst_.push_back(face_vertex_ids_.size());
-      for (const auto vid : face)
-        face_vertex_ids_.push_back(vid);
+    try {
+      const auto& faces = cell_face_connectivity.at(cell.global_id);
+      face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
+      for (const auto& face : faces)
+      {
+        face_vertex_ofst_.push_back(face_vertex_ids_.size());
+        for (const auto vid : face)
+          face_vertex_ids_.push_back(vid);
+      }
+    } catch (const std::out_of_range& e) {
+      throw std::out_of_range("map::at: key not found for local cell.global_id = " + std::to_string(cell.global_id));
     }
   }
 
   for (const auto& cell : ghost_cells_)
   {
-    const auto& faces = cell_face_connectivity.at(cell.global_id);
-    face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
-    for (const auto& face : faces)
-    {
-      face_vertex_ofst_.push_back(face_vertex_ids_.size());
-      for (const auto vid : face)
-        face_vertex_ids_.push_back(vid);
+    try {
+      const auto& faces = cell_face_connectivity.at(cell.global_id);
+      face_connect_ofst_.push_back(face_connect_ofst_.back() + faces.size());
+      for (const auto& face : faces)
+      {
+        face_vertex_ofst_.push_back(face_vertex_ids_.size());
+        for (const auto vid : face)
+          face_vertex_ids_.push_back(vid);
+      }
+    } catch (const std::out_of_range& e) {
+      throw std::out_of_range("map::at: key not found for ghost cell.global_id = " + std::to_string(cell.global_id));
     }
   }
   face_vertex_ofst_.push_back(face_vertex_ids_.size());

@@ -76,15 +76,14 @@ std::pair<std::set<uint32_t>, std::set<uint32_t>>
 SpatialDiscretization::MakeCellInternalAndBndryNodeIDs(std::uint32_t cell_local_id) const
 {
   const auto& cell_mapping = GetLocalCellMapping(cell_local_id);
-  const auto& cell = GetMesh()->GetLocalCell(cell_local_id);
-  const size_t num_faces = cell.faces.size();
+  const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
   const size_t num_nodes = cell_mapping.GetNumNodes();
 
   // Determine which nodes are on the boundary
   std::set<uint32_t> boundary_nodes;
   for (size_t f = 0; f < num_faces; ++f)
   {
-    if (not cell.faces[f].has_neighbor)
+    if (not grid_->GetCellFace(cell_local_id, f).has_neighbor)
     {
       const size_t num_face_nodes = cell_mapping.GetNumFaceNodes(f);
       for (size_t fi = 0; fi < num_face_nodes; ++fi)
@@ -110,13 +109,13 @@ SpatialDiscretization::MakeInternalFaceNodeMappings(const double tolerance) cons
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     const auto& cell_mapping = this->GetLocalCellMapping(cell_local_id);
     const auto& node_locations = cell_mapping.GetNodeLocations();
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
 
     std::vector<std::vector<int>> per_face_adj_mapping;
 
     for (size_t f = 0; f < num_faces; ++f)
     {
-      const auto& face = cell.faces[f];
+      const auto& face = grid_->GetCellFace(cell_local_id, f);
       const auto num_face_nodes = cell_mapping.GetNumFaceNodes(f);
       std::vector<int> face_adj_mapping(num_face_nodes, -1);
       if (face.has_neighbor)

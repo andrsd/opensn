@@ -31,7 +31,7 @@ CBC_Sweep_FixedN(SweepChunkT& sweep_chunk, AngleSet& angle_set)
   const auto& cell_transport_view = sweep_chunk.cell_transport_views_[cell_local_id];
   auto& cell_outflow_view = sweep_chunk.cell_outflow_views_[cell_local_id];
   const auto& cell = sweep_chunk.grid_->GetLocalCell(cell_local_id);
-  const std::size_t cell_num_faces = cell.faces.size();
+  const std::size_t cell_num_faces = sweep_chunk.grid_->GetCellFaceCount(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id));
   const auto& unit_mats = sweep_chunk.unit_cell_matrices_[cell_local_id];
   auto& fluds = *sweep_chunk.fluds_;
   const auto& common_data = fluds.GetCommonData();
@@ -96,7 +96,8 @@ CBC_Sweep_FixedN(SweepChunkT& sweep_chunk, AngleSet& angle_set)
       cell_local_id, 0, groupset.psi_uk_man_, 0, 0)];
 
   const auto& as_angle_indices = angle_set.GetAngleIndices();
-  PrepareNonlocalOutgoingPsi(sweep_chunk.workspace_,
+  PrepareNonlocalOutgoingPsi(sweep_chunk.grid_,
+                             sweep_chunk.workspace_,
                              fluds,
                              cell,
                              cell_local_id,
@@ -122,14 +123,14 @@ CBC_Sweep_FixedN(SweepChunkT& sweep_chunk, AngleSet& angle_set)
     }
 
     for (std::size_t f = 0; f < cell_num_faces; ++f)
-      face_mu_values[f] = omega.Dot(cell.faces[f].normal);
+      face_mu_values[f] = omega.Dot(sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f).normal);
 
     for (std::size_t f = 0; f < cell_num_faces; ++f)
     {
       if (face_orientations[f] != FaceOrientation::INCOMING)
         continue;
 
-      const auto& face = cell.faces[f];
+      const auto& face = sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f);
       const bool is_local_face = cell_transport_view.IsFaceLocal(f);
       const bool is_boundary_face = not face.has_neighbor;
       const auto* face_nodal_mapping =
@@ -342,7 +343,7 @@ CBC_Sweep_FixedN(SweepChunkT& sweep_chunk, AngleSet& angle_set)
       if (face_orientations[f] != FaceOrientation::OUTGOING)
         continue;
 
-      const auto& face = cell.faces[f];
+      const auto& face = sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f);
       const bool is_local_face = cell_transport_view.IsFaceLocal(f);
       const bool is_boundary_face = not face.has_neighbor;
       const bool is_reflecting_boundary_face =

@@ -58,7 +58,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
@@ -120,7 +120,7 @@ DiffusionMIPSolver::AssembleAand_b_wQpoints(const std::vector<double>& q_vector)
       // Assemble face terms
       for (size_t f = 0; f < num_faces; ++f)
       {
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const auto& n_f = face.normal;
         const auto num_face_nodes = cell_mapping.GetNumFaceNodes(f);
         const auto fe_srf_data = cell_mapping.MakeSurfaceFiniteElementData(f);
@@ -402,7 +402,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto fe_vol_data = cell_mapping.MakeVolumetricFiniteElementData();
@@ -452,7 +452,7 @@ DiffusionMIPSolver::Assemble_b_wQpoints(const std::vector<double>& q_vector)
       // Assemble face terms
       for (size_t f = 0; f < num_faces; ++f)
       {
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const auto& n_f = face.normal;
         const size_t num_face_nodes = cell_mapping.GetNumFaceNodes(f);
         const auto fe_srf_data = cell_mapping.MakeSurfaceFiniteElementData(f);
@@ -603,7 +603,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
@@ -652,7 +652,7 @@ DiffusionMIPSolver::AssembleAand_b(const std::vector<double>& q_vector)
       // Assemble face terms
       for (size_t f = 0; f < num_faces; ++f)
       {
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const auto& n_f = face.normal;
         const auto num_face_nodes = cell_mapping.GetNumFaceNodes(f);
 
@@ -901,7 +901,7 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
@@ -939,7 +939,7 @@ DiffusionMIPSolver::Assemble_b(const std::vector<double>& q_vector)
       // Assemble face terms
       for (size_t f = 0; f < num_faces; ++f)
       {
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const auto& n_f = face.normal;
         const size_t num_face_nodes = cell_mapping.GetNumFaceNodes(f);
 
@@ -1056,7 +1056,7 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    const size_t num_faces = cell.faces.size();
+    const size_t num_faces = grid_->GetCellFaceCount(cell_local_id);
     const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
     const auto num_nodes = cell_mapping.GetNumNodes();
     const auto cc_nodes = cell_mapping.GetNodeLocations();
@@ -1094,7 +1094,7 @@ DiffusionMIPSolver::Assemble_b(Vec petsc_q_vector)
       // Assemble face terms
       for (size_t f = 0; f < num_faces; ++f)
       {
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const auto& n_f = face.normal;
         const size_t num_face_nodes = cell_mapping.GetNumFaceNodes(f);
 
@@ -1200,18 +1200,18 @@ DiffusionMIPSolver::HPerpendicular(std::uint32_t cell_local_id, unsigned int f)
   const auto& cell_mapping = sdm_.GetLocalCellMapping(cell_local_id);
   double hp = 0.0;
 
-  const auto num_faces = cell.faces.size();
+  const auto num_faces = grid_->GetCellFaceCount(cell_local_id);
   const auto num_vertices = mesh->GetCellConnectivity(cell_local_id).size();
 
   const auto volume = cell.volume;
-  const auto face_area = cell.faces.at(f).area;
+  const auto face_area = grid_->GetCellFace(cell_local_id, f).area;
 
   /**Lambda to compute surface area.*/
-  auto ComputeSurfaceArea = [&cell, &num_faces]()
+  auto ComputeSurfaceArea = [this, &num_faces, cell_local_id]()
   {
     double surface_area = 0.0;
     for (size_t fr = 0; fr < num_faces; ++fr)
-      surface_area += cell.faces[fr].area;
+      surface_area += grid_->GetCellFace(cell_local_id, fr).area;
 
     return surface_area;
   };

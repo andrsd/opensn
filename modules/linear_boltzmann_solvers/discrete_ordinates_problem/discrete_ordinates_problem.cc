@@ -64,7 +64,8 @@ GetGlobalUniqueBoundaryIDs(const std::shared_ptr<Mesh>& grid, mpi::Communicator&
   std::set<std::uint64_t> local_unique_bids_set;
   for (const auto& cell : grid->GetLocalCells())
   {
-    for (const auto& face : cell.faces)
+    auto faces = grid->GetCellFaces(grid->MapCellGlobalID2LocalID(cell.global_id));
+    for (const auto& face : faces)
       if (not face.has_neighbor)
         local_unique_bids_set.insert(face.neighbor_id);
   }
@@ -1137,7 +1138,8 @@ DiscreteOrdinatesProblem::InitializeBoundaries()
         std::unique_ptr<Vector3> n_ptr = nullptr;
         for (const auto& cell : grid_->GetLocalCells())
         {
-          for (const auto& face : cell.faces)
+          auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+    for (const auto& face : faces)
           {
             if (not face.has_neighbor and face.neighbor_id == bid)
             {
@@ -1315,7 +1317,7 @@ DiscreteOrdinatesProblem::ZeroOutflowBalanceVars(LBSGroupset& groupset)
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    for (int f = 0; f < cell.faces.size(); ++f)
+    for (int f = 0; f < grid_->GetCellFaceCount(grid_->MapCellGlobalID2LocalID(cell.global_id)); ++f)
       for (auto group = groupset.first_group; group <= groupset.last_group; ++group)
         cell_outflow_views_[cell_local_id].Zero(f, group);
   }

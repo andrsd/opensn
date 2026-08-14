@@ -163,6 +163,7 @@ public:
                 const std::map<std::uint64_t, std::vector<uint64_t>>& cell_connectivity);
 
   void SetCellFaces(
+    std::vector<CellFace>&& faces,
     const std::map<std::uint64_t, std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity);
 
   /// Returns a reference to a cell given its global cell index.

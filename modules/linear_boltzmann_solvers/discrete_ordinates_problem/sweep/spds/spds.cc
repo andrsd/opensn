@@ -25,10 +25,10 @@ BuildSPDSFaceNeighborInfo(const Mesh& grid)
   {
     const auto& cell = grid.GetLocalCell(cell_local_id);
     auto& cell_info = info[cell_local_id];
-    cell_info.resize(cell.faces.size());
-    for (size_t f = 0; f < cell.faces.size(); ++f)
+    cell_info.resize(grid.GetCellFaceCount(grid.MapCellGlobalID2LocalID(cell.global_id)));
+    for (size_t f = 0; f < grid.GetCellFaceCount(grid.MapCellGlobalID2LocalID(cell.global_id)); ++f)
     {
-      const auto& face = cell.faces[f];
+      const auto& face = grid.GetCellFace(cell_local_id, f);
       auto& fi = cell_info[f];
       fi.has_neighbor = face.has_neighbor;
       fi.owns_face = true;
@@ -373,14 +373,15 @@ SPDS::PopulateCellRelationships(
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
-    cell_face_orientations_[cell_local_id].assign(cell.faces.size(), FOPARALLEL);
+    cell_face_orientations_[cell_local_id].assign(grid_->GetCellFaceCount(grid_->MapCellGlobalID2LocalID(cell.global_id)), FOPARALLEL);
   }
 
   for (std::uint32_t cell_local_id = 0; cell_local_id < grid_->GetLocalCellCount(); ++cell_local_id)
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     size_t f = 0;
-    for (auto& face : cell.faces)
+    auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+    for (const auto& face : faces)
     {
       // Determine if the face is incident
       FaceOrientation orientation = FOPARALLEL;
@@ -421,8 +422,9 @@ SPDS::PopulateCellRelationships(
       else if (finfo.has_neighbor and not finfo.neighbor_local)
       {
         const auto& adj_cell = grid_->GetGlobalCell(face.neighbor_id);
+        const auto adj_cell_local_id = grid_->MapCellGlobalID2LocalID(face.neighbor_id);
         const auto adj_face_idx = finfo.neighbor_adj_face;
-        const auto& adj_face = adj_cell.faces[adj_face_idx];
+        const auto& adj_face = grid_->GetCellFace(adj_cell_local_id, adj_face_idx);
 
         auto& cur_face_ori = cell_face_orientations_[cell_local_id][f];
 
@@ -455,7 +457,8 @@ SPDS::PopulateCellRelationships(
   {
     const auto& cell = grid_->GetLocalCell(cell_local_id);
     size_t f = 0;
-    for (auto& face : cell.faces)
+    auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+    for (const auto& face : faces)
     {
       const double mu = omega.Dot(face.normal);
       // If outgoing determine if it is to a local cell
@@ -518,7 +521,8 @@ SPDS::PrintGhostedGraph() const
       {
         std::cout << "  " << cell.global_id << " [shape=\"circle\"]\n";
 
-        for (const auto& face : cell.faces)
+        auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+        for (const auto& face : faces)
         {
           if (face.has_neighbor and (not grid_->IsCellLocal(face.neighbor_id)))
             std::cout << "  " << face.neighbor_id
@@ -532,7 +536,8 @@ SPDS::PrintGhostedGraph() const
                 << "  /* Edges */\n";
       for (const auto& cell : grid_->GetLocalCells())
       {
-        for (const auto& face : cell.faces)
+        auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+        for (const auto& face : faces)
         {
           if (face.has_neighbor and (cell.global_id > face.neighbor_id))
           {
@@ -548,7 +553,8 @@ SPDS::PrintGhostedGraph() const
       for (const uint64_t global_id : ghost_ids)
       {
         const auto& cell = grid_->GetGlobalCell(global_id);
-        for (const auto& face : cell.faces)
+        auto faces = grid_->GetCellFaces(grid_->MapCellGlobalID2LocalID(cell.global_id));
+        for (const auto& face : faces)
         {
           if (face.has_neighbor and (cell.global_id > face.neighbor_id) and
               grid_->IsCellLocal(face.neighbor_id))

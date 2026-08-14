@@ -43,7 +43,8 @@ struct CBCSweepWorkspace
 
 /// Prepare staged nonlocal outgoing face psi for one cell.
 inline void
-PrepareNonlocalOutgoingPsi(CBCSweepWorkspace& workspace,
+PrepareNonlocalOutgoingPsi(const std::shared_ptr<Mesh>& grid,
+                           CBCSweepWorkspace& workspace,
                            CBC_FLUDS& fluds,
                            const Cell& cell,
                            std::uint32_t cell_local_id,
@@ -55,16 +56,16 @@ PrepareNonlocalOutgoingPsi(CBCSweepWorkspace& workspace,
   auto& nonlocal_outgoing_psi = workspace.nonlocal_outgoing_psi;
   auto& outgoing_psi_by_face = workspace.outgoing_psi_by_face;
   const auto& common_data = fluds.GetCommonData();
-  nonlocal_outgoing_psi.reserve(cell.faces.size());
-  outgoing_psi_by_face.assign(cell.faces.size(), nullptr);
+  nonlocal_outgoing_psi.reserve(grid->GetCellFaceCount(grid->MapCellGlobalID2LocalID(cell.global_id)));
+  outgoing_psi_by_face.assign(grid->GetCellFaceCount(grid->MapCellGlobalID2LocalID(cell.global_id)), nullptr);
   workspace.num_nonlocal_outgoing_psi = 0;
 
-  for (std::size_t f = 0; f < cell.faces.size(); ++f)
+  for (std::size_t f = 0; f < grid->GetCellFaceCount(grid->MapCellGlobalID2LocalID(cell.global_id)); ++f)
   {
     if (face_orientations[f] != FaceOrientation::OUTGOING)
       continue;
 
-    const auto& face = cell.faces[f];
+    const auto& face = grid->GetCellFace(grid->MapCellGlobalID2LocalID(cell.global_id), f);
     if ((not face.has_neighbor) or cell_transport_view.IsFaceLocal(f))
       continue;
 
@@ -116,7 +117,7 @@ CBC_Sweep_Generic(SweepChunkT& sweep_chunk, AngleSet& angle_set)
   const auto& cell_mapping = sweep_chunk.discretization_.GetLocalCellMapping(cell_local_id);
   const auto& cell_transport_view = sweep_chunk.cell_transport_views_[cell_local_id];
   auto& cell_outflow_view = sweep_chunk.cell_outflow_views_[cell_local_id];
-  const std::size_t cell_num_faces = cell.faces.size();
+  const std::size_t cell_num_faces = sweep_chunk.grid_->GetCellFaceCount(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id));
   const std::size_t cell_num_nodes = cell_mapping.GetNumNodes();
   const auto& unit_mats = sweep_chunk.unit_cell_matrices_[cell_local_id];
   auto& fluds = *sweep_chunk.fluds_;
@@ -157,7 +158,8 @@ CBC_Sweep_Generic(SweepChunkT& sweep_chunk, AngleSet& angle_set)
       cell_local_id, 0, groupset.psi_uk_man_, 0, 0)];
 
   const auto& as_angle_indices = angle_set.GetAngleIndices();
-  PrepareNonlocalOutgoingPsi(sweep_chunk.workspace_,
+  PrepareNonlocalOutgoingPsi(sweep_chunk.grid_,
+                             sweep_chunk.workspace_,
                              fluds,
                              cell,
                              cell_local_id,
@@ -181,14 +183,14 @@ CBC_Sweep_Generic(SweepChunkT& sweep_chunk, AngleSet& angle_set)
         Amat(i, j) = omega.Dot(G(i, j));
 
     for (std::size_t f = 0; f < cell_num_faces; ++f)
-      face_mu_values[f] = omega.Dot(cell.faces[f].normal);
+      face_mu_values[f] = omega.Dot(sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f).normal);
 
     for (std::size_t f = 0; f < cell_num_faces; ++f)
     {
       if (face_orientations[f] != FaceOrientation::INCOMING)
         continue;
 
-      const auto& face = cell.faces[f];
+      const auto& face = sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f);
       const bool is_local_face = cell_transport_view.IsFaceLocal(f);
       const bool is_boundary_face = not face.has_neighbor;
       const auto* face_nodal_mapping =
@@ -330,7 +332,7 @@ CBC_Sweep_Generic(SweepChunkT& sweep_chunk, AngleSet& angle_set)
       if (face_orientations[f] != FaceOrientation::OUTGOING)
         continue;
 
-      const auto& face = cell.faces[f];
+      const auto& face = sweep_chunk.grid_->GetCellFace(sweep_chunk.grid_->MapCellGlobalID2LocalID(cell.global_id), f);
       const bool is_local_face = cell_transport_view.IsFaceLocal(f);
       const bool is_boundary_face = not face.has_neighbor;
       const bool is_reflecting_boundary_face =

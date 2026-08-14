@@ -27,12 +27,12 @@ PieceWiseLinearPolyhedronMapping::PieceWiseLinearPolyhedronMapping(
   const Vector3& vcc = polyh_cell.centroid;
 
   // For each face
-  size_t num_faces = polyh_cell.faces.size();
+  size_t num_faces = grid_->GetCellFaceCount(cell_local_id_);
   face_data_.reserve(num_faces);
   face_betaf_.reserve(num_faces);
   for (size_t f = 0; f < num_faces; ++f)
   {
-    const CellFace& face = polyh_cell.faces[f];
+    const CellFace& face = grid_->GetCellFace(cell_local_id_, f);
     auto face_vertex_ids = grid_->GetCellFaceConnectivity(cell_local_id, f);
     FEface_data face_f_data;
 

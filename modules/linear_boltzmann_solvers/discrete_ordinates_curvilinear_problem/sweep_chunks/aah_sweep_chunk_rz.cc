@@ -92,7 +92,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
     const auto& cell_mapping = discretization_.GetLocalCellMapping(cell_local_id);
     const auto& cell_transport_view = cell_transport_views_[cell_local_id];
     auto& cell_outflow_view = cell_outflow_views_[cell_local_id];
-    auto cell_num_faces = cell.faces.size();
+    auto cell_num_faces = grid_->GetCellFaceCount(cell_local_id);
     auto cell_num_nodes = cell_mapping.GetNumNodes();
 
     const auto& face_orientations = spds.GetCellFaceOrientations()[cell_local_id];
@@ -146,7 +146,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
 
       // Update face orientations
       for (size_t f = 0; f < cell_num_faces; ++f)
-        face_mu_values[f] = omega.Dot(cell.faces[f].normal);
+        face_mu_values[f] = omega.Dot(grid_->GetCellFace(cell_local_id, f).normal);
 
       // Surface integrals
       int in_face_counter = -1;
@@ -155,7 +155,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
         if (face_orientations[f] != FaceOrientation::INCOMING)
           continue;
 
-        const auto& cell_face = cell.faces[f];
+        const auto& cell_face = grid_->GetCellFace(cell_local_id, f);
         const bool is_local_face = cell_transport_view.IsFaceLocal(f);
         const bool is_boundary_face = not cell_face.has_neighbor;
 
@@ -293,7 +293,7 @@ AAHSweepChunkRZ::Sweep(AngleSet& angle_set)
           continue;
 
         out_face_counter++;
-        const auto& face = cell.faces[f];
+        const auto& face = grid_->GetCellFace(cell_local_id, f);
         const bool is_local_face = cell_transport_view.IsFaceLocal(f);
         const bool is_boundary_face = not face.has_neighbor;
         const bool is_reflecting_boundary_face =

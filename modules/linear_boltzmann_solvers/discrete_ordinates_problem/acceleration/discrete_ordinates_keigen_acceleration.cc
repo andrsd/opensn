@@ -175,9 +175,9 @@ DiscreteOrdinatesKEigenAcceleration::NodallyAveragedPWLDVector(const std::vector
       } // for unknown u
     } // for node i
 
-    for (size_t f = 0; f < cell.faces.size(); ++f)
+    for (size_t f = 0; f < grid->GetCellFaceCount(cell_local_id); ++f)
     {
-      const auto& face = cell.faces[f];
+      const auto& face = grid->GetCellFace(cell_local_id, f);
       if (face.has_neighbor)
         if (not grid->IsCellLocal(face.neighbor_id))
         {

@@ -204,7 +204,9 @@ DiscreteOrdinatesCurvilinearProblem::PerformInputChecks()
   };
   for (const auto& cell : grid_->GetLocalCells())
   {
-    for (const auto& face : cell.faces)
+    const auto cell_local_id = grid_->MapCellGlobalID2LocalID(cell.global_id);
+    const auto cell_faces = grid_->GetCellFaces(cell_local_id);
+    for (const auto& face : cell_faces)
     {
       if (not face.has_neighbor)
       {

@@ -78,16 +78,16 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
 
   std::shared_ptr<UnpartitionedMesh> mesh = std::make_shared<UnpartitionedMesh>();
 
-  struct BlockData
+  struct ObjBlockData
   {
     std::string name;
     std::vector<Cell> cells;
     std::vector<std::vector<std::uint64_t>> cell_connect;
     std::vector<std::vector<std::vector<std::uint64_t>>> cell_face_connect;
+    std::vector<CellFace> mesh_faces;
     std::vector<std::pair<uint64_t, uint64_t>> edges;
   };
-
-  std::vector<BlockData> block_data;
+  std::vector<ObjBlockData> block_data;
   std::vector<Vector3> file_vertices;
 
   // Reading every line
@@ -108,7 +108,7 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
       if (parts.size() < 2)
         throw std::runtime_error("Expected block name, but got malformed line");
       auto block_name = parts[1];
-      block_data.push_back({block_name, {}});
+      block_data.push_back({block_name, {}, {}, {}, {}, {}});
     }
     else if (first_word == "usemtl")
     {
@@ -161,6 +161,11 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
         cell_vertex_ids.push_back(num_value - 1);
       }
 
+      if (block_data.empty())
+        throw std::logic_error(fname + ": Could not add cell to block-data. "
+                                       "This normally indicates that the file does not have the "
+                                       "\"o Object Name\" entry.");
+
       // Build faces
       const size_t num_verts = cell_vertex_ids.size();
       std::vector<std::vector<std::uint64_t>> cell_face_vertex_ids;
@@ -172,14 +177,9 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
         lwf_vertex_ids[0] = cell_vertex_ids[v];
         lwf_vertex_ids[1] = (v < (num_verts - 1)) ? cell_vertex_ids[v + 1] : cell_vertex_ids[0];
 
-        cell.faces.emplace_back(face);
+        block_data.back().mesh_faces.emplace_back(face);
         cell_face_vertex_ids.push_back(std::move(lwf_vertex_ids));
       }
-
-      if (block_data.empty())
-        throw std::logic_error(fname + ": Could not add cell to block-data. "
-                                       "This normally indicates that the file does not have the "
-                                       "\"o Object Name\" entry.");
 
       block_data.back().cells.emplace_back(cell);
       block_data.back().cell_connect.emplace_back(cell_vertex_ids);
@@ -335,7 +335,7 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
   mesh->SetType(UNSTRUCTURED);
   mesh->SetCells(std::move(block_data[main_block_id].cells),
                  block_data[main_block_id].cell_connect);
-  mesh->SetCellFaces(block_data[main_block_id].cell_face_connect);
+  mesh->SetCellFaces(std::move(block_data[main_block_id].mesh_faces), block_data[main_block_id].cell_face_connect);
   mesh->ComputeCentroids();
   mesh->CheckQuality();
   mesh->BuildMeshConnectivity();
@@ -348,9 +348,10 @@ MeshIO::FromOBJ(const UnpartitionedMesh::Options& options)
     size_t cell_idx = 0;
     for (auto& cell : mesh->GetCells())
     {
-      for (size_t f = 0; f < cell.faces.size(); ++f)
+      const size_t num_faces = mesh->GetCellFaceCount(cell_idx);
+      for (size_t f = 0; f < num_faces; ++f)
       {
-        auto& face = cell.faces[f];
+        auto& face = mesh->GetCellFace(cell_idx, f);
         if (not face.has_neighbor)
         {
           bndry_faces.push_back(&face);

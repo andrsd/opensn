@@ -71,11 +71,33 @@ public:
                 const std::vector<std::vector<std::uint64_t>>& cell_connectivity);
 
   void
-  SetCellFaces(const std::vector<std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity);
+  SetCellFaces(std::vector<CellFace>&& faces,
+               const std::vector<std::vector<std::vector<std::uint64_t>>>& cell_face_connectivity);
 
   const std::vector<std::vector<std::vector<std::uint64_t>>>& GetCellFaceConnectivity() const
   {
    return cell_face_connectivity_;
+  }
+
+  std::uint64_t GetCellFaceCount(std::uint32_t cell_global_id) const
+  {
+    return cell_face_connectivity_[cell_global_id].size();
+  }
+
+  const CellFace& GetCellFace(std::uint32_t cell_global_id, std::uint32_t face_idx) const
+  {
+    size_t global_face_idx = 0;
+    for (size_t i = 0; i < cell_global_id; ++i)
+      global_face_idx += cell_face_connectivity_[i].size();
+    return faces_[global_face_idx + face_idx];
+  }
+
+  CellFace& GetCellFace(std::uint32_t cell_global_id, std::uint32_t face_idx)
+  {
+    size_t global_face_idx = 0;
+    for (size_t i = 0; i < cell_global_id; ++i)
+      global_face_idx += cell_face_connectivity_[i].size();
+    return faces_[global_face_idx + face_idx];
   }
 
   std::span<const uint64_t> GetCellConnectivity(std::uint32_t cell_global_id) const;
@@ -115,6 +137,8 @@ protected:
   std::vector<std::size_t> connect_ofst_;
   /// Cell connectivity: [`connect_ofst_[i]` .. `connect_ofst_[i+1]`]
   std::vector<uint64_t> connect_ids_;
+  ///
+  std::vector<CellFace> faces_;
   ///
   std::vector<std::vector<std::vector<std::uint64_t>>> cell_face_connectivity_;
 

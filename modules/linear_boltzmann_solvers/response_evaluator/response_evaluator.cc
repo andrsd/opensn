@@ -416,7 +416,8 @@ ResponseEvaluator::EvaluateResponse(const std::string& buffer) const
         const auto& fe_values = unit_cell_matrices[cell_local_id];
 
         size_t f = 0;
-        for (const auto& face : cell.faces)
+        auto faces = grid->GetCellFaces(grid->MapCellGlobalID2LocalID(cell.global_id));
+        for (const auto& face : faces)
         {
           if (not face.has_neighbor and boundary_sources_.count(face.neighbor_id) > 0)
           {

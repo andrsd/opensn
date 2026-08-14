@@ -127,6 +127,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
   std::vector<Cell> cells;
   std::vector<std::vector<std::uint64_t>> cell_connect;
   std::vector<std::vector<std::vector<std::uint64_t>>> cell_face_connect;
+  std::vector<CellFace> mesh_faces;
   size_t k = 0;
   for (const auto& [height, num_sub_layers] : layers_)
   {
@@ -167,12 +168,13 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
           new_cell_vertex_ids.push_back(tc_vid + (k + 1) * num_template_vertices);
 
         std::vector<std::vector<std::uint64_t>> cell_face_vertex_ids;
-        cell_face_vertex_ids.reserve(template_cell.faces.size() + 2);
+        std::vector<CellFace> faces_for_this_cell;
+        cell_face_vertex_ids.reserve(input_umesh->GetCellFaceCount(tc_counter) + 2);
 
         // Create side faces
-        for (size_t f_idx = 0; f_idx < template_cell.faces.size(); ++f_idx)
+        for (size_t f_idx = 0; f_idx < input_umesh->GetCellFaceCount(tc_counter); ++f_idx)
         {
-          const auto& tc_face = template_cell.faces[f_idx];
+          const auto& tc_face = input_umesh->GetCellFace(tc_counter, f_idx);
           CellFace new_face;
 
           const auto& tc_face_vids = input_umesh->GetCellFaceConnectivity()[tc_counter][f_idx];
@@ -193,7 +195,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
             new_face.has_neighbor = false;
           }
 
-          new_cell.faces.push_back(std::move(new_face));
+          faces_for_this_cell.push_back(std::move(new_face));
           cell_face_vertex_ids.push_back(std::move(f_vids));
         } // for tc face
 
@@ -218,7 +220,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
             new_face.has_neighbor = true;
           }
 
-          new_cell.faces.push_back(std::move(new_face));
+          faces_for_this_cell.push_back(std::move(new_face));
           cell_face_vertex_ids.push_back(std::move(f_vids));
         }
 
@@ -243,9 +245,11 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
             new_face.has_neighbor = true;
           }
 
-          new_cell.faces.push_back(std::move(new_face));
+          faces_for_this_cell.push_back(std::move(new_face));
           cell_face_vertex_ids.push_back(std::move(f_vids));
         }
+        
+        for (auto& f : faces_for_this_cell) mesh_faces.push_back(std::move(f));
         cells.emplace_back(new_cell);
         cell_connect.emplace_back(new_cell_vertex_ids);
         cell_face_connect.emplace_back(std::move(cell_face_vertex_ids));
@@ -258,7 +262,7 @@ ExtruderMeshGenerator::GenerateUnpartitionedMesh(std::shared_ptr<UnpartitionedMe
   umesh->SetCoordinateSystem(input_umesh->GetCoordinateSystem());
   umesh->SetExtruded(true);
   umesh->SetCells(std::move(cells), cell_connect);
-  umesh->SetCellFaces(cell_face_connect);
+  umesh->SetCellFaces(std::move(mesh_faces), cell_face_connect);
   umesh->ComputeCentroids();
   umesh->CheckQuality();
   umesh->BuildMeshConnectivity();

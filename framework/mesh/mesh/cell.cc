@@ -98,26 +98,26 @@ CellFace::GetNeighborLocalID(const Mesh* grid) const
 }
 
 void
-CellFace::ComputeGeometricInfo(const Mesh& grid,
+CellFace::ComputeGeometricInfo(const Mesh& mesh,
                                std::uint64_t cell_local_id,
                                std::uint32_t face_idx)
 {
-  auto vertex_ids = grid.GetCellFaceConnectivity(cell_local_id, face_idx);
+  auto vertex_ids = mesh.GetCellFaceConnectivity(cell_local_id, face_idx);
   // Compute the centroid
   centroid = Vector3(0.0, 0.0, 0.0);
   for (const auto& vid : vertex_ids)
-    centroid += grid.GlobalVertex(vid);
+    centroid += mesh.GlobalVertex(vid);
   centroid /= static_cast<double>(vertex_ids.size());
 
   // Compute areas and normals
   if (vertex_ids.size() == 1)
   {
-    const auto& cell = grid.GetLocalCell(cell_local_id);
+    const auto& cell = mesh.GetLocalCell(cell_local_id);
     // For a 1D cell, the normal always points in the direction of
     // a vector from the cell centroid to the face centroid.
     normal = (centroid - cell.centroid).Normalized();
 
-    switch (grid.GetCoordinateSystem())
+    switch (mesh.GetCoordinateSystem())
     {
       case CARTESIAN:
         area = 1.0;
@@ -136,8 +136,8 @@ CellFace::ComputeGeometricInfo(const Mesh& grid,
   {
     // A polygon face is just a line. Normals and areas are
     // computed using the vertices.
-    const auto& v0 = grid.GlobalVertex(vertex_ids[0]);
-    const auto& v1 = grid.GlobalVertex(vertex_ids[1]);
+    const auto& v0 = mesh.GlobalVertex(vertex_ids[0]);
+    const auto& v1 = mesh.GlobalVertex(vertex_ids[1]);
 
     // The outward pointing normal is orthogonal to the vector
     // pointing from the first vertex to the second. This is
@@ -147,7 +147,7 @@ CellFace::ComputeGeometricInfo(const Mesh& grid,
     // TODO This keeps the old behavior of always computing the Cartesian
     //      face area. This should be extended to be correct for other
     //      coordinate systems.
-    switch (grid.GetCoordinateSystem())
+    switch (mesh.GetCoordinateSystem())
     {
       default:
         area = (v1 - v0).Norm();
@@ -167,8 +167,8 @@ CellFace::ComputeGeometricInfo(const Mesh& grid,
     {
       const auto vid0 = vertex_ids[v];
       const auto vid1 = v < num_verts - 1 ? vertex_ids[v + 1] : vertex_ids[0];
-      const auto& v0 = grid.GlobalVertex(vid0);
-      const auto& v1 = grid.GlobalVertex(vid1);
+      const auto& v0 = mesh.GlobalVertex(vid0);
+      const auto& v1 = mesh.GlobalVertex(vid1);
 
       const auto subnormal = (v0 - centroid).Cross(v1 - centroid);
 
@@ -176,7 +176,7 @@ CellFace::ComputeGeometricInfo(const Mesh& grid,
       //      face area. This should be extended to be correct for other
       //      coordinate systems.
       double subarea = 0.0;
-      switch (grid.GetCoordinateSystem())
+      switch (mesh.GetCoordinateSystem())
       {
         default:
         {
@@ -261,21 +261,21 @@ Cell::operator=(const Cell& other)
 }
 
 void
-Cell::ComputeGeometricInfo(const Mesh& grid)
+Cell::ComputeGeometricInfo(Mesh& mesh)
 {
-  const auto cell_local_id = grid.MapCellGlobalID2LocalID(global_id);
-  auto vertex_ids = grid.GetCellConnectivity(cell_local_id);
+  const auto cell_local_id = mesh.MapCellGlobalID2LocalID(global_id);
+  auto vertex_ids = mesh.GetCellConnectivity(cell_local_id);
   // Compute cell centroid
   centroid = Vector3(0.0, 0.0, 0.0);
   for (const auto& vid : vertex_ids)
-    centroid += grid.GlobalVertex(vid);
+    centroid += mesh.GlobalVertex(vid);
   centroid /= static_cast<double>(vertex_ids.size());
 
   // Compute face geometric data
-  for (std::uint32_t f = 0; f < grid.GetCellFaceCount(); ++f)
+  for (std::uint32_t f = 0; f < mesh.GetCellFaceCount(cell_local_id); ++f)
   {
-    auto cell_face = grid.GetCellFace(cell_local_id, f);
-    cell_face.ComputeGeometricInfo(grid, cell_local_id, f);
+    auto& cell_face = mesh.GetCellFace(cell_local_id, f);
+    cell_face.ComputeGeometricInfo(mesh, cell_local_id, f);
   }
 }
 
@@ -301,7 +301,7 @@ Cell::ComputeVolume(const Mesh& mesh)
     // with each edge and the centroid.
     case CellType::POLYGON:
     {
-      for (std::uint32_t f = 0; f < faces.size(); ++f)
+      for (std::uint32_t f = 0; f < mesh.GetCellFaceCount(cell_local_id); ++f)
       {
         auto face_vertex_ids = mesh.GetCellFaceConnectivity(cell_local_id, f);
         const auto& v0 = mesh.GlobalVertex(face_vertex_ids[0]);
@@ -318,7 +318,7 @@ Cell::ComputeVolume(const Mesh& mesh)
     // formed with on each face with the cell centroid.
     case CellType::POLYHEDRON:
     {
-      for (std::uint32_t f = 0; f < faces.size(); ++f)
+      for (std::uint32_t f = 0; f < mesh.GetCellFaceCount(cell_local_id); ++f)
       {
         auto face_vertex_ids = mesh.GetCellFaceConnectivity(cell_local_id, f);
         const auto num_verts = face_vertex_ids.size();
@@ -329,7 +329,7 @@ Cell::ComputeVolume(const Mesh& mesh)
           const auto& v1 = mesh.GlobalVertex(face_vertex_ids[vid1]);
 
           Matrix3x3 J;
-          J.SetColJVec(0, faces[f].centroid - v0);
+          J.SetColJVec(0, mesh.GetCellFace(cell_local_id, f).centroid - v0);
           J.SetColJVec(1, v1 - v0);
           J.SetColJVec(2, centroid - v0);
           volume += J.Det() / 6.0;
@@ -358,7 +358,7 @@ Cell::Serialize() const
   raw.Write<CellType>(cell_sub_type_);
 
   // FIXME
-  // raw.Write<size_t>(faces.size());
+  // raw.Write<size_t>(mesh.GetCellFaceCount(cell_local_id));
   // for (const auto& face : faces)
   //   raw.Append(face.Serialize());
 
@@ -408,7 +408,7 @@ Cell::ToString() const
   outstr << "block_id: " << block_id << "\n";
 
   // {
-  //   outstr << "num_faces: " << faces.size() << "\n";
+  //   outstr << "num_faces: " << mesh.GetCellFaceCount(cell_local_id) << "\n";
   //   size_t f = 0;
   //   for (const auto& face : faces)
   //     outstr << "Face " << f++ << ":\n" << face.ToString();

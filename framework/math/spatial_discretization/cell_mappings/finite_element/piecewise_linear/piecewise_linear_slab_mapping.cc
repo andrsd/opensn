@@ -24,9 +24,8 @@ PieceWiseLinearSlabMapping::PieceWiseLinearSlabMapping(std::uint32_t cell_local_
   Vector3 v01 = v1 - v0_;
   h_ = v01.Norm();
 
-  auto slab_cell = ref_grid->GetLocalCell(cell_local_id);
-  normals_[0] = slab_cell.faces[0].normal;
-  normals_[1] = slab_cell.faces[1].normal;
+  normals_[0] = grid_->GetCellFace(cell_local_id_, 0).normal;
+  normals_[1] = grid_->GetCellFace(cell_local_id_, 1).normal;
 }
 
 double
